@@ -2,36 +2,18 @@ dynect.example.com:
   config:
     provider: DynECT
     ignore_patterns:
-      - type: NS
-        fqdn: dynect.example.com.
-
+    - type: NS
+      fqdn: dynect.example.com.
   records:
-    - type: NS
-      fqdn: dynect.example.com.
-      ttl: 86400
-      nsdname: ns1.p19.dynect.net.
-    - type: NS
-      fqdn: dynect.example.com.
-      ttl: 86400
-      nsdname: ns2.p19.dynect.net.
-    - type: NS
-      fqdn: dynect.example.com.
-      ttl: 86400
-      nsdname: ns3.p19.dynect.net.
-    - type: NS
-      fqdn: dynect.example.com.
-      ttl: 86400
-      nsdname: ns4.p19.dynect.net.
-
-    - type: A
-      fqdn: a-record.dynect.example.com.
-      address: 10.10.10.42
-      ttl: 86400
-    - type: TXT
-      fqdn: ping.dynect.example.com.
-      txtdata: pong
-      ttl: 300
-    - type: TXT
-      fqdn: marco.dynect.example.com.
-      txtdata: polo
-      ttl: 300
+  - type: A
+    fqdn: a-record.dynect.example.com.
+    ttl: 86400
+    address: 10.10.10.42
+  - type: TXT
+    fqdn: marco.dynect.example.com.
+    ttl: 300
+    txtdata: polo
+  - type: TXT
+    fqdn: ping.dynect.example.com.
+    ttl: 300
+    txtdata: pong
