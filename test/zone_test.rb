@@ -268,6 +268,72 @@ class ZoneTest < Minitest::Test
     refute_predicate zone, :unchanged?
   end
 
+  def test_zone_write_format_file_removes_dir
+    dir = "#{RecordStore.zones_path}/zone-file.com"
+    Dir.mkdir(dir)
+    assert Dir.exist?(dir)
+
+    Zone.find('zone-file.com').write(format: :file)
+
+    refute Dir.exist?(dir)
+  ensure
+    FileUtils.remove_entry(dir, true)
+  end
+
+  def test_zone_write_format_dir_removes_other_files_in_dir
+    removed_record = "#{RecordStore.zones_path}/one-record.com/removed-record.one-record.com.yml"
+    FileUtils.touch(removed_record)
+    assert File.exist?(removed_record)
+
+    Zone.find('one-record.com').write(format: :directory)
+
+    refute File.exist?(removed_record)
+  ensure
+    FileUtils.remove_entry(removed_record, true)
+  end
+
+  def test_zone_write_format_dir_writes_wildcard
+    original_zones_path = RecordStore.zones_path
+    RecordStore.zones_path = Dir.mktmpdir
+    zone = Zone.new('wildcard.com', records: [{
+      type: 'CNAME',
+      fqdn: '*.wildcard.com',
+      cname: 'wildcard.com',
+      ttl: 60,
+    }])
+
+    zone.write(format: :directory)
+
+    assert Dir.exist?("#{RecordStore.zones_path}/wildcard.com")
+    assert File.exist?("#{RecordStore.zones_path}/wildcard.com/CNAME__*.yml")
+  ensure
+    RecordStore.zones_path = original_zones_path
+  end
+
+  def test_zone_write_format_dir_writes_multiple_records
+    original_zones_path = RecordStore.zones_path
+    RecordStore.zones_path = Dir.mktmpdir
+    zone = Zone.new('two-records.com', records: [{
+      type: 'A',
+      fqdn: 'a-records.two-records.com',
+      address: "10.10.10.10",
+      ttl: 60,
+    },
+    {
+      type: 'A',
+      fqdn: 'a-records.two-records.com',
+      address: "10.10.10.11",
+      ttl: 60,
+    }])
+
+    zone.write(format: :directory)
+
+    assert Dir.exist?("#{RecordStore.zones_path}/two-records.com")
+    assert File.exist?("#{RecordStore.zones_path}/two-records.com/A__a-records.yml")
+  ensure
+    RecordStore.zones_path = original_zones_path
+  end
+
   private
 
   def mock_provider(records = [])

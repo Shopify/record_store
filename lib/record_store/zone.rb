@@ -24,7 +24,31 @@ module RecordStore
         load_yml_zone_definition(zone_path).first.last
       end
 
+      def write(name, config:, records:, format: :file)
+        raise ArgumentError, "format must be :directory or :file" unless %i(file directory).include?(format)
+        name = name.chomp('.')
+        zone_file = "#{RecordStore.zones_path}/#{name}.yml"
+        zone = { name => { config: config.to_hash } }
+        records = records.map(&:to_hash).sort_by! {|r| [r.fetch(:fqdn), r.fetch(:type), r[:nsdname] || r[:address]]}
+
+        if format == :file
+          zone[name][:records] = records
+          write_yml_file(zone_file, zone.deep_stringify_keys)
+          remove_record_files(name)
+        else
+          write_yml_file(zone_file, zone.deep_stringify_keys)
+          remove_record_files(name)
+          write_record_files(name, records)
+        end
+      end
+
       private
+
+      def write_yml_file(filename, data)
+        lines = data.to_yaml.lines
+        lines.shift if lines.first == "---\n"
+        File.write(filename, lines.join)
+      end
 
       def load_yml_zone_definition(filename)
         result = {}
@@ -43,6 +67,28 @@ module RecordStore
         type, domain = File.basename(record_file, '.yml').split('__')
         Array.wrap(YAML.load_file(record_file)).map do |record_definition|
           record_definition.merge(fqdn: "#{domain}.#{name}", type: type)
+        end
+      end
+
+      def remove_record_files(name)
+        dir = "#{RecordStore.zones_path}/#{name}"
+        File.unlink(*Dir["#{dir}/*"])
+        Dir.unlink(dir)
+      rescue Errno::ENOENT
+      end
+
+      def write_record_files(name, records)
+        dir = "#{RecordStore.zones_path}/#{name}"
+        Dir.mkdir(dir)
+        records.group_by { |record| [record.fetch(:fqdn), record.fetch(:type)] }.each do |(fqdn, type), grouped_records|
+          grouped_records.each do |record|
+            record.delete(:fqdn)
+            record.delete(:type)
+            record.deep_stringify_keys!
+          end
+          grouped_records = grouped_records.first if grouped_records.size == 1
+          domain = fqdn.chomp('.').chomp(name).chomp('.')
+          write_yml_file("#{dir}/#{type}__#{domain}.yml", grouped_records)
         end
       end
 
@@ -116,6 +162,10 @@ module RecordStore
 
     def provider
       Provider.const_get(config.provider).new(zone: name.gsub(/\.\z/, ''))
+    end
+
+    def write(**write_options)
+      self.class.write(name, config: config, records: records, **write_options)
     end
 
     private
