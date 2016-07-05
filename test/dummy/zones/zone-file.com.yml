@@ -1,0 +1,11 @@
+zone-file.com:
+  config:
+    provider: DynECT
+    ignore_patterns:
+      - type: NS
+        fqdn: zone-file.com.
+  records:
+    - type: A
+      fqdn: a-record.zone-file.com.
+      address: 10.10.10.10
+      ttl: 86400

@@ -8,7 +8,7 @@ module RecordStore
       end
 
       def defined
-        @defined ||= yaml_files.inject({}) { |zones, file| zones.merge(load_yaml_file(file)) }
+        @defined ||= yaml_files.inject({}) { |zones, file| zones.merge(load_yml_zone_definition(file)) }
       end
 
       def [](name)
@@ -21,17 +21,29 @@ module RecordStore
 
       def find(name)
         return unless File.exists?(zone_path = "#{RecordStore.zones_path}/#{name}.yml")
-        Zone.from_yaml_definition(*YAML.load_file(zone_path).first)
+        load_yml_zone_definition(zone_path).first.last
       end
 
       private
 
-      def load_yaml_file(filename)
+      def load_yml_zone_definition(filename)
         result = {}
+        dir = File.dirname(filename)
         YAML.load_file(filename).each do |name, definition|
+          definition['records'] ||= []
+          Dir["#{dir}/#{name}/*__*.yml"].each do |record_file|
+            definition['records'] += load_yml_record_definitions(name, record_file)
+          end
           result[name] = Zone.from_yaml_definition(name, definition)
         end
         result
+      end
+
+      def load_yml_record_definitions(name, record_file)
+        type, domain = File.basename(record_file, '.yml').split('__')
+        Array.wrap(YAML.load_file(record_file)).map do |record_definition|
+          record_definition.merge(fqdn: "#{domain}.#{name}", type: type)
+        end
       end
 
       def yaml_files

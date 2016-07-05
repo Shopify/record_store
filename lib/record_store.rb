@@ -1,6 +1,7 @@
 require 'json'
 require 'yaml'
 require 'active_support'
+require 'active_support/core_ext/array/wrap'
 require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/string'
 require 'active_model'

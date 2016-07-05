@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'mocha/mini_test'
 require 'vcr'
 require 'pry'
+require 'fileutils'
 
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 require 'record_store'
