@@ -1,0 +1,181 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-v4.dynect.net/REST/Session
+    body:
+      encoding: UTF-8
+      string: '{"customer_name":"dynect_customer","user_name":"<DYNECT_USERNAME>","password":"<DYNECT_PASSWORD>"}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:07 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {"token": "<DYNECT_AUTH_TOKEN>", "version":
+        "3.5.2"}, "job_id": 1974045841, "msgs": [{"INFO": "login: Login successful",
+        "SOURCE": "BLL", "ERR_CD": null, "LVL": "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:07 GMT
+- request:
+    method: put
+    uri: https://api-v4.dynect.net/REST/Zone/dns-test.shopify.io
+    body:
+      encoding: UTF-8
+      string: '{"thaw":true}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+      Auth-Token:
+      - "<DYNECT_AUTH_TOKEN>"
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:08 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {}, "job_id": 1974045863, "msgs": [{"INFO":
+        "thaw: Your zone is now thawed, you may edit normally", "SOURCE": "BLL", "ERR_CD":
+        null, "LVL": "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:08 GMT
+- request:
+    method: post
+    uri: https://api-v4.dynect.net/REST/ARecord/dns-test.shopify.io/test-record.dns-test.shopify.io.
+    body:
+      encoding: UTF-8
+      string: '{"ttl":86400,"rdata":{"address":"10.10.10.42"}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+      Auth-Token:
+      - "<DYNECT_AUTH_TOKEN>"
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:09 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {"zone": "dns-test.shopify.io", "ttl":
+        86400, "fqdn": "test-record.dns-test.shopify.io.", "record_type": "A", "rdata":
+        {"address": "10.10.10.42"}, "record_id": 0}, "job_id": 1974045894, "msgs":
+        [{"INFO": "add_node: Reactivating zone node", "SOURCE": "BLL", "ERR_CD": null,
+        "LVL": "INFO"}, {"INFO": "add: Record added", "SOURCE": "BLL", "ERR_CD": null,
+        "LVL": "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:09 GMT
+- request:
+    method: put
+    uri: https://api-v4.dynect.net/REST/Zone/dns-test.shopify.io
+    body:
+      encoding: UTF-8
+      string: '{"publish":true}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+      Auth-Token:
+      - "<DYNECT_AUTH_TOKEN>"
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:10 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {"zone_type": "Primary", "serial_style":
+        "increment", "serial": 29, "zone": "dns-test.shopify.io"}, "job_id": 1974045926,
+        "msgs": [{"INFO": "notes: unnecessary field passed in", "SOURCE": "API-A",
+        "ERR_CD": "INVALID_DATA", "LVL": "WARN"}, {"INFO": "publish: dns-test.shopify.io
+        published", "SOURCE": "BLL", "ERR_CD": null, "LVL": "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:10 GMT
+- request:
+    method: put
+    uri: https://api-v4.dynect.net/REST/Zone/dns-test.shopify.io
+    body:
+      encoding: UTF-8
+      string: '{"freeze":true}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+      Auth-Token:
+      - "<DYNECT_AUTH_TOKEN>"
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:11 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {}, "job_id": 1974045941, "msgs": [{"INFO":
+        "freeze: Your zone is now frozen", "SOURCE": "BLL", "ERR_CD": null, "LVL":
+        "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:11 GMT
+recorded_with: VCR 2.9.3

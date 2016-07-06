@@ -1,0 +1,37 @@
+dnsimple.example.com:
+  config:
+    provider: DNSimple
+    ignore_patterns:
+      - type: NS
+        fqdn: dnsimple.example.com.
+
+  records:
+    - type: NS
+      fqdn: dnsimple.example.com.
+      ttl: 3600
+      nsdname: ns1.dnsimple.com.
+    - type: NS
+      fqdn: dnsimple.example.com.
+      ttl: 3600
+      nsdname: ns2.dnsimple.com.
+    - type: NS
+      fqdn: dnsimple.example.com.
+      ttl: 3600
+      nsdname: ns3.dnsimple.com.
+    - type: NS
+      fqdn: dnsimple.example.com.
+      ttl: 3600
+      nsdname: ns4.dnsimple.com.
+
+    - type: A
+      fqdn: a-record.dnsimple.example.com.
+      address: 10.10.10.42
+      ttl: 86400
+    - type: TXT
+      fqdn: ping.dnsimple.example.com.
+      txtdata: pong
+      ttl: 300
+    - type: TXT
+      fqdn: marco.dnsimple.example.com.
+      txtdata: polo
+      ttl: 300

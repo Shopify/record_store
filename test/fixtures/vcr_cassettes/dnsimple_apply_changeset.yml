@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    body:
+      encoding: UTF-8
+      string: '{"record":{"name":"test-record","record_type":"A","content":"10.10.10.42","ttl":86400,"priority":null}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      X-DNSimple-Token:
+      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: 
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 14 Dec 2015 23:59:43 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=631138519, max-age=31536000
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
+      Access-Control-Allow-Methods:
+      - GET,POST,PUT,DELETE,OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN, DENY
+      X-XSS-Protection:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff, nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      ETag:
+      - W/"e43529baa4f39253403e4ea5eeea11b3"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 90b38e52-5ec1-4af6-b7d1-f858b0b8c766
+      X-Runtime:
+      - '0.077761'
+    body:
+      encoding: UTF-8
+      string: '{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}}'
+    http_version: 
+  recorded_at: Mon, 14 Dec 2015 23:59:43 GMT
+recorded_with: VCR 2.9.3

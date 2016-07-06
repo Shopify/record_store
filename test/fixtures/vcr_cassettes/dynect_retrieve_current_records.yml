@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-v4.dynect.net/REST/Session
+    body:
+      encoding: UTF-8
+      string: '{"customer_name":"dynect_customer","user_name":"<DYNECT_USERNAME>","password":"<DYNECT_PASSWORD>"}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:12 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {"token": "<DYNECT_AUTH_TOKEN>", "version":
+        "3.5.2"}, "job_id": 1974045955, "msgs": [{"INFO": "login: Login successful",
+        "SOURCE": "BLL", "ERR_CD": null, "LVL": "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:11 GMT
+- request:
+    method: get
+    uri: https://api-v4.dynect.net/REST/AllRecord/dns-test.shopify.io?detail=Y
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      Content-Type:
+      - application/json
+      API-Version:
+      - 3.5.2
+      Auth-Token:
+      - "<DYNECT_AUTH_TOKEN>"
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx/1.2.6
+      Date:
+      - Fri, 06 Nov 2015 20:01:12 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"status": "success", "data": {"cname_records": [], "cert_records":
+        [], "dname_records": [], "aaaa_records": [], "ipseckey_records": [], "loc_records":
+        [], "ptr_records": [], "soa_records": [{"zone": "dns-test.shopify.io", "ttl":
+        300, "fqdn": "dns-test.shopify.io", "record_type": "SOA", "rdata": {"rname":
+        "domains@shopify.com.", "retry": 600, "mname": "ns1.p19.dynect.net.", "minimum":
+        1800, "refresh": 3600, "expire": 604800, "serial": 29}, "record_id": 164537802,
+        "serial_style": "increment"}], "kx_records": [], "dnskey_records": [], "naptr_records":
+        [], "rp_records": [], "mx_records": [], "key_records": [], "px_records": [],
+        "ds_records": [], "sshfp_records": [], "ns_records": [{"zone": "dns-test.shopify.io",
+        "ttl": 86400, "fqdn": "dns-test.shopify.io", "record_type": "NS", "rdata":
+        {"nsdname": "ns1.p19.dynect.net."}, "record_id": 164537804}, {"zone": "dns-test.shopify.io",
+        "ttl": 86400, "fqdn": "dns-test.shopify.io", "record_type": "NS", "rdata":
+        {"nsdname": "ns2.p19.dynect.net."}, "record_id": 164537805}, {"zone": "dns-test.shopify.io",
+        "ttl": 86400, "fqdn": "dns-test.shopify.io", "record_type": "NS", "rdata":
+        {"nsdname": "ns3.p19.dynect.net."}, "record_id": 164537806}, {"zone": "dns-test.shopify.io",
+        "ttl": 86400, "fqdn": "dns-test.shopify.io", "record_type": "NS", "rdata":
+        {"nsdname": "ns4.p19.dynect.net."}, "record_id": 164537807}], "dhcid_records":
+        [], "srv_records": [], "nsap_records": [], "txt_records": [], "spf_records":
+        [], "a_records": [{"zone": "dns-test.shopify.io", "ttl": 86400, "fqdn": "test-record.dns-test.shopify.io",
+        "record_type": "A", "rdata": {"address": "10.10.10.10"}, "record_id": 189358987}]},
+        "job_id": 1974045967, "msgs": [{"INFO": "get_tree: Here is your zone tree",
+        "SOURCE": "BLL", "ERR_CD": null, "LVL": "INFO"}]}'
+    http_version:
+  recorded_at: Fri, 06 Nov 2015 20:01:12 GMT
+recorded_with: VCR 2.9.3
