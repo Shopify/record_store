@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'thor'
-gem 'activesupport'
-gem 'activemodel'
+gem 'activesupport', '~> 4.2'
+gem 'activemodel', '~> 4.2'
 gem 'ejson'
 
 gem 'fog'
