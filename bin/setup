@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+cd "$(dirname "$0")/.."
+ROOT_DIR=$(pwd)
+
+bundle check || bundle install
+
+if [ ! -d $ROOT_DIR/dev ]; then
+  echo 'Created development directory dev/'
+  cp -R template dev
+fi

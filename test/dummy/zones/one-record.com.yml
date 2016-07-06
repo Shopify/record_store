@@ -1,0 +1,11 @@
+one-record.com:
+  config:
+    provider: DynECT
+    ignore_patterns:
+      - type: NS
+        fqdn: one-record.com.
+  records:
+    - type: A
+      fqdn: a-record.one-record.com.
+      address: 10.10.10.10
+      ttl: 86400

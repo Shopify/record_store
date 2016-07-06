@@ -1,0 +1,250 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    body:
+      encoding: UTF-8
+      string: '{"record":{"name":"","record_type":"ALIAS","content":"alias.dns-scratch.me","ttl":86400,"priority":null}}'
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      X-DNSimple-Token:
+      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message:
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 15 Dec 2015 16:52:51 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=631138519, max-age=31536000
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
+      Access-Control-Allow-Methods:
+      - GET,POST,PUT,DELETE,OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN, DENY
+      X-XSS-Protection:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff, nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      ETag:
+      - W/"9bc6a79740b1eb8015dda23b44ac930b"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b726866b-3802-4963-ac96-4177b6632a20
+      X-Runtime:
+      - '0.516040'
+    body:
+      encoding: UTF-8
+      string: '{"record":{"id":5209959,"domain_id":222002,"parent_id":null,"name":"","content":"alias.dns-scratch.me","ttl":86400,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-15T16:52:50.970Z","updated_at":"2015-12-15T16:52:50.970Z"}}'
+    http_version:
+  recorded_at: Tue, 15 Dec 2015 16:52:51 GMT
+- request:
+    method: get
+    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      X-DNSimple-Token:
+      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 15 Dec 2015 16:52:51 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=631138519, max-age=31536000
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
+      Access-Control-Allow-Methods:
+      - GET,POST,PUT,DELETE,OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN, DENY
+      X-XSS-Protection:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff, nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      ETag:
+      - W/"7db04136cdab1bf934bb582c0d8898d5"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 19ea3e10-bba4-4b46-989a-fb7a9526790c
+      X-Runtime:
+      - '0.034068'
+    body:
+      encoding: UTF-8
+      string: '[{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}},{"record":{"id":5209959,"domain_id":222002,"parent_id":null,"name":"","content":"alias.dns-scratch.me","ttl":86400,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-15T16:52:50.970Z","updated_at":"2015-12-15T16:52:50.970Z"}},{"record":{"id":5190382,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.792Z","updated_at":"2015-12-09T01:55:04.792Z"}},{"record":{"id":5190385,"domain_id":222002,"parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.250Z","updated_at":"2015-12-09T01:55:05.250Z"}},{"record":{"id":5190384,"domain_id":222002,"parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.111Z","updated_at":"2015-12-09T01:55:05.111Z"}},{"record":{"id":5190383,"domain_id":222002,"parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.938Z","updated_at":"2015-12-09T01:55:04.938Z"}},{"record":{"id":5190381,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1449626156 86400 7200 604800 300","ttl":3600,"prio":null,"record_type":"SOA","system_record":true,"created_at":"2015-12-09T01:55:04.067Z","updated_at":"2015-12-15T16:52:51.138Z"}},{"record":{"id":5209960,"domain_id":222002,"parent_id":5209959,"name":"","content":"ALIAS
+        for alias.dns-scratch.me","ttl":86400,"prio":null,"record_type":"TXT","system_record":false,"created_at":"2015-12-15T16:52:51.116Z","updated_at":"2015-12-15T16:52:51.116Z"}}]'
+    http_version:
+  recorded_at: Tue, 15 Dec 2015 16:52:51 GMT
+- request:
+    method: delete
+    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records/5209960
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      X-DNSimple-Token:
+      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 15 Dec 2015 16:52:51 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=631138519, max-age=31536000
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
+      Access-Control-Allow-Methods:
+      - GET,POST,PUT,DELETE,OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN, DENY
+      X-XSS-Protection:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff, nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      ETag:
+      - W/"99914b932bd37a50b983c5e7c90ae93b"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 51794c03-c3f5-4bff-a5cd-2c766049e78d
+      X-Runtime:
+      - '0.080539'
+    body:
+      encoding: UTF-8
+      string: "{}"
+    http_version:
+  recorded_at: Tue, 15 Dec 2015 16:52:52 GMT
+- request:
+    method: get
+    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.32.1
+      X-DNSimple-Token:
+      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message:
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 15 Dec 2015 16:52:52 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=631138519, max-age=31536000
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
+      Access-Control-Allow-Methods:
+      - GET,POST,PUT,DELETE,OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN, DENY
+      X-XSS-Protection:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff, nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      ETag:
+      - W/"0059fecfb8c4b21beda123d982b8bcc8"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 5c041ff4-eaf0-4ac6-a7e7-5c518a347ae5
+      X-Runtime:
+      - '0.031137'
+    body:
+      encoding: UTF-8
+      string: '[{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}},{"record":{"id":5209959,"domain_id":222002,"parent_id":null,"name":"","content":"alias.dns-scratch.me","ttl":86400,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-15T16:52:50.970Z","updated_at":"2015-12-15T16:52:50.970Z"}},{"record":{"id":5190383,"domain_id":222002,"parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.938Z","updated_at":"2015-12-09T01:55:04.938Z"}},{"record":{"id":5190382,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.792Z","updated_at":"2015-12-09T01:55:04.792Z"}},{"record":{"id":5190384,"domain_id":222002,"parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.111Z","updated_at":"2015-12-09T01:55:05.111Z"}},{"record":{"id":5190385,"domain_id":222002,"parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.250Z","updated_at":"2015-12-09T01:55:05.250Z"}},{"record":{"id":5190381,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1449626157 86400 7200 604800 300","ttl":3600,"prio":null,"record_type":"SOA","system_record":true,"created_at":"2015-12-09T01:55:04.067Z","updated_at":"2015-12-15T16:52:51.878Z"}}]'
+    http_version:
+  recorded_at: Tue, 15 Dec 2015 16:52:52 GMT
+recorded_with: VCR 2.9.3
