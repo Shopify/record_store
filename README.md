@@ -56,7 +56,7 @@ For a breakdown of what each permssion allows read through [DynECT's permissions
 
 # Architecture
 
-All CLI commands are defined in [`lib/recordstore/cli.rb`](lib/recordstore/cli.rb) with [Thor](https://github.com/erikhuda/thor).
+All CLI commands are defined in [`lib/record_store/cli.rb`](lib/record_store/cli.rb) with [Thor](https://github.com/erikhuda/thor).
 
 ### Zones and Records
 
@@ -83,15 +83,15 @@ To get started developing on Record Store, run `bin/setup`. This will create a d
 
 ### Adding new Providers
 
-To add a new Provider, create a class inherriting `Provider` in [`lib/recordstore/provider/`](lib/recordstore/provider/). The [DynECT provider](lib/recordstore/provider/dnsimple.rb) is good to use as a reference implementation.
+To add a new Provider, create a class inherriting `Provider` in [`lib/record_store/provider/`](lib/record_store/provider/). The [DynECT provider](lib/record_store/provider/dnsimple.rb) is good to use as a reference implementation.
 
 **Note**: _there's no need to wrap `Provider#apply_changeset` unless it's necessary to do something before/after making changes to a zone._
 
 Provider API interactions are tested with [VCR](https://github.com/vcr/vcr). To generate the fixtures, update [`test/dummy/secrets.json`](test/dummy/secrets.json) with valid credentials, run the test suite, and change the values back to stub credentials.
 
-**Important**: _be sure to [filter sensitive data](https://github.com/Shopify/recordstore/blob/1ec0d1410cf8bedf79bc63e8e4cdc7cdb0f1019b/test/test_helper.rb#L23-L56) from the fixtures or you're going to have a bad time._
+**Important**: _be sure to [filter sensitive data](https://github.com/Shopify/record_store/blob/1ec0d1410cf8bedf79bc63e8e4cdc7cdb0f1019b/test/test_helper.rb#L23-L56) from the fixtures or you're going to have a bad time._
 
-Outline of [`Provider`](lib/recordstore/provider.rb):
+Outline of [`Provider`](lib/record_store/provider.rb):
 ```ruby
 class Provider
   # Creates a new record to the zone. It is expected this call modifies external state.
@@ -144,7 +144,7 @@ end
 
 #### Provider-Specific Records
 
-For provider-specific records (e.g. `ALIAS`), create the record model in `lib/recordstore/record` as any other record. In the provider, extend `self.record_types` and append the custom record types to the `Set` returned by `Provider.record_types` (e.g. [`DNSimple.record_types`](https://github.com/Shopify/recordstore/blob/1ec0d1410cf8bedf79bc63e8e4cdc7cdb0f1019b/lib/recordstore/provider/dnsimple.rb#L5-L7)).
+For provider-specific records (e.g. `ALIAS`), create the record model in `lib/record_store/record` as any other record. In the provider, extend `self.record_types` and append the custom record types to the `Set` returned by `Provider.record_types` (e.g. [`DNSimple.record_types`](https://github.com/Shopify/record_store/blob/1ec0d1410cf8bedf79bc63e8e4cdc7cdb0f1019b/lib/record_store/provider/dnsimple.rb#L5-L7)).
 
 #### Secrets
 
