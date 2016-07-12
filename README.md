@@ -154,3 +154,7 @@ When adding a new provider, be sure to update the `secrets.json` in [`template/s
 ### Test Changes on Providers
 
 In order to test changes on providers, you're going to need to update `dev/secrets.json` with credentials. **Note**: make sure the credentials are for test zone(s) as the changes specified in the directory **will be applied**.
+
+# Acknowledgements
+
+Big thanks to [@pjb3](https://github.com/pjb3) for graciously letting us use the `record_store` gem namespace.
