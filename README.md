@@ -83,7 +83,7 @@ To get started developing on Record Store, run `bin/setup`. This will create a d
 
 ### Adding new Providers
 
-To add a new Provider, create a class inherriting `Provider` in [`lib/record_store/provider/`](lib/record_store/provider/). The [DynECT provider](lib/record_store/provider/dnsimple.rb) is good to use as a reference implementation.
+To add a new Provider, create a class inherriting `Provider` in [`lib/record_store/provider/`](lib/record_store/provider/). The [DynECT provider](lib/record_store/provider/dynect.rb) is good to use as a reference implementation.
 
 **Note**: _there's no need to wrap `Provider#apply_changeset` unless it's necessary to do something before/after making changes to a zone._
 
