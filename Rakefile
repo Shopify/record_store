@@ -2,7 +2,7 @@ require 'rake/testtask'
 require 'bundler/gem_tasks'
 
 $LOAD_PATH.unshift(__dir__ + "/lib")
-require 'recordstore'
+require 'record_store'
 
 Rake::TestTask.new do |t|
   t.libs << "test"
@@ -10,9 +10,9 @@ Rake::TestTask.new do |t|
 end
 
 task :validate do
-  recordstore = RecordStore::CLI.new
-  recordstore.validate_records
-  recordstore.validate_all_present
+  record_store = RecordStore::CLI.new
+  record_store.validate_records
+  record_store.validate_all_present
 end
 
 task default: [:test]
