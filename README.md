@@ -84,7 +84,7 @@ You can use `bin/console` to get play with the dev data, or you can `cd` into `d
 
 ### Adding new Providers
 
-To add a new Provider, create a class inherriting `Provider` in [`lib/record_store/provider/`](lib/record_store/provider/). The [DynECT provider](lib/record_store/provider/dynect.rb) is good to use as a reference implementation.
+To add a new Provider, create a class inheriting `Provider` in [`lib/record_store/provider/`](lib/record_store/provider/). The [DynECT provider](lib/record_store/provider/dynect.rb) is good to use as a reference implementation.
 
 **Note**: _there's no need to wrap `Provider#apply_changeset` unless it's necessary to do something before/after making changes to a zone._
 
