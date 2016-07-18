@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'bundler/setup'
+require 'record_store'
+
+RecordStore.zones_path = File.expand_path('../../dev/zones', __FILE__)
+
+require 'irb'
+IRB.start
