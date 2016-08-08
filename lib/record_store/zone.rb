@@ -119,10 +119,6 @@ module RecordStore
     validate :validate_can_handle_alias_records
     validate :validate_alias_points_to_root
 
-    def self.from_yaml_definition(name, definition)
-      new(name, definition.deep_symbolize_keys)
-    end
-
     def self.download(name, provider_name, **write_options)
       dns = new(name, config: {provider: provider_name}).provider
       current_records = dns.retrieve_current_records
