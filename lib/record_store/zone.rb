@@ -8,7 +8,9 @@ module RecordStore
       end
 
       def defined
-        @defined ||= yaml_files.inject({}) { |zones, file| zones.merge(load_yml_zone_definition(file)) }
+        @defined ||= yaml_files
+          .map { |file| load_yml_zone_definition(file) }
+          .index_by { |zone| zone.name.chomp('.') }
       end
 
       def [](name)
@@ -20,8 +22,11 @@ module RecordStore
       end
 
       def find(name)
-        return unless File.exists?(zone_path = "#{RecordStore.zones_path}/#{name}.yml")
-        load_yml_zone_definition(zone_path).first.last
+        defined[name]
+      end
+
+      def reset
+        @defined = nil
       end
 
       def write(name, config:, records:, format: :file)
@@ -51,16 +56,15 @@ module RecordStore
       end
 
       def load_yml_zone_definition(filename)
-        result = {}
         dir = File.dirname(filename)
-        YAML.load_file(filename).each do |name, definition|
-          definition['records'] ||= []
-          Dir["#{dir}/#{name}/*__*.yml"].each do |record_file|
-            definition['records'] += load_yml_record_definitions(name, record_file)
-          end
-          result[name] = Zone.from_yaml_definition(name, definition)
+        data = YAML.load_file(filename)
+        raise 'more than one zone in file' if data.size > 1
+        name, definition = data.first
+        definition['records'] ||= []
+        Dir["#{dir}/#{name}/*__*.yml"].each do |record_file|
+          definition['records'] += load_yml_record_definitions(name, record_file)
         end
-        result
+        Zone.new(name, definition.deep_symbolize_keys)
       end
 
       def load_yml_record_definitions(name, record_file)
