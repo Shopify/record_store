@@ -1,6 +1,7 @@
 module RecordStore
   class CLI < Thor
     class_option :config, desc: 'Path to config.yml', aliases: '-c'
+    FORMATS = %w[file directory]
 
     def initialize(*args)
       super
@@ -92,6 +93,7 @@ module RecordStore
 
     option :name, desc: 'Zone to download', aliases: '-n', type: :string, required: true
     option :provider, desc: 'Provider in which this zone exists', aliases: '-p', type: :string
+    option :format, desc: 'Format', aliases: '-f', type: :string, default: 'file', enum: FORMATS
     desc 'download', 'Downloads all records from zone and creates YAML zone definition in zones/ e.g. record-store download --name=shopify.io'
     def download
       name = options.fetch('name')
@@ -107,8 +109,24 @@ module RecordStore
       end
 
       puts "Downloading records for #{name}"
-      Zone.download(name, provider)
+      Zone.download(name, provider, format: options.fetch('format').to_sym)
       puts "Records have been downloaded & can be found in zones/#{name}.yml"
+    end
+
+    option :name, desc: 'Zone to reformat', aliases: '-n', type: :string, required: false
+    option :format, desc: 'Format', aliases: '-f', type: :string, default: 'file', enum: FORMATS
+    desc 'reformat', 'Sorts and re-outputs the zone (or all zones) as specified format (file)'
+    def reformat
+      name = options['name']
+      zones = if name
+        [Zone.find(name)]
+      else
+        Zone.all
+      end
+      zones.each do |zone|
+        puts "Writing #{zone.name}"
+        zone.write(format: options.fetch('format').to_sym)
+      end
     end
 
     option :name, desc: 'Zone to sort', aliases: '-n', type: :string, required: true

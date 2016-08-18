@@ -12,6 +12,13 @@ module RecordStore
         @provider = provider
       end
 
+      def to_hash
+        {
+          provider: provider,
+          ignore_patterns: ignore_patterns,
+        }
+      end
+
       private
 
       def validate_zone_config
