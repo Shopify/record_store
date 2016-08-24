@@ -8,7 +8,7 @@ gem 'ejson'
 gem 'fog'
 gem 'fog-json'
 gem 'fog-xml'
-gem 'fog-dynect'
+gem 'fog-dynect', :git => 'https://github.com/Shopify/fog-dynect.git', :branch => 'alias-record-support'
 
 group :test do
   gem 'mocha'
