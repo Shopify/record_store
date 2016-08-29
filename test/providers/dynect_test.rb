@@ -41,22 +41,19 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_alias_from_api
-    zone_name = 'dns-test.ec2.shopify.com'
-    dyn = Provider::DynECT.new(zone: zone_name)
-
-    record = dyn.send(:build_from_api, {
-      "zone" => zone_name,
+    record = @dyn.send(:build_from_api, {
+      "zone" => 'dns-test.shopify.io',
       "ttl" => 60,
-      "fqdn" => "dns-test.ec2.shopify.com",
+      "fqdn" => "alias.dns-test.shopify.io",
       "record_type" => "ALIAS",
       "rdata" => {
-        "cname" => "alias.dns-test.ec2.shopify.com."
+        "cname" => "dns-test.shopify.io."
       }
     })
 
     assert_kind_of Record::ALIAS, record
-    assert_equal 'dns-test.ec2.shopify.com.', record.fqdn
-    assert_equal 'alias.dns-test.ec2.shopify.com.', record.cname
+    assert_equal 'alias.dns-test.shopify.io.', record.fqdn
+    assert_equal 'dns-test.shopify.io.', record.cname
     assert_equal 60, record.ttl
   end
 
