@@ -48,13 +48,13 @@ class DynECTTest < Minitest::Test
       "zone" => zone_name,
       "ttl" => 60,
       "fqdn" => "alias.dns-test.ec2.shopify.com",
-      "record_type" => "AAAA",
+      "record_type" => "ALIAS",
       "rdata" => {
         "address" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF"
       }
     })
 
-    assert_kind_of Record::AAAA, record
+    assert_kind_of Record::ALIAS, record
     assert_equal 'aaaa.dns-test.shopify.io.', record.fqdn
     assert_equal '2001:0db8:85a3:0000:0000:EA75:1337:BEEF', record.address
     assert_equal 60, record.ttl
