@@ -174,7 +174,7 @@ class DynECTTest < Minitest::Test
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::A.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 86400, address: '10.10.10.42')
 
-    VCR.use_cassette 'dynect_apply_changeset' do
+    VCR.use_cassette('dynect_apply_changeset', :record => :all) do
       @dyn.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [a_record]
