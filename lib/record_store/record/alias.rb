@@ -1,20 +1,20 @@
 module RecordStore
   class Record::ALIAS < Record
-    attr_accessor :alias
+    attr_accessor :t
 
-    validates :alias, presence: true, format: { with: Record::CNAME_REGEX, message: 'is not a fully qualified domain name' }
+    validates :t, presence: true, format: { with: Record::CNAME_REGEX, message: 'is not a fully qualified domain name' }
 
     def initialize(record)
       super
-      @alias = Record.ensure_ends_with_dot(record.fetch(:alias))
+      @t = Record.ensure_ends_with_dot(record.fetch(:t))
     end
 
     def rdata
-      { alias: alias }
+      { t: t }
     end
 
     def to_s
-      "[ALIASRecord] #{fqdn} #{ttl} IN ALIAS #{alias}"
+      "[ALIASRecord] #{fqdn} #{ttl} IN ALIAS #{t}"
     end
   end
 end
