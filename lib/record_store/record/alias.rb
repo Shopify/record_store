@@ -6,7 +6,7 @@ module RecordStore
 
     def initialize(record)
       super
-      @cname = Record.ensure_ends_with_dot(record.fetch(:alias))
+      @alias = Record.ensure_ends_with_dot(record.fetch(:alias))
     end
 
     def rdata
