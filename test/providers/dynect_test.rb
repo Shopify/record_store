@@ -42,18 +42,18 @@ class DynECTTest < Minitest::Test
 
   def test_build_alias_from_api
     record = @dyn.send(:build_from_api, {
-      "zone" => 'dns-test.shopify.io',
+      "zone" => 'dns-test-dyn.shopify.io',
       "ttl" => 60,
-      "fqdn" => "alias.dns-test.shopify.io",
+      "fqdn" => "meaniepies.myshopify.com",
       "record_type" => "ALIAS",
       "rdata" => {
-        "alias" => "dns-test.shopify.io."
+        "alias" => "meaniepies.myshopify.com."
       }
     })
 
     assert_kind_of Record::ALIAS, record
-    assert_equal 'alias.dns-test.shopify.io.', record.fqdn
-    assert_equal 'dns-test.shopify.io.', record.cname
+    assert_equal 'meaniepies.myshopify.com.', record.fqdn
+    assert_equal 'meaniepies.myshopify.com.', record.cname
     assert_equal 60, record.ttl
   end
 
@@ -172,7 +172,12 @@ class DynECTTest < Minitest::Test
   end
 
   def test_apply_changeset_sets_state_to_match_changeset
-    a_record = Record::A.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 86400, address: '10.10.10.42')
+    a_record = Record::ALIAS.new(
+      fqdn: 'shopify.io',
+      zone: 'dns-test-dyn.shopify.io',
+      ttl: 86400,
+      alias: 'meaniepies.myshopify.com'
+    )
 
     VCR.use_cassette('dynect_apply_changeset', :record => :all) do
       @dyn.apply_changeset(Changeset.new(
