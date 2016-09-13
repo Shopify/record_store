@@ -173,8 +173,8 @@ class DynECTTest < Minitest::Test
 
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::ALIAS.new(
-      fqdn: 'shopify.io',
-      zone: 'dns-test-dyn.shopify.io',
+      fqdn: 'dns-test-dyn.shopify.io',
+      zone: 'shopify.io',
       ttl: 86400,
       alias: 'meaniepies.myshopify.com'
     )
