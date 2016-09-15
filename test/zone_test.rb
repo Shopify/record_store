@@ -48,6 +48,9 @@ class ZoneTest < Minitest::Test
   end
 
   def test_zone_is_invalid_if_provider_does_not_support_record_type
+    supported_record_types = Provider::DynECT.record_types - ['ALIAS']
+    Provider::DynECT.stubs(:record_types).returns(supported_record_types)
+
     zone = Zone.find('empty.com')
     assert_equal 'DynECT', zone.config.provider
     zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, cname: "alias.#{zone.name}")]

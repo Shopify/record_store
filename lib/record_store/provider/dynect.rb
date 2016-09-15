@@ -2,6 +2,10 @@ require 'fog/dynect'
 
 module RecordStore
   class Provider::DynECT < Provider
+    def self.record_types
+      super.add('ALIAS')
+    end
+
     def freeze_zone
       session.put_zone(@zone_name, freeze: true)
     end
@@ -83,15 +87,21 @@ module RecordStore
     end
 
     def build_from_api(api_record)
+      record_type = api_record.fetch('record_type')
       record = api_record.merge(api_record.fetch('rdata')).slice!('rdata').symbolize_keys
 
-      return if record.fetch(:record_type) == 'SOA'
+      return if record_type == 'SOA'
+
+      case record_type
+      when 'ALIAS'
+        record[:cname] = record.delete(:alias)
+      end
 
       unless record.fetch(:fqdn).ends_with?('.')
         record[:fqdn] = "#{record.fetch(:fqdn)}."
       end
 
-      Record.const_get(record.fetch(:record_type)).new(record)
+      Record.const_get(record_type).new(record)
     end
   end
 end

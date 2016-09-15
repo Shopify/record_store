@@ -10,7 +10,7 @@ module RecordStore
     end
 
     def rdata
-      { cname: cname }
+      { alias: cname }
     end
 
     def to_s
