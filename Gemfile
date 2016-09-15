@@ -8,7 +8,7 @@ gem 'ejson'
 gem 'fog'
 gem 'fog-json'
 gem 'fog-xml'
-gem 'fog-dynect'
+gem 'fog-dynect', github: 'fog/fog-dynect', ref: '5b8a461aedcc2b80c53ea020a2364922cae8edac'
 
 group :test do
   gem 'mocha'
