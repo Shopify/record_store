@@ -108,9 +108,9 @@ module RecordStore
     validate :validate_records
     validate :validate_config
     validate :validate_all_records_are_unique
-    validate :validate_a_records_for_same_fqdn
     validate :validate_cname_records_for_same_fqdn
     validate :validate_cname_records_dont_point_to_root
+    validate :validate_same_ttl_for_records_sharing_fqdn_and_type
     validate :validate_provider_can_handle_zone_records
 
     def self.from_yaml_definition(name, definition)
@@ -193,11 +193,12 @@ module RecordStore
       end
     end
 
-    def validate_a_records_for_same_fqdn
-      a_records = records.select { |record| record.is_a?(Record::A) }.group_by(&:fqdn)
-      a_records.each do |fqdn, records|
-        if records.map(&:ttl).uniq.size > 1
-          errors.add(:records, "All A records for #{fqdn} should have the same TTL")
+    def validate_same_ttl_for_records_sharing_fqdn_and_type
+      records_sharing_fqdn_and_type = records.group_by { |record| [record.type, record.fqdn] }
+      records_sharing_fqdn_and_type.each do |(type, fqdn), matching_records|
+        all_ttls = matching_records.map(&:ttl).uniq
+        if all_ttls.length > 1
+          errors.add(:records, "All #{type} records for #{fqdn} should have the same TTL")
         end
       end
     end
