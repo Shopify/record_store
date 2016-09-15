@@ -5,6 +5,9 @@ up:
   - ruby: 2.3.1
   - bundler
 
+commands:
+  test:
+    run: bundle exec rake test
+
 packages:
   - git@github.com:Shopify/dev-shopify.git
-
