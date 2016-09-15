@@ -13,6 +13,10 @@ module RecordStore
       { alias: cname }
     end
 
+    def to_hash
+      super.slice!(:alias).merge(cname: cname)
+    end
+
     def to_s
       "[ALIASRecord] #{fqdn} #{ttl} IN ALIAS #{cname}"
     end
