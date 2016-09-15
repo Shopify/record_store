@@ -334,6 +334,23 @@ class ZoneTest < Minitest::Test
     RecordStore.zones_path = original_zones_path
   end
 
+  def test_zone_validates_matching_ttls_for_records_with_same_type_and_fqdn
+    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+      { type: 'TXT', fqdn: 'matching-records.com', txtdata: "unicorn", ttl: 60 },
+      { type: 'TXT', fqdn: 'matching-records.com', txtdata: "walrus",  ttl: 60 },
+    ])
+
+    assert_predicate valid_zone, :valid?
+
+    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+      { type: 'TXT', fqdn: 'matching-records.com', txtdata: "unicorn", ttl: 60 },
+      { type: 'TXT', fqdn: 'matching-records.com', txtdata: "walrus",  ttl: 3600 },
+    ])
+
+    refute_predicate invalid_zone, :valid?
+    assert_equal "All TXT records for matching-records.com. should have the same TTL", invalid_zone.errors[:records].first
+  end
+
   private
 
   def mock_provider(records = [])
