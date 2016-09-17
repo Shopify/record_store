@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/fog/fog-dynect.git
+  revision: 5b8a461aedcc2b80c53ea020a2364922cae8edac
+  specs:
+    fog-dynect (0.0.3)
+      fog-core
+      fog-json
+      fog-xml
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -67,10 +76,6 @@ GEM
       mime-types
       net-scp (~> 1.1)
       net-ssh (>= 2.1.3)
-    fog-dynect (0.0.2)
-      fog-core
-      fog-json
-      fog-xml
     fog-ecloud (0.3.0)
       fog-core
       fog-xml
@@ -165,7 +170,7 @@ DEPENDENCIES
   activesupport (~> 4.2)
   ejson
   fog
-  fog-dynect
+  fog-dynect!
   fog-json
   fog-xml
   mocha
@@ -175,4 +180,4 @@ DEPENDENCIES
   vcr
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

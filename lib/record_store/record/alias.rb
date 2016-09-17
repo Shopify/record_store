@@ -6,11 +6,15 @@ module RecordStore
 
     def initialize(record)
       super
-      @cname = Record.ensure_ends_with_dot(record.fetch(:cname))
+      if record.has_key?(:cname)
+        @cname = Record.ensure_ends_with_dot(record.fetch(:cname))
+      elsif record.has_key?(:alias)
+        @cname = Record.ensure_ends_with_dot(record.fetch(:alias))
+      end
     end
 
     def rdata
-      { cname: cname }
+        { alias: cname, cname: cname }
     end
 
     def to_s

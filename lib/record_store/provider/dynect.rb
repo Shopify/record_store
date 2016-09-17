@@ -2,6 +2,10 @@ require 'fog/dynect'
 
 module RecordStore
   class Provider::DynECT < Provider
+    def self.record_types
+      super.add('ALIAS')
+    end
+
     def freeze_zone
       session.put_zone(@zone_name, freeze: true)
     end

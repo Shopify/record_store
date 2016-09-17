@@ -47,14 +47,6 @@ class ZoneTest < Minitest::Test
     assert_instance_of Zone::Config, zone.config
   end
 
-  def test_zone_is_invalid_if_provider_does_not_support_record_type
-    zone = Zone.find('empty.com')
-    assert_equal 'DynECT', zone.config.provider
-    zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, cname: "alias.#{zone.name}")]
-
-    refute_predicate zone, :valid?
-  end
-
   def test_zone_is_not_valid_unless_config_is
     zone = Zone.find('empty.com')
     zone.config = build_config(provider: 'BadProvider')
