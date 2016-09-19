@@ -123,6 +123,7 @@ module RecordStore
       write(name, records: current_records, config: {
         provider: provider_name,
         ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
+        supports_alias: current_records.map(&:type).include?('ALIAS') || dns.class.supports_alias?,
       }, **write_options)
     end
 

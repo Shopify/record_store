@@ -2,8 +2,8 @@ require 'fog/dnsimple'
 
 module RecordStore
   class Provider::DNSimple < Provider
-    def self.record_types
-      super.add('ALIAS')
+    def self.supports_alias?
+      true
     end
 
     def add(record)

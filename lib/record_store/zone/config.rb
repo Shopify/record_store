@@ -7,9 +7,10 @@ module RecordStore
 
       validate :validate_zone_config
 
-      def initialize(ignore_patterns: [], provider: nil)
+      def initialize(ignore_patterns: [], provider: nil, supports_alias: false)
         @ignore_patterns = ignore_patterns
         @provider = provider
+        @supports_alias = supports_alias
       end
 
       def to_hash

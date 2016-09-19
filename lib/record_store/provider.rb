@@ -23,6 +23,7 @@ module RecordStore
       Set.new([
         'A',
         'AAAA',
+        'ALIAS',
         'CNAME',
         'MX',
         'NS',
@@ -30,6 +31,10 @@ module RecordStore
         'SRV',
         'TXT',
       ])
+    end
+
+    def self.supports_alias?
+      false
     end
 
     def initialize(zone:)
