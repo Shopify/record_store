@@ -224,7 +224,7 @@ class DynECTTest < Minitest::Test
         zone: 'dns-test.shopify.io',
         ttl: 60,
         fqdn: 'alias.dns-test.shopify.io',
-        cname: 'dns-test.shopify.io.',
+        alias: 'dns-test.shopify.io.',
         record_id: 164537809
       }),
     ]

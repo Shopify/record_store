@@ -263,7 +263,7 @@ class DNSimpleTest < Minitest::Test
         zone: 'dns-scratch.me',
         ttl: 60,
         fqdn: 'alias.dns-scratch.me',
-        cname: 'dns-scratch.me',
+        alias: 'dns-scratch.me',
         record_id: 5196953
       }),
     ]
