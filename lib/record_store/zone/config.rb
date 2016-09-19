@@ -3,7 +3,8 @@ module RecordStore
     class Config
       include ActiveModel::Validations
 
-      attr_reader :ignore_patterns, :provider
+      attr_reader :ignore_patterns, :provider, :supports_alias
+      alias supports_alias? supports_alias
 
       validate :validate_zone_config
 
