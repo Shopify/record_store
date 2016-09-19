@@ -53,7 +53,7 @@ class ZoneTest < Minitest::Test
 
     zone = Zone.find('empty.com')
     assert_equal 'DynECT', zone.config.provider
-    zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, cname: "alias.#{zone.name}")]
+    zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, alias: "alias.#{zone.name}")]
 
     refute_predicate zone, :valid?
   end

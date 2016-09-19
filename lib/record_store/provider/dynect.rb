@@ -92,11 +92,6 @@ module RecordStore
 
       return if record_type == 'SOA'
 
-      case record_type
-      when 'ALIAS'
-        record[:cname] = record.delete(:alias)
-      end
-
       unless record.fetch(:fqdn).ends_with?('.')
         record[:fqdn] = "#{record.fetch(:fqdn)}."
       end

@@ -65,7 +65,7 @@ class DNSimpleTest < Minitest::Test
 
     assert_kind_of Record::ALIAS, record
     assert_equal 'alias.dns-scratch.me.', record.fqdn
-    assert_equal 'dns-scratch.me.', record.cname
+    assert_equal 'dns-scratch.me.', record.alias
     assert_equal 60, record.ttl
   end
 
@@ -208,7 +208,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_apply_changeset_with_alias_cleans_up_txt_record
-    alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, cname: 'alias.dns-scratch.me.')
+    alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, alias: 'alias.dns-scratch.me.')
 
     VCR.use_cassette 'dnsimple_apply_changeset_with_alias' do
       @dnsimple.apply_changeset(Changeset.new(

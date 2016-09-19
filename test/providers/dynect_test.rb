@@ -54,7 +54,7 @@ class DynECTTest < Minitest::Test
 
     assert_kind_of Record::ALIAS, record
     assert_equal 'alias.dns-test.shopify.io.', record.fqdn
-    assert_equal 'dns-test.shopify.io.', record.cname
+    assert_equal 'dns-test.shopify.io.', record.alias
     assert_equal 60, record.ttl
   end
 
