@@ -82,7 +82,9 @@ http_interactions:
         {"nsdname": "ns4.p19.dynect.net."}, "record_id": 164537807}], "dhcid_records":
         [], "srv_records": [], "nsap_records": [], "txt_records": [], "spf_records":
         [], "a_records": [{"zone": "dns-test.shopify.io", "ttl": 86400, "fqdn": "test-record.dns-test.shopify.io",
-        "record_type": "A", "rdata": {"address": "10.10.10.10"}, "record_id": 189358987}]},
+        "record_type": "A", "rdata": {"address": "10.10.10.10"}, "record_id": 189358987}], "alias_records":
+        [{"zone":"dns-test.shopify.io", "ttl": 60, "fqdn": "alias.dns-test.shopify.io", "record_type": "ALIAS",
+        "rdata": {"alias": "dns-test.shopify.io."}, "record_id": 164537809}]},
         "job_id": 1974045967, "msgs": [{"INFO": "get_tree: Here is your zone tree",
         "SOURCE": "BLL", "ERR_CD": null, "LVL": "INFO"}]}'
     http_version:

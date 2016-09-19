@@ -219,12 +219,19 @@ class DynECTTest < Minitest::Test
         fqdn: 'test-record.dns-test.shopify.io',
         address: '10.10.10.10',
         record_id: 189358987
-      })
+      }),
+      Record::ALIAS.new({
+        zone: 'dns-test.shopify.io',
+        ttl: 60,
+        fqdn: 'alias.dns-test.shopify.io',
+        cname: 'dns-test.shopify.io.',
+        record_id: 164537809
+      }),
     ]
 
     VCR.use_cassette 'dynect_retrieve_current_records' do
       records = @dyn.retrieve_current_records
-      assert_equal records, records_arr
+      assert_equal records_arr, records
     end
   end
 

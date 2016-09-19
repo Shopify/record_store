@@ -243,6 +243,13 @@ class ZoneTest < Minitest::Test
       zone = Zone.find(name)
       assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns
       assert_equal [
+        Record::ALIAS.new({
+          zone: 'dns-test.shopify.io',
+          ttl: 60,
+          fqdn: 'alias.dns-test.shopify.io',
+          cname: 'dns-test.shopify.io.',
+          record_id: 164537809
+        }),
         Record::A.new({
           zone: 'dns-test.shopify.io',
           ttl: 86400,

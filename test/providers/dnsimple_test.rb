@@ -259,11 +259,18 @@ class DNSimpleTest < Minitest::Test
         nsdname: 'ns1.dnsimple.com.',
         record_id: 5190382
       }),
+      Record::ALIAS.new({
+        zone: 'dns-scratch.me',
+        ttl: 60,
+        fqdn: 'alias.dns-scratch.me',
+        cname: 'dns-scratch.me',
+        record_id: 5196953
+      }),
     ]
 
     VCR.use_cassette 'dnsimple_retrieve_current_records' do
       records = @dnsimple.retrieve_current_records
-      assert_equal records, records_arr
+      assert_equal records_arr, records
     end
   end
 
