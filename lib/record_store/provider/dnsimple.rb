@@ -19,7 +19,7 @@ module RecordStore
 
       if record.type == 'ALIAS'
         txt_alias = retrieve_current_records.detect do |rr|
-          rr.type == 'TXT' && rr.fqdn == record.fqdn && rr.txtdata == "ALIAS for #{record.cname.gsub(/.\z/, '')}"
+          rr.type == 'TXT' && rr.fqdn == record.fqdn && rr.txtdata == "ALIAS for #{record.alias.gsub(/.\z/, '')}"
         end
         remove(txt_alias)
       end
@@ -93,7 +93,7 @@ module RecordStore
       when 'AAAA'
         record.merge!(address: api_record.fetch('content'))
       when 'ALIAS'
-        record.merge!(cname: api_record.fetch('content'))
+        record.merge!(alias: api_record.fetch('content'))
       when 'CNAME'
         record.merge!(cname: api_record.fetch('content'))
       when 'MX'
@@ -135,7 +135,7 @@ module RecordStore
       when 'AAAA'
         record_hash[:content] = record.address
       when 'ALIAS'
-        record_hash[:content] = record.cname.gsub(/.\z/, '')
+        record_hash[:content] = record.alias.gsub(/.\z/, '')
       when 'CNAME'
         record_hash[:content] = record.cname.gsub(/.\z/, '')
       when 'MX'
