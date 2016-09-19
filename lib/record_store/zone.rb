@@ -112,6 +112,8 @@ module RecordStore
     validate :validate_cname_records_dont_point_to_root
     validate :validate_same_ttl_for_records_sharing_fqdn_and_type
     validate :validate_provider_can_handle_zone_records
+    validate :validate_provider_supports_alias
+    validate :validate_alias_points_to_root
 
     def self.from_yaml_definition(name, definition)
       new(name, definition.deep_symbolize_keys)
