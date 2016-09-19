@@ -7,7 +7,16 @@ up:
 
 commands:
   test:
-    run: bundle exec rake test
+    syntax:
+      argument: file
+      optional: args...
+    desc:   'run tests'
+    run: |
+      if [[ $# -eq 0 ]]; then
+        bundle exec rake test
+      else
+        bundle exec ruby -Itest "$@"
+      fi
 
 packages:
   - git@github.com:Shopify/dev-shopify.git
