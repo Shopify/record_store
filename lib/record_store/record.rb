@@ -18,13 +18,14 @@ module RecordStore
     end
 
     def self.build_from_yaml_definition(yaml_definition)
-      case yaml_definition.fetch(:type)
+      record_type = yaml_definition.fetch(:type)
+      case record_type
       when 'ALIAS'
         if yaml_definition.key?(:cname)
           yaml_definition[:alias] = yaml_definition.delete(:cname)
         end
       end
-      Record.const_get(yaml_definition.fetch(:type)).new(yaml_definition)
+      Record.const_get(record_type).new(yaml_definition)
     end
 
     def log!(logger=STDOUT)
