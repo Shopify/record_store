@@ -87,16 +87,15 @@ module RecordStore
     end
 
     def build_from_api(api_record)
-      record_type = api_record.fetch('record_type')
       record = api_record.merge(api_record.fetch('rdata')).slice!('rdata').symbolize_keys
 
-      return if record_type == 'SOA'
+      return if record.fetch(:record_type) == 'SOA'
 
       unless record.fetch(:fqdn).ends_with?('.')
         record[:fqdn] = "#{record.fetch(:fqdn)}."
       end
 
-      Record.const_get(record_type).new(record)
+      Record.const_get(record.fetch(:record_type)).new(record)
     end
   end
 end
