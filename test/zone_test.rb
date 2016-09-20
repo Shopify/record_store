@@ -244,8 +244,8 @@ class ZoneTest < Minitest::Test
           Record::ALIAS.new({
             zone: 'dns-test.shopify.io',
             ttl: 60,
-            fqdn: 'alias.dns-test.shopify.io',
-            alias: 'dns-test.shopify.io.',
+            fqdn: 'dns-test.shopify.io',
+            alias: 'dns-test.herokuapp.com.',
             record_id: 164537809
           }),
           Record::A.new({
@@ -263,7 +263,10 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_with_alias_support_based_on_provider
     with_zones_tmpdir do
       name = 'dns-scratch.me'
-      # TODO: Zone.download(name, 'DNSimple')
+      VCR.use_cassette 'dnsimple_retrieve_current_records' do
+        Zone.download(name, 'DNSimple')
+      end
+      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
       zone = Zone.find(name)
       assert_equal true, zone.config.supports_alias?
     end
@@ -272,7 +275,10 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_without_alias_support_based_on_provider
     with_zones_tmpdir do
       name = 'dns-test.shopify.io'
-      # TODO: Zone.download(name, 'DynECT') w/o ALIAS records
+      VCR.use_cassette 'dynect_retrieve_current_records_no_alias' do
+        Zone.download(name, 'DynECT')
+      end
+      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
       zone = Zone.find(name)
       assert_equal false, zone.config.supports_alias?
     end
@@ -281,7 +287,9 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_with_alias_support_based_on_records
     with_zones_tmpdir do
       name = 'dns-test.shopify.io'
-      # TODO: Zone.download(name, 'DynECT') w/ ALIAS records
+      VCR.use_cassette 'dynect_retrieve_current_records' do
+        Zone.download(name, 'DynECT')
+      end
       zone = Zone.find(name)
       assert_equal true, zone.config.supports_alias?
     end
@@ -379,6 +387,32 @@ class ZoneTest < Minitest::Test
 
     refute_predicate invalid_zone, :valid?
     assert_equal "All TXT records for matching-records.com. should have the same TTL", invalid_zone.errors[:records].first
+  end
+
+  def test_zone_validates_support_for_alias_records
+    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    assert_predicate valid_zone, :valid?
+
+    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    refute_predicate invalid_zone, :valid?
+    assert_equal 'DynECT does not support ALIAS records for matching-records.com zone', invalid_zone.errors[:records].first
+  end
+
+  def test_zone_validates_alias_points_to_root
+    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    assert_predicate valid_zone, :valid?
+
+    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+      { type: 'ALIAS', fqdn: 'alias.matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    refute_predicate invalid_zone, :valid?
+    assert_equal 'ALIAS record should be defined on the root of the zone: [ALIASRecord] alias.matching-records.com. 60 IN ALIAS matching-records.herokuapp.com.', invalid_zone.errors[:records].first
   end
 
   private

@@ -44,17 +44,17 @@ class DynECTTest < Minitest::Test
     api_record = {
       'zone' => 'dns-test.shopify.io',
       'ttl' => 60,
-      'fqdn' => 'alias.dns-test.shopify.io',
+      'fqdn' => 'dns-test.shopify.io',
       'record_type' => 'ALIAS',
       'rdata' => {
-        'alias' => 'dns-test.shopify.io.',
+        'alias' => 'dns-test.herokuapp.com.',
       },
     }
     record = @dyn.send(:build_from_api, api_record)
 
     assert_kind_of Record::ALIAS, record
-    assert_equal 'alias.dns-test.shopify.io.', record.fqdn
-    assert_equal 'dns-test.shopify.io.', record.alias
+    assert_equal 'dns-test.shopify.io.', record.fqdn
+    assert_equal 'dns-test.herokuapp.com.', record.alias
     assert_equal 60, record.ttl
   end
 
@@ -223,8 +223,8 @@ class DynECTTest < Minitest::Test
       Record::ALIAS.new({
         zone: 'dns-test.shopify.io',
         ttl: 60,
-        fqdn: 'alias.dns-test.shopify.io',
-        alias: 'dns-test.shopify.io.',
+        fqdn: 'dns-test.shopify.io',
+        alias: 'dns-test.herokuapp.com.',
         record_id: 164537809
       }),
     ]

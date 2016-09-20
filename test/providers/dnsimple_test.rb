@@ -53,8 +53,8 @@ class DNSimpleTest < Minitest::Test
       "id" => 5196953,
       "domain_id" => 222002,
       "parent_id" => nil,
-      "name" => "alias",
-      "content" => "dns-scratch.me",
+      "name" => "",
+      "content" => "dns-scratch.herokuapp.com",
       "ttl" => 60,
       "prio" => nil,
       "record_type" => "ALIAS",
@@ -64,8 +64,8 @@ class DNSimpleTest < Minitest::Test
     })
 
     assert_kind_of Record::ALIAS, record
-    assert_equal 'alias.dns-scratch.me.', record.fqdn
-    assert_equal 'dns-scratch.me.', record.alias
+    assert_equal 'dns-scratch.me.', record.fqdn
+    assert_equal 'dns-scratch.herokuapp.com.', record.alias
     assert_equal 60, record.ttl
   end
 
@@ -208,7 +208,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_apply_changeset_with_alias_cleans_up_txt_record
-    alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, alias: 'alias.dns-scratch.me.')
+    alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, alias: 'dns-scratch.herokuapp.com.')
 
     VCR.use_cassette 'dnsimple_apply_changeset_with_alias' do
       @dnsimple.apply_changeset(Changeset.new(
@@ -262,8 +262,8 @@ class DNSimpleTest < Minitest::Test
       Record::ALIAS.new({
         zone: 'dns-scratch.me',
         ttl: 60,
-        fqdn: 'alias.dns-scratch.me',
-        alias: 'dns-scratch.me',
+        fqdn: 'dns-scratch.me',
+        alias: 'dns-scratch.herokuapp.com',
         record_id: 5196953
       }),
     ]

@@ -112,7 +112,7 @@ module RecordStore
     validate :validate_cname_records_dont_point_to_root
     validate :validate_same_ttl_for_records_sharing_fqdn_and_type
     validate :validate_provider_can_handle_zone_records
-    validate :validate_provider_supports_alias
+    validate :validate_can_handle_alias_records
     validate :validate_alias_points_to_root
 
     def self.from_yaml_definition(name, definition)
@@ -248,6 +248,20 @@ module RecordStore
       (record_types - provider_supported_record_types).each do |record_type|
         errors.add(:records, "#{record_type} is a not a supported record type in #{config.provider}")
       end
+    end
+
+    def validate_can_handle_alias_records
+      return unless records.any? { |record| record.is_a?(Record::ALIAS) }
+      return if config.supports_alias?
+      errors.add(:records, "#{config.provider} does not support ALIAS records for #{name.sub(/\.\z/, '')} zone")
+    end
+
+    def validate_alias_points_to_root
+      alias_record = records.find { |record| record.is_a?(Record::ALIAS) && record.fqdn != @name }
+
+      return unless alias_record
+
+      errors.add(:records, "ALIAS record should be defined on the root of the zone: #{alias_record}")
     end
   end
 end
