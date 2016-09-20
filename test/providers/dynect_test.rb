@@ -6,6 +6,10 @@ class DynECTTest < Minitest::Test
     @dyn = Provider::DynECT.new(zone: @zone_name)
   end
 
+  def test_supports_alias_by_default
+    refute Provider::DynECT.supports_alias?, 'DynECT should NOT support ALIAS by default'
+  end
+
   def test_build_a_from_api
     record = @dyn.send(:build_from_api, {
       'zone' => 'dns-test.shopify.io',

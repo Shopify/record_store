@@ -32,4 +32,12 @@ example.com:
     assert_equal [{type: 'NS'}, {type: 'A', fqdn: 'a.example.com.'}], zone.config.ignore_patterns
     assert_equal 'DynECT', zone.config.provider
   end
+
+  def test_config_supports_alias_based_on_provider
+    config = Zone.new('dynect-config.com', config: {provider: 'DynECT'}).config
+    refute_predicate config, :supports_alias?
+
+    config = Zone.new('dnsimple-config.com', config: {provider: 'DNSimple'}).config
+    assert_predicate config, :supports_alias?
+  end
 end

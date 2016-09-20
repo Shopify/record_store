@@ -263,12 +263,12 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_with_alias_support_based_on_provider
     with_zones_tmpdir do
       name = 'dns-scratch.me'
-      VCR.use_cassette 'dnsimple_retrieve_current_records' do
+      VCR.use_cassette 'dnsimple_retrieve_current_records_no_alias' do
         Zone.download(name, 'DNSimple')
       end
       assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
       zone = Zone.find(name)
-      assert_equal true, zone.config.supports_alias?
+      assert_predicate zone.config, :supports_alias?
     end
   end
 
@@ -280,7 +280,7 @@ class ZoneTest < Minitest::Test
       end
       assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
       zone = Zone.find(name)
-      assert_equal false, zone.config.supports_alias?
+      refute_predicate zone.config, :supports_alias?
     end
   end
 
@@ -291,7 +291,7 @@ class ZoneTest < Minitest::Test
         Zone.download(name, 'DynECT')
       end
       zone = Zone.find(name)
-      assert_equal true, zone.config.supports_alias?
+      assert_predicate zone.config, :supports_alias?
     end
   end
 

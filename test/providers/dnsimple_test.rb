@@ -6,6 +6,10 @@ class DNSimpleTest < Minitest::Test
     @dnsimple = Provider::DNSimple.new(zone: @zone_name)
   end
 
+  def test_supports_alias_by_default
+    assert Provider::DNSimple.supports_alias?, 'DNSimple should support ALIAS by default'
+  end
+
   def test_build_a_from_api
     record = @dnsimple.send(:build_from_api, {
       "id" => 5199673,

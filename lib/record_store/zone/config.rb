@@ -8,10 +8,11 @@ module RecordStore
 
       validate :validate_zone_config
 
-      def initialize(ignore_patterns: [], provider: nil, supports_alias: false)
+      def initialize(ignore_patterns: [], provider: nil, supports_alias: nil)
         @ignore_patterns = ignore_patterns
         @provider = provider
         @supports_alias = supports_alias
+        @supports_alias = Provider.const_get(provider).supports_alias? if @supports_alias.nil? && valid_provider?
       end
 
       def to_hash
@@ -24,9 +25,11 @@ module RecordStore
       private
 
       def validate_zone_config
-        unless Provider.constants.include?(provider.to_s.to_sym)
-          errors.add(:provider, 'provider specified does not exist')
-        end
+        errors.add(:provider, 'provider specified does not exist') unless valid_provider?
+      end
+
+      def valid_provider?
+        Provider.constants.include?(provider.to_s.to_sym)
       end
     end
   end
