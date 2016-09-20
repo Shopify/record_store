@@ -48,9 +48,11 @@ The permissions required are broken into 2 groups:
 * WRITE: `RecordAdd`, `RecordDelete`, `ZonePublish`, `ZoneDiscardChangeset`, `ZoneFreeze`, `ZoneThaw`, `ZoneAddNode`,
 `ZoneRemoveNode`
 
-All CI validations only require READ permissions; deplyoing requires a user with READ and WRITE permissions.
+All CI validations only require READ permissions; deploying requires a user with READ and WRITE permissions.
 
-For a breakdown of what each permssion allows read through [DynECT's permissions guide](https://help.dyn.com/user-and-group-permissions/).
+In addition, the `AliasService` permission is required to be able to read or write ALIAS records on DynECT.
+
+For a breakdown of what each permission allows read through [DynECT's permissions guide](https://help.dyn.com/user-and-group-permissions/).
 
 ----
 
@@ -145,7 +147,7 @@ end
 
 #### Provider-Specific Records
 
-For provider-specific records (e.g. `ALIAS`), create the record model in `lib/record_store/record` as any other record. In the provider, extend `self.record_types` and append the custom record types to the `Set` returned by `Provider.record_types` (e.g. [`DNSimple.record_types`](https://github.com/Shopify/record_store/blob/1ec0d1410cf8bedf79bc63e8e4cdc7cdb0f1019b/lib/record_store/provider/dnsimple.rb#L5-L7)).
+For provider-specific records (e.g. `ALIAS`), create the record model in `lib/record_store/record` as any other record. In the provider, extend `self.record_types` and append the custom record types to the `Set` returned by `Provider.record_types` (e.g. [`DNSimple.record_types`](https://github.com/Shopify/record_store/blob/e8fb991ae827afb932f97930b55f046aa463d58f/lib/recordstore/provider/dnsimple.rb#L6)).
 
 #### Secrets
 
