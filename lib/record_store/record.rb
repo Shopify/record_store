@@ -19,6 +19,8 @@ module RecordStore
 
     def self.build_from_yaml_definition(yaml_definition)
       record_type = yaml_definition.fetch(:type)
+      # TODO: remove backward compatibility support for ALIAS records using cname attribute instead of alias
+      #       REMOVE after merging https://github.com/Shopify/record-store/pull/781
       case record_type
       when 'ALIAS'
         if yaml_definition.key?(:cname)
