@@ -158,7 +158,7 @@ module RecordStore
     end
 
     def provider
-      Provider.const_get(config.provider).new(zone: name.gsub(/\.\z/, ''))
+      Provider.const_get(config.provider).new(zone: name.chomp('.'))
     end
 
     def write(**write_options)
@@ -253,7 +253,7 @@ module RecordStore
     def validate_can_handle_alias_records
       return unless records.any? { |record| record.is_a?(Record::ALIAS) }
       return if config.supports_alias?
-      errors.add(:records, "#{config.provider} does not support ALIAS records for #{name.sub(/\.\z/, '')} zone")
+      errors.add(:records, "#{config.provider} does not support ALIAS records for #{name.chomp('.')} zone")
     end
 
     def validate_alias_points_to_root
