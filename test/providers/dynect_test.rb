@@ -6,6 +6,10 @@ class DynECTTest < Minitest::Test
     @dyn = Provider::DynECT.new(zone: @zone_name)
   end
 
+  def test_supports_alias_by_default
+    refute_predicate Provider::DynECT, :supports_alias?
+  end
+
   def test_build_a_from_api
     record = @dyn.send(:build_from_api, {
       'zone' => 'dns-test.shopify.io',
@@ -37,6 +41,24 @@ class DynECTTest < Minitest::Test
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-test.shopify.io.', record.fqdn
     assert_equal '2001:0db8:85a3:0000:0000:EA75:1337:BEEF', record.address
+    assert_equal 60, record.ttl
+  end
+
+  def test_build_alias_from_api
+    api_record = {
+      'zone' => 'dns-test.shopify.io',
+      'ttl' => 60,
+      'fqdn' => 'dns-test.shopify.io',
+      'record_type' => 'ALIAS',
+      'rdata' => {
+        'alias' => 'dns-test.herokuapp.com.',
+      },
+    }
+    record = @dyn.send(:build_from_api, api_record)
+
+    assert_kind_of Record::ALIAS, record
+    assert_equal 'dns-test.shopify.io.', record.fqdn
+    assert_equal 'dns-test.herokuapp.com.', record.alias
     assert_equal 60, record.ttl
   end
 
@@ -201,12 +223,19 @@ class DynECTTest < Minitest::Test
         fqdn: 'test-record.dns-test.shopify.io',
         address: '10.10.10.10',
         record_id: 189358987
-      })
+      }),
+      Record::ALIAS.new({
+        zone: 'dns-test.shopify.io',
+        ttl: 60,
+        fqdn: 'dns-test.shopify.io',
+        alias: 'dns-test.herokuapp.com.',
+        record_id: 164537809
+      }),
     ]
 
     VCR.use_cassette 'dynect_retrieve_current_records' do
       records = @dyn.retrieve_current_records
-      assert_equal records, records_arr
+      assert_equal records_arr, records
     end
   end
 

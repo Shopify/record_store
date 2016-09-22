@@ -6,6 +6,10 @@ class DNSimpleTest < Minitest::Test
     @dnsimple = Provider::DNSimple.new(zone: @zone_name)
   end
 
+  def test_supports_alias_by_default
+    assert_predicate Provider::DNSimple, :supports_alias?
+  end
+
   def test_build_a_from_api
     record = @dnsimple.send(:build_from_api, {
       "id" => 5199673,
@@ -53,8 +57,8 @@ class DNSimpleTest < Minitest::Test
       "id" => 5196953,
       "domain_id" => 222002,
       "parent_id" => nil,
-      "name" => "alias",
-      "content" => "dns-scratch.me",
+      "name" => "",
+      "content" => "dns-scratch.herokuapp.com",
       "ttl" => 60,
       "prio" => nil,
       "record_type" => "ALIAS",
@@ -64,8 +68,8 @@ class DNSimpleTest < Minitest::Test
     })
 
     assert_kind_of Record::ALIAS, record
-    assert_equal 'alias.dns-scratch.me.', record.fqdn
-    assert_equal 'dns-scratch.me.', record.cname
+    assert_equal 'dns-scratch.me.', record.fqdn
+    assert_equal 'dns-scratch.herokuapp.com.', record.alias
     assert_equal 60, record.ttl
   end
 
@@ -208,7 +212,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_apply_changeset_with_alias_cleans_up_txt_record
-    alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, cname: 'alias.dns-scratch.me.')
+    alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, alias: 'dns-scratch.herokuapp.com.')
 
     VCR.use_cassette 'dnsimple_apply_changeset_with_alias' do
       @dnsimple.apply_changeset(Changeset.new(
@@ -259,11 +263,18 @@ class DNSimpleTest < Minitest::Test
         nsdname: 'ns1.dnsimple.com.',
         record_id: 5190382
       }),
+      Record::ALIAS.new({
+        zone: 'dns-scratch.me',
+        ttl: 60,
+        fqdn: 'dns-scratch.me',
+        alias: 'dns-scratch.herokuapp.com',
+        record_id: 5196953
+      }),
     ]
 
     VCR.use_cassette 'dnsimple_retrieve_current_records' do
       records = @dnsimple.retrieve_current_records
-      assert_equal records, records_arr
+      assert_equal records_arr, records
     end
   end
 

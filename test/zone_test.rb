@@ -48,9 +48,12 @@ class ZoneTest < Minitest::Test
   end
 
   def test_zone_is_invalid_if_provider_does_not_support_record_type
+    supported_record_types = Provider::DynECT.record_types - ['ALIAS']
+    Provider::DynECT.stubs(:record_types).returns(supported_record_types)
+
     zone = Zone.find('empty.com')
     assert_equal 'DynECT', zone.config.provider
-    zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, cname: "alias.#{zone.name}")]
+    zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, alias: "alias.#{zone.name}")]
 
     refute_predicate zone, :valid?
   end
@@ -229,28 +232,67 @@ class ZoneTest < Minitest::Test
   end
 
   def test_download_downloads_zone_into_file
-    original_zones_path = RecordStore.zones_path
-    RecordStore.zones_path = Dir.tmpdir
+    with_zones_tmpdir do
+      name = 'dns-test.shopify.io'
+      VCR.use_cassette 'dynect_retrieve_current_records' do
+        Zone.download(name, 'DynECT')
+        assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
 
-    name = 'dns-test.shopify.io'
-    VCR.use_cassette 'dynect_retrieve_current_records' do
-      Zone.download(name, 'DynECT')
-      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
-
-      zone = Zone.find(name)
-      assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns
-      assert_equal [
-        Record::A.new({
-          zone: 'dns-test.shopify.io',
-          ttl: 86400,
-          fqdn: 'test-record.dns-test.shopify.io',
-          address: '10.10.10.10',
-          record_id: 189358987
-        })
-      ], zone.records
+        zone = Zone.find(name)
+        assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns
+        assert_equal [
+          Record::ALIAS.new({
+            zone: 'dns-test.shopify.io',
+            ttl: 60,
+            fqdn: 'dns-test.shopify.io',
+            alias: 'dns-test.herokuapp.com.',
+            record_id: 164537809
+          }),
+          Record::A.new({
+            zone: 'dns-test.shopify.io',
+            ttl: 86400,
+            fqdn: 'test-record.dns-test.shopify.io',
+            address: '10.10.10.10',
+            record_id: 189358987
+          })
+        ], zone.records
+      end
     end
-  ensure
-    RecordStore.zones_path = original_zones_path
+  end
+
+  def test_download_creates_zone_with_alias_support_based_on_provider
+    with_zones_tmpdir do
+      name = 'dns-scratch.me'
+      VCR.use_cassette 'dnsimple_retrieve_current_records_no_alias' do
+        Zone.download(name, 'DNSimple')
+      end
+      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
+      zone = Zone.find(name)
+      assert_predicate zone.config, :supports_alias?
+    end
+  end
+
+  def test_download_creates_zone_without_alias_support_based_on_provider
+    with_zones_tmpdir do
+      name = 'dns-test.shopify.io'
+      VCR.use_cassette 'dynect_retrieve_current_records_no_alias' do
+        Zone.download(name, 'DynECT')
+      end
+      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
+      zone = Zone.find(name)
+      refute_predicate zone.config, :supports_alias?
+    end
+  end
+
+  def test_download_creates_zone_with_alias_support_based_on_records
+    with_zones_tmpdir do
+      name = 'dns-test.shopify.io'
+      VCR.use_cassette 'dynect_retrieve_current_records' do
+        Zone.download(name, 'DynECT')
+      end
+      zone = Zone.find(name)
+      assert_predicate zone.config, :supports_alias?
+    end
   end
 
   def test_zone_provider_returns_instantiated_zone_provider
@@ -293,45 +335,41 @@ class ZoneTest < Minitest::Test
   end
 
   def test_zone_write_format_dir_writes_wildcard
-    original_zones_path = RecordStore.zones_path
-    RecordStore.zones_path = Dir.mktmpdir
-    zone = Zone.new('wildcard.com', records: [{
-      type: 'CNAME',
-      fqdn: '*.wildcard.com',
-      cname: 'wildcard.com',
-      ttl: 60,
-    }])
+    with_zones_tmpdir do
+      zone = Zone.new('wildcard.com', records: [{
+        type: 'CNAME',
+        fqdn: '*.wildcard.com',
+        cname: 'wildcard.com',
+        ttl: 60,
+      }])
 
-    zone.write(format: :directory)
+      zone.write(format: :directory)
 
-    assert Dir.exist?("#{RecordStore.zones_path}/wildcard.com")
-    assert File.exist?("#{RecordStore.zones_path}/wildcard.com/CNAME__*.yml")
-  ensure
-    RecordStore.zones_path = original_zones_path
+      assert Dir.exist?("#{RecordStore.zones_path}/wildcard.com")
+      assert File.exist?("#{RecordStore.zones_path}/wildcard.com/CNAME__*.yml")
+    end
   end
 
   def test_zone_write_format_dir_writes_multiple_records
-    original_zones_path = RecordStore.zones_path
-    RecordStore.zones_path = Dir.mktmpdir
-    zone = Zone.new('two-records.com', records: [{
-      type: 'A',
-      fqdn: 'a-records.two-records.com',
-      address: "10.10.10.10",
-      ttl: 60,
-    },
-    {
-      type: 'A',
-      fqdn: 'a-records.two-records.com',
-      address: "10.10.10.11",
-      ttl: 60,
-    }])
+    with_zones_tmpdir do
+      zone = Zone.new('two-records.com', records: [{
+        type: 'A',
+        fqdn: 'a-records.two-records.com',
+        address: "10.10.10.10",
+        ttl: 60,
+      },
+      {
+        type: 'A',
+        fqdn: 'a-records.two-records.com',
+        address: "10.10.10.11",
+        ttl: 60,
+      }])
 
-    zone.write(format: :directory)
+      zone.write(format: :directory)
 
-    assert Dir.exist?("#{RecordStore.zones_path}/two-records.com")
-    assert File.exist?("#{RecordStore.zones_path}/two-records.com/A__a-records.yml")
-  ensure
-    RecordStore.zones_path = original_zones_path
+      assert Dir.exist?("#{RecordStore.zones_path}/two-records.com")
+      assert File.exist?("#{RecordStore.zones_path}/two-records.com/A__a-records.yml")
+    end
   end
 
   def test_zone_validates_matching_ttls_for_records_with_same_type_and_fqdn
@@ -349,6 +387,32 @@ class ZoneTest < Minitest::Test
 
     refute_predicate invalid_zone, :valid?
     assert_equal "All TXT records for matching-records.com. should have the same TTL", invalid_zone.errors[:records].first
+  end
+
+  def test_zone_validates_support_for_alias_records
+    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    assert_predicate valid_zone, :valid?
+
+    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    refute_predicate invalid_zone, :valid?
+    assert_equal 'DynECT does not support ALIAS records for matching-records.com zone', invalid_zone.errors[:records].first
+  end
+
+  def test_zone_validates_alias_points_to_root
+    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    assert_predicate valid_zone, :valid?
+
+    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+      { type: 'ALIAS', fqdn: 'alias.matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
+    ])
+    refute_predicate invalid_zone, :valid?
+    assert_equal 'ALIAS record should be defined on the root of the zone: [ALIASRecord] alias.matching-records.com. 60 IN ALIAS matching-records.herokuapp.com.', invalid_zone.errors[:records].first
   end
 
   private
@@ -371,5 +435,15 @@ class ZoneTest < Minitest::Test
     }
 
     Zone::Config.new(default_args.merge(args))
+  end
+
+  def with_zones_tmpdir
+    original_zones_path = RecordStore.zones_path
+    RecordStore.zones_path = Dir.tmpdir
+
+    yield
+
+  ensure
+    RecordStore.zones_path = original_zones_path
   end
 end

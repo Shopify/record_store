@@ -2,8 +2,8 @@ require 'fog/dnsimple'
 
 module RecordStore
   class Provider::DNSimple < Provider
-    def self.record_types
-      super.add('ALIAS')
+    def self.supports_alias?
+      true
     end
 
     def add(record)
@@ -19,7 +19,7 @@ module RecordStore
 
       if record.type == 'ALIAS'
         txt_alias = retrieve_current_records.detect do |rr|
-          rr.type == 'TXT' && rr.fqdn == record.fqdn && rr.txtdata == "ALIAS for #{record.cname.gsub(/.\z/, '')}"
+          rr.type == 'TXT' && rr.fqdn == record.fqdn && rr.txtdata == "ALIAS for #{record.alias.chomp('.')}"
         end
         remove(txt_alias)
       end
@@ -93,7 +93,7 @@ module RecordStore
       when 'AAAA'
         record.merge!(address: api_record.fetch('content'))
       when 'ALIAS'
-        record.merge!(cname: api_record.fetch('content'))
+        record.merge!(alias: api_record.fetch('content'))
       when 'CNAME'
         record.merge!(cname: api_record.fetch('content'))
       when 'MX'
@@ -124,7 +124,7 @@ module RecordStore
 
     def api_hash(record)
       record_hash = {
-        name: record.fqdn.gsub("#{Record.ensure_ends_with_dot(@zone_name)}", '').gsub(/.\z/, ''),
+        name: record.fqdn.gsub("#{Record.ensure_ends_with_dot(@zone_name)}", '').chomp('.'),
         ttl: record.ttl,
         type: record.type,
       }
@@ -135,18 +135,18 @@ module RecordStore
       when 'AAAA'
         record_hash[:content] = record.address
       when 'ALIAS'
-        record_hash[:content] = record.cname.gsub(/.\z/, '')
+        record_hash[:content] = record.alias.chomp('.')
       when 'CNAME'
-        record_hash[:content] = record.cname.gsub(/.\z/, '')
+        record_hash[:content] = record.cname.chomp('.')
       when 'MX'
         record_hash[:prio] = record.preference
-        record_hash[:content] = record.exchange.gsub(/.\z/, '')
+        record_hash[:content] = record.exchange.chomp('.')
       when 'NS'
-        record_hash[:content] = record.nsdname.gsub(/.\z/, '')
+        record_hash[:content] = record.nsdname.chomp('.')
       when 'SPF'
         record_hash[:content] = record.txtdata
       when 'SRV'
-        record_hash[:content] = "#{record.weight} #{record.port} #{record.target.gsub(/.\z/, '')}"
+        record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
         record_hash[:prio] = record.priority
       when 'TXT'
         record_hash[:content] = record.txtdata
