@@ -23,6 +23,7 @@ example.com:
       - type: A
         fqdn: a.example.com.
     provider: DynECT
+    supports_alias: true
 """
     tmp_config.write(zonefile)
     tmp_config.close
@@ -31,6 +32,7 @@ example.com:
 
     assert_equal [{type: 'NS'}, {type: 'A', fqdn: 'a.example.com.'}], zone.config.ignore_patterns
     assert_equal 'DynECT', zone.config.provider
+    assert_predicate zone.config, :supports_alias?
   end
 
   def test_config_supports_alias_based_on_provider
