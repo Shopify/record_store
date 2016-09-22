@@ -14,8 +14,7 @@ module RecordStore
       end
 
       def supports_alias?
-        @supports_alias = Provider.const_get(provider).supports_alias? if @supports_alias.nil? && valid_provider?
-        return @supports_alias
+        @supports_alias.nil? && valid_provider? ? Provider.const_get(provider).supports_alias? : @supports_alias
       end
 
       def to_hash

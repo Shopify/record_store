@@ -7,7 +7,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_supports_alias_by_default
-    refute Provider::DynECT.supports_alias?, 'DynECT should NOT support ALIAS by default'
+    refute_predicate Provider::DynECT, :supports_alias?
   end
 
   def test_build_a_from_api

@@ -7,7 +7,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_supports_alias_by_default
-    assert Provider::DNSimple.supports_alias?, 'DNSimple should support ALIAS by default'
+    assert_predicate Provider::DNSimple, :supports_alias?
   end
 
   def test_build_a_from_api
