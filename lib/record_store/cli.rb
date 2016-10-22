@@ -35,10 +35,13 @@ module RecordStore
     option :verbose, desc: 'Print records that haven\'t diverged', aliases: '-v', type: :boolean, default: false
     desc 'diff', 'Displays the DNS differences between the zone files in this repo and production'
     def diff
-      Zone.each do |name, zone|
-        puts "Zone: #{name}"
+      puts "Diffing #{Zone.defined.count} zones"
 
+      Zone.each do |name, zone|
         diff = zone.changeset
+        next if !options.fetch('verbose') && diff.changes.empty?
+
+        puts "Zone: #{name}"
 
         if !diff.additions.empty? || options.fetch('verbose')
           puts "Add:"
@@ -68,7 +71,6 @@ module RecordStore
           end
         end
 
-        puts "Empty diff" if diff.changes.empty?
         puts '=' * 20
       end
     end
