@@ -120,11 +120,8 @@ module RecordStore
     desc 'reformat', 'Sorts and re-outputs the zone (or all zones) as specified format (file)'
     def reformat
       name = options['name']
-      zones = if name
-        [Zone.find(name)]
-      else
-        Zone.all
-      end
+      zones = name ? [Zone.find(name)] : Zone.all
+
       zones.each do |zone|
         puts "Writing #{zone.name}"
         zone.write(format: options.fetch('format').to_sym)

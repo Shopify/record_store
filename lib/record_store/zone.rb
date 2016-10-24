@@ -39,9 +39,9 @@ module RecordStore
     end
 
     def initialize(name, records: [], config: {})
-      @name            = Record.ensure_ends_with_dot(name)
-      @config          = RecordStore::Zone::Config.new(config)
-      @records         = build_records(records)
+      @name = Record.ensure_ends_with_dot(name)
+      @config = RecordStore::Zone::Config.new(config)
+      @records = build_records(records)
     end
 
     def changeset
