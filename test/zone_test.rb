@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class ZoneTest < Minitest::Test
+  def setup
+    Zone.reset
+  end
+
   def test_find_returns_zone_by_name
     zone = Zone.find('one-record.com')
 
@@ -439,10 +443,10 @@ class ZoneTest < Minitest::Test
 
   def with_zones_tmpdir
     original_zones_path = RecordStore.zones_path
-    RecordStore.zones_path = Dir.tmpdir
-
-    yield
-
+    Dir.mktmpdir do |dir|
+      RecordStore.zones_path = dir
+      yield
+    end
   ensure
     RecordStore.zones_path = original_zones_path
   end

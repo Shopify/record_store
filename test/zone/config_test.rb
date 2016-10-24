@@ -28,7 +28,8 @@ example.com:
     tmp_config.write(zonefile)
     tmp_config.close
 
-    zone = Zone.from_yaml_definition(*YAML.load_file(tmp_config.path).first)
+    name, definition = YAML.load_file(tmp_config.path).first
+    zone = Zone.new(name, definition.deep_symbolize_keys)
 
     assert_equal [{type: 'NS'}, {type: 'A', fqdn: 'a.example.com.'}], zone.config.ignore_patterns
     assert_equal 'DynECT', zone.config.provider
