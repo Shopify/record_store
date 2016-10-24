@@ -18,14 +18,24 @@ module RecordStore
     validate :validate_can_handle_alias_records
     validate :validate_alias_points_to_root
 
-    def self.download(name, provider_name, **write_options)
-      dns = new(name, config: {provider: provider_name}).provider
-      current_records = dns.retrieve_current_records
-      write(name, records: current_records, config: {
-        provider: provider_name,
-        ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
-        supports_alias: current_records.map(&:type).include?('ALIAS') || nil
-      }, **write_options)
+    class << self
+      def download(name, provider_name, **write_options)
+        dns = new(name, config: {provider: provider_name}).provider
+        current_records = dns.retrieve_current_records
+        write(name, records: current_records, config: {
+          provider: provider_name,
+          ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
+          supports_alias: current_records.map(&:type).include?('ALIAS') || nil
+        }, **write_options)
+      end
+
+      def filter_records(current_records, ignore_patterns)
+        ignore_patterns.inject(current_records) do |remaining_records, pattern|
+          remaining_records.reject do |record|
+            pattern.all? { |(key, value)| record.respond_to?(key) && value === record.send(key) }
+          end
+        end
+      end
     end
 
     def initialize(name, records: [], config: {})
@@ -128,14 +138,6 @@ module RecordStore
 
       unless cname_record.nil?
         errors.add(:records, "A CNAME record cannot be defined on the root of the zone: #{cname_record}")
-      end
-    end
-
-    def self.filter_records(current_records, ignore_patterns)
-      ignore_patterns.inject(current_records) do |remaining_records, pattern|
-        remaining_records.reject do |record|
-          pattern.all? { |(key, value)| record.respond_to?(key) && value === record.send(key) }
-        end
       end
     end
 

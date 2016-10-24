@@ -1,40 +1,42 @@
 module RecordStore
   class Provider
-    def self.provider_for(zone_name)
-      dns = Resolv::DNS.new(nameserver: ['8.8.8.8', '8.8.4.4'])
+    class << self
+      def provider_for(zone_name)
+        dns = Resolv::DNS.new(nameserver: ['8.8.8.8', '8.8.4.4'])
 
-      begin
-        ns_server = dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
-      rescue Resolv::ResolvError => e
-        abort "Domain doesn't exist"
+        begin
+          ns_server = dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
+        rescue Resolv::ResolvError => e
+          abort "Domain doesn't exist"
+        end
+
+        case ns_server
+        when /dnsimple\.com\z/
+          'DNSimple'
+        when /dynect\.net\z/
+          'DynECT'
+        else
+          nil
+        end
       end
 
-      case ns_server
-      when /dnsimple\.com\z/
-        'DNSimple'
-      when /dynect\.net\z/
-        'DynECT'
-      else
-        nil
+      def record_types
+        Set.new([
+          'A',
+          'AAAA',
+          'ALIAS',
+          'CNAME',
+          'MX',
+          'NS',
+          'SPF',
+          'SRV',
+          'TXT',
+        ])
       end
-    end
 
-    def self.record_types
-      Set.new([
-        'A',
-        'AAAA',
-        'ALIAS',
-        'CNAME',
-        'MX',
-        'NS',
-        'SPF',
-        'SRV',
-        'TXT',
-      ])
-    end
-
-    def self.supports_alias?
-      false
+      def supports_alias?
+        false
+      end
     end
 
     def initialize(zone:)
