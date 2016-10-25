@@ -20,6 +20,7 @@ module RecordStore
 
     class << self
       def download(name, provider_name, **write_options)
+        # TODO(es): fix assumption of single provider
         dns = new(name, config: {provider: provider_name}).provider
         current_records = dns.retrieve_current_records
         write(name, records: current_records, config: {
@@ -44,17 +45,16 @@ module RecordStore
       @records = build_records(records)
     end
 
-    def changeset
-      current_records = Zone.filter_records(provider.retrieve_current_records, config.ignore_patterns)
-
-      Changeset.new(
-        current_records: current_records,
-        desired_records: records
-      )
+    def build_changesets
+      @changesets ||= begin
+        providers.map do |provider|
+          Changeset.build_from(provider: provider, zone: self)
+        end
+      end
     end
 
     def unchanged?
-      changeset.empty?
+      build_changesets.empty?
     end
 
     def records
@@ -66,8 +66,8 @@ module RecordStore
       @config = config
     end
 
-    def provider
-      Provider.const_get(config.provider).new(zone: name.chomp('.'))
+    def providers
+      @providers ||= config.providers.map { |provider| Provider.const_get(provider) }
     end
 
     def write(**write_options)
@@ -141,20 +141,24 @@ module RecordStore
       end
     end
 
+    # TODO(es): write test for one zone supporting, and another not
     def validate_provider_can_handle_zone_records
       record_types = records.map(&:type).to_set
       return unless config.valid?
-      provider_supported_record_types = Provider.const_get(config.provider).record_types
 
-      (record_types - provider_supported_record_types).each do |record_type|
-        errors.add(:records, "#{record_type} is a not a supported record type in #{config.provider}")
+      providers.each do |provider|
+        (record_types - provider.record_types).each do |record_type|
+          errors.add(:records, "#{record_type} is a not a supported record type in #{provider.to_s}")
+        end
       end
     end
 
     def validate_can_handle_alias_records
       return unless records.any? { |record| record.is_a?(Record::ALIAS) }
       return if config.supports_alias?
-      errors.add(:records, "#{config.provider} does not support ALIAS records for #{name.chomp('.')} zone")
+
+      # TODO(es): refactor to specify which provider
+      errors.add(:records, "one of the providers for #{name.chomp('.')} does not support ALIAS records")
     end
 
     def validate_alias_points_to_root

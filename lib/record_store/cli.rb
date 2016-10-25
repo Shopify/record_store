@@ -11,6 +11,7 @@ module RecordStore
     desc 'thaw', 'Thaws all zones under management to allow manual edits'
     def thaw
       Zone.each do |_, zone|
+        # TODO(es): fix assumption of single provider
         zone.provider.thaw if zone.provider.thawable?
       end
     end
@@ -18,6 +19,7 @@ module RecordStore
     desc 'freeze', 'Freezes all zones under management to prevent manual edits'
     def freeze
       Zone.each do |_, zone|
+        # TODO(es): fix assumption of single provider
         zone.provider.freeze_zone if zone.provider.freezable?
       end
     end
@@ -38,39 +40,45 @@ module RecordStore
       puts "Diffing #{Zone.defined.count} zones"
 
       Zone.each do |name, zone|
-        diff = zone.changeset
-        next if !options.fetch('verbose') && diff.changes.empty?
+        changesets = zone.build_changesets
 
+        next if !options.fetch('verbose') && changesets.empty?
         puts "Zone: #{name}"
 
-        if !diff.additions.empty? || options.fetch('verbose')
-          puts "Add:"
-          diff.additions.map(&:record).each do |record|
-            puts " - #{record.to_s}"
+        changesets.each do |changeset|
+          next if !options.fetch('verbose') && changeset.changes.empty?
+
+          puts '-' * 20
+          puts "Provider: #{changeset.provider.to_s}"
+
+          if !changeset.additions.empty? || options.fetch('verbose')
+            puts "Add:"
+            changeset.additions.map(&:record).each do |record|
+              puts " - #{record.to_s}"
+            end
+          end
+
+          if !changeset.removals.empty? || options.fetch('verbose')
+            puts "Remove:"
+            changeset.removals.map(&:record).each do |record|
+              puts " - #{record.to_s}"
+            end
+          end
+
+          if !changeset.updates.empty? || options.fetch('verbose')
+            puts "Update:"
+            changeset.updates.map(&:record).each do |record|
+              puts " - #{record.to_s}"
+            end
+          end
+
+          if options.fetch('verbose')
+            puts "Unchanged:"
+            changeset.unchanged.each do |record|
+              puts " - #{record.to_s}"
+            end
           end
         end
-
-        if !diff.removals.empty? || options.fetch('verbose')
-          puts "Remove:"
-          diff.removals.map(&:record).each do |record|
-            puts " - #{record.to_s}"
-          end
-        end
-
-        if !diff.updates.empty? || options.fetch('verbose')
-          puts "Update:"
-          diff.updates.map(&:record).each do |record|
-            puts " - #{record.to_s}"
-          end
-        end
-
-        if options.fetch('verbose')
-          puts "Unchanged:"
-          diff.unchanged.each do |record|
-            puts " - #{record.to_s}"
-          end
-        end
-
         puts '=' * 20
       end
     end
@@ -86,8 +94,9 @@ module RecordStore
 
       zones.each do |zone|
         abort "Attempted to apply invalid zone: #{zone.name}" unless zone.valid?
-        provider = zone.provider
-        provider.apply_changeset(zone.changeset)
+
+        changesets = zone.build_changesets
+        changesets.each(&:apply)
       end
 
       puts "All zone changes deployed"

@@ -37,73 +37,82 @@ module RecordStore
       def supports_alias?
         false
       end
-    end
 
-    def initialize(zone:)
-      @zone_name = zone
-    end
+      # TODO(es): ponder how you'll go to hell for this garbage code
+      def build_zone(zone_name:, config:)
+        zone = Zone.new(zone_name)
+        zone.records = retrieve_current_records(zone: zone_name)
+        zone.config = config
 
-    def add(record)
-      raise NotImplementedError
-    end
+        zone
+      end
 
-    def remove(record)
-      raise NotImplementedError
-    end
+      # returns an array of Record objects that match the records which exist in the provider
+      def retrieve_current_records(zone:, stdout: $stdout)
+        raise NotImplementedError
+      end
 
-    def update(id, record)
-      raise NotImplementedError
-    end
+      def add(record)
+        raise NotImplementedError
+      end
 
-    # Applies changeset to provider
-    def apply_changeset(changeset, stdout = $stdout)
-      begin
-        stdout.puts "Applying #{changeset.additions.size} additions, #{changeset.removals.size} removals, & #{changeset.updates.size} updates..."
+      def remove(record)
+        raise NotImplementedError
+      end
 
-        changeset.changes.each do |change|
-          case change.type
-            when :removal;
-              stdout.puts "Removing #{change.record}..."
-              remove(change.record)
-            when :addition;
-              stdout.puts "Creating #{change.record}..."
-              add(change.record)
-            when :update;
-              stdout.puts "Updating record with ID #{change.id} to #{change.record}..."
-              update(change.id, change.record)
-            else
-              raise ArgumentError, "Unknown change type #{change.type.inspect}"
+      def update(id, record)
+        raise NotImplementedError
+      end
+
+      # Applies changeset to provider
+      def apply_changeset(changeset, stdout = $stdout)
+        begin
+          stdout.puts "Applying #{changeset.additions.size} additions, #{changeset.removals.size} removals, & #{changeset.updates.size} updates..."
+
+          changeset.changes.each do |change|
+            case change.type
+              when :removal;
+                stdout.puts "Removing #{change.record}..."
+                remove(change.record, changeset.zone)
+              when :addition;
+                stdout.puts "Creating #{change.record}..."
+                add(change.record, changeset.zone)
+              when :update;
+                stdout.puts "Updating record with ID #{change.id} to #{change.record}..."
+                update(change.id, change.record, changeset.zone)
+              else
+                raise ArgumentError, "Unknown change type #{change.type.inspect}"
+            end
           end
+
+          puts "\nPublished #{changeset.zone} changes to #{changeset.provider.to_s}\n"
         end
-
-        puts "\nPublished #{@zone_name} changes"
       end
-    end
 
-    # returns an array of Record objects that match the records which exist in the provider
-    def retrieve_current_records(stdout = $stdout)
-      raise NotImplementedError
-    end
-
-    # Returns an array of the zones managed by provider as strings
-    def zones
-      raise NotImplementedError
-    end
-
-    def secrets
-      @secrets ||= if File.exists?(RecordStore.secrets_path)
-        JSON.parse(File.read(RecordStore.secrets_path))
-      else
-        raise "You don't have a secrets.json file set up!"
+      # Returns an array of the zones managed by provider as strings
+      def zones
+        raise NotImplementedError
       end
-    end
 
-    def thawable?
-      self.class.method_defined?(:thaw)
-    end
+      def secrets
+        @secrets ||= if File.exists?(RecordStore.secrets_path)
+          JSON.parse(File.read(RecordStore.secrets_path))
+        else
+          raise "You don't have a secrets.json file set up!"
+        end
+      end
 
-    def freezable?
-      self.class.method_defined?(:freeze_zone)
+      def thawable?
+        self.class.method_defined?(:thaw)
+      end
+
+      def freezable?
+        self.class.method_defined?(:freeze_zone)
+      end
+
+      def to_s
+        self.name.demodulize
+      end
     end
   end
 end

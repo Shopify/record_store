@@ -302,6 +302,7 @@ class ZoneTest < Minitest::Test
   def test_zone_provider_returns_instantiated_zone_provider
     zone = Zone.find('one-record.com')
     assert_respond_to zone, :provider
+    # TODO(es): fix assumption of single provider
     assert_instance_of Provider::DynECT, zone.provider
   end
 
