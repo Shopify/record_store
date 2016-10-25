@@ -103,11 +103,11 @@ module RecordStore
       end
 
       def thawable?
-        self.class.method_defined?(:thaw)
+        self.respond_to?(:thaw)
       end
 
       def freezable?
-        self.class.method_defined?(:freeze_zone)
+        self.respond_to?(:freeze_zone)
       end
 
       def to_s
