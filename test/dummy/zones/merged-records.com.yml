@@ -1,6 +1,7 @@
 merged-records.com:
   config:
-    provider: DynECT
+    providers:
+      - DynECT
   records:
   - type: A
     fqdn: a-record.merged-records.com.

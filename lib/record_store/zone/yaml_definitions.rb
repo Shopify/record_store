@@ -61,16 +61,19 @@ module RecordStore
         raise 'more than one zone in file' if data.size > 1
         name, definition = data.first
         definition['records'] ||= []
+        definition['records'] = definition['records'].map {|hash| hash.inject({}){|h,(k,v)| h[k.to_sym] = v; h}}
         Dir["#{dir}/#{name}/*__*.yml"].each do |record_file|
           definition['records'] += load_yml_record_definitions(name, record_file)
         end
-        Zone.new(name, definition.deep_symbolize_keys)
+        Zone.new(name: name, records: definition['records'], config: definition['config'])
       end
 
       def load_yml_record_definitions(name, record_file)
         type, domain = File.basename(record_file, '.yml').split('__')
         Array.wrap(YAML.load_file(record_file)).map do |record_definition|
-          record_definition.merge(fqdn: "#{domain}.#{name}", type: type)
+          record_definition.merge('fqdn' => "#{domain}.#{name}", 'type' => type)
+        end.map do |hash|
+          hash.inject({}){|h,(k,v)| h[k.to_sym] = v; h}
         end
       end
 

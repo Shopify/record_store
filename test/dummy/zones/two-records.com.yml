@@ -1,6 +1,7 @@
 two-records.com:
   config:
-    provider: DynECT
+    providers:
+      - DynECT
     ignore_patterns:
       - type: NS
         fqdn: two-records.com.

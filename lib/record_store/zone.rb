@@ -21,7 +21,7 @@ module RecordStore
     class << self
       def download(name, provider_name, **write_options)
         # TODO(es): fix assumption of single provider
-        dns = new(name, config: {provider: provider_name}).provider
+        dns = new(name: name, config: {provider: provider_name}).provider
         current_records = dns.retrieve_current_records
         write(name, records: current_records, config: {
           provider: provider_name,
@@ -39,9 +39,10 @@ module RecordStore
       end
     end
 
-    def initialize(name, records: [], config: {})
+    def initialize(name:, records: [], config: {})
       @name = Record.ensure_ends_with_dot(name)
-      @config = RecordStore::Zone::Config.new(config)
+      config = config.inject({}){|h,(k,v)| h[k.to_sym] = v; h}
+      @config = RecordStore::Zone::Config.new(**config)
       @records = build_records(records)
     end
 

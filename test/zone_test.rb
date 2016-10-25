@@ -14,7 +14,6 @@ class ZoneTest < Minitest::Test
   end
 
   def test_find_returns_zone_by_name_in_single_file
-    binding.pry
     zone = Zone.find('zone-file.com')
 
     assert_instance_of Zone, zone
@@ -66,7 +65,7 @@ class ZoneTest < Minitest::Test
 
   def test_zone_is_not_valid_unless_config_is
     zone = Zone.find('empty.com')
-    zone.config = build_config(provider: 'BadProvider')
+    zone.config = build_config(providers: ['BadProvider'])
 
     refute_predicate zone, :valid?
   end
@@ -343,7 +342,7 @@ class ZoneTest < Minitest::Test
 
   def test_zone_write_format_dir_writes_wildcard
     with_zones_tmpdir do
-      zone = Zone.new('wildcard.com', records: [{
+      zone = Zone.new(name: 'wildcard.com', records: [{
         type: 'CNAME',
         fqdn: '*.wildcard.com',
         cname: 'wildcard.com',
@@ -359,7 +358,7 @@ class ZoneTest < Minitest::Test
 
   def test_zone_write_format_dir_writes_multiple_records
     with_zones_tmpdir do
-      zone = Zone.new('two-records.com', records: [{
+      zone = Zone.new(name: 'two-records.com', records: [{
         type: 'A',
         fqdn: 'a-records.two-records.com',
         address: "10.10.10.10",
@@ -380,14 +379,14 @@ class ZoneTest < Minitest::Test
   end
 
   def test_zone_validates_matching_ttls_for_records_with_same_type_and_fqdn
-    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+    valid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'] }, records: [
       { type: 'TXT', fqdn: 'matching-records.com', txtdata: "unicorn", ttl: 60 },
       { type: 'TXT', fqdn: 'matching-records.com', txtdata: "walrus",  ttl: 60 },
     ])
 
     assert_predicate valid_zone, :valid?
 
-    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+    invalid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'] }, records: [
       { type: 'TXT', fqdn: 'matching-records.com', txtdata: "unicorn", ttl: 60 },
       { type: 'TXT', fqdn: 'matching-records.com', txtdata: "walrus",  ttl: 3600 },
     ])
@@ -397,12 +396,12 @@ class ZoneTest < Minitest::Test
   end
 
   def test_zone_validates_support_for_alias_records
-    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+    valid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'], supports_alias: true }, records: [
       { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
     ])
     assert_predicate valid_zone, :valid?
 
-    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT' }, records: [
+    invalid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'] }, records: [
       { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
     ])
     refute_predicate invalid_zone, :valid?
@@ -410,12 +409,12 @@ class ZoneTest < Minitest::Test
   end
 
   def test_zone_validates_alias_points_to_root
-    valid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+    valid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'], supports_alias: true }, records: [
       { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
     ])
     assert_predicate valid_zone, :valid?
 
-    invalid_zone = Zone.new('matching-records.com', config: { provider: 'DynECT', supports_alias: true }, records: [
+    invalid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'], supports_alias: true }, records: [
       { type: 'ALIAS', fqdn: 'alias.matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
     ])
     refute_predicate invalid_zone, :valid?
@@ -432,12 +431,12 @@ class ZoneTest < Minitest::Test
   end
 
   def valid_zone_from_records(name, records:)
-    Zone.new(name, records: records, config: {provider: 'DynECT'})
+    Zone.new(name: name, records: records, config: {providers: ['DynECT']})
   end
 
   def build_config(args)
     default_args = {
-      provider: 'DynECT',
+      providers: ['DynECT'],
       ignore_patterns: []
     }
 
