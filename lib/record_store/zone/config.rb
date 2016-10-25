@@ -38,7 +38,7 @@ module RecordStore
       end
 
       def valid_providers?
-        providers.all? { |provider| Provider.constants.include?(provider.to_s.to_sym) }
+        providers.present? && providers.all? { |provider| Provider.constants.include?(provider.to_s.to_sym) }
       end
     end
   end

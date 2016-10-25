@@ -6,6 +6,10 @@ class ZoneTest < Minitest::Test
     Zone.reset
   end
 
+  def teardown
+    Provider::DynECT.instance_variable_set(:@dns, nil)
+  end
+
   def test_find_returns_zone_by_name
     zone = Zone.find('one-record.com')
 
@@ -57,7 +61,7 @@ class ZoneTest < Minitest::Test
     Provider::DynECT.stubs(:record_types).returns(supported_record_types)
 
     zone = Zone.find('empty.com')
-    assert_equal 'DynECT', zone.config.provider
+    assert_equal ['DynECT'], zone.config.providers
     zone.records = [Record::ALIAS.new(fqdn: zone.name, ttl: 60, alias: "alias.#{zone.name}")]
 
     refute_predicate zone, :valid?
@@ -73,7 +77,7 @@ class ZoneTest < Minitest::Test
   def test_modifying_config_reloads_expected_zones
     original_config_path = RecordStore.config_path
 
-    assert_equal RecordStore.expected_zones, ['empty.com', 'one-record.com']
+    assert_equal RecordStore.expected_zones, ['empty.com', 'one-record.com', 'two-providers.com']
 
     tmp_config = Tempfile.new(['config', '.yml'])
     tmp_config.write({'zones' => ['way-different-zone.com']}.to_yaml.gsub('---', ''))
@@ -83,81 +87,6 @@ class ZoneTest < Minitest::Test
     assert_equal RecordStore.expected_zones, ['way-different-zone.com']
   ensure
     RecordStore.config_path = original_config_path
-  end
-
-  # Records present in the Zone file, but not in DynECT are added
-  def test_records_present_in_the_zone_but_not_in_dynect_are_added
-    zone = Zone.find('one-record.com')
-    zone.stubs(:provider).returns(mock_provider)
-
-    changeset = zone.changeset
-
-    assert_equal 1, changeset.additions.length
-    assert changeset.removals.empty?
-    assert changeset.unchanged.empty?
-  end
-
-  # Records in DynECT, but not in the Zone file are removed
-  def test_records_present_in_dynect_but_not_in_the_zone_are_removed
-    zone = Zone.find('empty.com')
-    zone.stubs(:provider).returns(mock_provider([Record::A.new(fqdn: "a-record.#{zone.name}", ttl: 86400, address: '10.10.10.10')]))
-
-    changeset = zone.changeset
-
-    assert changeset.additions.empty?
-    assert_equal 1, changeset.removals.length
-    assert changeset.unchanged.empty?
-  end
-
-  # Records present in both DynECT and the Zone file remain unchanged
-  def test_records_present_in_dynect_and_the_zone_remain_unchanged
-    zone = Zone.find('one-record.com')
-    zone.stubs(:provider).returns(mock_provider([Record::A.new(fqdn: "a-record.#{zone.name}", ttl: 86400, address: '10.10.10.10')]))
-
-    changeset = zone.changeset
-
-    assert changeset.additions.empty?
-    assert changeset.removals.empty?
-    assert_equal 1, changeset.unchanged.length
-  end
-
-  # Ignored records present in the Zone file, but not in DynECT
-  def test_ignored_records_present_in_the_zone_but_not_in_dynect
-    zone = Zone.find('one-record.com')
-    zone.config = build_config(ignore_patterns: [{'fqdn' => 'a-record.one-record.com.'}])
-    zone.stubs(:provider).returns(mock_provider)
-
-    changeset = zone.changeset
-
-    assert changeset.additions.empty?
-    assert changeset.removals.empty?
-    assert changeset.unchanged.empty?
-  end
-
-  # Ignored records present in the DynECT, but not in Zone
-  def test_ignored_records_present_in_dynect_but_not_in_the_zone
-    zone = Zone.find('empty.com')
-    zone.config = build_config(ignore_patterns: [{'fqdn' => 'a-record.empty.com.'}])
-    zone.stubs(:provider).returns(mock_provider([Record::A.new(fqdn: "a-record.#{zone.name}", ttl: 86400, address: '10.10.10.10')]))
-
-    changeset = zone.changeset
-
-    assert changeset.additions.empty?
-    assert changeset.removals.empty?
-    assert changeset.unchanged.empty?
-  end
-
-  # Ignored records present in DynECT and the Zone
-  def test_ignored_records_present_in_dynect_and_the_zone
-    zone = Zone.find('one-record.com')
-    zone.config = build_config(ignore_patterns: [{'fqdn' => 'a-record.one-record.com.'}])
-    zone.stubs(:provider).returns(mock_provider([Record::A.new(fqdn: "a-record.#{zone.name}", ttl: 86400, address: '10.10.10.10')]))
-
-    changeset = zone.changeset
-
-    assert changeset.additions.empty?
-    assert changeset.removals.empty?
-    assert changeset.unchanged.empty?
   end
 
   def test_zone_with_duplicate_records_is_invalid
@@ -300,19 +229,45 @@ class ZoneTest < Minitest::Test
     end
   end
 
-  def test_zone_provider_returns_instantiated_zone_provider
-    zone = Zone.find('one-record.com')
-    assert_respond_to zone, :provider
-    # TODO(es): fix assumption of single provider
-    assert_instance_of Provider::DynECT, zone.provider
+  def test_zone_providers_returns_provider_classes
+    zone = Zone.find('two-providers.com')
+
+    assert_respond_to zone, :providers
+    assert_includes zone.providers, Provider::DynECT
+    assert_includes zone.providers, Provider::DNSimple
   end
 
   def test_zone_unchanged_describes_if_zone_matches_provider
     zone = Zone.find('one-record.com')
-    zone.stubs(:provider).returns(mock_provider(zone.records))
-    assert_predicate zone, :unchanged?
 
-    zone.stubs(:provider).returns(mock_provider)
+    zone.stubs(:build_changesets).returns([empty_changeset])
+    assert_predicate zone, :unchanged?
+  end
+
+  def test_zone_changed_if_provider_and_zone_dont_match
+    zone = Zone.find('one-record.com')
+
+    zone.stubs(:build_changesets).returns([populated_changeset])
+    refute_predicate zone, :unchanged?
+  end
+
+  def test_zone_unchanged_describes_if_zone_matches_multiple_provider
+    zone = Zone.find('two-providers.com')
+
+    zone.stubs(:build_changesets).returns([
+      empty_changeset,
+      empty_changeset,
+    ])
+    assert_predicate zone, :unchanged?
+  end
+
+  def test_zone_unchanged_describes_if_zone_matches_multiple_provider
+    zone = Zone.find('two-providers.com')
+
+    zone.stubs(:build_changesets).returns([
+      empty_changeset,
+      populated_changeset,
+    ])
     refute_predicate zone, :unchanged?
   end
 
@@ -405,7 +360,7 @@ class ZoneTest < Minitest::Test
       { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
     ])
     refute_predicate invalid_zone, :valid?
-    assert_equal 'DynECT does not support ALIAS records for matching-records.com zone', invalid_zone.errors[:records].first
+    assert_match /does not support ALIAS records/, invalid_zone.errors[:records].first
   end
 
   def test_zone_validates_alias_points_to_root
@@ -422,13 +377,6 @@ class ZoneTest < Minitest::Test
   end
 
   private
-
-  def mock_provider(records = [])
-    provider = mock()
-    provider.stubs(:retrieve_current_records).returns(records)
-
-    provider
-  end
 
   def valid_zone_from_records(name, records:)
     Zone.new(name: name, records: records, config: {providers: ['DynECT']})
@@ -451,5 +399,23 @@ class ZoneTest < Minitest::Test
     end
   ensure
     RecordStore.zones_path = original_zones_path
+  end
+
+  def empty_changeset
+    Changeset.new(
+      zone: Zone.find('one-record.com'),
+      provider: 'LolWatProvider',
+      desired_records: [],
+      current_records: [],
+    )
+  end
+
+  def populated_changeset
+    Changeset.new(
+      zone: Zone.find('one-record.com'),
+      provider: 'LolWatProvider',
+      desired_records: [Record::A.new(fqdn: 'real.example.com.', ttl: 600, address: '1.2.3.4')],
+      current_records: [],
+    )
   end
 end

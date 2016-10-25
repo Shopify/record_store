@@ -2,12 +2,12 @@ require 'test_helper'
 
 class ConfigTest < Minitest::Test
   def test_config_is_invalid_without_provider
-    zone = Zone.new('bad-config.com', config: {})
+    zone = Zone.new(name: 'bad-config.com', config: {})
     refute_predicate zone.config, :valid?
   end
 
   def test_config_checks_for_valid_provider
-    zone = Zone.new('bad-config.com', config: {provider: 'NotARealProvider'})
+    zone = Zone.new(name: 'bad-config.com', config: {providers: ['NotARealProvider']})
 
     refute_predicate zone.config, :valid?
     assert_includes zone.config.errors.full_messages.join, 'provider specified does not exist'
@@ -22,25 +22,27 @@ example.com:
       - type: NS
       - type: A
         fqdn: a.example.com.
-    provider: DynECT
+    providers:
+      - DynECT
+      - DNSimple
     supports_alias: true
 """
     tmp_config.write(zonefile)
     tmp_config.close
 
-    name, definition = YAML.load_file(tmp_config.path).first
-    zone = Zone.new(name, definition.deep_symbolize_keys)
+    zone_name, definition = YAML.load_file(tmp_config.path).first
+    zone = Zone.new(definition.deep_symbolize_keys.merge(name: zone_name))
 
     assert_equal [{type: 'NS'}, {type: 'A', fqdn: 'a.example.com.'}], zone.config.ignore_patterns
-    assert_equal 'DynECT', zone.config.provider
+    assert_equal ['DynECT', 'DNSimple'], zone.config.providers
     assert_predicate zone.config, :supports_alias?
   end
 
   def test_config_supports_alias_based_on_provider
-    config = Zone.new('dynect-config.com', config: {provider: 'DynECT'}).config
+    config = Zone.new(name: 'dynect-config.com', config: {providers: ['DynECT']}).config
     refute_predicate config, :supports_alias?
 
-    config = Zone.new('dnsimple-config.com', config: {provider: 'DNSimple'}).config
+    config = Zone.new(name: 'dnsimple-config.com', config: {providers: ['DNSimple']}).config
     assert_predicate config, :supports_alias?
   end
 end

@@ -20,11 +20,11 @@ module RecordStore
 
     class << self
       def download(name, provider_name, **write_options)
-        # TODO(es): fix assumption of single provider
-        dns = new(name: name, config: {provider: provider_name}).provider
-        current_records = dns.retrieve_current_records
+        dns = Provider.const_get(provider_name)
+        current_records = dns.retrieve_current_records(zone: name)
+
         write(name, records: current_records, config: {
-          provider: provider_name,
+          providers: [provider_name],
           ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
           supports_alias: current_records.map(&:type).include?('ALIAS') || nil
         }, **write_options)
@@ -41,8 +41,7 @@ module RecordStore
 
     def initialize(name:, records: [], config: {})
       @name = Record.ensure_ends_with_dot(name)
-      config = config.inject({}){|h,(k,v)| h[k.to_sym] = v; h}
-      @config = RecordStore::Zone::Config.new(**config)
+      @config = RecordStore::Zone::Config.new(config.deep_symbolize_keys)
       @records = build_records(records)
     end
 
@@ -55,7 +54,7 @@ module RecordStore
     end
 
     def unchanged?
-      build_changesets.empty?
+      build_changesets.all?(&:empty?)
     end
 
     def records
