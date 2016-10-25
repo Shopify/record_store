@@ -18,7 +18,7 @@ module RecordStore
       # TODO(es): Test for one provider supporting ALIAS and another not
       def supports_alias?
         if @supports_alias.nil?
-          valid_providers? && providers.map { |provider| Provider.const_get(provider).supports_alias? }.all?
+          valid_providers? && providers.all? { |provider| Provider.const_get(provider).supports_alias? }
         else
           @supports_alias
         end
@@ -38,7 +38,7 @@ module RecordStore
       end
 
       def valid_providers?
-        providers.map { |provider| Provider.constants.include?(provider.to_s.to_sym) }.all?
+        providers.all? { |provider| Provider.constants.include?(provider.to_s.to_sym) }
       end
     end
   end

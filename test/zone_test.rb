@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ZoneTest < Minitest::Test
   def setup
+    @provider = [RecordStore::Provider::DNSimple, RecordStore::Provider::DynECT].sample
     Zone.reset
   end
 
@@ -13,6 +14,7 @@ class ZoneTest < Minitest::Test
   end
 
   def test_find_returns_zone_by_name_in_single_file
+    binding.pry
     zone = Zone.find('zone-file.com')
 
     assert_instance_of Zone, zone

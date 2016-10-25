@@ -6,12 +6,16 @@ class ChangesetTest < Minitest::Test
     @cname_record_copy = Record::CNAME.new(fqdn: 'www.example.com', ttl: 60, cname: 'www.example.org')
     @a_record = Record::A.new(fqdn: 'www.example.com', ttl: 60, address: '10.11.12.13')
     @a_record_copy = Record::A.new(fqdn: 'www.example.com', ttl: 60, address: '10.11.12.13')
+    @provider = RecordStore::Provider::DNSimple
+    @zone = 'dns-test.shopify.io'
   end
 
   def test_additions
     cs = Changeset.new(
       current_records: [],
-      desired_records: [@cname_record, @a_record]
+      desired_records: [@cname_record, @a_record],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert cs.changes.all? { |c| c.is_a?(Changeset::Change) }
@@ -25,7 +29,9 @@ class ChangesetTest < Minitest::Test
   def test_removals
     cs = Changeset.new(
       current_records: [@cname_record, @a_record].each{|rr| rr.id = rand(1..100)},
-      desired_records: []
+      desired_records: [],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert cs.changes.all? { |c| c.is_a?(Changeset::Change) }
@@ -39,7 +45,9 @@ class ChangesetTest < Minitest::Test
   def test_no_changes
     cs = Changeset.new(
       current_records: [@cname_record, @a_record].each{|rr| rr.id = rand(1..100)},
-      desired_records: [@cname_record_copy, @a_record_copy]
+      desired_records: [@cname_record_copy, @a_record_copy],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert_equal 0, cs.changes.length
@@ -53,7 +61,9 @@ class ChangesetTest < Minitest::Test
   def test_removal_and_addition
     cs = Changeset.new(
       current_records: [@cname_record].each{|rr| rr.id = rand(1..100)},
-      desired_records: [@a_record]
+      desired_records: [@a_record],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert_equal 2, cs.changes.length
@@ -70,7 +80,9 @@ class ChangesetTest < Minitest::Test
 
     cs = Changeset.new(
       current_records: [@cname_record].each{|rr| rr.id = rand(1..100)},
-      desired_records: [@cname_record_copy]
+      desired_records: [@cname_record_copy],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert_equal 1, cs.changes.length
@@ -86,7 +98,9 @@ class ChangesetTest < Minitest::Test
 
     cs = Changeset.new(
       current_records: [@a_record, a_record_dup].each{|rr| rr.id = rand(1..100)},
-      desired_records: [@a_record_copy]
+      desired_records: [@a_record_copy],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert_equal 2, cs.changes.length
@@ -102,7 +116,9 @@ class ChangesetTest < Minitest::Test
 
     cs = Changeset.new(
       current_records: [@a_record].each{|rr| rr.id = rand(1..100)},
-      desired_records: [@a_record_copy, a_record_dup]
+      desired_records: [@a_record_copy, a_record_dup],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert_equal 2, cs.changes.length
@@ -114,7 +130,9 @@ class ChangesetTest < Minitest::Test
   def test_additions_removals_and_changes_are_enumerable
     cs = Changeset.new(
       current_records: [@cname_record].each{|rr| rr.id = rand(1..100)},
-      desired_records: [@cname_record_copy]
+      desired_records: [@cname_record_copy],
+      provider: @provider,
+      zone: @zone,
     )
 
     assert_kind_of Enumerable, cs.additions

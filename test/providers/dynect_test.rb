@@ -3,7 +3,7 @@ require 'test_helper'
 class DynECTTest < Minitest::Test
   def setup
     @zone_name = 'dns-test.shopify.io'
-    @dyn = Provider::DynECT.new(zone: @zone_name)
+    @dyn = Provider::DynECT
   end
 
   def test_supports_alias_by_default
@@ -182,7 +182,9 @@ class DynECTTest < Minitest::Test
     VCR.use_cassette 'dynect_apply_changeset' do
       @dyn.apply_changeset(Changeset.new(
         current_records: [],
-        desired_records: [a_record]
+        desired_records: [a_record],
+        provider: RecordStore::Provider::DynECT,
+        zone: @zone_name
       ))
     end
   end
@@ -234,7 +236,7 @@ class DynECTTest < Minitest::Test
     ]
 
     VCR.use_cassette 'dynect_retrieve_current_records' do
-      records = @dyn.retrieve_current_records
+      records = @dyn.retrieve_current_records(zone: @zone_name)
       assert_equal records_arr, records
     end
   end
@@ -246,6 +248,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_dynect_is_thawable
+    binding.pry
     assert_predicate @dyn, :thawable?
   end
 
