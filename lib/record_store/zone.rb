@@ -5,7 +5,6 @@ module RecordStore
 
     attr_accessor :name
     attr_reader :config
-    attr_writer :records
 
     validates :name, presence: true, format: { with: Record::FQDN_REGEX, message: 'is not a fully qualified domain name' }
     validate :validate_records
@@ -20,14 +19,18 @@ module RecordStore
 
     class << self
       def download(name, provider_name, **write_options)
-        dns = Provider.const_get(provider_name)
-        current_records = dns.retrieve_current_records(zone: name)
+        zone = Zone.new(name: name, config: {providers: [provider_name]})
+        raise ArgumentError, zone.errors.full_messages.join("\n") unless zone.valid?
 
-        write(name, records: current_records, config: {
+        zone.records = zone.providers.first.retrieve_current_records(zone: name)
+
+        zone.config = Zone::Config.new(
           providers: [provider_name],
           ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
-          supports_alias: current_records.map(&:type).include?('ALIAS') || nil
-        }, **write_options)
+          supports_alias: (zone.records.map(&:type).include?('ALIAS') || nil)
+        )
+
+        zone.write(**write_options)
       end
 
       def filter_records(current_records, ignore_patterns)
@@ -36,6 +39,17 @@ module RecordStore
             pattern.all? { |(key, value)| record.respond_to?(key) && value === record.send(key) }
           end
         end
+      end
+
+      def modified
+        modified_zones, mutex = [], Mutex.new
+        self.all.map do |zone|
+          thread = Thread.new do
+            mutex.synchronize {modified_zones << zone} unless zone.unchanged?
+          end
+        end.each(&:join)
+
+        modified_zones
       end
     end
 
@@ -63,6 +77,11 @@ module RecordStore
 
     def records
       @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
+    end
+
+    def records=(records)
+      @records_cache = nil
+      @records = records
     end
 
     def config=(config)

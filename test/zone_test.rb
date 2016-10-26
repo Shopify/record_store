@@ -372,6 +372,20 @@ class ZoneTest < Minitest::Test
     assert_equal 'ALIAS record should be defined on the root of the zone: [ALIASRecord] alias.matching-records.com. 60 IN ALIAS matching-records.herokuapp.com.', invalid_zone.errors[:records].first
   end
 
+  def test_modified_returns_all_zones_with_changes
+    zone_a = Zone.find('one-record.com')
+    zone_a.stubs(:build_changesets).returns([populated_changeset])
+
+    zone_b = Zone.find('two-providers.com')
+    zone_b.stubs(:build_changesets).returns([empty_changeset])
+
+    Zone.stubs(:all).returns([zone_a, zone_b])
+
+    modified_zones = Zone.modified
+    assert_equal 1, modified_zones.length
+    assert_equal zone_a, modified_zones[0]
+  end
+
   private
 
   def valid_zone_from_records(name, records:)

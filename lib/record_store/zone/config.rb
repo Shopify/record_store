@@ -22,10 +22,13 @@ module RecordStore
       end
 
       def to_hash
-        {
+        config_hash = {
           providers: providers,
           ignore_patterns: ignore_patterns,
         }
+        config_hash.merge!(supports_alias: supports_alias) if supports_alias
+
+        config_hash
       end
 
       private

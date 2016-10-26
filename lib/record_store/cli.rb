@@ -87,7 +87,7 @@ module RecordStore
 
     desc 'apply', 'Applies the DNS changes'
     def apply
-      zones = zones_modified
+      zones = Zone.modified
 
       if zones.empty?
         puts "No changes to sync"
@@ -106,7 +106,6 @@ module RecordStore
 
     option :name, desc: 'Zone to download', aliases: '-n', type: :string, required: true
     option :provider, desc: 'Provider in which this zone exists', aliases: '-p', type: :string
-    option :format, desc: 'Format', aliases: '-f', type: :string, default: 'file', enum: FORMATS
     desc 'download', 'Downloads all records from zone and creates YAML zone definition in zones/ e.g. record-store download --name=shopify.io'
     def download
       name = options.fetch('name')
@@ -122,12 +121,11 @@ module RecordStore
       end
 
       puts "Downloading records for #{name}"
-      Zone.download(name, provider, format: options.fetch('format').to_sym)
+      Zone.download(name, provider)
       puts "Records have been downloaded & can be found in zones/#{name}.yml"
     end
 
     option :name, desc: 'Zone to reformat', aliases: '-n', type: :string, required: false
-    option :format, desc: 'Format', aliases: '-f', type: :string, default: 'file', enum: FORMATS
     desc 'reformat', 'Sorts and re-outputs the zone (or all zones) as specified format (file)'
     def reformat
       name = options['name']
@@ -135,7 +133,7 @@ module RecordStore
 
       zones.each do |zone|
         puts "Writing #{zone.name}"
-        zone.write(format: options.fetch('format').to_sym)
+        zone.write
       end
     end
 
@@ -173,7 +171,7 @@ module RecordStore
 
     desc 'assert_empty_diff', 'Asserts there is no divergence between DynECT & the zone files'
     def assert_empty_diff
-      zones = zones_modified.map(&:name)
+      zones = Zone.modified.map(&:name)
 
       unless zones.empty?
         abort "The following zones have diverged: #{zones.join(', ')}"
@@ -183,23 +181,21 @@ module RecordStore
     desc 'validate_records', 'Validates that all DNS records have valid definitions'
     def validate_records
       invalid_zones = []
-      Zone.each do |name, zone|
-        if !zone.valid?
-          invalid_zones << name
+      Zone.all.reject(&:valid?).each do |zone|
+        invalid_zones << zone.unrooted_name
 
-          puts "#{name} definition is not valid:"
-          zone.errors.each do |field, msg|
-            puts " - #{field}: #{msg}"
-          end
+        puts "#{zone.unrooted_name} definition is not valid:"
+        zone.errors.each do |field, msg|
+          puts " - #{field}: #{msg}"
+        end
 
-          invalid_records = zone.records.reject(&:valid?)
-          puts '  Invalid records' if invalid_records.size > 0
+        invalid_records = zone.records.reject(&:valid?)
+        puts '  Invalid records' if invalid_records.size > 0
 
-          invalid_records.each do |record|
-            puts "    #{record.to_s}"
-            record.errors.each do |field, msg|
-              puts "      - #{field}: #{msg}"
-            end
+        invalid_records.each do |record|
+          puts "    #{record.to_s}"
+          record.errors.each do |field, msg|
+            puts "      - #{field}: #{msg}"
           end
         end
       end
@@ -207,13 +203,13 @@ module RecordStore
       if invalid_zones.size > 0
         abort "The following zones were invalid: #{invalid_zones.join(', ')}"
       else
-        puts "All records have valid definitions."
+        puts "All zones have valid definitions."
       end
     end
 
     desc 'validate_change_size', "Validates no more then particular limit of DNS records are removed per zone at a time"
     def validate_change_size
-      zones = zones_modified
+      zones = Zone.modified
 
       unless zones.empty?
         removals = zones.select do |zone|
@@ -265,19 +261,6 @@ module RecordStore
           abort "Checkout of new commit failed" if $?.exitstatus != 0
         end
       end
-    end
-
-    private
-
-    def zones_modified
-      modified_zones, mutex = [], Mutex.new
-      Zone.all.map do |zone|
-        thread = Thread.new do
-          mutex.synchronize {modified_zones << zone} unless zone.unchanged?
-        end
-      end.each(&:join)
-
-      modified_zones
     end
   end
 end
