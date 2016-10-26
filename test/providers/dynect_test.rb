@@ -5,10 +5,6 @@ class DynECTTest < Minitest::Test
     @zone_name = 'dns-test.shopify.io'
   end
 
-  def teardown
-    Provider::DynECT.instance_variable_set(:@dns, nil)
-  end
-
   def test_supports_alias_by_default
     refute_predicate Provider::DynECT, :supports_alias?
   end

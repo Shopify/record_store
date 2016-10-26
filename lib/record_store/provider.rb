@@ -40,7 +40,7 @@ module RecordStore
 
       # TODO(es): ponder how you'll go to hell for this garbage code
       def build_zone(zone_name:, config:)
-        zone = Zone.new(zone_name)
+        zone = Zone.new(name: zone_name)
         zone.records = retrieve_current_records(zone: zone_name)
         zone.config = config
 

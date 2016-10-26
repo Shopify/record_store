@@ -139,4 +139,48 @@ class ChangesetTest < Minitest::Test
     assert_kind_of Enumerable, cs.removals
     assert_kind_of Enumerable, cs.changes
   end
+
+  def test_changeset_build_from_creates_changeset_from_diff_between_zone_and_provider
+    zone = Zone.new(
+      name: 'dns-test.shopify.io',
+      config: {providers: ['DynECT']},
+      records: [{
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns1.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns2.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns3.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns4.p19.dynect.net.',
+      }, {
+        type: 'A',
+        ttl: 86400,
+        fqdn: 'test-record.dns-test.shopify.io',
+        address: '10.10.10.10',
+    }])
+
+    # Cassette matches zone's records except with an additional ALIAS record
+    VCR.use_cassette 'dynect_retrieve_current_records' do
+      # TODO(es): fix bullshit chomp
+      zone.name = zone.name.chomp('.')
+      changeset = Changeset.build_from(provider: zone.providers[0], zone: zone)
+
+      assert_equal 1, changeset.removals.length
+      assert_kind_of Record::ALIAS, changeset.removals[0].record
+      assert_predicate changeset.additions, :empty?
+      refute_predicate changeset.unchanged, :empty?
+    end
+  end
 end

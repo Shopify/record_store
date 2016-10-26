@@ -13,6 +13,11 @@ class Minitest::Test
 
   RecordStore.config_path = DUMMY_CONFIG_PATH
 
+  def teardown
+    Provider::DynECT.instance_variable_set(:@dns, nil)
+    Provider::DNSimple.instance_variable_set(:@dns, nil)
+  end
+
   VCR.configure do |config|
     config.cassette_library_dir = "test/fixtures/vcr_cassettes"
     config.hook_into :excon

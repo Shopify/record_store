@@ -6,10 +6,6 @@ class ZoneTest < Minitest::Test
     Zone.reset
   end
 
-  def teardown
-    Provider::DynECT.instance_variable_set(:@dns, nil)
-  end
-
   def test_find_returns_zone_by_name
     zone = Zone.find('one-record.com')
 
