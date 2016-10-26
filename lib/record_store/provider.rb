@@ -38,7 +38,6 @@ module RecordStore
         false
       end
 
-      # TODO(es): ponder how you'll go to hell for this garbage code
       def build_zone(zone_name:, config:)
         zone = Zone.new(name: zone_name)
         zone.records = retrieve_current_records(zone: zone_name)
@@ -103,7 +102,7 @@ module RecordStore
       end
 
       def thawable?
-        self.respond_to?(:thaw)
+        self.respond_to?(:thaw_zone)
       end
 
       def freezable?

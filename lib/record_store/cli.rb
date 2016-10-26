@@ -11,16 +11,18 @@ module RecordStore
     desc 'thaw', 'Thaws all zones under management to allow manual edits'
     def thaw
       Zone.each do |_, zone|
-        # TODO(es): fix assumption of single provider
-        zone.provider.thaw if zone.provider.thawable?
+        zone.providers.each do |provider|
+          provider.thaw_zone(zone.unrooted_name) if provider.thawable?
+        end
       end
     end
 
     desc 'freeze', 'Freezes all zones under management to prevent manual edits'
     def freeze
       Zone.each do |_, zone|
-        # TODO(es): fix assumption of single provider
-        zone.provider.freeze_zone if zone.provider.freezable?
+        zone.providers.each do |provider|
+          provider.freeze_zone(zone.unrooted_name) if provider.freezable?
+        end
       end
     end
 

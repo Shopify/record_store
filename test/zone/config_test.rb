@@ -45,4 +45,9 @@ example.com:
     config = Zone.new(name: 'dnsimple-config.com', config: {providers: ['DNSimple']}).config
     assert_predicate config, :supports_alias?
   end
+
+  def test_config_does_not_supports_alias_when_multiple_providers_disagree
+    config = Zone.new(name: 'dnsimple-config.com', config: {providers: ['DNSimple', 'DynECT']}).config
+    refute_predicate config, :supports_alias?
+  end
 end

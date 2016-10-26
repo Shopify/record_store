@@ -7,7 +7,7 @@ module RecordStore
         session.put_zone(zone, freeze: true)
       end
 
-      def thaw(zone)
+      def thaw_zone(zone)
         session.put_zone(zone, thaw: true)
       end
 
@@ -30,7 +30,7 @@ module RecordStore
       # Applies changeset to provider
       def apply_changeset(changeset, stdout = $stdout)
         begin
-          thaw(changeset.zone)
+          thaw_zone(changeset.zone)
           super
           publish(changeset.zone)
         rescue StandardError

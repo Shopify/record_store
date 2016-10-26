@@ -145,7 +145,6 @@ module RecordStore
       end
     end
 
-    # TODO(es): write test for one zone supporting, and another not
     def validate_provider_can_handle_zone_records
       record_types = records.map(&:type).to_set
       return unless config.valid?

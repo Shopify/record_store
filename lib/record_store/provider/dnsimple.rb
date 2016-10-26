@@ -85,9 +85,7 @@ module RecordStore
         return if record_type == 'SOA'
 
         case record_type
-        when 'A'
-          record.merge!(address: api_record.fetch('content'))
-        when 'AAAA'
+        when 'A', 'AAAA'
           record.merge!(address: api_record.fetch('content'))
         when 'ALIAS'
           record.merge!(alias: api_record.fetch('content'))
@@ -97,7 +95,7 @@ module RecordStore
           record.merge!(preference: api_record.fetch('prio'), exchange: api_record.fetch('content'))
         when 'NS'
           record.merge!(nsdname: api_record.fetch('content'))
-        when 'SPF'
+        when 'SPF', 'TXT'
           record.merge!(txtdata: api_record.fetch('content'))
         when 'SRV'
           weight, port, host = api_record.fetch('content').split(' ')
@@ -108,8 +106,6 @@ module RecordStore
             port: port,
             target: Record.ensure_ends_with_dot(host),
           )
-        when 'TXT'
-          record.merge!(txtdata: api_record.fetch('content'))
         end
 
         unless record.fetch(:fqdn).ends_with?('.')
@@ -127,9 +123,7 @@ module RecordStore
         }
 
         case record.type
-        when 'A'
-          record_hash[:content] = record.address
-        when 'AAAA'
+        when 'A', 'AAAA'
           record_hash[:content] = record.address
         when 'ALIAS'
           record_hash[:content] = record.alias.chomp('.')
@@ -140,13 +134,11 @@ module RecordStore
           record_hash[:content] = record.exchange.chomp('.')
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
-        when 'SPF'
+        when 'SPF', 'TXT'
           record_hash[:content] = record.txtdata
         when 'SRV'
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
           record_hash[:prio] = record.priority
-        when 'TXT'
-          record_hash[:content] = record.txtdata
         end
 
         record_hash

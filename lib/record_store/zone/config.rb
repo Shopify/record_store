@@ -7,15 +7,12 @@ module RecordStore
 
       validate :validate_zone_config
 
-      # TODO(es): delete provider when doing major version bump
       def initialize(ignore_patterns: [], providers: nil, supports_alias: nil)
         @ignore_patterns = ignore_patterns
         @providers = providers
         @supports_alias = supports_alias
       end
 
-
-      # TODO(es): Test for one provider supporting ALIAS and another not
       def supports_alias?
         if @supports_alias.nil?
           valid_providers? && providers.all? { |provider| Provider.const_get(provider).supports_alias? }
