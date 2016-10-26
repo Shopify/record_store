@@ -28,14 +28,6 @@ module RecordStore
         res
       end
 
-      # TODO(es): ponder how you'll go to hell for this garbage code
-      def build_zone(zone_name:, config:)
-        zone = super(zone_name: (chomped_zone = zone_name.chomp('.')), config: config)
-        zone.name = chomped_zone
-
-        zone
-      end
-
       def remove(record, zone)
         session.delete_record(zone, record.id)
       end

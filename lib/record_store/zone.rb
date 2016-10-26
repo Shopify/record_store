@@ -57,6 +57,10 @@ module RecordStore
       build_changesets.all?(&:empty?)
     end
 
+    def unrooted_name
+      @name.chomp('.')
+    end
+
     def records
       @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
     end
@@ -158,7 +162,7 @@ module RecordStore
       return if config.supports_alias?
 
       # TODO(es): refactor to specify which provider
-      errors.add(:records, "one of the providers for #{name.chomp('.')} does not support ALIAS records")
+      errors.add(:records, "one of the providers for #{unrooted_name} does not support ALIAS records")
     end
 
     def validate_alias_points_to_root

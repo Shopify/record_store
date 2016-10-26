@@ -173,8 +173,6 @@ class ChangesetTest < Minitest::Test
 
     # Cassette matches zone's records except with an additional ALIAS record
     VCR.use_cassette 'dynect_retrieve_current_records' do
-      # TODO(es): fix bullshit chomp
-      zone.name = zone.name.chomp('.')
       changeset = Changeset.build_from(provider: zone.providers[0], zone: zone)
 
       assert_equal 1, changeset.removals.length
