@@ -2,7 +2,6 @@ require 'test_helper'
 
 class ZoneTest < Minitest::Test
   def setup
-    @provider = [RecordStore::Provider::DNSimple, RecordStore::Provider::DynECT].sample
     Zone.reset
   end
 
