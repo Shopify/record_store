@@ -1,6 +1,7 @@
 zone-file.com:
   config:
-    provider: DynECT
+    providers:
+    - DynECT
     ignore_patterns:
     - type: NS
       fqdn: zone-file.com.

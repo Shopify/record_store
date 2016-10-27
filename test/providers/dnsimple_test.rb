@@ -3,7 +3,7 @@ require 'test_helper'
 class DNSimpleTest < Minitest::Test
   def setup
     @zone_name = 'dns-scratch.me'
-    @dnsimple = Provider::DNSimple.new(zone: @zone_name)
+    @dnsimple = Provider::DNSimple
   end
 
   def test_supports_alias_by_default
@@ -23,7 +23,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:17.380Z",
       "updated_at" => "2015-12-11T16:30:17.380Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::A, record
     assert_equal 'a.dns-scratch.me.', record.fqdn
@@ -44,7 +44,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:29.630Z",
       "updated_at" => "2015-12-11T16:30:29.630Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-scratch.me.', record.fqdn
@@ -65,7 +65,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-10T19:56:21.366Z",
       "updated_at" => "2015-12-10T19:56:21.366Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::ALIAS, record
     assert_equal 'dns-scratch.me.', record.fqdn
@@ -86,7 +86,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:41.284Z",
       "updated_at" => "2015-12-11T16:30:41.284Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::CNAME, record
     assert_equal 'cname.dns-scratch.me.', record.fqdn
@@ -107,7 +107,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-10T19:58:20.474Z",
       "updated_at" => "2015-12-11T16:31:06.956Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::MX, record
     assert_equal 'mx.dns-scratch.me.', record.fqdn
@@ -129,7 +129,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => true,
       "created_at" => "2015-12-09T01:55:04.792Z",
       "updated_at" => "2015-12-09T01:55:04.792Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::NS, record
     assert_equal 'dns-scratch.me.', record.fqdn
@@ -150,7 +150,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:33:10.947Z",
       "updated_at" => "2015-12-11T16:33:10.947Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::SRV, record
     assert_equal '_service._TCP.srv.dns-scratch.me.', record.fqdn
@@ -174,7 +174,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => true,
       "created_at" => "2013-02-19T22:58:25.148Z",
       "updated_at" => "2013-02-19T22:58:38.751Z"
-    })
+    }, @zone_name)
 
     assert_nil record
   end
@@ -192,7 +192,7 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:36:26.504Z",
       "updated_at" => "2015-12-11T16:36:26.504Z"
-    })
+    }, @zone_name)
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-scratch.me.', record.fqdn
@@ -206,7 +206,9 @@ class DNSimpleTest < Minitest::Test
     VCR.use_cassette 'dnsimple_apply_changeset' do
       @dnsimple.apply_changeset(Changeset.new(
         current_records: [],
-        desired_records: [a_record]
+        desired_records: [a_record],
+        provider: RecordStore::Provider::DNSimple,
+        zone: @zone_name
       ))
     end
   end
@@ -217,10 +219,12 @@ class DNSimpleTest < Minitest::Test
     VCR.use_cassette 'dnsimple_apply_changeset_with_alias' do
       @dnsimple.apply_changeset(Changeset.new(
         current_records: [],
-        desired_records: [alias_record]
+        desired_records: [alias_record],
+        provider: RecordStore::Provider::DNSimple,
+        zone: @zone_name
       ))
 
-      records = @dnsimple.retrieve_current_records
+      records = @dnsimple.retrieve_current_records(zone: @zone_name)
       refute_includes records.map(&:type), 'TXT'
       assert_includes records.map(&:type), 'ALIAS'
     end
@@ -273,7 +277,7 @@ class DNSimpleTest < Minitest::Test
     ]
 
     VCR.use_cassette 'dnsimple_retrieve_current_records' do
-      records = @dnsimple.retrieve_current_records
+      records = @dnsimple.retrieve_current_records(zone: @zone_name)
       assert_equal records_arr, records
     end
   end

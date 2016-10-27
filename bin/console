@@ -5,6 +5,7 @@ require 'bundler/setup'
 require 'record_store'
 
 RecordStore.zones_path = File.expand_path('../../dev/zones', __FILE__)
+RecordStore.config_path = File.expand_path('../../dev/config.yml', __FILE__)
 
-require 'irb'
-IRB.start
+require 'pry'
+binding.pry(RecordStore)

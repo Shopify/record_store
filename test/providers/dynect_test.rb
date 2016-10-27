@@ -3,7 +3,6 @@ require 'test_helper'
 class DynECTTest < Minitest::Test
   def setup
     @zone_name = 'dns-test.shopify.io'
-    @dyn = Provider::DynECT.new(zone: @zone_name)
   end
 
   def test_supports_alias_by_default
@@ -11,7 +10,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_a_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       'zone' => 'dns-test.shopify.io',
       'fqdn' => 'test.dns-test.shopify.io',
       'record_type' => 'A',
@@ -28,7 +27,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_aaaa_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "aaaa.dns-test.shopify.io",
@@ -54,7 +53,7 @@ class DynECTTest < Minitest::Test
         'alias' => 'dns-test.herokuapp.com.',
       },
     }
-    record = @dyn.send(:build_from_api, api_record)
+    record = Provider::DynECT.send(:build_from_api, api_record)
 
     assert_kind_of Record::ALIAS, record
     assert_equal 'dns-test.shopify.io.', record.fqdn
@@ -63,7 +62,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_cname_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "cname.dns-test.shopify.io",
@@ -80,7 +79,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_mx_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "mx.dns-test.shopify.io",
@@ -99,7 +98,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_ns_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 3600,
       "fqdn" => "dns-test.shopify.io",
@@ -116,7 +115,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_srv_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "_service._TCP.srv.dns-test.shopify.io",
@@ -139,7 +138,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_soa_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 3600,
       "fqdn" => "dns-test.shopify.io",
@@ -160,7 +159,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_txt_from_api
-    record = @dyn.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "txt.dns-test.shopify.io",
@@ -180,9 +179,11 @@ class DynECTTest < Minitest::Test
     a_record = Record::A.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 86400, address: '10.10.10.42')
 
     VCR.use_cassette 'dynect_apply_changeset' do
-      @dyn.apply_changeset(Changeset.new(
+      Provider::DynECT.apply_changeset(Changeset.new(
         current_records: [],
-        desired_records: [a_record]
+        desired_records: [a_record],
+        provider: RecordStore::Provider::DynECT,
+        zone: @zone_name
       ))
     end
   end
@@ -234,22 +235,22 @@ class DynECTTest < Minitest::Test
     ]
 
     VCR.use_cassette 'dynect_retrieve_current_records' do
-      records = @dyn.retrieve_current_records
+      records = Provider::DynECT.retrieve_current_records(zone: @zone_name)
       assert_equal records_arr, records
     end
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette 'dynect_zones' do
-      assert_equal @dyn.zones, [@zone_name]
+      assert_equal Provider::DynECT.zones, [@zone_name]
     end
   end
 
   def test_dynect_is_thawable
-    assert_predicate @dyn, :thawable?
+    assert_predicate Provider::DynECT, :thawable?
   end
 
   def test_dynect_is_freezable
-    assert_predicate @dyn, :freezable?
+    assert_predicate Provider::DynECT, :freezable?
   end
 end

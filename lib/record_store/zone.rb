@@ -5,7 +5,6 @@ module RecordStore
 
     attr_accessor :name
     attr_reader :config
-    attr_writer :records
 
     validates :name, presence: true, format: { with: Record::FQDN_REGEX, message: 'is not a fully qualified domain name' }
     validate :validate_records
@@ -18,37 +17,71 @@ module RecordStore
     validate :validate_can_handle_alias_records
     validate :validate_alias_points_to_root
 
-    def self.download(name, provider_name, **write_options)
-      dns = new(name, config: {provider: provider_name}).provider
-      current_records = dns.retrieve_current_records
-      write(name, records: current_records, config: {
-        provider: provider_name,
-        ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
-        supports_alias: current_records.map(&:type).include?('ALIAS') || nil
-      }, **write_options)
+    class << self
+      def download(name, provider_name, **write_options)
+        zone = Zone.new(name: name, config: {providers: [provider_name]})
+        raise ArgumentError, zone.errors.full_messages.join("\n") unless zone.valid?
+
+        zone.records = zone.providers.first.retrieve_current_records(zone: name)
+
+        zone.config = Zone::Config.new(
+          providers: [provider_name],
+          ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
+          supports_alias: (zone.records.map(&:type).include?('ALIAS') || nil)
+        )
+
+        zone.write(**write_options)
+      end
+
+      def filter_records(current_records, ignore_patterns)
+        ignore_patterns.inject(current_records) do |remaining_records, pattern|
+          remaining_records.reject do |record|
+            pattern.all? { |(key, value)| record.respond_to?(key) && value === record.send(key) }
+          end
+        end
+      end
+
+      def modified
+        modified_zones, mutex = [], Mutex.new
+        self.all.map do |zone|
+          thread = Thread.new do
+            mutex.synchronize {modified_zones << zone} unless zone.unchanged?
+          end
+        end.each(&:join)
+
+        modified_zones
+      end
     end
 
-    def initialize(name, records: [], config: {})
-      @name            = Record.ensure_ends_with_dot(name)
-      @config          = RecordStore::Zone::Config.new(config)
-      @records         = build_records(records)
+    def initialize(name:, records: [], config: {})
+      @name = Record.ensure_ends_with_dot(name)
+      @config = RecordStore::Zone::Config.new(config.deep_symbolize_keys)
+      @records = build_records(records)
     end
 
-    def changeset
-      current_records = Zone.filter_records(provider.retrieve_current_records, config.ignore_patterns)
-
-      Changeset.new(
-        current_records: current_records,
-        desired_records: records
-      )
+    def build_changesets
+      @changesets ||= begin
+        providers.map do |provider|
+          Changeset.build_from(provider: provider, zone: self)
+        end
+      end
     end
 
     def unchanged?
-      changeset.empty?
+      build_changesets.all?(&:empty?)
+    end
+
+    def unrooted_name
+      @name.chomp('.')
     end
 
     def records
       @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
+    end
+
+    def records=(records)
+      @records_cache = nil
+      @records = records
     end
 
     def config=(config)
@@ -56,8 +89,8 @@ module RecordStore
       @config = config
     end
 
-    def provider
-      Provider.const_get(config.provider).new(zone: name.chomp('.'))
+    def providers
+      @providers ||= config.providers.map { |provider| Provider.const_get(provider) }
     end
 
     def write(**write_options)
@@ -131,28 +164,23 @@ module RecordStore
       end
     end
 
-    def self.filter_records(current_records, ignore_patterns)
-      ignore_patterns.inject(current_records) do |remaining_records, pattern|
-        remaining_records.reject do |record|
-          pattern.all? { |(key, value)| record.respond_to?(key) && value === record.send(key) }
-        end
-      end
-    end
-
     def validate_provider_can_handle_zone_records
       record_types = records.map(&:type).to_set
       return unless config.valid?
-      provider_supported_record_types = Provider.const_get(config.provider).record_types
 
-      (record_types - provider_supported_record_types).each do |record_type|
-        errors.add(:records, "#{record_type} is a not a supported record type in #{config.provider}")
+      providers.each do |provider|
+        (record_types - provider.record_types).each do |record_type|
+          errors.add(:records, "#{record_type} is a not a supported record type in #{provider.to_s}")
+        end
       end
     end
 
     def validate_can_handle_alias_records
       return unless records.any? { |record| record.is_a?(Record::ALIAS) }
       return if config.supports_alias?
-      errors.add(:records, "#{config.provider} does not support ALIAS records for #{name.chomp('.')} zone")
+
+      # TODO(es): refactor to specify which provider
+      errors.add(:records, "one of the providers for #{unrooted_name} does not support ALIAS records")
     end
 
     def validate_alias_points_to_root

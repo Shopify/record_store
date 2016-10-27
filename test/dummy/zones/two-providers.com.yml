@@ -1,7 +1,8 @@
-one-record.com:
+two-providers.com:
   config:
     providers:
     - DynECT
+    - DNSimple
     ignore_patterns:
     - type: NS
       fqdn: one-record.com.

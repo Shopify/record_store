@@ -33,13 +33,32 @@ module RecordStore
       end
     end
 
-    attr_reader :current_records, :desired_records, :removals, :additions, :updates
+    attr_reader :current_records, :desired_records, :removals, :additions, :updates, :provider, :zone
 
-    def initialize(current_records: [], desired_records: [])
-      @current_records, @desired_records = Set.new(current_records), Set.new(desired_records)
+    def self.build_from(provider:, zone:)
+      current_zone = provider.build_zone(zone_name: zone.unrooted_name, config: zone.config)
+
+      self.new(
+        current_records: current_zone.records,
+        desired_records: zone.records,
+        provider: provider,
+        zone: zone.unrooted_name
+      )
+    end
+
+    def initialize(current_records: [], desired_records: [], provider:, zone:)
+      @current_records = Set.new(current_records)
+      @desired_records = Set.new(desired_records)
+      @provider = provider
+      @zone = zone
+
       @additions, @removals, @updates = [], [], []
 
       build_changeset
+    end
+
+    def apply
+      provider.apply_changeset(self)
     end
 
     def unchanged

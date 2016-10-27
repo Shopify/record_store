@@ -3,35 +3,42 @@ module RecordStore
     class Config
       include ActiveModel::Validations
 
-      attr_reader :ignore_patterns, :provider, :supports_alias
+      attr_reader :ignore_patterns, :providers, :supports_alias
 
       validate :validate_zone_config
 
-      def initialize(ignore_patterns: [], provider: nil, supports_alias: nil)
+      def initialize(ignore_patterns: [], providers: nil, supports_alias: nil)
         @ignore_patterns = ignore_patterns
-        @provider = provider
+        @providers = providers
         @supports_alias = supports_alias
       end
 
       def supports_alias?
-        @supports_alias.nil? && valid_provider? ? Provider.const_get(provider).supports_alias? : @supports_alias
+        if @supports_alias.nil?
+          valid_providers? && providers.all? { |provider| Provider.const_get(provider).supports_alias? }
+        else
+          @supports_alias
+        end
       end
 
       def to_hash
-        {
-          provider: provider,
+        config_hash = {
+          providers: providers,
           ignore_patterns: ignore_patterns,
         }
+        config_hash.merge!(supports_alias: supports_alias) if supports_alias
+
+        config_hash
       end
 
       private
 
       def validate_zone_config
-        errors.add(:provider, 'provider specified does not exist') unless valid_provider?
+        errors.add(:providers, 'provider specified does not exist') unless valid_providers?
       end
 
-      def valid_provider?
-        Provider.constants.include?(provider.to_s.to_sym)
+      def valid_providers?
+        providers.present? && providers.all? { |provider| Provider.constants.include?(provider.to_s.to_sym) }
       end
     end
   end
