@@ -44,8 +44,13 @@ module RecordStore
       Zone.each do |name, zone|
         changesets = zone.build_changesets
 
-        next if !options.fetch('verbose') && changesets.empty?
-        puts "Zone: #{name}"
+        if !options.fetch('verbose') && changesets.all?(&:empty?)
+          print_and_flush('.')
+          next
+        else
+          puts "\n"
+          puts "Zone: #{name}"
+        end
 
         changesets.each do |changeset|
           next if !options.fetch('verbose') && changeset.changes.empty?
@@ -83,6 +88,7 @@ module RecordStore
         end
         puts '=' * 20
       end
+      puts "\n"
     end
 
     desc 'apply', 'Applies the DNS changes'
@@ -261,6 +267,13 @@ module RecordStore
           abort "Checkout of new commit failed" if $?.exitstatus != 0
         end
       end
+    end
+
+    private
+
+    def print_and_flush(str)
+      print(str)
+      $stdout.flush
     end
   end
 end
