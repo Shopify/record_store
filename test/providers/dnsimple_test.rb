@@ -155,8 +155,8 @@ class DNSimpleTest < Minitest::Test
     assert_kind_of Record::SRV, record
     assert_equal '_service._TCP.srv.dns-scratch.me.', record.fqdn
     assert_equal 10, record.priority
-    assert_equal '47', record.weight
-    assert_equal '80', record.port
+    assert_equal 47, record.weight
+    assert_equal 80, record.port
     assert_equal 'target-srv.dns-scratch.me.', record.target
     assert_equal 60, record.ttl
   end
