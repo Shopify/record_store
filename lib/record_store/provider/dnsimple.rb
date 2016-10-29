@@ -33,7 +33,6 @@ module RecordStore
       end
 
       def update(id, record, zone)
-        record_hash = api_hash(record, zone)
         session.update_record(zone, id, api_hash(record, zone))
       end
 
