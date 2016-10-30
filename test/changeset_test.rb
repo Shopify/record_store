@@ -181,4 +181,74 @@ class ChangesetTest < Minitest::Test
       refute_predicate changeset.unchanged, :empty?
     end
   end
+
+  def test_records_with_matching_content_take_priority_when_being_updated
+    current_records = [
+      Record::NS.new(
+        ttl: 3600,
+        fqdn: 'dns-scratch.me',
+        nsdname: 'ns4.dnsimple.com.',
+        record_id: 1
+      ),
+      Record::NS.new(
+        ttl: 3600,
+        fqdn: 'dns-scratch.me',
+        nsdname: 'ns3.dnsimple.com.',
+        record_id: 2
+      ),
+      Record::NS.new(
+        ttl: 3600,
+        fqdn: 'dns-scratch.me',
+        nsdname: 'ns2.dnsimple.com.',
+        record_id: 3
+      ),
+      Record::NS.new(
+        ttl: 3600,
+        fqdn: 'dns-scratch.me',
+        nsdname: 'ns1.dnsimple.com.',
+        record_id: 4
+      )
+    ]
+    desired_records = current_records.map(&:dup)
+
+    current_records += [
+      Record::NS.new(
+        ttl: 3600,
+        fqdn: 'ns-test.dns-scratch.me',
+        nsdname: 'ns1.dnsimple.com.',
+        record_id: 5
+      ),
+      Record::NS.new(
+        ttl: 3600,
+        fqdn: 'ns-test.dns-scratch.me',
+        nsdname: 'ns2.dnsimple.com.',
+        record_id: 6
+      )
+    ]
+
+    # Swapped order is important here
+    desired_records += [
+      Record::NS.new(
+        ttl: 600,
+        fqdn: 'ns-test.dns-scratch.me',
+        nsdname: 'ns2.dnsimple.com.',
+      ),
+      Record::NS.new(
+        ttl: 600,
+        fqdn: 'ns-test.dns-scratch.me',
+        nsdname: 'ns1.dnsimple.com.',
+      )
+    ]
+
+    changeset = Changeset.new(
+      current_records: current_records,
+      desired_records: desired_records,
+      provider: nil,
+      zone: 'dns-scratch.me'
+    )
+
+    changes = changeset.updates.group_by(&:id)
+    assert_equal 'ns1.dnsimple.com.', changes[5].first.record.nsdname
+    assert_equal 'ns2.dnsimple.com.', changes[6].first.record.nsdname
+  end
 end
