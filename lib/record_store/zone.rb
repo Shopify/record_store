@@ -41,11 +41,23 @@ module RecordStore
         end
       end
 
-      def modified
-        modified_zones, mutex = [], Mutex.new
-        self.all.map do |zone|
-          thread = Thread.new do
-            mutex.synchronize {modified_zones << zone} unless zone.unchanged?
+      MAX_PARALLEL_THREADS = 10
+      def modified(verbose: false)
+        modified_zones, mutex, zones = [], Mutex.new, self.all
+
+        (1..MAX_PARALLEL_THREADS).map do
+          Thread.new do
+            current_zone = nil
+            while not zones.empty?
+              mutex.synchronize { current_zone = zones.shift }
+              begin
+                mutex.synchronize { modified_zones << current_zone } unless current_zone.unchanged?
+              rescue Excon::Error::BadRequest => e
+                raise e unless e.response.body.include?('session already has a job')
+                puts "DynECT session collision for #{current_zone.name}" if verbose
+                mutex.synchronize { zones.push(current_zone) }
+              end
+            end
           end
         end.each(&:join)
 
