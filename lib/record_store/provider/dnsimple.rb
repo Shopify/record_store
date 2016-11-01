@@ -95,7 +95,7 @@ module RecordStore
         when 'NS'
           record.merge!(nsdname: api_record.fetch('content'))
         when 'SPF', 'TXT'
-          record.merge!(txtdata: api_record.fetch('content'))
+          record.merge!(txtdata: api_record.fetch('content').gsub(';', '\;'))
         when 'SRV'
           weight, port, host = api_record.fetch('content').split(' ')
 
@@ -134,7 +134,7 @@ module RecordStore
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
         when 'SPF', 'TXT'
-          record_hash[:content] = record.txtdata
+          record_hash[:content] = record.txtdata.gsub('\;', ';')
         when 'SRV'
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
           record_hash[:prio] = record.priority
