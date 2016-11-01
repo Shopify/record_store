@@ -15,7 +15,6 @@ record-store list                      # Lists out records in YAML zonefiles
 record-store secrets                   # Decrypts DynECT credentials
 record-store sort -n, --name=NAME      # Sorts the zonefile alphabetically e.g. record-store sort --name=shopify.io
 record-store thaw                      # Thaws all zones under management to allow manual edits
-record-store validate_all_present      # Validates that all the zones that are expected are defined
 record-store validate_change_size      # Validates no more then particular limit of DNS records are removed per zone at a time
 record-store validate_initial_state    # Validates state hasn't diverged since the last deploy
 record-store validate_records          # Validates that all DNS records have valid definitions

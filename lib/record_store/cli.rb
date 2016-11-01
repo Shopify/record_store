@@ -228,23 +228,6 @@ module RecordStore
       end
     end
 
-    desc 'validate_all_present', 'Validates that all the zones that are expected are defined'
-    def validate_all_present
-      defined_zones = Set.new(RecordStore.defined_zones)
-      expected_zones = Set.new(RecordStore.expected_zones)
-
-      missing_zones = expected_zones - defined_zones
-      extra_zones = defined_zones - expected_zones
-
-      unless missing_zones.empty?
-        abort "The following zones are missing: #{missing_zones.to_a.join(', ')}"
-      end
-
-      unless extra_zones.empty?
-        abort "The following unexpected zones are defined: #{extra_zones.to_a.join(', ')}"
-      end
-    end
-
     SKIP_CHECKS = 'SKIP_DEPLOY_VALIDATIONS'
     desc 'validate_initial_state', "Validates state hasn't diverged since the last deploy"
     def validate_initial_state
