@@ -12,7 +12,6 @@ end
 task :validate do
   record_store = RecordStore::CLI.new
   record_store.validate_records
-  record_store.validate_all_present
 end
 
 task default: [:test]
