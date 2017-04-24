@@ -48,6 +48,10 @@ class RecordTest < Minitest::Test
     refute Record::A.new(fqdn: 'example.com.', ttl: 2 ** 32, address: '10.11.12.13').valid?
   end
 
+  def test_validates_cname
+    refute Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example.com').valid?
+  end
+
   def test_to_hash
     record = Record::NS.new(fqdn: 'example.com', ttl: 600, nsdname: 'blah.example.com')
     hash = record.to_hash

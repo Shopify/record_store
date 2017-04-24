@@ -3,6 +3,7 @@ module RecordStore
     attr_accessor :cname
 
     validates :cname, presence: true, format: { with: Record::CNAME_REGEX, message: 'is not a fully qualified domain name' }
+    validate :validate_circular_reference
 
     def initialize(record)
       super
@@ -15,6 +16,10 @@ module RecordStore
 
     def to_s
       "[CNAMERecord] #{fqdn} #{ttl} IN CNAME #{cname}"
+    end
+
+    def validate_circular_reference
+      errors.add(:fqdn, 'A CNAME should not point to itself') unless fqdn != cname
     end
   end
 end
