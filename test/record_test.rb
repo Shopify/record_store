@@ -49,7 +49,13 @@ class RecordTest < Minitest::Test
   end
 
   def test_validates_cname
-    refute Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example.com').valid?
+    assert Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com').valid?
+    refute Record::CNAME.new(fqdn: 'samedomain.com', ttl: 3600, cname: 'samedomain.com').valid?
+  end
+
+  def test_validates_alias
+    assert Record::ALIAS.new(fqdn: 'example.com', ttl: 3600, alias: 'example2.com').valid?
+    refute Record::ALIAS.new(fqdn: 'samedomain.com', ttl: 3600, alias: 'samedomain.com').valid?
   end
 
   def test_to_hash
