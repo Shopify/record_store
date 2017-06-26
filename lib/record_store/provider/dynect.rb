@@ -76,7 +76,7 @@ module RecordStore
           dynect_customer: secrets.fetch('customer'),
           dynect_username: secrets.fetch('username'),
           dynect_password: secrets.fetch('password'),
-          job_poll_timeout: 20,
+          job_poll_timeout: 20
         }
       end
 
