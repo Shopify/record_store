@@ -1,4 +1,0 @@
-deploy:
-  override:
-    - gem build record_store.gemspec
-    - gem push *.gem
