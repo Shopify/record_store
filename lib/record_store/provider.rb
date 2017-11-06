@@ -1,3 +1,5 @@
+require 'resolv'
+
 module RecordStore
   class Provider
     class << self
