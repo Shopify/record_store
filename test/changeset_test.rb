@@ -6,6 +6,9 @@ class ChangesetTest < Minitest::Test
     @cname_record_copy = Record::CNAME.new(fqdn: 'www.example.com', ttl: 60, cname: 'www.example.org')
     @a_record = Record::A.new(fqdn: 'www.example.com', ttl: 60, address: '10.11.12.13')
     @a_record_copy = Record::A.new(fqdn: 'www.example.com', ttl: 60, address: '10.11.12.13')
+    @txt_record1 = Record::TXT.new(fqdn: 'www.example.com', ttl: 60, txtdata: 'foo', record_id: 10)
+    @txt_record2 = Record::TXT.new(fqdn: 'www.example.com', ttl: 60, txtdata: 'bar', record_id: 11)
+    @txt_record3 = Record::TXT.new(fqdn: 'www.example.com', ttl: 60, txtdata: 'hello')
     @provider = RecordStore::Provider::DNSimple
     @zone = 'dns-test.shopify.io'
   end
@@ -138,6 +141,23 @@ class ChangesetTest < Minitest::Test
     assert_kind_of Enumerable, cs.additions
     assert_kind_of Enumerable, cs.removals
     assert_kind_of Enumerable, cs.changes
+  end
+
+  def test_ambiguous_txt_edits
+    skip 'This use case is currently broken'
+    cs = Changeset.new(
+      current_records: [@txt_record1, @txt_record2],
+      desired_records: [@txt_record3],
+      provider: @provider,
+      zone: @zone,
+    )
+
+    assert cs.changes.all? { |c| c.is_a?(Changeset::Change) }
+    assert cs.changes.all?(&:update?)
+    assert_equal 1, cs.changes.length
+    assert_equal 0, cs.additions.length
+    assert_equal 0, cs.removals.length
+    assert_equal 1, cs.updates.length
   end
 
   def test_changeset_build_from_creates_changeset_from_diff_between_zone_and_provider
