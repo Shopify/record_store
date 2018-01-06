@@ -240,6 +240,21 @@ class DynECTTest < Minitest::Test
     end
   end
 
+  def test_apply_changeset_updates_specific_record
+    txt_1 = Record::TXT.new(record_id: 12345678, fqdn: 'test-record.dns-test.shopify.io.', ttl: 3600, txtdata: "one")
+    txt_2 = Record::TXT.new(record_id: 99999999, fqdn: 'test-record.dns-test.shopify.io.', ttl: 3600, txtdata: "two")
+    txt_update = Record::TXT.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 3600, txtdata: "update")
+
+    VCR.use_cassette 'dynect_apply_changeset_update' do
+      Provider::DynECT.apply_changeset(Changeset.new(
+        current_records: [txt_1, txt_2],
+        desired_records: [txt_update, txt_2],
+        provider: RecordStore::Provider::DynECT,
+        zone: @zone_name
+      ))
+    end
+  end
+
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette 'dynect_zones' do
       assert_equal Provider::DynECT.zones, [@zone_name]
