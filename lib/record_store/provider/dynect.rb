@@ -12,7 +12,7 @@ module RecordStore
       end
 
       def add(record, zone)
-        session.post_record(record.type, zone, record.fqdn, record.rdata, ttl: record.ttl)
+        session.post_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl)
       end
 
       def remove(record, zone)
@@ -20,7 +20,7 @@ module RecordStore
       end
 
       def update(id, record, zone)
-        session.put_record(record.type, zone, record.fqdn, record.rdata, ttl: record.ttl, record_id: id)
+        session.put_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl, 'record_id' => id)
       end
 
       def publish(zone)
