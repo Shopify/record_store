@@ -16,7 +16,6 @@ module RecordStore
       end
 
       def self.update(id, record)
-        raise ArgumentError.new('id cannot be nil') if id.nil?
         new(type: :update, record: record, id: id)
       end
 
