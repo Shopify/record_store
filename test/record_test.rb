@@ -18,48 +18,48 @@ class RecordTest < Minitest::Test
   end
 
   def test_validates_txt
-    assert Record::TXT.new(fqdn: "_dmarc.example.com.", ttl: 600, txtdata: 'whatever').valid?
-    assert Record::A.new(fqdn: "example.com.", ttl: 600, address: '10.11.12.13').valid?
-    assert Record::A.new(fqdn: "example.com", ttl: 600, address: '10.11.12.13').valid?
+    assert_predicate Record::TXT.new(fqdn: "_dmarc.example.com.", ttl: 600, txtdata: 'whatever'), :valid?
+    assert_predicate Record::A.new(fqdn: "example.com.", ttl: 600, address: '10.11.12.13'), :valid?
+    assert_predicate Record::A.new(fqdn: "example.com", ttl: 600, address: '10.11.12.13'), :valid?
 
-    assert Record::A.new(fqdn: ('a' * 63) + ".com.", ttl: 600, address: '10.11.12.13').valid?
-    refute Record::A.new(fqdn: ('a' * 64) + ".com.", ttl: 600, address: '10.11.12.13').valid?
+    assert_predicate Record::A.new(fqdn: ('a' * 63) + ".com.", ttl: 600, address: '10.11.12.13'), :valid?
+    refute_predicate Record::A.new(fqdn: ('a' * 64) + ".com.", ttl: 600, address: '10.11.12.13'), :valid?
 
-    assert Record::A.new(fqdn: ("a." * 125) + "com.", ttl: 600, address: '10.11.12.13').valid? # below 254
-    refute Record::A.new(fqdn: ("a." * 126) + "com.", ttl: 600, address: '10.11.12.13').valid? # over 254
+    assert_predicate Record::A.new(fqdn: ("a." * 125) + "com.", ttl: 600, address: '10.11.12.13'), :valid? # below 254
+    refute_predicate Record::A.new(fqdn: ("a." * 126) + "com.", ttl: 600, address: '10.11.12.13'), :valid? # over 254
   end
 
   def test_validates_escaped_txtdata
     default_txt = { fqdn: "example.com.", ttl: 600 }
 
-    assert Record::TXT.new(default_txt.merge(txtdata: 'asdf\;asdf')).valid?
-    assert Record::TXT.new(default_txt.merge(txtdata: '\;asdf')).valid?
-    assert Record::TXT.new(default_txt.merge(txtdata: 'asdf\;')).valid?
+    assert_predicate Record::TXT.new(default_txt.merge(txtdata: 'asdf\;asdf')), :valid?
+    assert_predicate Record::TXT.new(default_txt.merge(txtdata: '\;asdf')), :valid?
+    assert_predicate Record::TXT.new(default_txt.merge(txtdata: 'asdf\;')), :valid?
 
-    refute Record::TXT.new(default_txt.merge(txtdata: 'asdf;asdf')).valid?
-    refute Record::TXT.new(default_txt.merge(txtdata: ';asdf')).valid?
-    refute Record::TXT.new(default_txt.merge(txtdata: 'asdf;')).valid?
-    refute Record::TXT.new(default_txt.merge(txtdata: '\;asdf;')).valid?
+    refute_predicate Record::TXT.new(default_txt.merge(txtdata: 'asdf;asdf')), :valid?
+    refute_predicate Record::TXT.new(default_txt.merge(txtdata: ';asdf')), :valid?
+    refute_predicate Record::TXT.new(default_txt.merge(txtdata: 'asdf;')), :valid?
+    refute_predicate Record::TXT.new(default_txt.merge(txtdata: '\;asdf;')), :valid?
   end
 
   def test_validates_ttl
-    assert Record::A.new(fqdn: 'example.com.', ttl: 600, address: '10.11.12.13').valid?
-    refute Record::A.new(fqdn: 'example.com.', ttl: -1, address: '10.11.12.13').valid?
-    refute Record::A.new(fqdn: 'example.com.', ttl: 2 ** 32, address: '10.11.12.13').valid?
+    assert_predicate Record::A.new(fqdn: 'example.com.', ttl: 600, address: '10.11.12.13'), :valid?
+    refute_predicate Record::A.new(fqdn: 'example.com.', ttl: -1, address: '10.11.12.13'), :valid?
+    refute_predicate Record::A.new(fqdn: 'example.com.', ttl: 2 ** 32, address: '10.11.12.13'), :valid?
   end
 
   def test_validates_cname
-    assert Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com').valid?
-    assert Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com').valid?
-    assert Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example--2.com').valid?
-    refute Record::CNAME.new(fqdn: 'samedomain.com', ttl: 3600, cname: 'samedomain.com').valid?
-    refute Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example---2.com').valid?
-    refute Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: '--2.com').valid?
+    assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com'), :valid?
+    assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com'), :valid?
+    assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example--2.com'), :valid?
+    refute_predicate Record::CNAME.new(fqdn: 'samedomain.com', ttl: 3600, cname: 'samedomain.com'), :valid?
+    refute_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example---2.com'), :valid?
+    refute_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: '--2.com'), :valid?
   end
 
   def test_validates_alias
-    assert Record::ALIAS.new(fqdn: 'example.com', ttl: 3600, alias: 'example2.com').valid?
-    refute Record::ALIAS.new(fqdn: 'samedomain.com', ttl: 3600, alias: 'samedomain.com').valid?
+    assert_predicate Record::ALIAS.new(fqdn: 'example.com', ttl: 3600, alias: 'example2.com'), :valid?
+    refute_predicate Record::ALIAS.new(fqdn: 'samedomain.com', ttl: 3600, alias: 'samedomain.com'), :valid?
   end
 
   def test_to_hash
