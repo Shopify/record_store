@@ -15,6 +15,17 @@ class Minitest::Test
   RecordStore.config_path = DUMMY_CONFIG_PATH
 
   SECRET_KEYS = {
+    'google_cloud_dns' =>  %w(
+      type
+      private_key_id
+      private_key
+      client_email
+      client_id
+      auth_uri
+      token_uri
+      auth_provider_x509_cert_url
+      client_x509_cert_url
+    ),
     'dynect' => %w(
       password
       username
@@ -56,11 +67,30 @@ class Minitest::Test
         auth_token.first
       end
     end
+
+    config.filter_sensitive_data '<GOOGLE_CLOUD_DNS_AUTH_TOKEN>' do |interaction|
+      if interaction.request.uri == '<GOOGLE_CLOUD_DNS_TOKEN_URI>'
+        JSON.parse(interaction.response.body)['access_token']
+      end
+    end
+
+    config.filter_sensitive_data '<GOOGLE_CLOUD_DNS_AUTH_TOKEN>' do |interaction|
+      if (auth_token = interaction.request.headers['Authorization']).present?
+        auth_token.first
+      end
+    end
+
+    config.filter_sensitive_data '<GOOGLE_CLOUD_DNS_AUTH_SECRET>' do |interaction|
+      if interaction.request.uri == '<GOOGLE_CLOUD_DNS_TOKEN_URI>'
+        interaction.request.body
+      end
+    end
   end
 
   def teardown
     Provider::DynECT.instance_variable_set(:@dns, nil)
     Provider::DNSimple.instance_variable_set(:@dns, nil)
+    Provider::GoogleCloudDNS.instance_variable_set(:@dns, nil)
   end
 
   def build_record_store_config(zones_path: 'zones/', secrets_path: 'secrets.json', zones: ['empty.com', 'one-record.com'])

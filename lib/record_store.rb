@@ -28,6 +28,7 @@ require 'record_store/changeset'
 require 'record_store/provider'
 require 'record_store/provider/dynect'
 require 'record_store/provider/dnsimple'
+require 'record_store/provider/google_cloud_dns'
 require 'record_store/cli'
 
 module RecordStore

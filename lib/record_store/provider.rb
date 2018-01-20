@@ -17,6 +17,8 @@ module RecordStore
           'DNSimple'
         when /dynect\.net\z/
           'DynECT'
+        when /googledomains\.com\z/
+          'GoogleCloudDNS'
         else
           nil
         end

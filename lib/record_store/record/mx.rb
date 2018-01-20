@@ -8,7 +8,7 @@ module RecordStore
     def initialize(record)
       super
       @exchange = Record.ensure_ends_with_dot(record.fetch(:exchange))
-      @preference = record.fetch(:preference)
+      @preference = Integer(record.fetch(:preference))
     end
 
     def rdata
