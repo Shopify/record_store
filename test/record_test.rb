@@ -1,6 +1,33 @@
 require 'test_helper'
 
 class RecordTest < Minitest::Test
+  RECORD_FIXTURES = {
+    alias_rr: Record::ALIAS.new(fqdn: 'dns-test.shopify.io.', alias: 'dns-test.herokuapp.com.', ttl: 60),
+    cname: Record::CNAME.new(fqdn: 'cname.dns-test.shopify.io.', cname: 'dns-test.shopify.io.', ttl: 60),
+    txt: Record::TXT.new(fqdn: 'txt.dns-test.shopify.io.', txtdata: 'Hello, world!', ttl: 60),
+    ns: Record::NS.new(fqdn: 'dns-test.shopify.io.', nsdname: 'ns1.dynect.net.', ttl: 3600),
+    a: Record::A.new(fqdn: 'test.dns-test.shopify.io.', address: '10.11.12.13', ttl: 600),
+    aaaa: Record::AAAA.new(
+      fqdn: 'aaaa.dns-test.shopify.io.',
+      address: '2001:0db8:85a3:0000:0000:EA75:1337:BEEF',
+      ttl: 60
+    ),
+    mx: Record::MX.new(
+      fqdn: 'mx.dns-test.shopify.io.',
+      exchange: 'mail-server.example.com.',
+      preference: 10,
+      ttl: 60
+    ),
+    srv: Record::SRV.new(
+      fqdn: '_service._TCP.srv.dns-test.shopify.io.',
+      priority: 10,
+      weight: 47,
+      port: 80,
+      target: 'target-srv.dns-test.shopify.io.',
+      ttl: 60
+    )
+  }
+
   def test_build_from_yaml_definition
     yaml_snippet = <<-YAML
       type: A
@@ -83,5 +110,27 @@ class RecordTest < Minitest::Test
   def test_record_type
     assert_equal 'TXT', Record::TXT.new(fqdn: 'example.com.', ttl: 600, txtdata: 'foo').type
     assert_equal 'CNAME', Record::CNAME.new(fqdn: 'example.com.', ttl: 600, cname: 'www.example.com').type
+  end
+
+  def test_rdata_txt_returns_zonefile_compliant_formatting
+    assert_equal '10.11.12.13', RECORD_FIXTURES[:a].rdata_txt
+    assert_equal '2001:0db8:85a3:0000:0000:EA75:1337:BEEF', RECORD_FIXTURES[:aaaa].rdata_txt
+    assert_equal 'dns-test.herokuapp.com.', RECORD_FIXTURES[:alias_rr].rdata_txt
+    assert_equal 'dns-test.shopify.io.', RECORD_FIXTURES[:cname].rdata_txt
+    assert_equal '10 mail-server.example.com.', RECORD_FIXTURES[:mx].rdata_txt
+    assert_equal 'ns1.dynect.net.', RECORD_FIXTURES[:ns].rdata_txt
+    assert_equal '10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].rdata_txt
+    assert_equal 'Hello, world!', RECORD_FIXTURES[:txt].rdata_txt
+  end
+
+  def test_consistent_print_formatting
+    assert_equal '[ARecord] test.dns-test.shopify.io. 600 IN A 10.11.12.13', RECORD_FIXTURES[:a].to_s
+    assert_equal '[AAAARecord] aaaa.dns-test.shopify.io. 60 IN AAAA 2001:0db8:85a3:0000:0000:EA75:1337:BEEF', RECORD_FIXTURES[:aaaa].to_s
+    assert_equal '[ALIASRecord] dns-test.shopify.io. 60 IN ALIAS dns-test.herokuapp.com.', RECORD_FIXTURES[:alias_rr].to_s
+    assert_equal '[CNAMERecord] cname.dns-test.shopify.io. 60 IN CNAME dns-test.shopify.io.', RECORD_FIXTURES[:cname].to_s
+    assert_equal '[MXRecord] mx.dns-test.shopify.io. 60 IN MX 10 mail-server.example.com.', RECORD_FIXTURES[:mx].to_s
+    assert_equal '[NSRecord] dns-test.shopify.io. 3600 IN NS ns1.dynect.net.', RECORD_FIXTURES[:ns].to_s
+    assert_equal '[SRVRecord] _service._TCP.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s
+    assert_equal '[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s
   end
 end

@@ -56,6 +56,19 @@ module RecordStore
       "#{type},#{fqdn}"
     end
 
+    def rdata
+      raise NotImplementedError
+    end
+
+    def rdata_txt
+      raise NotImplementedError
+    end
+
+    def to_s
+      rr_type = self.class.name.demodulize
+      "[#{rr_type}Record] #{fqdn} #{ttl} IN #{rr_type} #{rdata_txt}"
+    end
+
     protected
 
     def validate_label_length

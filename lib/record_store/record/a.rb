@@ -10,12 +10,12 @@ module RecordStore
       @address = record.fetch(:address)
     end
 
-    def to_s
-      "[ARecord] #{fqdn} #{ttl} IN A #{address}"
-    end
-
     def rdata
       { address: address }
+    end
+
+    def rdata_txt
+      address
     end
 
     private

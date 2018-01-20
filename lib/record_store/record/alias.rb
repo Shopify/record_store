@@ -14,8 +14,8 @@ module RecordStore
       { alias: self.alias }
     end
 
-    def to_s
-      "[ALIASRecord] #{fqdn} #{ttl} IN ALIAS #{self.alias}"
+    def rdata_txt
+      self.alias
     end
 
     def validate_circular_reference

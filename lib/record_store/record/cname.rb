@@ -14,8 +14,8 @@ module RecordStore
       { cname: cname }
     end
 
-    def to_s
-      "[CNAMERecord] #{fqdn} #{ttl} IN CNAME #{cname}"
+    def rdata_txt
+      cname
     end
 
     def validate_circular_reference

@@ -11,11 +11,15 @@ module RecordStore
     end
 
     def to_s
-      "[TXTRecord] #{fqdn} #{ttl} IN TXT \"#{txtdata}\""
+      "[TXTRecord] #{fqdn} #{ttl} IN TXT \"#{rdata_txt}\""
     end
 
     def rdata
       { txtdata: txtdata }
+    end
+
+    def rdata_txt
+      txtdata
     end
 
     private

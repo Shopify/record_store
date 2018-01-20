@@ -18,8 +18,8 @@ module RecordStore
       }
     end
 
-    def to_s
-      "[MXRecord] #{fqdn} #{ttl} IN MX #{preference} #{exchange}"
+    def rdata_txt
+      "#{preference} #{exchange}"
     end
   end
 end
