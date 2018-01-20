@@ -13,6 +13,7 @@ gem 'fog-dynect', '~> 0.2.0'
 group :test do
   gem 'mocha'
   gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
