@@ -26,14 +26,14 @@ module RecordStore
               record_set_member = record_set.dup
               record_set_member.data = [record]
               build_from_api(record_set_member)
-            rescue StandardError => e
+            rescue StandardError
               stdout.puts "Cannot build record: #{record}"
             end
           end
         end
 
         # We need to filter out for nil records (i.e. since skip the SOA record)
-        records.flatten.select(&:present?)
+        records.flatten.compact
       end
 
       # Returns an array of the zones managed by provider as strings
@@ -73,8 +73,8 @@ module RecordStore
         end
 
 
-        record_sets.map do |(rr_type, rr_fqdn), records|
-          zone.record(rr_fqdn, rr_type, records[0].ttl, records.map(&:rdata_txt))
+        record_sets.map do |(rr_type, rr_fqdn), records_for_set|
+          zone.record(rr_fqdn, rr_type, records_for_set[0].ttl, records_for_set.map(&:rdata_txt))
         end
       end
 

@@ -52,7 +52,7 @@ module RecordStore
               stdout.puts "Cannot build record: #{record_body}"
             end
           end
-        end.select(&:present?)
+        end.compact
       end
 
       # Returns an array of the zones managed by provider as strings
