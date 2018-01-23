@@ -64,8 +64,8 @@ module RecordStore
       def session_params
         {
           provider: 'DNSimple',
-          dnsimple_email: secrets.fetch('email'),
           dnsimple_token: secrets.fetch('api_token'),
+          dnsimple_account: secrets.fetch('account_id'),
         }
       end
 
