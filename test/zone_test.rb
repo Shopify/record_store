@@ -165,7 +165,7 @@ class ZoneTest < Minitest::Test
       name = 'dns-test.shopify.io'
       VCR.use_cassette 'dynect_retrieve_current_records' do
         Zone.download(name, 'DynECT')
-        assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
+        assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
         zone = Zone.find(name)
         assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns
@@ -195,7 +195,7 @@ class ZoneTest < Minitest::Test
       VCR.use_cassette 'dnsimple_retrieve_current_records_no_alias' do
         Zone.download(name, 'DNSimple')
       end
-      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
+      assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
       zone = Zone.find(name)
       assert_predicate zone.config, :supports_alias?
     end
@@ -207,7 +207,7 @@ class ZoneTest < Minitest::Test
       VCR.use_cassette 'dynect_retrieve_current_records_no_alias' do
         Zone.download(name, 'DynECT')
       end
-      assert File.exists?("#{RecordStore.zones_path}/#{name}.yml")
+      assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
       zone = Zone.find(name)
       refute_predicate zone.config, :supports_alias?
     end
@@ -246,7 +246,7 @@ class ZoneTest < Minitest::Test
     refute_predicate zone, :unchanged?
   end
 
-  def test_zone_unchanged_describes_if_zone_matches_multiple_provider
+  def test_zone_unchanged_describes_if_zone_matches_multiple_provider_empty_changeset
     zone = Zone.find('two-providers.com')
 
     zone.stubs(:build_changesets).returns([

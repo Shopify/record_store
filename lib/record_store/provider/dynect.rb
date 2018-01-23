@@ -48,7 +48,7 @@ module RecordStore
           records.map do |record_body|
             begin
               build_from_api(record_body)
-            rescue StandardError => e
+            rescue StandardError
               stdout.puts "Cannot build record: #{record_body}"
             end
           end

@@ -24,7 +24,7 @@ module RecordStore
       begin
         ip = IPAddr.new(address)
         errors.add(:address, 'is not an IPv6 address') unless ip.ipv6?
-      rescue IPAddr::InvalidAddressError => e
+      rescue IPAddr::InvalidAddressError
         errors.add(:address, 'is invalid')
       end
     end
