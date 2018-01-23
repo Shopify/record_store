@@ -8,7 +8,7 @@ module RecordStore
 
         begin
           ns_server = dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
-        rescue Resolv::ResolvError => e
+        rescue Resolv::ResolvError
           abort "Domain doesn't exist"
         end
 
