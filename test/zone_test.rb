@@ -246,7 +246,7 @@ class ZoneTest < Minitest::Test
     refute_predicate zone, :unchanged?
   end
 
-  def test_zone_unchanged_describes_if_zone_matches_multiple_provider
+  def test_zone_unchanged_describes_if_zone_matches_multiple_provider_empty_changeset
     zone = Zone.find('two-providers.com')
 
     zone.stubs(:build_changesets).returns([
