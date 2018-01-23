@@ -96,7 +96,7 @@ module RecordStore
       end
 
       def secrets
-        @secrets ||= if File.exists?(RecordStore.secrets_path)
+        @secrets ||= if File.exist?(RecordStore.secrets_path)
           JSON.parse(File.read(RecordStore.secrets_path))
         else
           raise "You don't have a secrets.json file set up!"

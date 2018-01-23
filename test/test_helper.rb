@@ -26,7 +26,7 @@ class Minitest::Test
     config.default_cassette_options[:allow_unused_http_interactions] = false
     config.default_cassette_options[:match_requests_on] << :body
 
-    if File.exists?(RecordStore.secrets_path)
+    if File.exist?(RecordStore.secrets_path)
       secrets = JSON.parse(File.read(RecordStore.secrets_path))
 
       config.filter_sensitive_data '<DYNECT_PASSWORD>' do

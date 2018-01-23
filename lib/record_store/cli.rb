@@ -120,7 +120,7 @@ module RecordStore
     def download
       name = options.fetch('name')
       abort 'Please omit the period at the end of the zone' if name.ends_with?('.')
-      abort 'Zone with this name already exists in zones/' if File.exists?("#{RecordStore.zones_path}/#{name}.yml")
+      abort 'Zone with this name already exists in zones/' if File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
       provider = options.fetch('provider', Provider.provider_for(name))
       if provider.nil?
@@ -239,7 +239,7 @@ module RecordStore
         assert_empty_diff
         puts "Deploy will cause no changes, no need to validate initial state"
       rescue SystemExit
-        if File.exists?(File.expand_path(SKIP_CHECKS, Dir.pwd))
+        if File.exist?(File.expand_path(SKIP_CHECKS, Dir.pwd))
           puts "Found '#{SKIP_CHECKS}', skipping predeploy validations"
         else
           puts "Checkout git SHA #{ENV['LAST_DEPLOYED_SHA']}"
