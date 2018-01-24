@@ -15,13 +15,12 @@ module RecordStore
       @target   = record.fetch(:target)
     end
 
-    def to_s
-      "[SRVRecord] #{fqdn} #{ttl} IN SRV #{priority} #{weight} #{port} #{target}"
-    end
-
     def rdata
       { priority: priority, port: port, weight: weight, target: target }
     end
 
+    def rdata_txt
+      "#{priority} #{weight} #{port} #{target}"
+    end
   end
 end

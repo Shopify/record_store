@@ -13,8 +13,8 @@ module RecordStore
       { nsdname: nsdname }
     end
 
-    def to_s
-      "[NSRecord] #{fqdn} #{ttl} IN NS #{nsdname}"
+    def rdata_txt
+      nsdname
     end
   end
 end

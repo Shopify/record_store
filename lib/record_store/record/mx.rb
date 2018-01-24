@@ -8,7 +8,7 @@ module RecordStore
     def initialize(record)
       super
       @exchange = Record.ensure_ends_with_dot(record.fetch(:exchange))
-      @preference = record.fetch(:preference)
+      @preference = Integer(record.fetch(:preference))
     end
 
     def rdata
@@ -18,8 +18,8 @@ module RecordStore
       }
     end
 
-    def to_s
-      "[MXRecord] #{fqdn} #{ttl} IN MX #{preference} #{exchange}"
+    def rdata_txt
+      "#{preference} #{exchange}"
     end
   end
 end

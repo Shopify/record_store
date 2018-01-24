@@ -1,0 +1,310 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<GOOGLE_CLOUD_DNS_TOKEN_URI>"
+    body:
+      encoding: ASCII-8BIT
+      string: "<GOOGLE_CLOUD_DNS_AUTH_SECRET>"
+    headers:
+      User-Agent:
+      - Faraday v0.13.1
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Content-Type-Options:
+      - nosniff
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Content-Disposition:
+      - attachment; filename="json.txt"; filename*=UTF-8''json.txt
+      Server:
+      - ESF
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alt-Svc:
+      - hq=":443"; ma=2592000; quic=51303431; quic=51303339; quic=51303338; quic=51303337;
+        quic=51303335,quic=":443"; ma=2592000; v="41,39,38,37,35"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "access_token" : "<GOOGLE_CLOUD_DNS_AUTH_TOKEN>",
+          "expires_in" : 3600,
+          "token_type" : "Bearer"
+        }
+    http_version:
+  recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
+- request:
+    method: get
+    uri: https://www.googleapis.com/dns/v1/projects/project_id/managedZones/dns-test-shopify-io
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - |-
+        gcloud-ruby/0.27.0 google-api-ruby-client/0.17.4 Mac OS X/10.12.6
+         (gzip)
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip,deflate
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      X-Goog-Api-Client:
+      - gl-ruby/2.3.1 gccl/0.27.0
+      Authorization:
+      - "<GOOGLE_CLOUD_DNS_AUTH_TOKEN>"
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Expires:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Cache-Control:
+      - private, max-age=0, must-revalidate, no-transform
+      Etag:
+      - '"8hEI1sJayVSMdCJoXoguBX0hvv0/cYoVyvrRq9AqQf4lhUe4fTP6xGI"'
+      Vary:
+      - Origin
+      - X-Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Encoding:
+      - gzip
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alt-Svc:
+      - hq=":443"; ma=2592000; quic=51303431; quic=51303339; quic=51303338; quic=51303337;
+        quic=51303335,quic=":443"; ma=2592000; v="41,39,38,37,35"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "kind": "dns#managedZone",
+         "name": "dns-test-shopify-io",
+         "dnsName": "dns-test.shopify.io.",
+         "description": "Test for Record Store",
+         "id": "4643813348782290994",
+         "nameServers": [
+          "ns-cloud-b1.googledomains.com.",
+          "ns-cloud-b2.googledomains.com.",
+          "ns-cloud-b3.googledomains.com.",
+          "ns-cloud-b4.googledomains.com."
+         ],
+         "creationTime": "2018-01-19T23:00:24.833Z"
+        }
+    http_version:
+  recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
+- request:
+    method: get
+    uri: https://www.googleapis.com/dns/v1/projects/project_id/managedZones/4643813348782290994/rrsets?name=dns-test.shopify.io.&type=SOA
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - |-
+        gcloud-ruby/0.27.0 google-api-ruby-client/0.17.4 Mac OS X/10.12.6
+         (gzip)
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip,deflate
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      X-Goog-Api-Client:
+      - gl-ruby/2.3.1 gccl/0.27.0
+      Authorization:
+      - "<GOOGLE_CLOUD_DNS_AUTH_TOKEN>"
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Expires:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Cache-Control:
+      - private, max-age=0, must-revalidate, no-transform
+      Etag:
+      - '"8hEI1sJayVSMdCJoXoguBX0hvv0/RuPvtAgA4t6DzIYDKOtnc6sClEQ"'
+      Vary:
+      - Origin
+      - X-Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Encoding:
+      - gzip
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alt-Svc:
+      - hq=":443"; ma=2592000; quic=51303431; quic=51303339; quic=51303338; quic=51303337;
+        quic=51303335,quic=":443"; ma=2592000; v="41,39,38,37,35"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "kind": "dns#resourceRecordSetsListResponse",
+         "rrsets": [
+          {
+           "kind": "dns#resourceRecordSet",
+           "name": "dns-test.shopify.io.",
+           "type": "SOA",
+           "ttl": 21600,
+           "rrdatas": [
+            "ns-cloud-b1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
+           ]
+          }
+         ]
+        }
+    http_version:
+  recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
+- request:
+    method: post
+    uri: https://www.googleapis.com/dns/v1/projects/project_id/managedZones/4643813348782290994/changes
+    body:
+      encoding: UTF-8
+      string: '{"additions":[{"kind":"dns#resourceRecordSet","name":"test-record.dns-test.shopify.io.","rrdatas":["10.10.10.42"],"ttl":86400,"type":"A"},{"kind":"dns#resourceRecordSet","name":"dns-test.shopify.io.","rrdatas":["ns-cloud-b1.googledomains.com.
+        cloud-dns-hostmaster.google.com. 2 21600 3600 259200 300"],"ttl":21600,"type":"SOA"}],"deletions":[{"kind":"dns#resourceRecordSet","name":"dns-test.shopify.io.","rrdatas":["ns-cloud-b1.googledomains.com.
+        cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"],"ttl":21600,"type":"SOA"}],"kind":"dns#change"}'
+    headers:
+      User-Agent:
+      - |-
+        gcloud-ruby/0.27.0 google-api-ruby-client/0.17.4 Mac OS X/10.12.6
+         (gzip)
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip,deflate
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Content-Type:
+      - application/json
+      X-Goog-Api-Client:
+      - gl-ruby/2.3.1 gccl/0.27.0
+      Authorization:
+      - "<GOOGLE_CLOUD_DNS_AUTH_TOKEN>"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - Mon, 01 Jan 1990 00:00:00 GMT
+      Date:
+      - Fri, 19 Jan 2018 23:00:56 GMT
+      Etag:
+      - '"8hEI1sJayVSMdCJoXoguBX0hvv0/xcSCLtcvSX-I0nfRrHCRdNrrZlc"'
+      Vary:
+      - Origin
+      - X-Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Encoding:
+      - gzip
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alt-Svc:
+      - hq=":443"; ma=2592000; quic=51303431; quic=51303339; quic=51303338; quic=51303337;
+        quic=51303335,quic=":443"; ma=2592000; v="41,39,38,37,35"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "kind": "dns#change",
+         "additions": [
+          {
+           "kind": "dns#resourceRecordSet",
+           "name": "test-record.dns-test.shopify.io.",
+           "type": "A",
+           "ttl": 86400,
+           "rrdatas": [
+            "10.10.10.42"
+           ]
+          },
+          {
+           "kind": "dns#resourceRecordSet",
+           "name": "dns-test.shopify.io.",
+           "type": "SOA",
+           "ttl": 21600,
+           "rrdatas": [
+            "ns-cloud-b1.googledomains.com. cloud-dns-hostmaster.google.com. 2 21600 3600 259200 300"
+           ]
+          }
+         ],
+         "deletions": [
+          {
+           "kind": "dns#resourceRecordSet",
+           "name": "dns-test.shopify.io.",
+           "type": "SOA",
+           "ttl": 21600,
+           "rrdatas": [
+            "ns-cloud-b1.googledomains.com. cloud-dns-hostmaster.google.com. 1 21600 3600 259200 300"
+           ]
+          }
+         ],
+         "startTime": "2018-01-19T23:00:56.460Z",
+         "id": "1",
+         "status": "pending"
+        }
+    http_version:
+  recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
+recorded_with: VCR 4.0.0

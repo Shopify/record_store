@@ -9,10 +9,12 @@ gem 'fog'
 gem 'fog-json'
 gem 'fog-xml'
 gem 'fog-dynect', '~> 0.2.0'
+gem 'google-cloud-dns'
 
 group :test do
   gem 'mocha'
   gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
