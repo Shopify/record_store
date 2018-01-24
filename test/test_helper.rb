@@ -16,7 +16,6 @@ class Minitest::Test
 
   SECRET_KEYS = {
     'google_cloud_dns' =>  %w(
-      type
       private_key_id
       private_key
       client_email
@@ -31,7 +30,7 @@ class Minitest::Test
       username
     ),
     'dnsimple' => %w(
-      email
+      account_id
       api_token
     )
   }

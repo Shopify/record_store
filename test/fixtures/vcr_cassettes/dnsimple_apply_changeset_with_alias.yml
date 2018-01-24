@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records
     body:
       encoding: UTF-8
-      string: '{"record":{"name":"","record_type":"ALIAS","content":"dns-scratch.herokuapp.com","ttl":86400,"priority":null}}'
+      string: '{"name":"","type":"ALIAS","content":"dns-scratch.herokuapp.com","ttl":86400,"priority":null}'
     headers:
       User-Agent:
-      - fog-core/1.32.1
-      X-DNSimple-Token:
-      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      - fog-core/1.44.3 fog-dnsimple/2.0.0
+      Authorization:
+      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
       Content-Type:
@@ -18,60 +18,58 @@ http_interactions:
   response:
     status:
       code: 201
-      message:
+      message: Created
     headers:
       Server:
       - nginx
       Date:
-      - Tue, 15 Dec 2015 16:52:51 GMT
+      - Wed, 24 Jan 2018 20:44:33 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
       - keep-alive
-      Status:
-      - 201 Created
-      Strict-Transport-Security:
-      - max-age=631138519, max-age=31536000
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
-      Access-Control-Allow-Methods:
-      - GET,POST,PUT,DELETE,OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN, DENY
-      X-XSS-Protection:
-      - '1'
-      X-Content-Type-Options:
-      - nosniff, nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      ETag:
-      - W/"9bc6a79740b1eb8015dda23b44ac930b"
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2385'
+      X-Ratelimit-Reset:
+      - '1516829520'
+      Etag:
+      - W/"8067b699d9498d94df7d32f7d5673297"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b726866b-3802-4963-ac96-4177b6632a20
+      - 023c4c88-6ee8-4e33-9993-e8f8eaf4fde6
       X-Runtime:
-      - '0.516040'
+      - '0.078524'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Strict-Transport-Security:
+      - max-age=31536000
     body:
-      encoding: UTF-8
-      string: '{"record":{"id":5209959,"domain_id":222002,"parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-15T16:52:50.970Z","updated_at":"2015-12-15T16:52:50.970Z"}}'
+      encoding: ASCII-8BIT
+      string: '{"data":{"id":13343287,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"priority":null,"type":"ALIAS","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:44:33Z","updated_at":"2018-01-24T20:44:33Z"}}'
     http_version:
-  recorded_at: Tue, 15 Dec 2015 16:52:51 GMT
+  recorded_at: Wed, 24 Jan 2018 20:44:33 GMT
 - request:
     method: get
-    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog-core/1.32.1
-      X-DNSimple-Token:
-      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      - fog-core/1.44.3 fog-dnsimple/2.0.0
+      Authorization:
+      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
       Content-Type:
@@ -79,123 +77,115 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Tue, 15 Dec 2015 16:52:51 GMT
+      - Wed, 24 Jan 2018 20:44:33 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
       - keep-alive
-      Status:
-      - 200 OK
-      Strict-Transport-Security:
-      - max-age=631138519, max-age=31536000
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
-      Access-Control-Allow-Methods:
-      - GET,POST,PUT,DELETE,OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN, DENY
-      X-XSS-Protection:
-      - '1'
-      X-Content-Type-Options:
-      - nosniff, nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      ETag:
-      - W/"7db04136cdab1bf934bb582c0d8898d5"
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2384'
+      X-Ratelimit-Reset:
+      - '1516829520'
+      Etag:
+      - W/"b88be14d56b86e1007a120082cfc959b"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 19ea3e10-bba4-4b46-989a-fb7a9526790c
+      - 40c2b993-10d0-4e8a-a71a-58836f98fedb
       X-Runtime:
-      - '0.034068'
+      - '0.032550'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Strict-Transport-Security:
+      - max-age=31536000
     body:
-      encoding: UTF-8
-      string: '[{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}},{"record":{"id":5209959,"domain_id":222002,"parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-15T16:52:50.970Z","updated_at":"2015-12-15T16:52:50.970Z"}},{"record":{"id":5190382,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.792Z","updated_at":"2015-12-09T01:55:04.792Z"}},{"record":{"id":5190385,"domain_id":222002,"parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.250Z","updated_at":"2015-12-09T01:55:05.250Z"}},{"record":{"id":5190384,"domain_id":222002,"parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.111Z","updated_at":"2015-12-09T01:55:05.111Z"}},{"record":{"id":5190383,"domain_id":222002,"parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.938Z","updated_at":"2015-12-09T01:55:04.938Z"}},{"record":{"id":5190381,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com
-        admin.dnsimple.com 1449626156 86400 7200 604800 300","ttl":3600,"prio":null,"record_type":"SOA","system_record":true,"created_at":"2015-12-09T01:55:04.067Z","updated_at":"2015-12-15T16:52:51.138Z"}},{"record":{"id":5209960,"domain_id":222002,"parent_id":5209959,"name":"","content":"ALIAS
-        for dns-scratch.herokuapp.com","ttl":86400,"prio":null,"record_type":"TXT","system_record":false,"created_at":"2015-12-15T16:52:51.116Z","updated_at":"2015-12-15T16:52:51.116Z"}}]'
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":5190381,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1449626174 86400 7200 604800 300","ttl":3600,"priority":null,"type":"SOA","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2018-01-24T20:44:33Z"},{"id":5190382,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2015-12-09T01:55:04Z"},{"id":5190383,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2015-12-09T01:55:04Z"},{"id":5190384,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:05Z","updated_at":"2015-12-09T01:55:05Z"},{"id":5190385,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:05Z","updated_at":"2015-12-09T01:55:05Z"},{"id":13343287,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"priority":null,"type":"ALIAS","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:44:33Z","updated_at":"2018-01-24T20:44:33Z"},{"id":13343288,"zone_id":"dns-scratch.me","parent_id":13343287,"name":"","content":"ALIAS
+        for dns-scratch.herokuapp.com","ttl":86400,"priority":null,"type":"TXT","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:44:33Z","updated_at":"2018-01-24T20:44:33Z"}],"pagination":{"current_page":1,"per_page":30,"total_entries":7,"total_pages":1}}'
     http_version:
-  recorded_at: Tue, 15 Dec 2015 16:52:51 GMT
+  recorded_at: Wed, 24 Jan 2018 20:44:33 GMT
 - request:
     method: delete
-    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records/5209960
+    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records/13343288
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog-core/1.32.1
-      X-DNSimple-Token:
-      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      - fog-core/1.44.3 fog-dnsimple/2.0.0
+      Authorization:
+      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
       Content-Type:
       - application/json
   response:
     status:
-      code: 200
-      message:
+      code: 204
+      message: No Content
     headers:
       Server:
       - nginx
       Date:
-      - Tue, 15 Dec 2015 16:52:51 GMT
-      Content-Type:
-      - application/json; charset=utf-8
+      - Wed, 24 Jan 2018 20:44:34 GMT
       Connection:
       - keep-alive
-      Status:
-      - 200 OK
-      Strict-Transport-Security:
-      - max-age=631138519, max-age=31536000
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
-      Access-Control-Allow-Methods:
-      - GET,POST,PUT,DELETE,OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN, DENY
-      X-XSS-Protection:
-      - '1'
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2383'
+      X-Ratelimit-Reset:
+      - '1516829521'
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 18dd7fa6-97ce-4179-af96-f0eafcc1befb
+      X-Runtime:
+      - '0.116161'
       X-Content-Type-Options:
-      - nosniff, nosniff
+      - nosniff
       X-Download-Options:
       - noopen
+      X-Frame-Options:
+      - DENY
       X-Permitted-Cross-Domain-Policies:
       - none
-      ETag:
-      - W/"99914b932bd37a50b983c5e7c90ae93b"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - 51794c03-c3f5-4bff-a5cd-2c766049e78d
-      X-Runtime:
-      - '0.080539'
+      X-Xss-Protection:
+      - 1; mode=block
+      Strict-Transport-Security:
+      - max-age=31536000
     body:
-      encoding: UTF-8
-      string: "{}"
+      encoding: ASCII-8BIT
+      string: ''
     http_version:
-  recorded_at: Tue, 15 Dec 2015 16:52:52 GMT
+  recorded_at: Wed, 24 Jan 2018 20:44:34 GMT
 - request:
     method: get
-    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog-core/1.32.1
-      X-DNSimple-Token:
-      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      - fog-core/1.44.3 fog-dnsimple/2.0.0
+      Authorization:
+      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
       Content-Type:
@@ -203,48 +193,46 @@ http_interactions:
   response:
     status:
       code: 200
-      message:
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Tue, 15 Dec 2015 16:52:52 GMT
+      - Wed, 24 Jan 2018 20:44:34 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
       - keep-alive
-      Status:
-      - 200 OK
-      Strict-Transport-Security:
-      - max-age=631138519, max-age=31536000
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
-      Access-Control-Allow-Methods:
-      - GET,POST,PUT,DELETE,OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN, DENY
-      X-XSS-Protection:
-      - '1'
-      X-Content-Type-Options:
-      - nosniff, nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      ETag:
-      - W/"0059fecfb8c4b21beda123d982b8bcc8"
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2382'
+      X-Ratelimit-Reset:
+      - '1516829520'
+      Etag:
+      - W/"fd05b82178615a93a3d5d3ad66c57286"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5c041ff4-eaf0-4ac6-a7e7-5c518a347ae5
+      - e5e72941-c807-43fb-a7ba-c7e296ebf7d4
       X-Runtime:
-      - '0.031137'
+      - '0.048694'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Strict-Transport-Security:
+      - max-age=31536000
     body:
-      encoding: UTF-8
-      string: '[{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}},{"record":{"id":5209959,"domain_id":222002,"parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-15T16:52:50.970Z","updated_at":"2015-12-15T16:52:50.970Z"}},{"record":{"id":5190383,"domain_id":222002,"parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.938Z","updated_at":"2015-12-09T01:55:04.938Z"}},{"record":{"id":5190382,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.792Z","updated_at":"2015-12-09T01:55:04.792Z"}},{"record":{"id":5190384,"domain_id":222002,"parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.111Z","updated_at":"2015-12-09T01:55:05.111Z"}},{"record":{"id":5190385,"domain_id":222002,"parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.250Z","updated_at":"2015-12-09T01:55:05.250Z"}},{"record":{"id":5190381,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com
-        admin.dnsimple.com 1449626157 86400 7200 604800 300","ttl":3600,"prio":null,"record_type":"SOA","system_record":true,"created_at":"2015-12-09T01:55:04.067Z","updated_at":"2015-12-15T16:52:51.878Z"}}]'
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":5190381,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1449626175 86400 7200 604800 300","ttl":3600,"priority":null,"type":"SOA","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2018-01-24T20:44:34Z"},{"id":5190382,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2015-12-09T01:55:04Z"},{"id":5190383,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2015-12-09T01:55:04Z"},{"id":5190384,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:05Z","updated_at":"2015-12-09T01:55:05Z"},{"id":5190385,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:05Z","updated_at":"2015-12-09T01:55:05Z"},{"id":13343287,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"priority":null,"type":"ALIAS","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:44:33Z","updated_at":"2018-01-24T20:44:33Z"}],"pagination":{"current_page":1,"per_page":30,"total_entries":6,"total_pages":1}}'
     http_version:
-  recorded_at: Tue, 15 Dec 2015 16:52:52 GMT
-recorded_with: VCR 2.9.3
+  recorded_at: Wed, 24 Jan 2018 20:44:34 GMT
+recorded_with: VCR 4.0.0

@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records
     body:
       encoding: UTF-8
-      string: '{"record":{"name":"test-record","record_type":"A","content":"10.10.10.42","ttl":86400,"priority":null}}'
+      string: '{"name":"test-record","type":"A","content":"10.10.10.42","ttl":86400,"priority":null}'
     headers:
       User-Agent:
-      - fog-core/1.32.1
-      X-DNSimple-Token:
-      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      - fog-core/1.44.3 fog-dnsimple/2.0.0
+      Authorization:
+      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
       Content-Type:
@@ -18,47 +18,45 @@ http_interactions:
   response:
     status:
       code: 201
-      message: 
+      message: Created
     headers:
       Server:
       - nginx
       Date:
-      - Mon, 14 Dec 2015 23:59:43 GMT
+      - Wed, 24 Jan 2018 20:46:05 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
       - keep-alive
-      Status:
-      - 201 Created
-      Strict-Transport-Security:
-      - max-age=631138519, max-age=31536000
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
-      Access-Control-Allow-Methods:
-      - GET,POST,PUT,DELETE,OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN, DENY
-      X-XSS-Protection:
-      - '1'
-      X-Content-Type-Options:
-      - nosniff, nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      ETag:
-      - W/"e43529baa4f39253403e4ea5eeea11b3"
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2381'
+      X-Ratelimit-Reset:
+      - '1516829520'
+      Etag:
+      - W/"d704e0bdf73eac718a0c883df6c284a3"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 90b38e52-5ec1-4af6-b7d1-f858b0b8c766
+      - 3e809729-4d87-4fc4-9bc6-0c082445d87e
       X-Runtime:
-      - '0.077761'
+      - '0.054776'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Strict-Transport-Security:
+      - max-age=31536000
     body:
-      encoding: UTF-8
-      string: '{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}}'
-    http_version: 
-  recorded_at: Mon, 14 Dec 2015 23:59:43 GMT
-recorded_with: VCR 2.9.3
+      encoding: ASCII-8BIT
+      string: '{"data":{"id":13343292,"zone_id":"dns-scratch.me","parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"priority":null,"type":"A","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:46:05Z","updated_at":"2018-01-24T20:46:05Z"}}'
+    http_version:
+  recorded_at: Wed, 24 Jan 2018 20:46:05 GMT
+recorded_with: VCR 4.0.0
