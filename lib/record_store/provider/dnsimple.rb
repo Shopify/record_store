@@ -15,7 +15,7 @@ module RecordStore
           record.type,
           record_hash.fetch(:content),
           ttl: record_hash.fetch(:ttl),
-          priority: record_hash.fetch(:prio, nil)
+          priority: record_hash.fetch(:priority, nil)
         )
 
         if record.type == 'ALIAS'
@@ -38,9 +38,7 @@ module RecordStore
 
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
-        session.list_records(zone).body.map do |record|
-          record_body = record.fetch('record')
-
+        session.list_records(zone).body["data"].map do |record_body|
           begin
             build_from_api(record_body, zone)
           rescue StandardError
@@ -64,8 +62,8 @@ module RecordStore
       def session_params
         {
           provider: 'DNSimple',
-          dnsimple_email: secrets.fetch('email'),
           dnsimple_token: secrets.fetch('api_token'),
+          dnsimple_account: secrets.fetch('account_id'),
         }
       end
 
@@ -74,7 +72,7 @@ module RecordStore
       end
 
       def build_from_api(api_record, zone)
-        record_type = api_record.fetch('record_type')
+        record_type = api_record.fetch('type')
         record = {
           record_id: api_record.fetch('id'),
           ttl: api_record.fetch('ttl'),
@@ -91,7 +89,7 @@ module RecordStore
         when 'CNAME'
           record.merge!(cname: api_record.fetch('content'))
         when 'MX'
-          record.merge!(preference: api_record.fetch('prio'), exchange: api_record.fetch('content'))
+          record.merge!(preference: api_record.fetch('priority'), exchange: api_record.fetch('content'))
         when 'NS'
           record.merge!(nsdname: api_record.fetch('content'))
         when 'SPF', 'TXT'
@@ -100,7 +98,7 @@ module RecordStore
           weight, port, host = api_record.fetch('content').split(' ')
 
           record.merge!(
-            priority: api_record.fetch('prio').to_i,
+            priority: api_record.fetch('priority').to_i,
             weight: weight.to_i,
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
@@ -129,7 +127,7 @@ module RecordStore
         when 'CNAME'
           record_hash[:content] = record.cname.chomp('.')
         when 'MX'
-          record_hash[:prio] = record.preference
+          record_hash[:priority] = record.preference
           record_hash[:content] = record.exchange.chomp('.')
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
@@ -137,7 +135,7 @@ module RecordStore
           record_hash[:content] = record.txtdata.gsub('\;', ';')
         when 'SRV'
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
-          record_hash[:prio] = record.priority
+          record_hash[:priority] = record.priority
         end
 
         record_hash

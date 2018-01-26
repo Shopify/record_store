@@ -64,6 +64,9 @@ GEM
       builder
       excon (~> 0.49)
       formatador (~> 0.2)
+    fog-dnsimple (2.0.0)
+      fog-core (>= 1.38, < 3)
+      fog-json (~> 1.0)
     fog-dynect (0.2.0)
       fog-core
       fog-json
@@ -207,6 +210,7 @@ DEPENDENCIES
   activesupport (~> 4.2)
   ejson
   fog
+  fog-dnsimple (~> 2.0.0)
   fog-dynect (~> 0.2.0)
   fog-json
   fog-xml

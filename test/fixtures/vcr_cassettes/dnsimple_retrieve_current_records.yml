@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.dnsimple.com/v1/domains/dns-scratch.me/records
+    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - fog-core/1.32.1
-      X-DNSimple-Token:
-      - "<DNSIMPLE_EMAIL>:<DNSIMPLE_API_TOKEN>"
+      - fog-core/1.44.3 fog-dnsimple/2.0.0
+      Authorization:
+      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
       Content-Type:
@@ -18,48 +18,46 @@ http_interactions:
   response:
     status:
       code: 200
-      message: 
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Tue, 15 Dec 2015 00:05:31 GMT
+      - Wed, 24 Jan 2018 20:50:20 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
       - keep-alive
-      Status:
-      - 200 OK
-      Strict-Transport-Security:
-      - max-age=631138519, max-age=31536000
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Authorization,Accepts,Content-Type,X-DNSimple-Token,X-DNSimple-Domain-Token,X-CSRF-Token,x-requested-with
-      Access-Control-Allow-Methods:
-      - GET,POST,PUT,DELETE,OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN, DENY
-      X-XSS-Protection:
-      - '1'
-      X-Content-Type-Options:
-      - nosniff, nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      ETag:
-      - W/"dff6150e36e93050d52081fbac283d71"
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2375'
+      X-Ratelimit-Reset:
+      - '1516829520'
+      Etag:
+      - W/"a237c18f62d6c700ae3ad1deeca64f81"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 25070d07-1e2f-4639-b57c-fa6cf7101c30
+      - 899dc61c-0472-4303-8cf0-42bfe585b524
       X-Runtime:
-      - '0.028447'
+      - '0.051833'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Xss-Protection:
+      - 1; mode=block
+      Strict-Transport-Security:
+      - max-age=31536000
     body:
-      encoding: UTF-8
-      string: '[{"record":{"id":5207716,"domain_id":222002,"parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"prio":null,"record_type":"A","system_record":false,"created_at":"2015-12-14T23:59:43.036Z","updated_at":"2015-12-14T23:59:43.036Z"}},{"record":{"id":5190385,"domain_id":222002,"parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.250Z","updated_at":"2015-12-09T01:55:05.250Z"}},{"record":{"id":5190384,"domain_id":222002,"parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:05.111Z","updated_at":"2015-12-09T01:55:05.111Z"}},{"record":{"id":5190383,"domain_id":222002,"parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.938Z","updated_at":"2015-12-09T01:55:04.938Z"}},{"record":{"id":5190382,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"prio":null,"record_type":"NS","system_record":true,"created_at":"2015-12-09T01:55:04.792Z","updated_at":"2015-12-09T01:55:04.792Z"}},{"record":{"id":5196953,"domain_id":222002,"parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":60,"prio":null,"record_type":"ALIAS","system_record":false,"created_at":"2015-12-10T19:56:21.366Z","updated_at":"2015-12-10T19:56:21.366Z"}},{"record":{"id":5190381,"domain_id":222002,"parent_id":null,"name":"","content":"ns1.dnsimple.com
-        admin.dnsimple.com 1449626141 86400 7200 604800 300","ttl":3600,"prio":null,"record_type":"SOA","system_record":true,"created_at":"2015-12-09T01:55:04.067Z","updated_at":"2015-12-14T23:59:57.548Z"}}]'
-    http_version: 
-  recorded_at: Tue, 15 Dec 2015 00:05:31 GMT
-recorded_with: VCR 2.9.3
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":5190381,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1449626179 86400 7200 604800 300","ttl":3600,"priority":null,"type":"SOA","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2018-01-24T20:50:07Z"},{"id":5190382,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2015-12-09T01:55:04Z"},{"id":5190383,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:04Z","updated_at":"2015-12-09T01:55:04Z"},{"id":5190384,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:05Z","updated_at":"2015-12-09T01:55:05Z"},{"id":5190385,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2015-12-09T01:55:05Z","updated_at":"2015-12-09T01:55:05Z"},{"id":13343292,"zone_id":"dns-scratch.me","parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"priority":null,"type":"A","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:46:05Z","updated_at":"2018-01-24T20:46:05Z"},{"id":13343333,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":60,"priority":null,"type":"ALIAS","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:50:06Z","updated_at":"2018-01-24T20:50:06Z"}],"pagination":{"current_page":1,"per_page":30,"total_entries":7,"total_pages":1}}'
+    http_version:
+  recorded_at: Wed, 24 Jan 2018 20:50:20 GMT
+recorded_with: VCR 4.0.0

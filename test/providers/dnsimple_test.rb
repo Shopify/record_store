@@ -18,8 +18,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "a",
       "content" => "8.8.8.8",
       "ttl" => 60,
-      "prio" => nil,
-      "record_type" => "A",
+      "priority" => nil,
+      "type" => "A",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:17.380Z",
       "updated_at" => "2015-12-11T16:30:17.380Z"
@@ -39,8 +39,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "aaaa",
       "content" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF",
       "ttl" => 60,
-      "prio" => nil,
-      "record_type" => "AAAA",
+      "priority" => nil,
+      "type" => "AAAA",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:29.630Z",
       "updated_at" => "2015-12-11T16:30:29.630Z"
@@ -60,8 +60,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "",
       "content" => "dns-scratch.herokuapp.com",
       "ttl" => 60,
-      "prio" => nil,
-      "record_type" => "ALIAS",
+      "priority" => nil,
+      "type" => "ALIAS",
       "system_record" => false,
       "created_at" => "2015-12-10T19:56:21.366Z",
       "updated_at" => "2015-12-10T19:56:21.366Z"
@@ -81,8 +81,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "cname",
       "content" => "dns-scratch.me",
       "ttl" => 60,
-      "prio" => nil,
-      "record_type" => "CNAME",
+      "priority" => nil,
+      "type" => "CNAME",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:41.284Z",
       "updated_at" => "2015-12-11T16:30:41.284Z"
@@ -102,8 +102,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "mx",
       "content" => "mail-server.example.com",
       "ttl" => 60,
-      "prio" => 10,
-      "record_type" => "MX",
+      "priority" => 10,
+      "type" => "MX",
       "system_record" => false,
       "created_at" => "2015-12-10T19:58:20.474Z",
       "updated_at" => "2015-12-11T16:31:06.956Z"
@@ -124,8 +124,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "",
       "content" => "ns1.dnsimple.com",
       "ttl" => 3600,
-      "prio" => nil,
-      "record_type" => "NS",
+      "priority" => nil,
+      "type" => "NS",
       "system_record" => true,
       "created_at" => "2015-12-09T01:55:04.792Z",
       "updated_at" => "2015-12-09T01:55:04.792Z"
@@ -145,8 +145,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "_service._TCP.srv",
       "content" => "47 80 target-srv.dns-scratch.me",
       "ttl" => 60,
-      "prio" => 10,
-      "record_type" => "SRV",
+      "priority" => 10,
+      "type" => "SRV",
       "system_record" => false,
       "created_at" => "2015-12-11T16:33:10.947Z",
       "updated_at" => "2015-12-11T16:33:10.947Z"
@@ -169,8 +169,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "",
       "value" => "ns1.dnsimple.com admin.dnsimple.com 2013021901 86400 7200 604800 300",
       "ttl" => 3600,
-      "prio" => nil,
-      "record_type" => "SOA",
+      "priority" => nil,
+      "type" => "SOA",
       "system_record" => true,
       "created_at" => "2013-02-19T22:58:25.148Z",
       "updated_at" => "2013-02-19T22:58:38.751Z"
@@ -187,8 +187,8 @@ class DNSimpleTest < Minitest::Test
       "name" => "txt",
       "content" => "Hello, world!",
       "ttl" => 60,
-      "prio" => nil,
-      "record_type" => "TXT",
+      "priority" => nil,
+      "type" => "TXT",
       "system_record" => false,
       "created_at" => "2015-12-11T16:36:26.504Z",
       "updated_at" => "2015-12-11T16:36:26.504Z"
@@ -237,7 +237,7 @@ class DNSimpleTest < Minitest::Test
         ttl: 86400,
         fqdn: 'test-record.dns-scratch.me',
         address: '10.10.10.42',
-        record_id: 5207716
+        record_id: 13343292
       }),
       Record::NS.new({
         zone: 'dns-scratch.me',
@@ -272,13 +272,13 @@ class DNSimpleTest < Minitest::Test
         ttl: 60,
         fqdn: 'dns-scratch.me',
         alias: 'dns-scratch.herokuapp.com',
-        record_id: 5196953
+        record_id: 13343333
       }),
     ]
 
     VCR.use_cassette 'dnsimple_retrieve_current_records' do
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
-      assert_equal records_arr, records
+      assert_equal records_arr.sort_by(&:to_s), records.sort_by(&:to_s)
     end
   end
 
