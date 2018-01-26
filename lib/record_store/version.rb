@@ -1,3 +1,3 @@
 module RecordStore
-  VERSION = '4.0.7'.freeze
+  VERSION = '5.0.0'.freeze
 end
