@@ -26,7 +26,7 @@ Below is the list of DNS providers supported by Record Store. PRs [adding more](
 
 ### DNSimple
 
-Record Store uses DNSimple's [v2 API](https://developer.dnsimple.com/v2/). To use DNSimple, you'll need to add the primary user's `account_id` and `api_token` to `secrets.json`. There's currently no support for 2FA.
+Record Store uses DNSimple's [v2 API](https://developer.dnsimple.com/v2/). To use DNSimple, you'll need to add the primary user's `account_id` and `api_token` to `secrets.json`.
 
 ### DynECT
 
