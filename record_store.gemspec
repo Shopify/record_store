@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.0'
 
   spec.add_runtime_dependency 'thor'
-  spec.add_runtime_dependency 'activesupport', '~> 4.2'
-  spec.add_runtime_dependency 'activemodel', '~> 4.2'
+  spec.add_runtime_dependency 'activesupport', '>= 4.2'
+  spec.add_runtime_dependency 'activemodel', '>= 4.2'
   spec.add_runtime_dependency 'ejson'
 
   spec.add_runtime_dependency 'fog', '>= 1.33.0'
