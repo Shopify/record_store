@@ -246,12 +246,18 @@ module RecordStore
           `git checkout #{ENV['LAST_DEPLOYED_SHA']}`
           abort "Checkout of old commit failed" if $?.exitstatus != 0
 
+          `record-store secrets`
+          abort "Decrypt secrets failed" if $?.exitstatus != 0
+
           `record-store assert_empty_diff`
           abort "Dyn status has diverged!" if $?.exitstatus != 0
 
           puts "Checkout git SHA #{ENV['REVISION']}"
           `git checkout #{ENV['REVISION']}`
           abort "Checkout of new commit failed" if $?.exitstatus != 0
+
+          `record-store secrets`
+          abort "Decrypt secrets failed" if $?.exitstatus != 0
         end
       end
     end
