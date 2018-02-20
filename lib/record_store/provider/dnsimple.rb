@@ -1,4 +1,4 @@
-require 'fog/dnsimple'
+require 'dnsimple'
 
 module RecordStore
   class Provider::DNSimple < Provider
@@ -9,11 +9,12 @@ module RecordStore
 
       def add(record, zone)
         record_hash = api_hash(record, zone)
-        res = session.create_record(
+        res = session.zones.create_record(
+          account_id,
           zone,
-          record_hash.fetch(:name),
-          record.type,
-          record_hash.fetch(:content),
+          name: record_hash.fetch(:name),
+          type: record.type,
+          content: record_hash.fetch(:content),
           ttl: record_hash.fetch(:ttl),
           priority: record_hash.fetch(:priority, nil)
         )
@@ -29,20 +30,22 @@ module RecordStore
       end
 
       def remove(record, zone)
-        session.delete_record(zone, record.id)
+        session.zones.delete_record(account_id, zone, record.id)
       end
 
       def update(id, record, zone)
-        session.update_record(zone, id, api_hash(record, zone))
+        session.zones.update_record(account_id, zone, id, api_hash(record, zone))
       end
 
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
-        session.list_records(zone).body["data"].map do |record_body|
+        session.zones.all_records(account_id, zone).data.map do |record|
+          params = parameterize_record(record)
+
           begin
-            build_from_api(record_body, zone)
+            build_from_api(params, zone)
           rescue StandardError
-            stdout.puts "Cannot build record: #{record_body}"
+            stdout.puts "Cannot build record: #{params}"
             raise
           end
         end.compact
@@ -50,21 +53,27 @@ module RecordStore
 
       # Returns an array of the zones managed by provider as strings
       def zones
-        session.zones.map(&:domain)
+        session.zones.all_zones(account_id).data.map(&:name)
       end
 
       private
 
       def session
-        @dns ||= Fog::DNS.new(session_params)
+        @dns ||= Dnsimple::Client.new(
+          base_url: secrets.fetch('base_url'),
+          access_token: secrets.fetch('api_token')
+        )
       end
 
-      def session_params
-        {
-          provider: 'DNSimple',
-          dnsimple_token: secrets.fetch('api_token'),
-          dnsimple_account: secrets.fetch('account_id'),
-        }
+      def account_id
+        @account_id ||= secrets.fetch('account_id')
+      end
+
+      def parameterize_record(record)
+        record.instance_variables.each_with_object({}) do |attr, hash|
+          attr_key = attr.to_s.sub('@', '')
+          hash[attr_key] = record.instance_variable_get(attr)
+        end
       end
 
       def secrets
