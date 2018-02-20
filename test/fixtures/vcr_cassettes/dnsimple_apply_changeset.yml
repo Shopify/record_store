@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records
+    uri: "<DNSIMPLE_BASE_URL>/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records"
     body:
       encoding: UTF-8
       string: '{"name":"test-record","type":"A","content":"10.10.10.42","ttl":86400,"priority":null}'
     headers:
-      User-Agent:
-      - fog-core/1.44.3 fog-dnsimple/2.0.0
-      Authorization:
-      - "<DNSIMPLE_AUTH_TOKEN>"
       Accept:
       - application/json
+      User-Agent:
+      - dnsimple-ruby/4.4.0
+      Authorization:
+      - Bearer <DNSIMPLE_API_TOKEN>
       Content-Type:
       - application/json
   response:
@@ -23,25 +23,27 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 24 Jan 2018 20:46:05 GMT
+      - Tue, 20 Feb 2018 19:42:00 GMT
       Content-Type:
       - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       X-Ratelimit-Limit:
       - '2400'
       X-Ratelimit-Remaining:
-      - '2381'
+      - '2335'
       X-Ratelimit-Reset:
-      - '1516829520'
+      - '1519155899'
       Etag:
-      - W/"d704e0bdf73eac718a0c883df6c284a3"
+      - W/"e635e1ec48d5bb1da3213072ce013c44"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 3e809729-4d87-4fc4-9bc6-0c082445d87e
+      - 931ce24c-4dce-47e6-a212-3efb5d536f05
       X-Runtime:
-      - '0.054776'
+      - '0.081478'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -55,8 +57,8 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
     body:
-      encoding: ASCII-8BIT
-      string: '{"data":{"id":13343292,"zone_id":"dns-scratch.me","parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"priority":null,"type":"A","regions":["global"],"system_record":false,"created_at":"2018-01-24T20:46:05Z","updated_at":"2018-01-24T20:46:05Z"}}'
-    http_version:
-  recorded_at: Wed, 24 Jan 2018 20:46:05 GMT
+      encoding: UTF-8
+      string: '{"data":{"id":347593,"zone_id":"dns-scratch.me","parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"priority":null,"type":"A","regions":["global"],"system_record":false,"created_at":"2018-02-20T19:41:59Z","updated_at":"2018-02-20T19:41:59Z"}}'
+    http_version: 
+  recorded_at: Tue, 20 Feb 2018 19:42:00 GMT
 recorded_with: VCR 4.0.0
