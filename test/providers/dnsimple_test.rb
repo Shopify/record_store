@@ -11,7 +11,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_a_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199673,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -23,7 +23,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:17.380Z",
       "updated_at" => "2015-12-11T16:30:17.380Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::A, record
     assert_equal 'a.dns-scratch.me.', record.fqdn
@@ -32,7 +34,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_aaaa_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199674,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -44,7 +46,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:29.630Z",
       "updated_at" => "2015-12-11T16:30:29.630Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-scratch.me.', record.fqdn
@@ -53,7 +57,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_alias_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5196953,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -65,7 +69,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-10T19:56:21.366Z",
       "updated_at" => "2015-12-10T19:56:21.366Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::ALIAS, record
     assert_equal 'dns-scratch.me.', record.fqdn
@@ -74,7 +80,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_cname_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199675,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -86,7 +92,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:41.284Z",
       "updated_at" => "2015-12-11T16:30:41.284Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::CNAME, record
     assert_equal 'cname.dns-scratch.me.', record.fqdn
@@ -95,7 +103,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_mx_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5196959,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -107,7 +115,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-10T19:58:20.474Z",
       "updated_at" => "2015-12-11T16:31:06.956Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::MX, record
     assert_equal 'mx.dns-scratch.me.', record.fqdn
@@ -117,7 +127,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_ns_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5190382,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -129,7 +139,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => true,
       "created_at" => "2015-12-09T01:55:04.792Z",
       "updated_at" => "2015-12-09T01:55:04.792Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::NS, record
     assert_equal 'dns-scratch.me.', record.fqdn
@@ -138,7 +150,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_srv_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199683,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -150,7 +162,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:33:10.947Z",
       "updated_at" => "2015-12-11T16:33:10.947Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::SRV, record
     assert_equal '_service._TCP.srv.dns-scratch.me.', record.fqdn
@@ -162,7 +176,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_build_soa_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 644621,
       "zone_id" => 11851,
       "parent_id" => nil,
@@ -174,13 +188,15 @@ class DNSimpleTest < Minitest::Test
       "system_record" => true,
       "created_at" => "2013-02-19T22:58:25.148Z",
       "updated_at" => "2013-02-19T22:58:38.751Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_nil record
   end
 
   def test_build_txt_from_api
-    record = @dnsimple.send(:build_from_api, {
+    api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199689,
       "domain_id" => 222002,
       "parent_id" => nil,
@@ -192,7 +208,9 @@ class DNSimpleTest < Minitest::Test
       "system_record" => false,
       "created_at" => "2015-12-11T16:36:26.504Z",
       "updated_at" => "2015-12-11T16:36:26.504Z"
-    }, @zone_name)
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-scratch.me.', record.fqdn

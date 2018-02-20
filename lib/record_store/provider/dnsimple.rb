@@ -9,15 +9,7 @@ module RecordStore
 
       def add(record, zone)
         record_hash = api_hash(record, zone)
-        res = session.zones.create_record(
-          account_id,
-          zone,
-          name: record_hash.fetch(:name),
-          type: record.type,
-          content: record_hash.fetch(:content),
-          ttl: record_hash.fetch(:ttl),
-          priority: record_hash.fetch(:priority, nil)
-        )
+        res = session.zones.create_record(account_id, zone, record_hash)
 
         if record.type == 'ALIAS'
           txt_alias = retrieve_current_records(zone: zone).detect do |rr|
@@ -40,12 +32,10 @@ module RecordStore
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
         session.zones.all_records(account_id, zone).data.map do |record|
-          params = parameterize_record(record)
-
           begin
-            build_from_api(params, zone)
+            build_from_api(record, zone)
           rescue StandardError
-            stdout.puts "Cannot build record: #{params}"
+            stdout.puts "Cannot build record: #{record}"
             raise
           end
         end.compact
@@ -69,45 +59,38 @@ module RecordStore
         @account_id ||= secrets.fetch('account_id')
       end
 
-      def parameterize_record(record)
-        record.instance_variables.each_with_object({}) do |attr, hash|
-          attr_key = attr.to_s.sub('@', '')
-          hash[attr_key] = record.instance_variable_get(attr)
-        end
-      end
-
       def secrets
         super.fetch('dnsimple')
       end
 
       def build_from_api(api_record, zone)
-        record_type = api_record.fetch('type')
+        record_type = api_record.type
         record = {
-          record_id: api_record.fetch('id'),
-          ttl: api_record.fetch('ttl'),
-          fqdn: api_record.fetch('name').present? ? "#{api_record.fetch('name')}.#{zone}" : zone,
+          record_id: api_record.id,
+          ttl: api_record.ttl,
+          fqdn: api_record.name.present? ? "#{api_record.name}.#{zone}" : zone,
         }
 
         return if record_type == 'SOA'
 
         case record_type
         when 'A', 'AAAA'
-          record.merge!(address: api_record.fetch('content'))
+          record.merge!(address: api_record.content)
         when 'ALIAS'
-          record.merge!(alias: api_record.fetch('content'))
+          record.merge!(alias: api_record.content)
         when 'CNAME'
-          record.merge!(cname: api_record.fetch('content'))
+          record.merge!(cname: api_record.content)
         when 'MX'
-          record.merge!(preference: api_record.fetch('priority'), exchange: api_record.fetch('content'))
+          record.merge!(preference: api_record.priority, exchange: api_record.content)
         when 'NS'
-          record.merge!(nsdname: api_record.fetch('content'))
+          record.merge!(nsdname: api_record.content)
         when 'SPF', 'TXT'
-          record.merge!(txtdata: api_record.fetch('content').gsub(';', '\;'))
+          record.merge!(txtdata: api_record.content.gsub(';', '\;'))
         when 'SRV'
-          weight, port, host = api_record.fetch('content').split(' ')
+          weight, port, host = api_record.content.split(' ')
 
           record.merge!(
-            priority: api_record.fetch('priority').to_i,
+            priority: api_record.priority.to_i,
             weight: weight.to_i,
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
