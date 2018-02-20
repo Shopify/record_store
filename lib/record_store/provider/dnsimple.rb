@@ -38,7 +38,7 @@ module RecordStore
 
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
-        session.list_records(zone).body["data"].map do |record_body|
+        session.list_all_records(zone).body["data"].map do |record_body|
           begin
             build_from_api(record_body, zone)
           rescue StandardError
