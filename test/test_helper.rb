@@ -32,6 +32,7 @@ class Minitest::Test
     'dnsimple' => %w(
       account_id
       api_token
+      base_url
     )
   }
 
@@ -74,6 +75,7 @@ class Minitest::Test
     end
 
     config.filter_sensitive_data '<GOOGLE_CLOUD_DNS_AUTH_TOKEN>' do |interaction|
+      next unless interaction.request.uri =~ /<GOOGLE_CLOUD_DNS_TOKEN_URI>/
       if (auth_token = interaction.request.headers['Authorization']).present?
         auth_token.first
       end
