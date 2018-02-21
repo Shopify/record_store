@@ -90,7 +90,7 @@ module RecordStore
           weight, port, host = api_record.content.split(' ')
 
           record.merge!(
-            priority: api_record.priority.to_i,
+            priority: api_record.priority,
             weight: weight.to_i,
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
