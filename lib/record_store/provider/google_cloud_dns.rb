@@ -4,13 +4,17 @@ module RecordStore
   class Provider::GoogleCloudDNS < Provider
     class << self
       def apply_changeset(changeset, stdout = $stdout)
+        stdout.puts "Applying #{changeset.additions.size} additions, #{changeset.removals.size} removals, & #{changeset.updates.size} updates..."
+
         zone = session.zone(convert_to_name(changeset.zone))
 
         deletions = convert_records_to_gcloud_record_sets(zone, changeset.current_records)
         additions = convert_records_to_gcloud_record_sets(zone, changeset.desired_records)
 
-        # The Google API library will handle applying the changeset transactioanlly
+        # The Google API library will handle applying the changeset transactionally
         zone.update(additions, deletions)
+
+        puts "\nPublished #{changeset.zone} changes to #{changeset.provider.to_s}\n"
       end
 
       # returns an array of Record objects that match the records which exist in the provider
