@@ -29,17 +29,15 @@ module RecordStore
 
       # Applies changeset to provider
       def apply_changeset(changeset, stdout = $stdout)
-        begin
-          thaw_zone(changeset.zone)
-          super
-          publish(changeset.zone)
-        rescue StandardError
-          puts "An exception occurred while applying DNS changes, deleting changeset"
-          discard_change_set(changeset.zone)
-          raise
-        ensure
-          freeze_zone(changeset.zone)
-        end
+        thaw_zone(changeset.zone)
+        super
+        publish(changeset.zone)
+      rescue StandardError
+        puts "An exception occurred while applying DNS changes, deleting changeset"
+        discard_change_set(changeset.zone)
+        raise
+      ensure
+        freeze_zone(changeset.zone)
       end
 
       # returns an array of Record objects that match the records which exist in the provider

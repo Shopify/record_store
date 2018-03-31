@@ -69,25 +69,21 @@ module RecordStore
 
       # Applies changeset to provider
       def apply_changeset(changeset, stdout = $stdout)
-        stdout.puts "Applying #{changeset.additions.size} additions, #{changeset.removals.size} removals, & #{changeset.updates.size} updates..."
-
         changeset.changes.each do |change|
           case change.type
-            when :removal;
-              stdout.puts "Removing #{change.record}..."
-              remove(change.record, changeset.zone)
-            when :addition;
-              stdout.puts "Creating #{change.record}..."
-              add(change.record, changeset.zone)
-            when :update;
-              stdout.puts "Updating record with ID #{change.id} to #{change.record}..."
-              update(change.id, change.record, changeset.zone)
-            else
-              raise ArgumentError, "Unknown change type #{change.type.inspect}"
+          when :removal
+            stdout.puts "Removing #{change.record}..."
+            remove(change.record, changeset.zone)
+          when :addition
+            stdout.puts "Creating #{change.record}..."
+            add(change.record, changeset.zone)
+          when :update
+            stdout.puts "Updating record with ID #{change.id} to #{change.record}..."
+            update(change.id, change.record, changeset.zone)
+          else
+            raise ArgumentError, "Unknown change type #{change.type.inspect}"
           end
         end
-
-        puts "\nPublished #{changeset.zone} changes to #{changeset.provider.to_s}\n"
       end
 
       # Returns an array of the zones managed by provider as strings

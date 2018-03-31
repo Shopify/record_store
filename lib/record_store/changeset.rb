@@ -57,7 +57,11 @@ module RecordStore
     end
 
     def apply
+      puts "Applying #{additions.size} additions, #{removals.size} removals, and #{updates.size} updates..."
+
       provider.apply_changeset(self)
+
+      puts "Published #{zone} changes to #{provider}\n\n"
     end
 
     def unchanged
