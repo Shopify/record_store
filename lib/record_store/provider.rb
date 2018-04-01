@@ -55,18 +55,6 @@ module RecordStore
         raise NotImplementedError
       end
 
-      def add(record)
-        raise NotImplementedError
-      end
-
-      def remove(record)
-        raise NotImplementedError
-      end
-
-      def update(id, record)
-        raise NotImplementedError
-      end
-
       # Applies changeset to provider
       def apply_changeset(changeset, stdout = $stdout)
         begin
@@ -115,6 +103,20 @@ module RecordStore
 
       def to_s
         self.name.demodulize
+      end
+
+      private
+
+      def add(record)
+        raise NotImplementedError
+      end
+
+      def remove(record)
+        raise NotImplementedError
+      end
+
+      def update(id, record)
+        raise NotImplementedError
       end
     end
   end

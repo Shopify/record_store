@@ -11,18 +11,6 @@ module RecordStore
         session.put_zone(zone, thaw: true)
       end
 
-      def add(record, zone)
-        session.post_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl)
-      end
-
-      def remove(record, zone)
-        session.delete_record(record.type, zone, record.fqdn, record.id)
-      end
-
-      def update(id, record, zone)
-        session.put_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl, 'record_id' => id)
-      end
-
       def publish(zone)
         session.put_zone(zone, publish: true)
       end
@@ -61,6 +49,18 @@ module RecordStore
       end
 
       private
+
+      def add(record, zone)
+        session.post_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl)
+      end
+
+      def remove(record, zone)
+        session.delete_record(record.type, zone, record.fqdn, record.id)
+      end
+
+      def update(id, record, zone)
+        session.put_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl, 'record_id' => id)
+      end
 
       def discard_change_set(zone)
         session.request(expects: 200, method: :delete, path: "ZoneChanges/#{zone}")
