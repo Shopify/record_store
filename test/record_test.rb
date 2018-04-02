@@ -5,6 +5,7 @@ class RecordTest < Minitest::Test
     alias_rr: Record::ALIAS.new(fqdn: 'dns-test.shopify.io.', alias: 'dns-test.herokuapp.com.', ttl: 60),
     cname: Record::CNAME.new(fqdn: 'cname.dns-test.shopify.io.', cname: 'dns-test.shopify.io.', ttl: 60),
     txt: Record::TXT.new(fqdn: 'txt.dns-test.shopify.io.', txtdata: 'Hello, world!', ttl: 60),
+    spf: Record::SPF.new(fqdn: 'dns-test.shopify.io.', txtdata: 'v=spf1 -all', ttl: 3600),
     ns: Record::NS.new(fqdn: 'dns-test.shopify.io.', nsdname: 'ns1.dynect.net.', ttl: 3600),
     a: Record::A.new(fqdn: 'test.dns-test.shopify.io.', address: '10.11.12.13', ttl: 600),
     aaaa: Record::AAAA.new(
@@ -121,6 +122,7 @@ class RecordTest < Minitest::Test
     assert_equal 'ns1.dynect.net.', RECORD_FIXTURES[:ns].rdata_txt
     assert_equal '10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].rdata_txt
     assert_equal 'Hello, world!', RECORD_FIXTURES[:txt].rdata_txt
+    assert_equal 'v=spf1 -all', RECORD_FIXTURES[:spf].rdata_txt
   end
 
   def test_consistent_print_formatting
@@ -132,5 +134,6 @@ class RecordTest < Minitest::Test
     assert_equal '[NSRecord] dns-test.shopify.io. 3600 IN NS ns1.dynect.net.', RECORD_FIXTURES[:ns].to_s
     assert_equal '[SRVRecord] _service._TCP.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s
     assert_equal '[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s
+    assert_equal '[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s
   end
 end
