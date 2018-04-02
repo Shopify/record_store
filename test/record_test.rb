@@ -122,7 +122,7 @@ class RecordTest < Minitest::Test
     assert_equal 'ns1.dynect.net.', RECORD_FIXTURES[:ns].rdata_txt
     assert_equal '10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].rdata_txt
     assert_equal '"Hello, world!"', RECORD_FIXTURES[:txt].rdata_txt
-    assert_equal 'v=spf1 -all', RECORD_FIXTURES[:spf].rdata_txt
+    assert_equal '"v=spf1 -all"', RECORD_FIXTURES[:spf].rdata_txt
   end
 
   def test_consistent_print_formatting
