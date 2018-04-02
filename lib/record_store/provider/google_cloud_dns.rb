@@ -9,7 +9,7 @@ module RecordStore
         deletions = convert_records_to_gcloud_record_sets(zone, changeset.current_records)
         additions = convert_records_to_gcloud_record_sets(zone, changeset.desired_records)
 
-        # The Google API library will handle applying the changeset transactioanlly
+        # The Google API library will handle applying the changeset transactionally
         zone.update(additions, deletions)
       end
 
