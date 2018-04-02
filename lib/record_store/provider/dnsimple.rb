@@ -85,7 +85,7 @@ module RecordStore
         when 'NS'
           record.merge!(nsdname: api_record.content)
         when 'SPF', 'TXT'
-          record.merge!(txtdata: api_record.content.gsub(';', '\;'))
+          record.merge!(txtdata: api_record.content.gsub('\"', '"').gsub(';', '\;'))
         when 'SRV'
           weight, port, host = api_record.content.split(' ')
 
