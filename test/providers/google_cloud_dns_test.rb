@@ -115,7 +115,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'txt.dns-test.shopify.io.',
         'TXT',
         60,
-        ['Hello, world!']
+        ['"Hello, world!"']
       )
     )
 
@@ -219,13 +219,13 @@ class GoogleCloudDNSTest < Minitest::Test
         fqdn: 'txt.dns-scratch.me',
         zone: 'dns-scratch.me',
         ttl: 300,
-        txtdata: '"test"'
+        txtdata: 'test'
       ),
       Record::TXT.new(
         fqdn: 'txt.dns-scratch.me',
         zone: 'dns-scratch.me',
         ttl: 300,
-        txtdata: '"asdf"'
+        txtdata: 'asdf'
       ),
       Record::A.new(
         zone: 'dns-scratch.me',

@@ -49,7 +49,7 @@ module RecordStore
       private
 
       def add(record, zone)
-        session.post_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl)
+        session.post_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl)
       end
 
       def remove(record, zone)
@@ -57,7 +57,7 @@ module RecordStore
       end
 
       def update(id, record, zone)
-        session.put_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl, 'record_id' => id)
+        session.put_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl, 'record_id' => id)
       end
 
       def discard_change_set(zone)
@@ -82,16 +82,28 @@ module RecordStore
         super.fetch('dynect')
       end
 
-      def build_from_api(api_record)
-        record = api_record.merge(api_record.fetch('rdata')).slice!('rdata').symbolize_keys
-
-        return if record.fetch(:record_type) == 'SOA'
-
-        unless record.fetch(:fqdn).ends_with?('.')
-          record[:fqdn] = "#{record.fetch(:fqdn)}."
+      def api_rdata(record)
+        case record.type
+        when 'TXT'
+          { txtdata: record.rdata_txt }
+        else
+          record.rdata
         end
+      end
 
-        Record.const_get(record.fetch(:record_type)).new(record)
+      def build_from_api(api_record)
+        rdata = api_record.fetch('rdata')
+        record = api_record.merge(rdata).slice!('rdata').symbolize_keys
+
+        type = record.fetch(:record_type)
+        return if type == 'SOA'
+
+        record[:txtdata] = Record::TXT.unescape(record[:txtdata]) if %w[SPF TXT].include?(type)
+
+        fqdn = record.fetch(:fqdn)
+        record[:fqdn] = "#{fqdn}." unless fqdn.ends_with?('.')
+
+        Record.const_get(type).new(record)
       end
     end
   end

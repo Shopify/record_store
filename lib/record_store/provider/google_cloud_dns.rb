@@ -98,7 +98,8 @@ module RecordStore
         when 'NS'
           record_params.merge!(nsdname: record.data[0])
         when 'SPF', 'TXT'
-          record_params.merge!(txtdata: record.data[0].gsub(';', '\;'))
+          txtdata = Record::TXT.unquote(record.data[0]).gsub(';', '\;')
+          record_params.merge!(txtdata: txtdata)
         when 'SRV'
           priority, weight, port, target = record.data[0].split(' ')
 

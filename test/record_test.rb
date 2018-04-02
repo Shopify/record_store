@@ -121,8 +121,8 @@ class RecordTest < Minitest::Test
     assert_equal '10 mail-server.example.com.', RECORD_FIXTURES[:mx].rdata_txt
     assert_equal 'ns1.dynect.net.', RECORD_FIXTURES[:ns].rdata_txt
     assert_equal '10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].rdata_txt
-    assert_equal 'Hello, world!', RECORD_FIXTURES[:txt].rdata_txt
-    assert_equal 'v=spf1 -all', RECORD_FIXTURES[:spf].rdata_txt
+    assert_equal '"Hello, world!"', RECORD_FIXTURES[:txt].rdata_txt
+    assert_equal '"v=spf1 -all"', RECORD_FIXTURES[:spf].rdata_txt
   end
 
   def test_consistent_print_formatting
@@ -135,5 +135,39 @@ class RecordTest < Minitest::Test
     assert_equal '[SRVRecord] _service._TCP.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s
     assert_equal '[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s
     assert_equal '[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s
+  end
+
+  def test_txt_record_with_embedded_whitespace
+    record = Record::TXT.new(fqdn: 'example.com.', ttl: 600, txtdata: 'embedded whitespace')
+
+    assert_predicate record, :valid?
+    assert_equal 'embedded whitespace', record.txtdata
+    assert_equal '"embedded whitespace"', record.rdata_txt
+    assert_equal '[TXTRecord] example.com. 600 IN TXT "embedded whitespace"', record.to_s
+  end
+
+  def test_txt_record_with_embedded_quotes
+    record = Record::TXT.new(fqdn: 'example.com.', ttl: 600, txtdata: 'embedded "quotes"')
+
+    assert_predicate record, :valid?
+    assert_equal 'embedded "quotes"', record.txtdata
+    assert_equal '"embedded \"quotes\""', record.rdata_txt
+    assert_equal '[TXTRecord] example.com. 600 IN TXT "embedded \"quotes\""', record.to_s
+  end
+
+  def test_escape_quotes
+    assert_equal 'text with \"quotes\"', Record::TXT.escape('text with "quotes"')
+  end
+
+  def test_quote_value
+    assert_equal '"text with \"quotes\""', Record::TXT.quote('text with "quotes"')
+  end
+
+  def test_unescape_quotes
+    assert_equal 'text with "quotes"', Record::TXT.unescape('text with \"quotes\"')
+  end
+
+  def test_unquote_value
+    assert_equal 'text with "quotes"', Record::TXT.unquote('"text with \"quotes\""')
   end
 end

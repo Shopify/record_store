@@ -35,7 +35,7 @@ module RecordStore
     end
 
     def type
-      self.class.name.split('::').last
+      self.class.name.demodulize
     end
 
     def ==(other)
@@ -65,8 +65,7 @@ module RecordStore
     end
 
     def to_s
-      rr_type = self.class.name.demodulize
-      "[#{rr_type}Record] #{fqdn} #{ttl} IN #{rr_type} #{rdata_txt}"
+      "[#{type}Record] #{fqdn} #{ttl} IN #{type} #{rdata_txt}"
     end
 
     protected
