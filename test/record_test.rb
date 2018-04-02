@@ -154,4 +154,20 @@ class RecordTest < Minitest::Test
     assert_equal '"embedded \"quotes\""', record.rdata_txt
     assert_equal '[TXTRecord] example.com. 600 IN TXT "embedded \"quotes\""', record.to_s
   end
+
+  def test_escape_quotes
+    assert_equal 'text with \"quotes\"', Record::TXT.escape('text with "quotes"')
+  end
+
+  def test_quote_value
+    assert_equal '"text with \"quotes\""', Record::TXT.quote('text with "quotes"')
+  end
+
+  def test_unescape_quotes
+    assert_equal 'text with "quotes"', Record::TXT.unescape('text with \"quotes\"')
+  end
+
+  def test_unquote_value
+    assert_equal 'text with "quotes"', Record::TXT.unquote('"text with \"quotes\""')
+  end
 end

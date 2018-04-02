@@ -98,7 +98,7 @@ module RecordStore
         type = record.fetch(:record_type)
         return if type == 'SOA'
 
-        record[:txtdata].gsub!('\"', '"') if type == 'TXT'
+        record[:txtdata] = Record::TXT.unescape(record[:txtdata]) if type == 'TXT'
 
         fqdn = record.fetch(:fqdn)
         record[:fqdn] = "#{fqdn}." unless fqdn.ends_with?('.')
