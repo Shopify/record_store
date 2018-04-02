@@ -124,7 +124,7 @@ module RecordStore
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
         when 'SPF', 'TXT'
-          record_hash[:content] = record.txtdata.gsub('\;', ';')
+          record_hash[:content] = record.txtdata.gsub('"', '\"').gsub('\;', ';')
         when 'SRV'
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
           record_hash[:priority] = record.priority

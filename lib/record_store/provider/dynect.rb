@@ -49,7 +49,7 @@ module RecordStore
       private
 
       def add(record, zone)
-        session.post_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl)
+        session.post_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl)
       end
 
       def remove(record, zone)
@@ -57,7 +57,7 @@ module RecordStore
       end
 
       def update(id, record, zone)
-        session.put_record(record.type, zone, record.fqdn, record.rdata, 'ttl' => record.ttl, 'record_id' => id)
+        session.put_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl, 'record_id' => id)
       end
 
       def discard_change_set(zone)
@@ -80,6 +80,15 @@ module RecordStore
 
       def secrets
         super.fetch('dynect')
+      end
+
+      def api_rdata(record)
+        case record.type
+        when 'TXT'
+          { txtdata: record.rdata_txt }
+        else
+          record.rdata
+        end
       end
 
       def build_from_api(api_record)
