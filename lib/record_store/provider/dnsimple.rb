@@ -7,6 +7,25 @@ module RecordStore
         true
       end
 
+      # returns an array of Record objects that match the records which exist in the provider
+      def retrieve_current_records(zone:, stdout: $stdout)
+        session.zones.all_records(account_id, zone).data.map do |record|
+          begin
+            build_from_api(record, zone)
+          rescue StandardError
+            stdout.puts "Cannot build record: #{record}"
+            raise
+          end
+        end.compact
+      end
+
+      # Returns an array of the zones managed by provider as strings
+      def zones
+        session.zones.all_zones(account_id).data.map(&:name)
+      end
+
+      private
+
       def add(record, zone)
         record_hash = api_hash(record, zone)
         res = session.zones.create_record(account_id, zone, record_hash)
@@ -28,25 +47,6 @@ module RecordStore
       def update(id, record, zone)
         session.zones.update_record(account_id, zone, id, api_hash(record, zone))
       end
-
-      # returns an array of Record objects that match the records which exist in the provider
-      def retrieve_current_records(zone:, stdout: $stdout)
-        session.zones.all_records(account_id, zone).data.map do |record|
-          begin
-            build_from_api(record, zone)
-          rescue StandardError
-            stdout.puts "Cannot build record: #{record}"
-            raise
-          end
-        end.compact
-      end
-
-      # Returns an array of the zones managed by provider as strings
-      def zones
-        session.zones.all_zones(account_id).data.map(&:name)
-      end
-
-      private
 
       def session
         @dns ||= Dnsimple::Client.new(

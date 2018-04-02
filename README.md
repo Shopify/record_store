@@ -96,28 +96,6 @@ Provider API interactions are tested with [VCR](https://github.com/vcr/vcr). To 
 Outline of [`Provider`](lib/record_store/provider.rb):
 ```ruby
 class Provider
-  # Creates a new record to the zone. It is expected this call modifies external state.
-  #
-  # Arguments:
-  # record - a kind of `Record`
-  def add(record)
-  end
-
-  # Deletes an existing record from the zone. It is expected this call modifies external state.
-  #
-  # Arguments:
-  # record - a kind of `Record`
-  def remove(record)
-  end
-
-  # Updates an existing record in the zone. It is expected this call modifies external state.
-  #
-  # Arguments:
-  # id - provider specific ID of record to update
-  # record - a kind of `Record` which the record with `id` should be updated to
-  def update(id, record)
-  end
-
   # Downloads all the records from the provider.
   #
   # Returns: an array of `Record` for each record in the provider's zone
@@ -140,6 +118,35 @@ class Provider
 
   # Unlocks the zone to allow making changes (see `Provider#freeze_zone`).
   def thaw
+  end
+
+  private
+
+  ######## NOTE ########
+  # The following methods only need to be implemented if you are using the base provider's
+  # implementation of apply_changeset to manage the contents of the changeset (or transaction).
+  ######################
+
+  # Creates a new record to the zone. It is expected this call modifies external state.
+  #
+  # Arguments:
+  # record - a kind of `Record`
+  def add(record)
+  end
+
+  # Deletes an existing record from the zone. It is expected this call modifies external state.
+  #
+  # Arguments:
+  # record - a kind of `Record`
+  def remove(record)
+  end
+
+  # Updates an existing record in the zone. It is expected this call modifies external state.
+  #
+  # Arguments:
+  # id - provider specific ID of record to update
+  # record - a kind of `Record` which the record with `id` should be updated to
+  def update(id, record)
   end
 end
 ```
