@@ -4,15 +4,15 @@ module RecordStore
   class Provider::DynECT < Provider
     class << self
       def freeze_zone(zone)
-        synchronize { session.put_zone(zone, freeze: true) }
+        session.put_zone(zone, freeze: true)
       end
 
       def thaw_zone(zone)
-        synchronize { session.put_zone(zone, thaw: true) }
+        session.put_zone(zone, thaw: true)
       end
 
       def publish(zone)
-        synchronize { session.put_zone(zone, publish: true) }
+        session.put_zone(zone, publish: true)
       end
 
       # Applies changeset to provider
@@ -30,8 +30,7 @@ module RecordStore
 
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
-        response = synchronize { session.get_all_records(zone) }
-        response.body.fetch('data').flat_map do |type, records|
+        session.get_all_records(zone).body.fetch('data').flat_map do |type, records|
           records.map do |record_body|
             begin
               build_from_api(record_body)
@@ -44,29 +43,29 @@ module RecordStore
 
       # Returns an array of the zones managed by provider as strings
       def zones
-        synchronize { session.zones }.map(&:domain)
+        session.zones.map(&:domain)
       end
 
       private
 
       def add(record, zone)
-        synchronize { session.post_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl) }
+        session.post_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl)
       end
 
       def remove(record, zone)
-        synchronize { session.delete_record(record.type, zone, record.fqdn, record.id) }
+        session.delete_record(record.type, zone, record.fqdn, record.id)
       end
 
       def update(id, record, zone)
-        synchronize { session.put_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl, 'record_id' => id) }
+        session.put_record(record.type, zone, record.fqdn, api_rdata(record), 'ttl' => record.ttl, 'record_id' => id)
       end
 
       def discard_change_set(zone)
-        synchronize { session.request(expects: 200, method: :delete, path: "ZoneChanges/#{zone}") }
+        session.request(expects: 200, method: :delete, path: "ZoneChanges/#{zone}")
       end
 
       def session
-        @dns ||= Fog::DNS.new(session_params)
+        Thread.current[:dns] ||= Fog::DNS.new(session_params)
       end
 
       def session_params
@@ -105,11 +104,6 @@ module RecordStore
         record[:fqdn] = "#{fqdn}." unless fqdn.ends_with?('.')
 
         Record.const_get(type).new(record)
-      end
-
-      def synchronize(&block)
-        @mutex ||= Mutex.new
-        @mutex.synchronize(&block)
       end
     end
   end
