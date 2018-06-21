@@ -50,13 +50,7 @@ module RecordStore
             current_zone = nil
             while not zones.empty?
               mutex.synchronize { current_zone = zones.shift }
-              begin
-                mutex.synchronize { modified_zones << current_zone } unless current_zone.unchanged?
-              rescue Excon::Error::BadRequest => e
-                raise e unless e.response.body.include?('session already has a job')
-                puts "DynECT session collision for #{current_zone.name}" if verbose
-                mutex.synchronize { zones.push(current_zone) }
-              end
+              mutex.synchronize { modified_zones << current_zone } unless current_zone.unchanged?
             end
           end
         end.each(&:join)
