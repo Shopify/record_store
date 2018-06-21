@@ -65,7 +65,7 @@ module RecordStore
       end
 
       def session
-        @dns ||= Fog::DNS.new(session_params)
+        Thread.current[:dns] ||= Fog::DNS.new(session_params)
       end
 
       def session_params
