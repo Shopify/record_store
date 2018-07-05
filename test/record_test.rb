@@ -80,6 +80,7 @@ class RecordTest < Minitest::Test
     assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com'), :valid?
     assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com'), :valid?
     assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example--2.com'), :valid?
+    assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: '_example.com'), :valid?
     refute_predicate Record::CNAME.new(fqdn: 'samedomain.com', ttl: 3600, cname: 'samedomain.com'), :valid?
     refute_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example---2.com'), :valid?
     refute_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: '--2.com'), :valid?
