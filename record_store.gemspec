@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'fog-dynect', '~> 0.2.0'
   spec.add_runtime_dependency 'dnsimple-ruby', '~> 2.0'
   spec.add_runtime_dependency 'google-cloud-dns'
+  spec.add_runtime_dependency 'ruby-limiter', '~> 1.0', '>= 1.0.1'
 
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'bundler'
