@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 5.2.0
+- limit request rate for DynECT API to avoid 429 errors [FEATURE]
+
+## 5.1.1
+- allow underscore in CNAME as per RFC [BUGFIX]
+
 ## 5.1.0
 - use concurrent sessions when multi-threaded to avoid "This session already has a job running" errors. [BUGFIX]
 
