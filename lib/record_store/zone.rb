@@ -15,7 +15,6 @@ module RecordStore
     validate :validate_same_ttl_for_records_sharing_fqdn_and_type
     validate :validate_provider_can_handle_zone_records
     validate :validate_can_handle_alias_records
-    validate :validate_alias_points_to_root
 
     class << self
       def download(name, provider_name, **write_options)

@@ -358,19 +358,6 @@ class ZoneTest < Minitest::Test
     assert_match /does not support ALIAS records/, invalid_zone.errors[:records].first
   end
 
-  def test_zone_validates_alias_points_to_root
-    valid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'], supports_alias: true }, records: [
-      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
-    ])
-    assert_predicate valid_zone, :valid?
-
-    invalid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'], supports_alias: true }, records: [
-      { type: 'ALIAS', fqdn: 'alias.matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
-    ])
-    refute_predicate invalid_zone, :valid?
-    assert_equal 'ALIAS record should be defined on the root of the zone: [ALIASRecord] alias.matching-records.com. 60 IN ALIAS matching-records.herokuapp.com.', invalid_zone.errors[:records].first
-  end
-
   def test_modified_returns_all_zones_with_changes
     zone_a = Zone.find('one-record.com')
     zone_a.stubs(:build_changesets).returns([populated_changeset])
