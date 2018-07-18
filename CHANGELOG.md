@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.2.1
+- remove alias at domain root validation
+
 ## 5.2.0
 - limit request rate for DynECT API to avoid 429 errors [FEATURE]
 
