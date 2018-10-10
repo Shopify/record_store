@@ -32,10 +32,10 @@ module RecordStore
         zone.write(**write_options)
       end
 
-      def filter_records(current_records, ignore_patterns)
-        ignore_patterns.inject(current_records) do |remaining_records, pattern|
+      def filter_records(current_records, ignore_objects)
+        ignore_objects.inject(current_records) do |remaining_records, pattern|
           remaining_records.reject do |record|
-            pattern.all? { |(key, value)| record.respond_to?(key) && value === record.send(key) }
+            pattern.should_ignore?(record)
           end
         end
       end
@@ -81,7 +81,7 @@ module RecordStore
     end
 
     def records
-      @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
+      @records_cache ||= Zone.filter_records(@records, [config.ignore_patterns, config.ignore_regexes].flatten)
     end
 
     def records=(records)

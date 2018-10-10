@@ -44,6 +44,20 @@ class ZoneTest < Minitest::Test
     assert_equal 1, zone.records.size
   end
 
+  def test_zone_has_configurable_ignore_regexes
+    zone = Zone.find('one-record.com')
+    assert_equal 1, zone.records.size
+
+    zone.config = build_config(ignore_regexes: [{'fqdn' => 'a-r.cord.*' }])
+    assert_equal 0, zone.records.size
+
+    zone.config = build_config(ignore_regexes: [{'fqdn' => 'filter-nothing' }])
+    assert_equal 1, zone.records.size
+
+    zone.config = build_config(ignore_regexes: [])
+    assert_equal 1, zone.records.size
+  end
+
   def test_zone_has_config_with_provider
     zone = Zone.find('empty.com')
 
@@ -153,11 +167,23 @@ class ZoneTest < Minitest::Test
     ]
 
     assert_equal 2, Zone.filter_records(records, []).length
-    assert_equal 1, Zone.filter_records(records, [{type: 'CNAME'}]).length
-    assert_equal 2, Zone.filter_records(records, [{type: 'TXT'}]).length
-    assert_equal 1, Zone.filter_records(records, [{type: 'TXT'}, {type: 'CNAME'}]).length
-    assert_equal 0, Zone.filter_records(records, [{type: 'TXT'}, {ttl: 600}]).length
-    assert_equal 1, Zone.filter_records(records, [{cname: 'real.example.com.' }]).length
+    assert_equal 1, Zone.filter_records(records, [
+      Zone::Config::IgnorePattern.new({type: 'CNAME'})
+    ]).length
+    assert_equal 2, Zone.filter_records(records, [
+      Zone::Config::IgnorePattern.new({type: 'TXT'})
+    ]).length
+    assert_equal 1, Zone.filter_records(records, [
+      Zone::Config::IgnorePattern.new({type: 'TXT'}),
+      Zone::Config::IgnorePattern.new({type: 'CNAME'})
+    ]).length
+    assert_equal 0, Zone.filter_records(records, [
+      Zone::Config::IgnorePattern.new({type: 'TXT'}),
+      Zone::Config::IgnorePattern.new({ttl: 600})
+    ]).length
+    assert_equal 1, Zone.filter_records(records, [
+      Zone::Config::IgnorePattern.new({cname: 'real.example.com.' })
+    ]).length
   end
 
   def test_download_downloads_zone_into_file
@@ -168,7 +194,7 @@ class ZoneTest < Minitest::Test
         assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
         zone = Zone.find(name)
-        assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns
+        assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns.map{|ignore_pattern| ignore_pattern.to_hash}
         assert_equal [
           Record::ALIAS.new({
             zone: 'dns-test.shopify.io',

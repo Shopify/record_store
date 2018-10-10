@@ -5,6 +5,7 @@ zone-file.com:
     ignore_patterns:
     - type: NS
       fqdn: zone-file.com.
+    ignore_regexes: []
   records:
   - type: A
     fqdn: a-record.zone-file.com.
