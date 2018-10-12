@@ -139,7 +139,6 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_apply_changeset_sets_state_to_match_changeset
-    skip "test fails because of out of data VCR casette"
     a_record = Record::A.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 86400, address: '10.10.10.42')
 
     VCR.use_cassette 'gcloud_dns_apply_changeset' do
@@ -153,7 +152,6 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_retrieve_current_records_returns_array_of_records
-    skip "test fails because of out of date vcr cassette"
     records_arr = [
       Record::NS.new(
         zone: 'dns-scratch.me',
@@ -244,7 +242,6 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider
-    skip "test fails because of out of date vcr cassette"
     VCR.use_cassette 'gcloud_dns_zones' do
       assert_equal Provider::GoogleCloudDNS.zones, ['dns-scratch.me.']
     end
