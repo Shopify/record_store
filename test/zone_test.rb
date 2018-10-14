@@ -48,13 +48,24 @@ class ZoneTest < Minitest::Test
     zone = Zone.find('one-record.com')
     assert_equal 1, zone.records.size
 
-    zone.config = build_config(ignore_regexes: [{'fqdn' => 'a-r.cord.*' }])
+    zone.config = build_config(ignore_patterns: [{'match' => 'regex', 'fqdn' => 'a-r.cord.*' }])
     assert_equal 0, zone.records.size
 
-    zone.config = build_config(ignore_regexes: [{'fqdn' => 'filter-nothing' }])
+    zone.config = build_config(ignore_patterns: [{'match' => 'regex', 'fqdn' => 'filter-nothing' }])
     assert_equal 1, zone.records.size
 
-    zone.config = build_config(ignore_regexes: [])
+    zone.config = build_config(ignore_patterns: [])
+    assert_equal 1, zone.records.size
+  end
+
+  def test_zone_ignores_unknown_ignore_pattern_types
+    zone = Zone.find('one-record.com')
+    assert_equal 1, zone.records.size
+
+    zone.config = build_config(ignore_patterns: [{'match' => 'unknown', 'fqdn' => 'a-r.cord.*' }])
+    assert_equal 1, zone.records.size
+
+    zone.config = build_config(ignore_patterns: [{'match' => 'unknown', 'fqdn' => 'a-record.one-record.com.' }])
     assert_equal 1, zone.records.size
   end
 
