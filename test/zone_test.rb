@@ -40,6 +40,9 @@ class ZoneTest < Minitest::Test
     zone.config = build_config(ignore_patterns: [{'fqdn' => 'a-record.one-record.com.'}])
     assert_equal 0, zone.records.size
 
+    zone.config = build_config(ignore_patterns: [{'match' => 'exact', 'fqdn' => 'a-record.one-record.com.'}])
+    assert_equal 0, zone.records.size
+
     zone.config = build_config(ignore_patterns: [])
     assert_equal 1, zone.records.size
   end
