@@ -81,7 +81,7 @@ module RecordStore
     end
 
     def records
-      @records_cache ||= Zone.filter_records(@records, [config.ignore_patterns, config.ignore_regexes].flatten)
+      @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
     end
 
     def records=(records)

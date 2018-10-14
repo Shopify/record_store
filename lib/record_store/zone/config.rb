@@ -3,17 +3,13 @@ module RecordStore
     class Config
       include ActiveModel::Validations
 
-      attr_reader :ignore_patterns, :ignore_regexes, :providers, :supports_alias
+      attr_reader :ignore_patterns, :providers, :supports_alias
 
       validate :validate_zone_config
 
-      def initialize(ignore_patterns: [], ignore_regexes: [], providers: nil, supports_alias: nil)
+      def initialize(ignore_patterns: [], providers: nil, supports_alias: nil)
         @ignore_patterns = ignore_patterns.map do|ignore_pattern|
           Zone::Config::IgnorePattern.new(ignore_pattern)
-        end
-
-        @ignore_regexes = ignore_regexes.map do|ignore_regex|
-          Zone::Config::IgnoreRegex.new(ignore_regex)
         end
 
         @providers = providers
@@ -32,7 +28,6 @@ module RecordStore
         config_hash = {
           providers: providers,
           ignore_patterns: ignore_patterns.map {|ignore_pattern| ignore_pattern.to_hash },
-          ignore_regexes: ignore_regexes.map {|ignore_regex| ignore_regex.to_hash },
         }
         config_hash.merge!(supports_alias: supports_alias) if supports_alias
 
