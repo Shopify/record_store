@@ -1,39 +1,47 @@
+# frozen_string_literal: true
+
 module RecordStore
   class Zone
     class Config
       class IgnorePattern
+        MATCH_TYPE_FIELD = 'match'
+        MATCH_TYPE_REGEX = 'regex'
+        MATCH_TYPE_EXACT = 'exact'
+
         def initialize(orig_hash)
           @orig_hash = orig_hash
         end
 
-        def should_ignore?(record)
-          all_pairs.all?{|(key, value)| record.respond_to?(key) && value_matches?(value, record.send(key))}
+        def ignore?(record)
+          all_pairs.all? do |(key, value)|
+            record.respond_to?(key) && value_matches?(value, record.send(key))
+          end
         end
 
         def to_hash
-          orig_hash
+          @orig_hash
         end
 
         private
 
-        attr_accessor :orig_hash
-
         def all_pairs
-          orig_hash.reject{|key, value| key === 'match'}
+          to_hash.reject { |key| key == MATCH_TYPE_FIELD }
         end
 
         def value_matches?(ignore_pattern_value, record_value)
-          return record_value.match?(ignore_pattern_value) if is_regex?
-          return record_value === ignore_pattern_value if is_exact?
+          return record_value.match?(ignore_pattern_value) if regex?
+          return record_value == ignore_pattern_value if exact?
+
           false
         end
 
-        def is_regex?
-          orig_hash['match'] === 'regex'
+        def regex?
+          to_hash[MATCH_TYPE_FIELD] == MATCH_TYPE_REGEX
         end
 
-        def is_exact?
-          !orig_hash.key?('match') || (orig_hash['match'] === 'exact')
+        def exact?
+          !to_hash.key?(MATCH_TYPE_FIELD) || \
+            (to_hash[MATCH_TYPE_FIELD] == MATCH_TYPE_EXACT)
         end
       end
     end

@@ -8,7 +8,7 @@ module RecordStore
       validate :validate_zone_config
 
       def initialize(ignore_patterns: [], providers: nil, supports_alias: nil)
-        @ignore_patterns = ignore_patterns.map do|ignore_pattern|
+        @ignore_patterns = ignore_patterns.map do |ignore_pattern|
           Zone::Config::IgnorePattern.new(ignore_pattern)
         end
 
@@ -27,7 +27,7 @@ module RecordStore
       def to_hash
         config_hash = {
           providers: providers,
-          ignore_patterns: ignore_patterns.map {|ignore_pattern| ignore_pattern.to_hash },
+          ignore_patterns: ignore_patterns.map(&:to_hash)
         }
         config_hash.merge!(supports_alias: supports_alias) if supports_alias
 

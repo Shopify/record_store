@@ -35,7 +35,7 @@ module RecordStore
       def filter_records(current_records, ignore_objects)
         ignore_objects.inject(current_records) do |remaining_records, pattern|
           remaining_records.reject do |record|
-            pattern.should_ignore?(record)
+            pattern.ignore?(record)
           end
         end
       end
