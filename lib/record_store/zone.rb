@@ -32,8 +32,8 @@ module RecordStore
         zone.write(**write_options)
       end
 
-      def filter_records(current_records, ignore_objects)
-        ignore_objects.inject(current_records) do |remaining_records, pattern|
+      def filter_records(current_records, ignore_patterns)
+        ignore_patterns.inject(current_records) do |remaining_records, pattern|
           remaining_records.reject do |record|
             pattern.ignore?(record)
           end

@@ -40,8 +40,7 @@ module RecordStore
         end
 
         def exact?
-          !to_hash.key?(MATCH_TYPE_FIELD) || \
-            (to_hash[MATCH_TYPE_FIELD] == MATCH_TYPE_EXACT)
+          to_hash.fetch(MATCH_TYPE_FIELD, MATCH_TYPE_EXACT) == MATCH_TYPE_EXACT
         end
       end
     end
