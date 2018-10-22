@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.2.2
+- support regex based ignore patterns [FEATURE]
+
 ## 5.2.1
 - remove alias at domain root validation
 

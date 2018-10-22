@@ -33,7 +33,8 @@ example.com:
     zone_name, definition = YAML.load_file(tmp_config.path).first
     zone = Zone.new(definition.deep_symbolize_keys.merge(name: zone_name))
 
-    assert_equal [{type: 'NS'}, {type: 'A', fqdn: 'a.example.com.'}], zone.config.ignore_patterns
+    assert_equal [{type: 'NS'}, {type: 'A', fqdn: 'a.example.com.'}],
+      zone.config.ignore_patterns.map {|ignore_pattern| ignore_pattern.to_hash}
     assert_equal ['DynECT', 'DNSimple'], zone.config.providers
     assert_predicate zone.config, :supports_alias?
   end
