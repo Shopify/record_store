@@ -45,6 +45,20 @@ class RecordTest < Minitest::Test
     assert_equal 5, record.ttl
   end
 
+  def test_downcases_fqdn
+    yaml_snippet = <<-YAML
+      type: TXT
+      fqdn: LowerCase.example.com.
+      txtdata: Value=MixedCase
+      ttl: 5 # TTL times are in seconds
+    YAML
+
+    record = Record.build_from_yaml_definition(YAML.load(yaml_snippet).symbolize_keys)
+
+    assert_kind_of Record::TXT, record
+    assert_equal 'lowercase.example.com.', record.fqdn
+  end
+
   def test_validates_txt
     assert_predicate Record::TXT.new(fqdn: "_dmarc.example.com.", ttl: 600, txtdata: 'whatever'), :valid?
     assert_predicate Record::A.new(fqdn: "example.com.", ttl: 600, address: '10.11.12.13'), :valid?

@@ -1,0 +1,12 @@
+mixed-case-fqdn.com:
+  config:
+    providers:
+    - DynECT
+    ignore_patterns:
+    - type: NS
+      fqdn: zone-file.com.
+  records:
+  - type: TXT
+    fqdn: Txt.mixed-case-fqdn.com.
+    ttl: 3600
+    txtdata: Value=Txt

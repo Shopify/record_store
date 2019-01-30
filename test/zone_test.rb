@@ -412,6 +412,15 @@ class ZoneTest < Minitest::Test
     assert_equal zone_a, modified_zones[0]
   end
 
+  def test_zone_downcases_fqdn
+    zone = Zone.find('mixed-case-fqdn.com')
+
+    assert_equal 2, zone.records.size
+
+    fqdns = zone.records.map(&:fqdn)
+    assert_equal fqdns.map(&:downcase), fqdns
+  end
+
   private
 
   def valid_zone_from_records(name, records:)
