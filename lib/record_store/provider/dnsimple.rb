@@ -97,9 +97,8 @@ module RecordStore
           )
         end
 
-        unless record.fetch(:fqdn).ends_with?('.')
-          record[:fqdn] += '.'
-        end
+        fqdn = record.fetch(:fqdn)
+        record[:fqdn] = "#{fqdn}." unless fqdn.ends_with?('.')
 
         Record.const_get(record_type).new(record)
       end

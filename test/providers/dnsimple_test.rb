@@ -218,6 +218,29 @@ class DNSimpleTest < Minitest::Test
     assert_equal 60, record.ttl
   end
 
+  def test_build_txt_from_api_handles_mixed_case_fqdn
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 5199689,
+      "domain_id" => 222002,
+      "parent_id" => nil,
+      "name" => "Txt",
+      "content" => "Hello, world!",
+      "ttl" => 60,
+      "priority" => nil,
+      "type" => "TXT",
+      "system_record" => false,
+      "created_at" => "2015-12-11T16:36:26.504Z",
+      "updated_at" => "2015-12-11T16:36:26.504Z"
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of Record::TXT, record
+    assert_equal 'txt.dns-scratch.me.', record.fqdn
+    assert_equal 'Hello, world!', record.txtdata
+    assert_equal 60, record.ttl
+  end
+
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::A.new(fqdn: 'test-record.dns-scratch.me.', ttl: 86400, address: '10.10.10.42')
 
