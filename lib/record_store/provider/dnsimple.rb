@@ -64,11 +64,14 @@ module RecordStore
       end
 
       def build_from_api(api_record, zone)
+        fqdn = api_record.name.present? ? "#{api_record.name}.#{zone}" : zone
+        fqdn = "#{fqdn}." unless fqdn.ends_with?('.')
+
         record_type = api_record.type
         record = {
           record_id: api_record.id,
           ttl: api_record.ttl,
-          fqdn: api_record.name.present? ? "#{api_record.name}.#{zone}" : zone,
+          fqdn: fqdn.downcase,
         }
 
         return if record_type == 'SOA'
@@ -96,9 +99,6 @@ module RecordStore
             target: Record.ensure_ends_with_dot(host),
           )
         end
-
-        fqdn = record.fetch(:fqdn)
-        record[:fqdn] = "#{fqdn}." unless fqdn.ends_with?('.')
 
         Record.const_get(record_type).new(record)
       end

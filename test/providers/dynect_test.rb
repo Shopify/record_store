@@ -129,7 +129,7 @@ class DynECTTest < Minitest::Test
     })
 
     assert_kind_of Record::SRV, record
-    assert_equal '_service._TCP.srv.dns-test.shopify.io.', record.fqdn
+    assert_equal '_service._tcp.srv.dns-test.shopify.io.', record.fqdn
     assert_equal 10, record.priority
     assert_equal 47, record.weight
     assert_equal 80, record.port

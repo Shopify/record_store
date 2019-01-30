@@ -105,7 +105,8 @@ module RecordStore
         record[:txtdata] = Record::TXT.unescape(record[:txtdata]) if %w[SPF TXT].include?(type)
 
         fqdn = record.fetch(:fqdn)
-        record[:fqdn] = "#{fqdn}." unless fqdn.ends_with?('.')
+        fqdn = "#{fqdn}." unless fqdn.ends_with?('.')
+        record[:fqdn] = fqdn.downcase
 
         Record.const_get(type).new(record)
       end

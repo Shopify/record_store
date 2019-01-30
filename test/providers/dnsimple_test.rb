@@ -167,7 +167,7 @@ class DNSimpleTest < Minitest::Test
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::SRV, record
-    assert_equal '_service._TCP.srv.dns-scratch.me.', record.fqdn
+    assert_equal '_service._tcp.srv.dns-scratch.me.', record.fqdn
     assert_equal 10, record.priority
     assert_equal 47, record.weight
     assert_equal 80, record.port

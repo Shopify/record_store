@@ -79,10 +79,13 @@ module RecordStore
       end
 
       def build_from_api(record)
+        fqdn = record.name.downcase
+        fqdn = "#{fqdn}." unless fqdn.ends_with?('.')
+
         record_params = {
           id: record.object_id,
           ttl: record.ttl,
-          fqdn: record.name,
+          fqdn: fqdn,
         }
 
         return if record.type == 'SOA'
@@ -109,10 +112,6 @@ module RecordStore
             port: port.to_i,
             target: target,
           )
-        end
-
-        unless record_params.fetch(:fqdn).ends_with?('.')
-          record_params[:fqdn] += '.'
         end
 
         Record.const_get(record.type).new(record_params)
