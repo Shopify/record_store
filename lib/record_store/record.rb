@@ -12,7 +12,7 @@ module RecordStore
     validate :validate_label_length
 
     def initialize(record)
-      @fqdn = Record.ensure_ends_with_dot(record.fetch(:fqdn))
+      @fqdn = Record.ensure_ends_with_dot(record.fetch(:fqdn)).downcase
       @ttl  = record.fetch(:ttl)
       @id   = record.fetch(:record_id, nil)
     end
