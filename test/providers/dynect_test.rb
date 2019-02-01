@@ -129,7 +129,7 @@ class DynECTTest < Minitest::Test
     })
 
     assert_kind_of Record::SRV, record
-    assert_equal '_service._TCP.srv.dns-test.shopify.io.', record.fqdn
+    assert_equal '_service._tcp.srv.dns-test.shopify.io.', record.fqdn
     assert_equal 10, record.priority
     assert_equal 47, record.weight
     assert_equal 80, record.port
@@ -163,6 +163,23 @@ class DynECTTest < Minitest::Test
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "txt.dns-test.shopify.io",
+      "record_type" => "TXT",
+      "rdata" => {
+        "txtdata" => "Hello, world!",
+      },
+    })
+
+    assert_kind_of Record::TXT, record
+    assert_equal 'txt.dns-test.shopify.io.', record.fqdn
+    assert_equal 'Hello, world!', record.txtdata
+    assert_equal 60, record.ttl
+  end
+
+  def test_build_txt_from_api_handles_mixed_case_fqdn
+    record = Provider::DynECT.send(:build_from_api, {
+      "zone" => "dns-test.shopify.io",
+      "ttl" => 60,
+      "fqdn" => "Txt.dns-test.shopify.io",
       "record_type" => "TXT",
       "rdata" => {
         "txtdata" => "Hello, world!",

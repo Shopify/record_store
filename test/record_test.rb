@@ -45,6 +45,20 @@ class RecordTest < Minitest::Test
     assert_equal 5, record.ttl
   end
 
+  def test_downcases_fqdn
+    yaml_snippet = <<-YAML
+      type: TXT
+      fqdn: LowerCase.example.com.
+      txtdata: Value=MixedCase
+      ttl: 5 # TTL times are in seconds
+    YAML
+
+    record = Record.build_from_yaml_definition(YAML.load(yaml_snippet).symbolize_keys)
+
+    assert_kind_of Record::TXT, record
+    assert_equal 'lowercase.example.com.', record.fqdn
+  end
+
   def test_validates_txt
     assert_predicate Record::TXT.new(fqdn: "_dmarc.example.com.", ttl: 600, txtdata: 'whatever'), :valid?
     assert_predicate Record::A.new(fqdn: "example.com.", ttl: 600, address: '10.11.12.13'), :valid?
@@ -133,7 +147,7 @@ class RecordTest < Minitest::Test
     assert_equal '[CNAMERecord] cname.dns-test.shopify.io. 60 IN CNAME dns-test.shopify.io.', RECORD_FIXTURES[:cname].to_s
     assert_equal '[MXRecord] mx.dns-test.shopify.io. 60 IN MX 10 mail-server.example.com.', RECORD_FIXTURES[:mx].to_s
     assert_equal '[NSRecord] dns-test.shopify.io. 3600 IN NS ns1.dynect.net.', RECORD_FIXTURES[:ns].to_s
-    assert_equal '[SRVRecord] _service._TCP.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s
+    assert_equal '[SRVRecord] _service._tcp.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s
     assert_equal '[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s
     assert_equal '[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s
   end

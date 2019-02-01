@@ -167,7 +167,7 @@ class DNSimpleTest < Minitest::Test
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
     assert_kind_of Record::SRV, record
-    assert_equal '_service._TCP.srv.dns-scratch.me.', record.fqdn
+    assert_equal '_service._tcp.srv.dns-scratch.me.', record.fqdn
     assert_equal 10, record.priority
     assert_equal 47, record.weight
     assert_equal 80, record.port
@@ -201,6 +201,29 @@ class DNSimpleTest < Minitest::Test
       "domain_id" => 222002,
       "parent_id" => nil,
       "name" => "txt",
+      "content" => "Hello, world!",
+      "ttl" => 60,
+      "priority" => nil,
+      "type" => "TXT",
+      "system_record" => false,
+      "created_at" => "2015-12-11T16:36:26.504Z",
+      "updated_at" => "2015-12-11T16:36:26.504Z"
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of Record::TXT, record
+    assert_equal 'txt.dns-scratch.me.', record.fqdn
+    assert_equal 'Hello, world!', record.txtdata
+    assert_equal 60, record.ttl
+  end
+
+  def test_build_txt_from_api_handles_mixed_case_fqdn
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 5199689,
+      "domain_id" => 222002,
+      "parent_id" => nil,
+      "name" => "Txt",
       "content" => "Hello, world!",
       "ttl" => 60,
       "priority" => nil,
