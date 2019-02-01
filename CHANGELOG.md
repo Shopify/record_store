@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.3.0
+- case insensitivity for fqns (force to lowercsase) [FEATURE]
+
 ## 5.2.2
 - support regex based ignore patterns [FEATURE]
 
