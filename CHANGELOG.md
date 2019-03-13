@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.4.1
+- case-insensitivity for CAA value validation [FEATURE]
+
 ## 5.4.0
 - add support for CAA records [FEATURE]
 

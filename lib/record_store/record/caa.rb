@@ -3,7 +3,7 @@ module RecordStore
     attr_accessor :flags, :tag, :value
 
     LABEL_REGEX = '[a-z0-9](?:-*[a-z0-9])*'
-    DOMAIN_REGEX = /\A#{LABEL_REGEX}(?:\.#{LABEL_REGEX})\z/
+    DOMAIN_REGEX = /\A#{LABEL_REGEX}(?:\.#{LABEL_REGEX})\z/i
 
     validates :flags, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 255 }, presence: true
     validates :tag, inclusion: { in: %w(issue issuewild iodef) }, presence: true
