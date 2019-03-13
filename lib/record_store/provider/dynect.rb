@@ -102,7 +102,7 @@ module RecordStore
         type = record.fetch(:record_type)
         return if type == 'SOA'
 
-        record[:txtdata] = Record::TXT.unescape(record[:txtdata]) if %w[SPF TXT].include?(type)
+        record[:txtdata] = Record.unescape(record[:txtdata]) if %w[SPF TXT].include?(type)
 
         fqdn = record.fetch(:fqdn)
         fqdn = "#{fqdn}." unless fqdn.ends_with?('.')

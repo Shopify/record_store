@@ -3,6 +3,7 @@ require 'test_helper'
 class RecordTest < Minitest::Test
   RECORD_FIXTURES = {
     alias_rr: Record::ALIAS.new(fqdn: 'dns-test.shopify.io.', alias: 'dns-test.herokuapp.com.', ttl: 60),
+    caa: Record::CAA.new(fqdn: 'cname.dns-test.shopify.io.', flags: 0, tag: 'issue', value: 'digicert.com', ttl: 1800),
     cname: Record::CNAME.new(fqdn: 'cname.dns-test.shopify.io.', cname: 'dns-test.shopify.io.', ttl: 60),
     txt: Record::TXT.new(fqdn: 'txt.dns-test.shopify.io.', txtdata: 'Hello, world!', ttl: 60),
     spf: Record::SPF.new(fqdn: 'dns-test.shopify.io.', txtdata: 'v=spf1 -all', ttl: 3600),
@@ -90,6 +91,21 @@ class RecordTest < Minitest::Test
     refute_predicate Record::A.new(fqdn: 'example.com.', ttl: 2 ** 32, address: '10.11.12.13'), :valid?
   end
 
+  def test_validates_caa
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'issue', value: 'digicert.com', ttl: 1800), :valid?
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 255, tag: 'issue', value: 'digicert.com', ttl: 1800), :valid?
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'issuewild', value: 'digicert.com', ttl: 1800), :valid?
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'http://example.com/iodef', ttl: 1800), :valid?
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'https://example.com/iodef', ttl: 1800), :valid?
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'mailto:iodef@example.com', ttl: 1800), :valid?
+
+    refute_predicate Record::CAA.new(fqdn: 'example.com.', flags: -1, tag: 'issue', value: 'digicert.com', ttl: 1800), :valid?
+    refute_predicate Record::CAA.new(fqdn: 'example.com.', flags: 256, tag: 'issue', value: 'digicert.com', ttl: 1800), :valid?
+    refute_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'blargh', value: 'digicert.com', ttl: 1800), :valid?
+    refute_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'mailto:invalid', ttl: 1800), :valid?
+    refute_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'iodef@example.com', ttl: 1800), :valid?
+  end
+
   def test_validates_cname
     assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com'), :valid?
     assert_predicate Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com'), :valid?
@@ -132,6 +148,7 @@ class RecordTest < Minitest::Test
     assert_equal '10.11.12.13', RECORD_FIXTURES[:a].rdata_txt
     assert_equal '2001:0db8:85a3:0000:0000:EA75:1337:BEEF', RECORD_FIXTURES[:aaaa].rdata_txt
     assert_equal 'dns-test.herokuapp.com.', RECORD_FIXTURES[:alias_rr].rdata_txt
+    assert_equal '0 issue "digicert.com"', RECORD_FIXTURES[:caa].rdata_txt
     assert_equal 'dns-test.shopify.io.', RECORD_FIXTURES[:cname].rdata_txt
     assert_equal '10 mail-server.example.com.', RECORD_FIXTURES[:mx].rdata_txt
     assert_equal 'ns1.dynect.net.', RECORD_FIXTURES[:ns].rdata_txt
@@ -144,6 +161,7 @@ class RecordTest < Minitest::Test
     assert_equal '[ARecord] test.dns-test.shopify.io. 600 IN A 10.11.12.13', RECORD_FIXTURES[:a].to_s
     assert_equal '[AAAARecord] aaaa.dns-test.shopify.io. 60 IN AAAA 2001:0db8:85a3:0000:0000:EA75:1337:BEEF', RECORD_FIXTURES[:aaaa].to_s
     assert_equal '[ALIASRecord] dns-test.shopify.io. 60 IN ALIAS dns-test.herokuapp.com.', RECORD_FIXTURES[:alias_rr].to_s
+    assert_equal '[CAARecord] cname.dns-test.shopify.io. 1800 IN CAA 0 issue "digicert.com"', RECORD_FIXTURES[:caa].to_s
     assert_equal '[CNAMERecord] cname.dns-test.shopify.io. 60 IN CNAME dns-test.shopify.io.', RECORD_FIXTURES[:cname].to_s
     assert_equal '[MXRecord] mx.dns-test.shopify.io. 60 IN MX 10 mail-server.example.com.', RECORD_FIXTURES[:mx].to_s
     assert_equal '[NSRecord] dns-test.shopify.io. 3600 IN NS ns1.dynect.net.', RECORD_FIXTURES[:ns].to_s
@@ -171,18 +189,18 @@ class RecordTest < Minitest::Test
   end
 
   def test_escape_quotes
-    assert_equal 'text with \"quotes\"', Record::TXT.escape('text with "quotes"')
+    assert_equal 'text with \"quotes\"', Record.escape('text with "quotes"')
   end
 
   def test_quote_value
-    assert_equal '"text with \"quotes\""', Record::TXT.quote('text with "quotes"')
+    assert_equal '"text with \"quotes\""', Record.quote('text with "quotes"')
   end
 
   def test_unescape_quotes
-    assert_equal 'text with "quotes"', Record::TXT.unescape('text with \"quotes\"')
+    assert_equal 'text with "quotes"', Record.unescape('text with \"quotes\"')
   end
 
   def test_unquote_value
-    assert_equal 'text with "quotes"', Record::TXT.unquote('"text with \"quotes\""')
+    assert_equal 'text with "quotes"', Record.unquote('"text with \"quotes\""')
   end
 end

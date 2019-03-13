@@ -79,6 +79,31 @@ class DNSimpleTest < Minitest::Test
     assert_equal 60, record.ttl
   end
 
+  def test_build_caa_from_api
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 5199675,
+      "domain_id" => 222002,
+      "parent_id" => nil,
+      "name" => "cname",
+      "content": "0 issue \"digicert.com\"",
+      "ttl" => 1800,
+      "priority" => nil,
+      "type": "CAA",
+      "system_record" => false,
+      "created_at" => "2015-12-11T16:30:41.284Z",
+      "updated_at" => "2015-12-11T16:30:41.284Z"
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of Record::CAA, record
+    assert_equal 'cname.dns-scratch.me.', record.fqdn
+    assert_equal 0, record.flags
+    assert_equal 'issue', record.tag
+    assert_equal 'digicert.com', record.value
+    assert_equal 1800, record.ttl
+  end
+
   def test_build_cname_from_api
     api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199675,

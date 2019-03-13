@@ -41,6 +41,24 @@ class GoogleCloudDNSTest < Minitest::Test
     assert_equal 600, record.ttl
   end
 
+  def test_build_caa_from_api
+    record = Provider::GoogleCloudDNS.send(:build_from_api,
+      Google::Cloud::Dns::Record.new(
+        'cname.dns-test.shopify.io.',
+        'CAA',
+        1800,
+        ['0 issue "digicert.com"']
+      )
+    )
+
+    assert_kind_of Record::CAA, record
+    assert_equal 'cname.dns-test.shopify.io.', record.fqdn
+    assert_equal 0, record.flags
+    assert_equal 'issue', record.tag
+    assert_equal 'digicert.com', record.value
+    assert_equal 1800, record.ttl
+  end
+
   def test_build_cname_from_api
     record = Provider::GoogleCloudDNS.send(:build_from_api,
       Google::Cloud::Dns::Record.new(
@@ -196,6 +214,14 @@ class GoogleCloudDNSTest < Minitest::Test
         ttl: 300,
         fqdn: 'aaaa.dns-scratch.me',
         address: '2001:db8:85a3::ea75:1337:beef'
+      ),
+      Record::CAA.new(
+        zone: 'dns-scratch.me',
+        ttl: 1800,
+        fqdn: 'cname.dns-scratch.me',
+        flags: 0,
+        tag: 'issue',
+        value: 'digicert.com',
       ),
       Record::CNAME.new(
         zone: 'dns-scratch.me',

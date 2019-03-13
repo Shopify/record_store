@@ -5,24 +5,6 @@ module RecordStore
     validates :txtdata, presence: true, length: { maximum: 255 }
     validate :escaped_semicolons
 
-    class << self
-      def escape(value)
-        value.gsub('"', '\"')
-      end
-
-      def quote(value)
-        %("#{escape(value)}")
-      end
-
-      def unescape(value)
-        value.gsub('\"', '"')
-      end
-
-      def unquote(value)
-        unescape(value.sub(/\A"(.*)"\z/, '\1'))
-      end
-    end
-
     def initialize(record)
       super
       @txtdata = record.fetch(:txtdata)
@@ -33,7 +15,7 @@ module RecordStore
     end
 
     def rdata_txt
-      Record::TXT.quote(txtdata)
+      Record.quote(txtdata)
     end
 
     private

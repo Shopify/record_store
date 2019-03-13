@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.4.0
+- add support for CAA records [FEATURE]
+
 ## 5.3.0
 - case insensitivity for fqns (force to lowercsase) [FEATURE]
 
