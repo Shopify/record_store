@@ -11,6 +11,24 @@ module RecordStore
     validates :fqdn, format: { with: Record::FQDN_REGEX }, length: { maximum: 254 }
     validate :validate_label_length
 
+    class << self
+      def escape(value)
+        value.gsub('"', '\"')
+      end
+
+      def quote(value)
+        %("#{escape(value)}")
+      end
+
+      def unescape(value)
+        value.gsub('\"', '"')
+      end
+
+      def unquote(value)
+        unescape(value.sub(/\A"(.*)"\z/, '\1'))
+      end
+    end
+
     def initialize(record)
       @fqdn = Record.ensure_ends_with_dot(record.fetch(:fqdn)).downcase
       @ttl  = record.fetch(:ttl)

@@ -93,6 +93,14 @@ module RecordStore
         case record.type
         when 'A', 'AAAA'
           record_params.merge!(address: record.data[0])
+        when 'CAA'
+          flags, tag, value = record.data[0].split(' ')
+
+          record_params.merge!(
+            flags: flags.to_i,
+            tag: tag,
+            value: Record.unquote(value),
+          )
         when 'CNAME'
           record_params.merge!(cname: record.data[0])
         when 'MX'
@@ -101,7 +109,7 @@ module RecordStore
         when 'NS'
           record_params.merge!(nsdname: record.data[0])
         when 'SPF', 'TXT'
-          txtdata = Record::TXT.unquote(record.data[0]).gsub(';', '\;')
+          txtdata = Record.unquote(record.data[0]).gsub(';', '\;')
           record_params.merge!(txtdata: txtdata)
         when 'SRV'
           priority, weight, port, target = record.data[0].split(' ')

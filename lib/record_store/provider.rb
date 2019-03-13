@@ -29,6 +29,7 @@ module RecordStore
           'A',
           'AAAA',
           'ALIAS',
+          'CAA',
           'CNAME',
           'MX',
           'NS',

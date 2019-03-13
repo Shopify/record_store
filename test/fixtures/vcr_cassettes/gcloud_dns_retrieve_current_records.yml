@@ -235,6 +235,15 @@ http_interactions:
           {
            "kind": "dns#resourceRecordSet",
            "name": "cname.dns-scratch.me.",
+           "type": "CAA",
+           "ttl": 1800,
+           "rrdatas": [
+            "0 issue \"digicert.com\""
+           ]
+          },
+          {
+           "kind": "dns#resourceRecordSet",
+           "name": "cname.dns-scratch.me.",
            "type": "CNAME",
            "ttl": 300,
            "rrdatas": [

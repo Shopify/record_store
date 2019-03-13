@@ -81,6 +81,14 @@ module RecordStore
           record.merge!(address: api_record.content)
         when 'ALIAS'
           record.merge!(alias: api_record.content)
+        when 'CAA'
+          flags, tag, value = api_record.content.split(' ')
+
+          record.merge!(
+            flags: flags.to_i,
+            tag: tag,
+            value: Record.unquote(value),
+          )
         when 'CNAME'
           record.merge!(cname: api_record.content)
         when 'MX'
@@ -88,7 +96,7 @@ module RecordStore
         when 'NS'
           record.merge!(nsdname: api_record.content)
         when 'SPF', 'TXT'
-          record.merge!(txtdata: Record::TXT.unescape(api_record.content).gsub(';', '\;'))
+          record.merge!(txtdata: Record.unescape(api_record.content).gsub(';', '\;'))
         when 'SRV'
           weight, port, host = api_record.content.split(' ')
 
@@ -115,6 +123,8 @@ module RecordStore
           record_hash[:content] = record.address
         when 'ALIAS'
           record_hash[:content] = record.alias.chomp('.')
+        when 'CAA'
+          record_hash[:content] = "#{record.flags} #{record.tag} \"#{record.value.chomp('.')}\""
         when 'CNAME'
           record_hash[:content] = record.cname.chomp('.')
         when 'MX'
@@ -123,7 +133,7 @@ module RecordStore
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
         when 'SPF', 'TXT'
-          record_hash[:content] = Record::TXT.escape(record.txtdata).gsub('\;', ';')
+          record_hash[:content] = Record.escape(record.txtdata).gsub('\;', ';')
         when 'SRV'
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
           record_hash[:priority] = record.priority

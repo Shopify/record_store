@@ -61,6 +61,27 @@ class DynECTTest < Minitest::Test
     assert_equal 60, record.ttl
   end
 
+  def test_build_caa_from_api
+    record = Provider::DynECT.send(:build_from_api, {
+      "zone" => "dns-test.shopify.io",
+      "ttl" => 1800,
+      "fqdn" => "cname.dns-test.shopify.io",
+      "record_type" => "CAA",
+      "rdata" => {
+        "tag": "issue",
+        "flags": 0,
+        "value": "digicert.com"
+      }
+    })
+
+    assert_kind_of Record::CAA, record
+    assert_equal 'cname.dns-test.shopify.io.', record.fqdn
+    assert_equal 0, record.flags
+    assert_equal 'issue', record.tag
+    assert_equal 'digicert.com', record.value
+    assert_equal 1800, record.ttl
+  end
+
   def test_build_cname_from_api
     record = Provider::DynECT.send(:build_from_api, {
       "zone" => "dns-test.shopify.io",
