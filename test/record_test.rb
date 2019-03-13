@@ -95,6 +95,7 @@ class RecordTest < Minitest::Test
     assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'issue', value: 'digicert.com', ttl: 1800), :valid?
     assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 255, tag: 'issue', value: 'digicert.com', ttl: 1800), :valid?
     assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'issuewild', value: 'digicert.com', ttl: 1800), :valid?
+    assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'issuewild', value: 'Foobar.com', ttl: 1800), :valid?
     assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'http://example.com/iodef', ttl: 1800), :valid?
     assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'https://example.com/iodef', ttl: 1800), :valid?
     assert_predicate Record::CAA.new(fqdn: 'example.com.', flags: 0, tag: 'iodef', value: 'mailto:iodef@example.com', ttl: 1800), :valid?
