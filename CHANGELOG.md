@@ -1,7 +1,10 @@
 # CHANGELOG
 
+## 5.4.2
+- use Dyn API version 3.7.13 (instead of 3.7.0) to get CAA support [BUGFIX]
+
 ## 5.4.1
-- case-insensitivity for CAA value validation [FEATURE]
+- case-insensitivity for CAA value validation [BUGFIX]
 
 ## 5.4.0
 - add support for CAA records [FEATURE]

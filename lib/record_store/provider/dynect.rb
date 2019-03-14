@@ -3,6 +3,7 @@ require 'limiter'
 
 Fog::DNS::Dynect::Real.extend Limiter::Mixin
 Fog::DNS::Dynect::Real.limit_method :request, rate: 5, interval: 1 # 5 RPS == 300 RPM
+Fog::DNS::Dynect.recognizes :version # so it doesn't warn about unsupported (but actually supported) version option
 
 module RecordStore
   class Provider::DynECT < Provider
@@ -78,7 +79,8 @@ module RecordStore
           dynect_customer: secrets.fetch('customer'),
           dynect_username: secrets.fetch('username'),
           dynect_password: secrets.fetch('password'),
-          job_poll_timeout: 20
+          job_poll_timeout: 20,
+          version: '3.7.13',
         }
       end
 
