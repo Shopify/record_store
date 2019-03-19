@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api-v4.dynect.net/REST/Session
+    uri: https://api.dynect.net/REST/Session
     body:
       encoding: UTF-8
       string: '{"customer_name":"dynect_customer","user_name":"<DYNECT_USERNAME>","password":"<DYNECT_PASSWORD>"}'
@@ -35,7 +35,7 @@ http_interactions:
   recorded_at: Fri, 06 Nov 2015 20:01:07 GMT
 - request:
     method: put
-    uri: https://api-v4.dynect.net/REST/Zone/dns-test.shopify.io
+    uri: https://api.dynect.net/REST/Zone/dns-test.shopify.io
     body:
       encoding: UTF-8
       string: '{"thaw":true}'
@@ -70,7 +70,7 @@ http_interactions:
   recorded_at: Fri, 06 Nov 2015 20:01:08 GMT
 - request:
     method: post
-    uri: https://api-v4.dynect.net/REST/ARecord/dns-test.shopify.io/test-record.dns-test.shopify.io.
+    uri: https://api.dynect.net/REST/ARecord/dns-test.shopify.io/test-record.dns-test.shopify.io.
     body:
       encoding: UTF-8
       string: '{"ttl":86400,"rdata":{"address":"10.10.10.42"}}'
@@ -108,7 +108,7 @@ http_interactions:
   recorded_at: Fri, 06 Nov 2015 20:01:09 GMT
 - request:
     method: put
-    uri: https://api-v4.dynect.net/REST/Zone/dns-test.shopify.io
+    uri: https://api.dynect.net/REST/Zone/dns-test.shopify.io
     body:
       encoding: UTF-8
       string: '{"publish":true}'
@@ -145,7 +145,7 @@ http_interactions:
   recorded_at: Fri, 06 Nov 2015 20:01:10 GMT
 - request:
     method: put
-    uri: https://api-v4.dynect.net/REST/Zone/dns-test.shopify.io
+    uri: https://api.dynect.net/REST/Zone/dns-test.shopify.io
     body:
       encoding: UTF-8
       string: '{"freeze":true}'
