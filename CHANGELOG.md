@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.4.3
+- use fog-dynect 0.4.0 to avoid version override [REFACTOR]
+
 ## 5.4.2
 - use Dyn API version 3.7.13 (instead of 3.7.0) to get CAA support [BUGFIX]
 
