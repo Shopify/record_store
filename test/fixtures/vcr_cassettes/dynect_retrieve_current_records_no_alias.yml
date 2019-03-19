@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api-v4.dynect.net/REST/Session
+    uri: https://api.dynect.net/REST/Session
     body:
       encoding: UTF-8
       string: '{"customer_name":"dynect_customer","user_name":"<DYNECT_USERNAME>","password":"<DYNECT_PASSWORD>"}'
@@ -35,7 +35,7 @@ http_interactions:
   recorded_at: Fri, 06 Nov 2015 20:01:11 GMT
 - request:
     method: get
-    uri: https://api-v4.dynect.net/REST/AllRecord/dns-test.shopify.io?detail=Y
+    uri: https://api.dynect.net/REST/AllRecord/dns-test.shopify.io?detail=Y
     body:
       encoding: US-ASCII
       string: ''
