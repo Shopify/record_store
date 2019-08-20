@@ -183,7 +183,7 @@ module RecordStore
           when 'NS'
             record.merge!(nsdname: answer.first)
           when 'SPF', 'TXT'
-            record.merge!(txtdata: Record.unescape(answer.first).gsub(';', '\;'))
+            record.merge!(txtdata: Record.unlong_quote(Record.unescape(answer.first).gsub(';', '\;')))
           when 'SRV'
             priority, weight, port, host = answer
 
@@ -202,7 +202,7 @@ module RecordStore
         if record.is_a?(Record::MX)
           [record.preference, record.exchange]
         elsif record.is_a?(Record::TXT) || record.is_a?(Record::SPF)
-          [record.txtdata]
+          [Record.long_quote(record.txtdata)]
         elsif record.is_a?(Record::CAA)
           [record.flags, record.tag, record.value]
         elsif record.is_a?(Record::SRV)

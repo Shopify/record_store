@@ -73,7 +73,7 @@ module RecordStore
         end
 
         record_sets.map do |(rr_type, rr_fqdn), records_for_set|
-          zone.record(rr_fqdn, rr_type, records_for_set[0].ttl, records_for_set.map(&:rdata_txt))
+          zone.record(rr_fqdn, rr_type, records_for_set[0].ttl, Record.long_quote(records_for_set.map(&:rdata_txt)))
         end
       end
 
@@ -108,7 +108,7 @@ module RecordStore
         when 'NS'
           record_params.merge!(nsdname: record.data[0])
         when 'SPF', 'TXT'
-          txtdata = Record.unquote(record.data[0]).gsub(';', '\;')
+          txtdata = Record.unlong_quote(record.data[0]).gsub(';', '\;')
           record_params.merge!(txtdata: txtdata)
         when 'SRV'
           priority, weight, port, target = record.data[0].split(' ')

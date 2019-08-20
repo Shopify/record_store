@@ -89,7 +89,7 @@ module RecordStore
       def api_rdata(record)
         case record.type
         when 'TXT'
-          { txtdata: record.rdata_txt }
+          { txtdata: Record.long_quote(record.rdata_txt) }
         else
           record.rdata
         end
@@ -102,7 +102,7 @@ module RecordStore
         type = record.fetch(:record_type)
         return if type == 'SOA'
 
-        record[:txtdata] = Record.unescape(record[:txtdata]) if %w[SPF TXT].include?(type)
+        record[:txtdata] = Record.unlong_quote(Record.unescape(record[:txtdata])) if %w[SPF TXT].include?(type)
 
         fqdn = record.fetch(:fqdn)
         fqdn = "#{fqdn}." unless fqdn.ends_with?('.')

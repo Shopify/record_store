@@ -187,6 +187,30 @@ class DynECTTest < Minitest::Test
     assert_nil(record)
   end
 
+  def test_long_txt_api_rdata
+    record = Record::TXT.new(fqdn: 'example.com.', ttl: 600, txtdata: "a" * 300)
+    txt = Provider::DynECT.send(:api_rdata, record)
+    assert_equal({ txtdata: '"' + "a" * 255 + '" "' + "a" * 45 + '"' }, txt)
+  end
+
+  def test_build_long_txt_from_api
+    record = Provider::DynECT.send(
+      :build_from_api,
+      "zone" => "dns-test.shopify.io",
+      "ttl" => 60,
+      "fqdn" => "txt.dns-test.shopify.io",
+      "record_type" => "TXT",
+      "rdata" => {
+        "txtdata" => '"' + "a" * 255 + '" "' + "a" * 45 + '"',
+      },
+    )
+
+    assert_kind_of(Record::TXT, record)
+    assert_equal('txt.dns-test.shopify.io.', record.fqdn)
+    assert_equal("a" * 300, record.txtdata)
+    assert_equal(60, record.ttl)
+  end
+
   def test_build_txt_from_api
     record = Provider::DynECT.send(
       :build_from_api,

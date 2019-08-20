@@ -243,6 +243,29 @@ class DNSimpleTest < Minitest::Test
     assert_equal(60, record.ttl)
   end
 
+  def test_build_long_txt_from_api
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 5199689,
+      "domain_id" => 222002,
+      "parent_id" => nil,
+      "name" => "txt",
+      "content" => "a" * 300,
+      "ttl" => 60,
+      "priority" => nil,
+      "type" => "TXT",
+      "system_record" => false,
+      "created_at" => "2015-12-11T16:36:26.504Z",
+      "updated_at" => "2015-12-11T16:36:26.504Z"
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of(Record::TXT, record)
+    assert_equal('txt.dns-scratch.me.', record.fqdn)
+    assert_equal("a" * 300, record.txtdata)
+    assert_equal(60, record.ttl)
+  end
+
   def test_build_txt_from_api_handles_mixed_case_fqdn
     api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5199689,
