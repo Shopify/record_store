@@ -1,0 +1,123 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.nsone.net/v1/zones/test_add_changset_missing_zone.recordstore.io/test_add_changset_missing_zone.test.recordstore.io/A
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Fri, 27 Sep 2019 19:35:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '137'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d9efbc77efb942389a68dc5292dc0d1c41569612936; expires=Sat, 26-Sep-20
+        19:35:36 GMT; path=/; domain=.nsone.net; HttpOnly
+      X-Ratelimit-Remaining:
+      - '819'
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '900'
+      X-Ratelimit-Period:
+      - '300'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - '0'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 51cfebf46d92cab8-YYZ
+    body:
+      encoding: UTF-8
+      string: '{"message":"\"test_add_changset_missing_zone.test.recordstore.io\"
+        not a valid domain in test_add_changset_missing_zone.recordstore.io"}
+
+        '
+    http_version: 
+  recorded_at: Fri, 27 Sep 2019 19:35:36 GMT
+- request:
+    method: put
+    uri: https://api.nsone.net/v1/zones/test_add_changset_missing_zone.recordstore.io/test_add_changset_missing_zone.test.recordstore.io/A
+    body:
+      encoding: UTF-8
+      string: '{"answers":[{"answer":["10.10.10.42"]}],"ttl":600,"zone":"test_add_changset_missing_zone.recordstore.io","domain":"test_add_changset_missing_zone.test.recordstore.io","type":"A"}'
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Fri, 27 Sep 2019 19:35:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '137'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d9efbc77efb942389a68dc5292dc0d1c41569612936; expires=Sat, 26-Sep-20
+        19:35:36 GMT; path=/; domain=.nsone.net; HttpOnly
+      X-Ratelimit-Remaining:
+      - '99'
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '100'
+      X-Ratelimit-Period:
+      - '200'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - '0'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 51cfebf51f13cab8-YYZ
+    body:
+      encoding: UTF-8
+      string: '{"message":"\"test_add_changset_missing_zone.test.recordstore.io\"
+        not a valid domain in test_add_changset_missing_zone.recordstore.io"}
+
+        '
+    http_version: 
+  recorded_at: Fri, 27 Sep 2019 19:35:36 GMT
+recorded_with: VCR 4.0.0

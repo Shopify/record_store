@@ -29,6 +29,9 @@ class Minitest::Test
       password
       username
     ),
+    'ns1' => %w(
+      api_key
+    ),
     'dnsimple' => %w(
       account_id
       api_token
@@ -50,6 +53,13 @@ class Minitest::Test
             secrets.fetch(provider).fetch(key)
           end
         end
+      end
+    end
+    
+    config.filter_sensitive_data '<NS1_API_KEY>' do |interaction|
+      next unless interaction.request.uri =~ /nsone/
+      if (auth_token = interaction.request.headers['NS1_API_KEY']).present?
+        auth_token.first
       end
     end
 
