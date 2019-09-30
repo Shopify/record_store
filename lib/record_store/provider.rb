@@ -19,6 +19,8 @@ module RecordStore
           'DynECT'
         when /googledomains\.com\z/
           'GoogleCloudDNS'
+        when /\.nsone\.net\z/
+          'NS1'
         else
           nil
         end
