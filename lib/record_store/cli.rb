@@ -60,33 +60,33 @@ module RecordStore
           next if !options.fetch('verbose') && changeset.changes.empty?
 
           puts '-' * 20
-          puts "Provider: #{changeset.provider.to_s}"
+          puts "Provider: #{changeset.provider}"
 
           if !changeset.additions.empty? || options.fetch('verbose')
             puts "Add:"
             changeset.additions.map(&:record).each do |record|
-              puts " - #{record.to_s}"
+              puts " - #{record}"
             end
           end
 
           if !changeset.removals.empty? || options.fetch('verbose')
             puts "Remove:"
             changeset.removals.map(&:record).each do |record|
-              puts " - #{record.to_s}"
+              puts " - #{record}"
             end
           end
 
           if !changeset.updates.empty? || options.fetch('verbose')
             puts "Update:"
             changeset.updates.map(&:record).each do |record|
-              puts " - #{record.to_s}"
+              puts " - #{record}"
             end
           end
 
           if options.fetch('verbose')
             puts "Unchanged:"
             changeset.unchanged.each do |record|
-              puts " - #{record.to_s}"
+              puts " - #{record}"
             end
           end
         end
@@ -203,7 +203,7 @@ module RecordStore
         puts '  Invalid records' if invalid_records.size > 0
 
         invalid_records.each do |record|
-          puts "    #{record.to_s}"
+          puts "    #{record}"
           record.errors.each do |field, msg|
             puts "      - #{field}: #{msg}"
           end
