@@ -37,7 +37,7 @@ module RecordStore
     def self.build_from(provider:, zone:)
       current_zone = provider.build_zone(zone_name: zone.unrooted_name, config: zone.config)
 
-      self.new(
+      new(
         current_records: current_zone.records,
         desired_records: zone.records,
         provider: provider,

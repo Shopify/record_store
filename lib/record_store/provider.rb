@@ -89,15 +89,15 @@ module RecordStore
       end
 
       def thawable?
-        self.respond_to?(:thaw_zone)
+        respond_to?(:thaw_zone)
       end
 
       def freezable?
-        self.respond_to?(:freeze_zone)
+        respond_to?(:freeze_zone)
       end
 
       def to_s
-        self.name.demodulize
+        name.demodulize
       end
 
       private
