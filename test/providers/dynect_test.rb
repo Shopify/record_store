@@ -10,7 +10,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_a_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       'zone' => 'dns-test.shopify.io',
       'fqdn' => 'test.dns-test.shopify.io',
       'record_type' => 'A',
@@ -18,7 +18,7 @@ class DynECTTest < Minitest::Test
       'rdata' => {
         'address' => '10.11.12.13'
       }
-    })
+    )
 
     assert_kind_of Record::A, record
     assert_equal 'test.dns-test.shopify.io.', record.fqdn
@@ -27,7 +27,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_aaaa_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "aaaa.dns-test.shopify.io",
@@ -35,7 +35,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "address" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF"
       }
-    })
+    )
 
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-test.shopify.io.', record.fqdn
@@ -62,7 +62,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_caa_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 1800,
       "fqdn" => "cname.dns-test.shopify.io",
@@ -72,7 +72,7 @@ class DynECTTest < Minitest::Test
         "flags": 0,
         "value": "digicert.com"
       }
-    })
+    )
 
     assert_kind_of Record::CAA, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -83,7 +83,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_cname_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "cname.dns-test.shopify.io",
@@ -91,7 +91,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "cname" => "dns-test.shopify.io.",
       }
-    })
+    )
 
     assert_kind_of Record::CNAME, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -100,7 +100,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_mx_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "mx.dns-test.shopify.io",
@@ -109,7 +109,7 @@ class DynECTTest < Minitest::Test
         "exchange" => "mail-server.example.com.",
         "preference" => 10
       }
-    })
+    )
 
     assert_kind_of Record::MX, record
     assert_equal 'mx.dns-test.shopify.io.', record.fqdn
@@ -119,7 +119,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_ns_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 3600,
       "fqdn" => "dns-test.shopify.io",
@@ -127,7 +127,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "nsdname" => "ns1.dynect.net",
       }
-    })
+    )
 
     assert_kind_of Record::NS, record
     assert_equal 'dns-test.shopify.io.', record.fqdn
@@ -136,7 +136,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_srv_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "_service._TCP.srv.dns-test.shopify.io",
@@ -147,7 +147,7 @@ class DynECTTest < Minitest::Test
         "target" => "target-srv.dns-test.shopify.io.",
         "weight" => 47,
       }
-    })
+    )
 
     assert_kind_of Record::SRV, record
     assert_equal '_service._tcp.srv.dns-test.shopify.io.', record.fqdn
@@ -159,7 +159,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_soa_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 3600,
       "fqdn" => "dns-test.shopify.io",
@@ -174,13 +174,13 @@ class DynECTTest < Minitest::Test
         "expire" => 604800,
         "serial" => 1241
       }
-    })
+    )
 
     assert_nil record
   end
 
   def test_build_txt_from_api
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "txt.dns-test.shopify.io",
@@ -188,7 +188,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "txtdata" => "Hello, world!",
       },
-    })
+    )
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-test.shopify.io.', record.fqdn
@@ -197,7 +197,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_txt_from_api_handles_mixed_case_fqdn
-    record = Provider::DynECT.send(:build_from_api, {
+    record = Provider::DynECT.send(:build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "Txt.dns-test.shopify.io",
@@ -205,7 +205,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "txtdata" => "Hello, world!",
       },
-    })
+    )
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-test.shopify.io.', record.fqdn
@@ -228,48 +228,48 @@ class DynECTTest < Minitest::Test
 
   def test_retrieve_current_records_returns_array_of_records
     records_arr = [
-      Record::NS.new({
+      Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns1.p19.dynect.net.',
         record_id: 164537804
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns2.p19.dynect.net.',
         record_id: 164537805
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns3.p19.dynect.net.',
         record_id: 164537806
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns4.p19.dynect.net.',
         record_id: 164537807
-      }),
-      Record::A.new({
+      ),
+      Record::A.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'test-record.dns-test.shopify.io',
         address: '10.10.10.10',
         record_id: 189358987
-      }),
-      Record::ALIAS.new({
+      ),
+      Record::ALIAS.new(
         zone: 'dns-test.shopify.io',
         ttl: 60,
         fqdn: 'dns-test.shopify.io',
         alias: 'dns-test.herokuapp.com.',
         record_id: 164537809
-      }),
+      ),
     ]
 
     VCR.use_cassette 'dynect_retrieve_current_records' do

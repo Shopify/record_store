@@ -298,48 +298,48 @@ class DNSimpleTest < Minitest::Test
 
   def test_retrieve_current_records_returns_array_of_records
     records_arr = [
-      Record::A.new({
+      Record::A.new(
         zone: 'dns-scratch.me',
         ttl: 86400,
         fqdn: 'test-record.dns-scratch.me',
         address: '10.10.10.42',
         record_id: 347572
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns4.dnsimple.com.',
         record_id: 347565
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns3.dnsimple.com.',
         record_id: 347566
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns2.dnsimple.com.',
         record_id: 347567
-      }),
-      Record::NS.new({
+      ),
+      Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns1.dnsimple.com.',
         record_id: 347568
-      }),
-      Record::ALIAS.new({
+      ),
+      Record::ALIAS.new(
         zone: 'dns-scratch.me',
         ttl: 86400,
         fqdn: 'dns-scratch.me',
         alias: 'dns-scratch.herokuapp.com',
         record_id: 347573
-      }),
+      ),
     ]
 
     VCR.use_cassette 'dnsimple_retrieve_current_records' do
