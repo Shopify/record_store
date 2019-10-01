@@ -57,7 +57,7 @@ module RecordStore
     end
 
     def ==(other)
-      other.class == self.class && other.to_hash == self.to_hash
+      other.class == self.class && other.to_hash == to_hash
     end
 
     alias_method :eql?, :==
