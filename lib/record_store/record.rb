@@ -48,7 +48,7 @@ module RecordStore
       {
         type: type,
         fqdn: fqdn,
-        ttl: ttl
+        ttl: ttl,
       }.merge(rdata)
     end
 

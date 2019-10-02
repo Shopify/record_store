@@ -14,7 +14,7 @@ module RecordStore
     def rdata
       {
         preference: preference,
-        exchange: exchange
+        exchange: exchange,
       }
     end
 

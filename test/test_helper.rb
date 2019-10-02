@@ -36,7 +36,7 @@ class Minitest::Test
       account_id
       api_token
       base_url
-    )
+    ),
   }
 
   VCR.configure do |config|
@@ -108,7 +108,7 @@ class Minitest::Test
     {
       zones_path: zones_path,
       secrets_path: secrets_path,
-      zones: zones
+      zones: zones,
     }.deep_stringify_keys.to_yaml.gsub("---\n", '')
   end
 end

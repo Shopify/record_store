@@ -430,7 +430,7 @@ class ZoneTest < Minitest::Test
   def build_config(args)
     default_args = {
       providers: ['DynECT'],
-      ignore_patterns: []
+      ignore_patterns: [],
     }
 
     Zone::Config.new(default_args.merge(args))

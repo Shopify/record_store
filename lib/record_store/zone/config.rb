@@ -27,7 +27,7 @@ module RecordStore
       def to_hash
         config_hash = {
           providers: providers,
-          ignore_patterns: ignore_patterns.map(&:to_hash)
+          ignore_patterns: ignore_patterns.map(&:to_hash),
         }
         config_hash.merge!(supports_alias: supports_alias) if supports_alias
 

@@ -16,7 +16,7 @@ class DynECTTest < Minitest::Test
       'record_type' => 'A',
       'ttl' => 600,
       'rdata' => {
-        'address' => '10.11.12.13'
+        'address' => '10.11.12.13',
       }
     )
 
@@ -33,7 +33,7 @@ class DynECTTest < Minitest::Test
       "fqdn" => "aaaa.dns-test.shopify.io",
       "record_type" => "AAAA",
       "rdata" => {
-        "address" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF"
+        "address" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF",
       }
     )
 
@@ -70,7 +70,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "tag": "issue",
         "flags": 0,
-        "value": "digicert.com"
+        "value": "digicert.com",
       }
     )
 
@@ -107,7 +107,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "MX",
       "rdata" => {
         "exchange" => "mail-server.example.com.",
-        "preference" => 10
+        "preference" => 10,
       }
     )
 
@@ -172,7 +172,7 @@ class DynECTTest < Minitest::Test
         "minimum" => 1800,
         "refresh" => 3600,
         "expire" => 604800,
-        "serial" => 1241
+        "serial" => 1241,
       }
     )
 
