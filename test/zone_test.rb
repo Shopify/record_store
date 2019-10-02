@@ -181,23 +181,17 @@ class ZoneTest < Minitest::Test
     ]
 
     assert_equal 2, Zone.filter_records(records, []).length
-    assert_equal 1, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new(type: 'CNAME')
-    ]).length
-    assert_equal 2, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new(type: 'TXT')
-    ]).length
+    assert_equal 1, Zone.filter_records(records, [Zone::Config::IgnorePattern.new(type: 'CNAME')]).length
+    assert_equal 2, Zone.filter_records(records, [Zone::Config::IgnorePattern.new(type: 'TXT')]).length
     assert_equal 1, Zone.filter_records(records, [
       Zone::Config::IgnorePattern.new(type: 'TXT'),
-      Zone::Config::IgnorePattern.new(type: 'CNAME')
+      Zone::Config::IgnorePattern.new(type: 'CNAME'),
     ]).length
     assert_equal 0, Zone.filter_records(records, [
       Zone::Config::IgnorePattern.new(type: 'TXT'),
-      Zone::Config::IgnorePattern.new(ttl: 600)
+      Zone::Config::IgnorePattern.new(ttl: 600),
     ]).length
-    assert_equal 1, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new(cname: 'real.example.com.')
-    ]).length
+    assert_equal 1, Zone.filter_records(records, [Zone::Config::IgnorePattern.new(cname: 'real.example.com.')]).length
   end
 
   def test_download_downloads_zone_into_file
@@ -223,7 +217,7 @@ class ZoneTest < Minitest::Test
             fqdn: 'test-record.dns-test.shopify.io',
             address: '10.10.10.10',
             record_id: 189358987
-          )
+          ),
         ], zone.records
       end
     end

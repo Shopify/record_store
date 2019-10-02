@@ -29,7 +29,7 @@ class NS1Test < Minitest::Test
   def test_add_multiple_changesets
     records = [
       Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 600, address: '10.10.10.42'),
-      Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 600, address: '10.10.10.43')
+      Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 600, address: '10.10.10.43'),
     ]
 
     VCR.use_cassette 'ns1_add_multiple_changesets' do
@@ -489,7 +489,7 @@ class NS1Test < Minitest::Test
   def test_remove_record_should_not_remove_all_records_for_fqdn
     record_1, record_2 = [
       Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.42'),
-      Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.43')
+      Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.43'),
     ]
 
     VCR.use_cassette 'ns1_remove_record_should_not_remove_all_records_for_fqdn' do

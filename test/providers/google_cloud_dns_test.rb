@@ -258,7 +258,7 @@ class GoogleCloudDNSTest < Minitest::Test
         ttl: 86400,
         fqdn: 'www.dns-scratch.me',
         address: '1.2.3.4',
-      )
+      ),
     ].sort_by(&:to_s)
 
     VCR.use_cassette 'gcloud_dns_retrieve_current_records' do
