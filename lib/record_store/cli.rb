@@ -200,7 +200,7 @@ module RecordStore
         end
 
         invalid_records = zone.records.reject(&:valid?)
-        puts '  Invalid records' if !invalid_records.size.empty?
+        puts '  Invalid records' unless invalid_records.empty?
 
         invalid_records.each do |record|
           puts "    #{record}"
