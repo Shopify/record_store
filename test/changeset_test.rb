@@ -28,7 +28,7 @@ class ChangesetTest < Minitest::Test
 
   def test_removals
     cs = Changeset.new(
-      current_records: [@cname_record, @a_record].each{|rr| rr.id = rand(1..100)},
+      current_records: [@cname_record, @a_record].each {|rr| rr.id = rand(1..100)},
       desired_records: [],
       provider: @provider,
       zone: @zone,
@@ -44,7 +44,7 @@ class ChangesetTest < Minitest::Test
 
   def test_no_changes
     cs = Changeset.new(
-      current_records: [@cname_record, @a_record].each{|rr| rr.id = rand(1..100)},
+      current_records: [@cname_record, @a_record].each {|rr| rr.id = rand(1..100)},
       desired_records: [@cname_record_copy, @a_record_copy],
       provider: @provider,
       zone: @zone,
@@ -60,7 +60,7 @@ class ChangesetTest < Minitest::Test
 
   def test_removal_and_addition
     cs = Changeset.new(
-      current_records: [@cname_record].each{|rr| rr.id = rand(1..100)},
+      current_records: [@cname_record].each {|rr| rr.id = rand(1..100)},
       desired_records: [@a_record],
       provider: @provider,
       zone: @zone,
@@ -79,7 +79,7 @@ class ChangesetTest < Minitest::Test
     @cname_record_copy.cname = 'www.example2.org'
 
     cs = Changeset.new(
-      current_records: [@cname_record].each{|rr| rr.id = rand(1..100)},
+      current_records: [@cname_record].each {|rr| rr.id = rand(1..100)},
       desired_records: [@cname_record_copy],
       provider: @provider,
       zone: @zone,
@@ -97,7 +97,7 @@ class ChangesetTest < Minitest::Test
     @a_record.address = '8.8.8.8'
 
     cs = Changeset.new(
-      current_records: [@a_record, a_record_dup].each{|rr| rr.id = rand(1..100)},
+      current_records: [@a_record, a_record_dup].each {|rr| rr.id = rand(1..100)},
       desired_records: [@a_record_copy],
       provider: @provider,
       zone: @zone,
@@ -115,7 +115,7 @@ class ChangesetTest < Minitest::Test
     @a_record_copy.address = '8.8.8.8'
 
     cs = Changeset.new(
-      current_records: [@a_record].each{|rr| rr.id = rand(1..100)},
+      current_records: [@a_record].each {|rr| rr.id = rand(1..100)},
       desired_records: [@a_record_copy, a_record_dup],
       provider: @provider,
       zone: @zone,
@@ -129,7 +129,7 @@ class ChangesetTest < Minitest::Test
 
   def test_additions_removals_and_changes_are_enumerable
     cs = Changeset.new(
-      current_records: [@cname_record].each{|rr| rr.id = rand(1..100)},
+      current_records: [@cname_record].each {|rr| rr.id = rand(1..100)},
       desired_records: [@cname_record_copy],
       provider: @provider,
       zone: @zone,

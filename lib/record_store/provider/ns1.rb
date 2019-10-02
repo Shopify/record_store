@@ -209,7 +209,7 @@ module RecordStore
       end
 
       def symbolize_keys(hash)
-        hash.map{ |key, value| [key.to_sym, value] }.to_h
+        hash.map { |key, value| [key.to_sym, value] }.to_h
       end
 
       def secrets
