@@ -202,7 +202,7 @@ class ZoneTest < Minitest::Test
         assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
         zone = Zone.find(name)
-        assert_equal [{ type: 'NS', fqdn: "#{name}." }], zone.config.ignore_patterns.map{|ignore_pattern| ignore_pattern.to_hash}
+        assert_equal [{ type: 'NS', fqdn: "#{name}." }], zone.config.ignore_patterns.map {|ignore_pattern| ignore_pattern.to_hash}
         assert_equal [
           Record::ALIAS.new(
             zone: 'dns-test.shopify.io',
