@@ -143,7 +143,7 @@ class ChangesetTest < Minitest::Test
   def test_changeset_build_from_creates_changeset_from_diff_between_zone_and_provider
     zone = Zone.new(
       name: 'dns-test.shopify.io',
-      config: {providers: ['DynECT']},
+      config: { providers: ['DynECT'] },
       records: [{
         type: 'NS',
         ttl: 86400,

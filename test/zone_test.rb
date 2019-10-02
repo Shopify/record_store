@@ -37,10 +37,10 @@ class ZoneTest < Minitest::Test
     zone = Zone.find('one-record.com')
     assert_equal 1, zone.records.size
 
-    zone.config = build_config(ignore_patterns: [{'fqdn' => 'a-record.one-record.com.'}])
+    zone.config = build_config(ignore_patterns: [{ 'fqdn' => 'a-record.one-record.com.' }])
     assert_equal 0, zone.records.size
 
-    zone.config = build_config(ignore_patterns: [{'match' => 'exact', 'fqdn' => 'a-record.one-record.com.'}])
+    zone.config = build_config(ignore_patterns: [{ 'match' => 'exact', 'fqdn' => 'a-record.one-record.com.' }])
     assert_equal 0, zone.records.size
 
     zone.config = build_config(ignore_patterns: [])
@@ -51,10 +51,10 @@ class ZoneTest < Minitest::Test
     zone = Zone.find('one-record.com')
     assert_equal 1, zone.records.size
 
-    zone.config = build_config(ignore_patterns: [{'match' => 'regex', 'fqdn' => 'a-r.cord.*' }])
+    zone.config = build_config(ignore_patterns: [{ 'match' => 'regex', 'fqdn' => 'a-r.cord.*' }])
     assert_equal 0, zone.records.size
 
-    zone.config = build_config(ignore_patterns: [{'match' => 'regex', 'fqdn' => 'filter-nothing' }])
+    zone.config = build_config(ignore_patterns: [{ 'match' => 'regex', 'fqdn' => 'filter-nothing' }])
     assert_equal 1, zone.records.size
 
     zone.config = build_config(ignore_patterns: [])
@@ -65,10 +65,10 @@ class ZoneTest < Minitest::Test
     zone = Zone.find('one-record.com')
     assert_equal 1, zone.records.size
 
-    zone.config = build_config(ignore_patterns: [{'match' => 'unknown', 'fqdn' => 'a-r.cord.*' }])
+    zone.config = build_config(ignore_patterns: [{ 'match' => 'unknown', 'fqdn' => 'a-r.cord.*' }])
     assert_equal 1, zone.records.size
 
-    zone.config = build_config(ignore_patterns: [{'match' => 'unknown', 'fqdn' => 'a-record.one-record.com.' }])
+    zone.config = build_config(ignore_patterns: [{ 'match' => 'unknown', 'fqdn' => 'a-record.one-record.com.' }])
     assert_equal 1, zone.records.size
   end
 
@@ -103,7 +103,7 @@ class ZoneTest < Minitest::Test
     assert_equal RecordStore.expected_zones, ['empty.com', 'one-record.com', 'two-providers.com']
 
     tmp_config = Tempfile.new(['config', '.yml'])
-    tmp_config.write({'zones' => ['way-different-zone.com']}.to_yaml.gsub('---', ''))
+    tmp_config.write({ 'zones' => ['way-different-zone.com'] }.to_yaml.gsub('---', ''))
     tmp_config.close
     RecordStore.config_path = tmp_config.path
 
@@ -208,7 +208,7 @@ class ZoneTest < Minitest::Test
         assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
         zone = Zone.find(name)
-        assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns.map{|ignore_pattern| ignore_pattern.to_hash}
+        assert_equal [{ type: 'NS', fqdn: "#{name}." }], zone.config.ignore_patterns.map{|ignore_pattern| ignore_pattern.to_hash}
         assert_equal [
           Record::ALIAS.new(
             zone: 'dns-test.shopify.io',
@@ -424,7 +424,7 @@ class ZoneTest < Minitest::Test
   private
 
   def valid_zone_from_records(name, records:)
-    Zone.new(name: name, records: records, config: {providers: ['DynECT']})
+    Zone.new(name: name, records: records, config: { providers: ['DynECT'] })
   end
 
   def build_config(args)
