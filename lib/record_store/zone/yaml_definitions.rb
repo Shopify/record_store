@@ -34,7 +34,7 @@ module RecordStore
         name = name.chomp('.')
         zone_file = "#{RecordStore.zones_path}/#{name}.yml"
         zone = { name => { config: config.to_hash } }
-        records = records.map(&:to_hash).sort_by! {|r| [r.fetch(:fqdn), r.fetch(:type), r[:nsdname] || r[:address]]}
+        records = records.map(&:to_hash).sort_by! { |r| [r.fetch(:fqdn), r.fetch(:type), r[:nsdname] || r[:address]] }
 
         if format == :file
           zone[name][:records] = records
