@@ -18,14 +18,14 @@ module RecordStore
 
     class << self
       def download(name, provider_name, **write_options)
-        zone = Zone.new(name: name, config: {providers: [provider_name]})
+        zone = Zone.new(name: name, config: { providers: [provider_name] })
         raise ArgumentError, zone.errors.full_messages.join("\n") unless zone.valid?
 
         zone.records = zone.providers.first.retrieve_current_records(zone: name)
 
         zone.config = Zone::Config.new(
           providers: [provider_name],
-          ignore_patterns: [{type: "NS", fqdn: "#{name}."}],
+          ignore_patterns: [{ type: "NS", fqdn: "#{name}." }],
           supports_alias: (zone.records.map(&:type).include?('ALIAS') || nil)
         )
 
