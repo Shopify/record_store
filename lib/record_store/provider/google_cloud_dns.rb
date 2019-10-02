@@ -45,10 +45,10 @@ module RecordStore
 
       def session
         @dns ||= begin
-          Google::Cloud::Dns.new({
+          Google::Cloud::Dns.new(
             project_id: secrets.fetch('project_id'),
             credentials: Google::Cloud::Dns::Credentials.new(secrets),
-          })
+          )
         end
       end
 

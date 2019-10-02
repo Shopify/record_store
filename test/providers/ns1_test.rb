@@ -165,9 +165,9 @@ class NS1Test < Minitest::Test
       }
 
       record_datas = [
-        base_record_data.merge({address: '10.10.10.47'}),
-        base_record_data.merge({address: '10.10.10.48'}),
-        base_record_data.merge({address: '10.10.10.49'}),
+        base_record_data.merge(address: '10.10.10.47'),
+        base_record_data.merge(address: '10.10.10.48'),
+        base_record_data.merge(address: '10.10.10.49'),
       ]
 
       # Create records

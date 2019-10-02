@@ -182,21 +182,21 @@ class ZoneTest < Minitest::Test
 
     assert_equal 2, Zone.filter_records(records, []).length
     assert_equal 1, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new({type: 'CNAME'})
+      Zone::Config::IgnorePattern.new(type: 'CNAME')
     ]).length
     assert_equal 2, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new({type: 'TXT'})
+      Zone::Config::IgnorePattern.new(type: 'TXT')
     ]).length
     assert_equal 1, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new({type: 'TXT'}),
-      Zone::Config::IgnorePattern.new({type: 'CNAME'})
+      Zone::Config::IgnorePattern.new(type: 'TXT'),
+      Zone::Config::IgnorePattern.new(type: 'CNAME')
     ]).length
     assert_equal 0, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new({type: 'TXT'}),
-      Zone::Config::IgnorePattern.new({ttl: 600})
+      Zone::Config::IgnorePattern.new(type: 'TXT'),
+      Zone::Config::IgnorePattern.new(ttl: 600)
     ]).length
     assert_equal 1, Zone.filter_records(records, [
-      Zone::Config::IgnorePattern.new({cname: 'real.example.com.' })
+      Zone::Config::IgnorePattern.new(cname: 'real.example.com.')
     ]).length
   end
 
@@ -210,20 +210,20 @@ class ZoneTest < Minitest::Test
         zone = Zone.find(name)
         assert_equal [{type: 'NS', fqdn: "#{name}."}], zone.config.ignore_patterns.map{|ignore_pattern| ignore_pattern.to_hash}
         assert_equal [
-          Record::ALIAS.new({
+          Record::ALIAS.new(
             zone: 'dns-test.shopify.io',
             ttl: 60,
             fqdn: 'dns-test.shopify.io',
             alias: 'dns-test.herokuapp.com.',
             record_id: 164537809
-          }),
-          Record::A.new({
+          ),
+          Record::A.new(
             zone: 'dns-test.shopify.io',
             ttl: 86400,
             fqdn: 'test-record.dns-test.shopify.io',
             address: '10.10.10.10',
             record_id: 189358987
-          })
+          )
         ], zone.records
       end
     end
