@@ -210,7 +210,7 @@ module RecordStore
         end
       end
 
-      if !invalid_zones.size.empty?
+      unless invalid_zones.empty?
         abort "The following zones were invalid: #{invalid_zones.join(', ')}"
       else
         puts "All zones have valid definitions."
