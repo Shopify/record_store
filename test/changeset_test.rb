@@ -207,7 +207,7 @@ class ChangesetTest < Minitest::Test
         fqdn: 'dns-scratch.me',
         nsdname: 'ns1.dnsimple.com.',
         record_id: 4
-      )
+      ),
     ]
     desired_records = current_records.map(&:dup)
 
@@ -223,7 +223,7 @@ class ChangesetTest < Minitest::Test
         fqdn: 'ns-test.dns-scratch.me',
         nsdname: 'ns2.dnsimple.com.',
         record_id: 6
-      )
+      ),
     ]
 
     # Swapped order is important here
@@ -237,7 +237,7 @@ class ChangesetTest < Minitest::Test
         ttl: 600,
         fqdn: 'ns-test.dns-scratch.me',
         nsdname: 'ns1.dnsimple.com.',
-      )
+      ),
     ]
 
     changeset = Changeset.new(
