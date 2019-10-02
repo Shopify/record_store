@@ -27,7 +27,7 @@ class RecordTest < Minitest::Test
       port: 80,
       target: 'target-srv.dns-test.shopify.io.',
       ttl: 60
-    )
+    ),
   }
 
   def test_build_from_yaml_definition

@@ -150,7 +150,7 @@ module RecordStore
           record = {
             ttl: api_record["ttl"],
             fqdn: fqdn.downcase,
-            record_id: api_answer["id"]
+            record_id: api_answer["id"],
           }
 
           case record_type
