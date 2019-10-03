@@ -1,7 +1,7 @@
 module RecordStore
   class Record
     FQDN_REGEX  = /\A(\*\.)?([a-z0-9_]+(-[a-z0-9]+)*\._?)+[a-z]{2,}\.\Z/i
-    CNAME_REGEX =  /\A(\*\.)?([a-z0-9_]+((-|--)?[a-z0-9]+)*\._?)+[a-z]{2,}\.\Z/i
+    CNAME_REGEX = /\A(\*\.)?([a-z0-9_]+((-|--)?[a-z0-9]+)*\._?)+[a-z]{2,}\.\Z/i
 
     include ActiveModel::Validations
 
