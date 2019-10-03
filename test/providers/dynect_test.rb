@@ -216,7 +216,7 @@ class DynECTTest < Minitest::Test
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::A.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 86400, address: '10.10.10.42')
 
-    VCR.use_cassette 'dynect_apply_changeset' do
+    VCR.use_cassette('dynect_apply_changeset') do
       Provider::DynECT.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [a_record],
@@ -272,7 +272,7 @@ class DynECTTest < Minitest::Test
       ),
     ]
 
-    VCR.use_cassette 'dynect_retrieve_current_records' do
+    VCR.use_cassette('dynect_retrieve_current_records') do
       records = Provider::DynECT.retrieve_current_records(zone: @zone_name)
       assert_equal records_arr, records
     end
@@ -283,7 +283,7 @@ class DynECTTest < Minitest::Test
     txt_2 = Record::TXT.new(record_id: 99999999, fqdn: 'test-record.dns-test.shopify.io.', ttl: 3600, txtdata: "two")
     txt_update = Record::TXT.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 3600, txtdata: "update")
 
-    VCR.use_cassette 'dynect_apply_changeset_update' do
+    VCR.use_cassette('dynect_apply_changeset_update') do
       Provider::DynECT.apply_changeset(Changeset.new(
         current_records: [txt_1, txt_2],
         desired_records: [txt_update, txt_2],
@@ -294,7 +294,7 @@ class DynECTTest < Minitest::Test
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider
-    VCR.use_cassette 'dynect_zones' do
+    VCR.use_cassette('dynect_zones') do
       assert_equal Provider::DynECT.zones, [@zone_name]
     end
   end

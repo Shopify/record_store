@@ -197,7 +197,7 @@ class ZoneTest < Minitest::Test
   def test_download_downloads_zone_into_file
     with_zones_tmpdir do
       name = 'dns-test.shopify.io'
-      VCR.use_cassette 'dynect_retrieve_current_records' do
+      VCR.use_cassette('dynect_retrieve_current_records') do
         Zone.download(name, 'DynECT')
         assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
@@ -226,7 +226,7 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_with_alias_support_based_on_provider
     with_zones_tmpdir do
       name = 'dns-scratch.me'
-      VCR.use_cassette 'dnsimple_retrieve_current_records_no_alias' do
+      VCR.use_cassette('dnsimple_retrieve_current_records_no_alias') do
         Zone.download(name, 'DNSimple')
       end
       assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
@@ -238,7 +238,7 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_without_alias_support_based_on_provider
     with_zones_tmpdir do
       name = 'dns-test.shopify.io'
-      VCR.use_cassette 'dynect_retrieve_current_records_no_alias' do
+      VCR.use_cassette('dynect_retrieve_current_records_no_alias') do
         Zone.download(name, 'DynECT')
       end
       assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
@@ -250,7 +250,7 @@ class ZoneTest < Minitest::Test
   def test_download_creates_zone_with_alias_support_based_on_records
     with_zones_tmpdir do
       name = 'dns-test.shopify.io'
-      VCR.use_cassette 'dynect_retrieve_current_records' do
+      VCR.use_cassette('dynect_retrieve_current_records') do
         Zone.download(name, 'DynECT')
       end
       zone = Zone.find(name)

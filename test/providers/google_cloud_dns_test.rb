@@ -159,7 +159,7 @@ class GoogleCloudDNSTest < Minitest::Test
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::A.new(fqdn: 'test-record.dns-test.shopify.io.', ttl: 86400, address: '10.10.10.42')
 
-    VCR.use_cassette 'gcloud_dns_apply_changeset' do
+    VCR.use_cassette('gcloud_dns_apply_changeset') do
       Provider::GoogleCloudDNS.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [a_record],
@@ -261,14 +261,14 @@ class GoogleCloudDNSTest < Minitest::Test
       ),
     ].sort_by(&:to_s)
 
-    VCR.use_cassette 'gcloud_dns_retrieve_current_records' do
+    VCR.use_cassette('gcloud_dns_retrieve_current_records') do
       records = Provider::GoogleCloudDNS.retrieve_current_records(zone: 'dns-scratch.me').sort_by(&:to_s)
       assert_equal records_arr, records
     end
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider
-    VCR.use_cassette 'gcloud_dns_zones' do
+    VCR.use_cassette('gcloud_dns_zones') do
       assert_equal Provider::GoogleCloudDNS.zones, ['dns-scratch.me.']
     end
   end
