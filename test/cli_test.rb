@@ -21,7 +21,7 @@ class CLITest < Minitest::Test
 }
 """)
       ENV['EJSON_KEYDIR'] = dir
-      `ejson encrypt #{secrets_ejson_path}`
+      %x(ejson encrypt #{secrets_ejson_path})
 
       RecordStore::CLI.start("secrets -c #{config_path}".split(' '))
 
