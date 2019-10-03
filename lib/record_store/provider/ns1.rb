@@ -197,7 +197,7 @@ module RecordStore
       def build_api_answer_from_record(record)
         if record.is_a?(Record::MX)
           [record.preference, record.exchange]
-        elsif record.is_a?(Record::TXT) or record.is_a?(Record::SPF)
+        elsif record.is_a?(Record::TXT) || record.is_a?(Record::SPF)
           [record.txtdata]
         elsif record.is_a?(Record::CAA)
           [record.flags, record.tag, record.value]
