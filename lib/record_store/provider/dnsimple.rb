@@ -113,7 +113,7 @@ module RecordStore
 
       def api_hash(record, zone)
         record_hash = {
-          name: record.fqdn.gsub("#{Record.ensure_ends_with_dot(zone)}", '').chomp('.'),
+          name: record.fqdn.gsub(Record.ensure_ends_with_dot(zone).to_s, '').chomp('.'),
           ttl: record.ttl,
           type: record.type,
         }
