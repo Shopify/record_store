@@ -151,12 +151,12 @@ module RecordStore
         records.each do |record|
           next unless record.fqdn == cname_record.fqdn && record != cname_record
           case record.type
-            when 'SIG', 'NXT', 'KEY'
-              # this is fine
-            when 'CNAME'
-              errors.add(:records, "Multiple CNAME records are defined for #{record.fqdn}: #{record}")
-            else
-              errors.add(:records, "A CNAME record is defined for #{cname_record.fqdn}, so this record is not allowed: #{record}")
+          when 'SIG', 'NXT', 'KEY'
+            # this is fine
+          when 'CNAME'
+            errors.add(:records, "Multiple CNAME records are defined for #{record.fqdn}: #{record}")
+          else
+            errors.add(:records, "A CNAME record is defined for #{cname_record.fqdn}, so this record is not allowed: #{record}")
           end
         end
       end
