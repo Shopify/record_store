@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/Shopify/record_store'
   spec.license     = 'MIT'
 
-  spec.files       = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|DESIGN)}) }
+  spec.files       = %x(git ls-files -z).split("\x0").reject { |f| f.match(%r{^(test|DESIGN)}) }
   spec.executables = ['record-store']
   spec.require_paths = ['lib']
 
