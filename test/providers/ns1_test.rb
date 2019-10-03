@@ -91,7 +91,7 @@ class NS1Test < Minitest::Test
       ))
 
       # Retrieve it
-      record = @ns1.retrieve_current_records(zone: @zone_name).select {|r| r == record }.first
+      record = @ns1.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
       assert !record.nil?
 
       updated_record = Record::A.new(record_data)
@@ -132,7 +132,7 @@ class NS1Test < Minitest::Test
       ))
 
       # Retrieve it
-      record = @ns1.retrieve_current_records(zone: @zone_name).select {|r| r == record }.first
+      record = @ns1.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
       assert !record.nil?
 
       updated_record = Record::A.new(record_data)
@@ -284,7 +284,7 @@ class NS1Test < Minitest::Test
       ))
 
       record_with_updated_ttl = Record::A.new(record_data.merge(ttl: 10))
-      record = @ns1.retrieve_current_records(zone: @zone_name).select {|r| r == record }.first
+      record = @ns1.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
 
       @ns1.apply_changeset(Changeset.new(
         current_records: [record],
