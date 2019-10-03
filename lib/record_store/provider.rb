@@ -21,8 +21,6 @@ module RecordStore
           'GoogleCloudDNS'
         when /\.nsone\.net\z/
           'NS1'
-        else
-          nil
         end
       end
 
