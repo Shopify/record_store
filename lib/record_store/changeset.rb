@@ -4,7 +4,9 @@ module RecordStore
       attr_accessor :type, :record, :id
 
       def initialize(type: nil, record: nil, id: nil)
-        @type, @record, @id = type, record, id
+        @type = type
+        @record = record
+        @id = id
       end
 
       def self.addition(record)
@@ -51,7 +53,9 @@ module RecordStore
       @provider = provider
       @zone = zone
 
-      @additions, @removals, @updates = [], [], []
+      @additions = []
+      @removals = []
+      @updates = []
 
       build_changeset
     end

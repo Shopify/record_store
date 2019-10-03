@@ -42,7 +42,9 @@ module RecordStore
 
       MAX_PARALLEL_THREADS = 10
       def modified(verbose: false)
-        modified_zones, mutex, zones = [], Mutex.new, all
+        modified_zones = []
+        mutex = Mutex.new
+        zones = all
 
         (1..MAX_PARALLEL_THREADS).map do
           Thread.new do
