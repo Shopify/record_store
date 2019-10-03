@@ -35,7 +35,6 @@ module RecordStore
       Zone.each do |name, zone|
         puts "Zone: #{name}"
         zone.records.each(&:log!)
-        end
       end
     end
 
