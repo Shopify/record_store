@@ -55,7 +55,7 @@ class Minitest::Test
         end
       end
     end
-    
+
     config.filter_sensitive_data '<NS1_API_KEY>' do |interaction|
       next unless interaction.request.uri =~ /nsone/
       if (auth_token = interaction.request.headers['NS1_API_KEY']).present?

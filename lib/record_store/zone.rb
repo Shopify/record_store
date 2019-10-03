@@ -47,7 +47,7 @@ module RecordStore
         (1..MAX_PARALLEL_THREADS).map do
           Thread.new do
             current_zone = nil
-            while zones.any? 
+            while zones.any?
               mutex.synchronize { current_zone = zones.shift }
               mutex.synchronize { modified_zones << current_zone } unless current_zone.unchanged?
             end

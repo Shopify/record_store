@@ -196,7 +196,7 @@ class NS1Test < Minitest::Test
           record
         end
       end
-    
+
       @ns1.apply_changeset(Changeset.new(
         current_records: records,
         desired_records: updated_records,
