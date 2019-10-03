@@ -487,10 +487,8 @@ class NS1Test < Minitest::Test
   end
 
   def test_remove_record_should_not_remove_all_records_for_fqdn
-    record_1, record_2 = [
-      Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.42'),
-      Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.43'),
-    ]
+    record_1 = Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.42')
+    record_2 = Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.43')
 
     VCR.use_cassette('ns1_remove_record_should_not_remove_all_records_for_fqdn') do
       @ns1.apply_changeset(Changeset.new(
