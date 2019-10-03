@@ -10,7 +10,7 @@ module RecordStore
       def defined
         @defined ||= yaml_files
           .map { |file| load_yml_zone_definition(file) }
-          .index_by { |zone| zone.unrooted_name }
+          .index_by(&:unrooted_name)
       end
 
       def [](name)
