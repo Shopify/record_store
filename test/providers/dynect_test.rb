@@ -17,8 +17,7 @@ class DynECTTest < Minitest::Test
       'ttl' => 600,
       'rdata' => {
         'address' => '10.11.12.13',
-      }
-    )
+      })
 
     assert_kind_of Record::A, record
     assert_equal 'test.dns-test.shopify.io.', record.fqdn
@@ -34,8 +33,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "AAAA",
       "rdata" => {
         "address" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF",
-      }
-    )
+      })
 
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-test.shopify.io.', record.fqdn
@@ -71,8 +69,7 @@ class DynECTTest < Minitest::Test
         "tag": "issue",
         "flags": 0,
         "value": "digicert.com",
-      }
-    )
+      })
 
     assert_kind_of Record::CAA, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -90,8 +87,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "CNAME",
       "rdata" => {
         "cname" => "dns-test.shopify.io.",
-      }
-    )
+      })
 
     assert_kind_of Record::CNAME, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -108,8 +104,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "exchange" => "mail-server.example.com.",
         "preference" => 10,
-      }
-    )
+      })
 
     assert_kind_of Record::MX, record
     assert_equal 'mx.dns-test.shopify.io.', record.fqdn
@@ -126,8 +121,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "NS",
       "rdata" => {
         "nsdname" => "ns1.dynect.net",
-      }
-    )
+      })
 
     assert_kind_of Record::NS, record
     assert_equal 'dns-test.shopify.io.', record.fqdn
@@ -146,8 +140,7 @@ class DynECTTest < Minitest::Test
         "priority" => 10,
         "target" => "target-srv.dns-test.shopify.io.",
         "weight" => 47,
-      }
-    )
+      })
 
     assert_kind_of Record::SRV, record
     assert_equal '_service._tcp.srv.dns-test.shopify.io.', record.fqdn
@@ -173,8 +166,7 @@ class DynECTTest < Minitest::Test
         "refresh" => 3600,
         "expire" => 604800,
         "serial" => 1241,
-      }
-    )
+      })
 
     assert_nil record
   end
@@ -187,8 +179,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "TXT",
       "rdata" => {
         "txtdata" => "Hello, world!",
-      },
-    )
+      },)
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-test.shopify.io.', record.fqdn
@@ -204,8 +195,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "TXT",
       "rdata" => {
         "txtdata" => "Hello, world!",
-      },
-    )
+      },)
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-test.shopify.io.', record.fqdn

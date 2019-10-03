@@ -16,8 +16,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'A',
         600,
         '10.11.12.13'
-      )
-    )
+      ))
 
     assert_kind_of Record::A, record
     assert_equal 'a.dns-test.shopify.io.', record.fqdn
@@ -32,8 +31,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'AAAA',
         600,
         '2001:0db8:85a3:0000:0000:EA75:1337:BEEF'
-      )
-    )
+      ))
 
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-test.shopify.io.', record.fqdn
@@ -48,8 +46,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'CAA',
         1800,
         ['0 issue "digicert.com"']
-      )
-    )
+      ))
 
     assert_kind_of Record::CAA, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -66,8 +63,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'CNAME',
         600,
         'dns-test.shopify.io.'
-      )
-    )
+      ))
 
     assert_kind_of Record::CNAME, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -82,8 +78,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'MX',
         60,
         ['10 mail-server.example.com.'],
-      )
-    )
+      ))
 
     assert_kind_of Record::MX, record
     assert_equal 'mx.dns-test.shopify.io.', record.fqdn
@@ -99,8 +94,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'NS',
         3600,
         ['ns-cloud-d4.googledomains.com.'],
-      )
-    )
+      ))
 
     assert_kind_of Record::NS, record
     assert_equal 'dns-test.shopify.io.', record.fqdn
@@ -115,8 +109,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'SRV',
         60,
         ['10 47 80 target-srv.dns-test.shopify.io.']
-      )
-    )
+      ))
 
     assert_kind_of Record::SRV, record
     assert_equal '_service._tcp.srv.dns-test.shopify.io.', record.fqdn
@@ -134,8 +127,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'TXT',
         60,
         ['"Hello, world!"']
-      )
-    )
+      ))
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-test.shopify.io.', record.fqdn
@@ -150,8 +142,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'SOA',
         60,
         'ns-cloud-d1.googledomains.com. cloud-dns-hostmaster.google.com. 3 21600 3600 259200 300'
-      )
-    )
+      ))
 
     assert_nil record
   end
