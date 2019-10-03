@@ -147,7 +147,7 @@ module RecordStore
       cname_records = records.select { |record| record.is_a?(Record::CNAME) }
       cname_records.each do |cname_record|
         records.each do |record|
-          if record.fqdn == cname_record.fqdn && record != cname_record
+          next if record.fqdn == cname_record.fqdn && record != cname_record
             case record.type
               when 'SIG', 'NXT', 'KEY'
                 # this is fine
