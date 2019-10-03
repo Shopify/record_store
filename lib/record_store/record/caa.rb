@@ -37,7 +37,7 @@ module RecordStore
 
     def validate_uri_value
       uri = URI(value)
-      return if uri.kind_of?(URI::MailTo) || uri.kind_of?(URI::HTTP)
+      return if uri.is_a?(URI::MailTo) || uri.is_a?(URI::HTTP)
       errors.add(:value, "URL scheme should be mailto, http, or https")
     rescue URI::Error
       errors.add(:value, "Value should be a valid URI")
