@@ -66,7 +66,7 @@ class Minitest::Test
     config.filter_sensitive_data '<DYNECT_AUTH_TOKEN>' do |interaction|
       if interaction.request.uri =~ /dynect/
         res = JSON.parse(interaction.response.body)
-        if res.fetch('data').is_a?(Hash) && res.fetch('data').has_key?('token')
+        if res.fetch('data').is_a?(Hash) && res.fetch('data').key?('token')
           res.fetch('data').fetch('token')
         end
       end
