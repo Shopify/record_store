@@ -269,7 +269,7 @@ class DNSimpleTest < Minitest::Test
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::A.new(fqdn: 'test-record.dns-scratch.me.', ttl: 86400, address: '10.10.10.42')
 
-    VCR.use_cassette 'dnsimple_apply_changeset' do
+    VCR.use_cassette('dnsimple_apply_changeset') do
       @dnsimple.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [a_record],
@@ -282,7 +282,7 @@ class DNSimpleTest < Minitest::Test
   def test_apply_changeset_with_alias_cleans_up_txt_record
     alias_record = Record::ALIAS.new(fqdn: 'dns-scratch.me.', ttl: 86400, alias: 'dns-scratch.herokuapp.com.')
 
-    VCR.use_cassette 'dnsimple_apply_changeset_with_alias' do
+    VCR.use_cassette('dnsimple_apply_changeset_with_alias') do
       @dnsimple.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [alias_record],
@@ -342,14 +342,14 @@ class DNSimpleTest < Minitest::Test
       ),
     ]
 
-    VCR.use_cassette 'dnsimple_retrieve_current_records' do
+    VCR.use_cassette('dnsimple_retrieve_current_records') do
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
       assert_equal records_arr.sort_by(&:to_s), records.sort_by(&:to_s)
     end
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider
-    VCR.use_cassette 'dnsimple_zones' do
+    VCR.use_cassette('dnsimple_zones') do
       assert_equal @dnsimple.zones, [@zone_name]
     end
   end

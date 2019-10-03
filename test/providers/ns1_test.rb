@@ -16,7 +16,7 @@ class NS1Test < Minitest::Test
   def test_add_changeset
     record = Record::A.new(fqdn: 'test_add_changeset.test.recordstore.io', ttl: 600, address: '10.10.10.42')
 
-    VCR.use_cassette 'ns1_add_changeset' do
+    VCR.use_cassette('ns1_add_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -32,7 +32,7 @@ class NS1Test < Minitest::Test
       Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 600, address: '10.10.10.43'),
     ]
 
-    VCR.use_cassette 'ns1_add_multiple_changesets' do
+    VCR.use_cassette('ns1_add_multiple_changesets') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: records,
@@ -45,7 +45,7 @@ class NS1Test < Minitest::Test
   def test_remove_changeset
     record = Record::A.new(fqdn: 'test_remove_changeset.test.recordstore.io', ttl: 600, address: '10.10.10.42')
 
-    VCR.use_cassette 'ns1_remove_changesets' do
+    VCR.use_cassette('ns1_remove_changesets') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -73,7 +73,7 @@ class NS1Test < Minitest::Test
   end
 
   def test_update_changeset
-    VCR.use_cassette 'ns1_update_changeset' do
+    VCR.use_cassette('ns1_update_changeset') do
       record_data = {
         address: '10.10.10.48',
         fqdn: 'test_update_changeset.test.recordstore.io',
@@ -114,7 +114,7 @@ class NS1Test < Minitest::Test
   end
 
   def test_update_changeset_where_domain_doesnt_exist
-    VCR.use_cassette 'ns1_update_changeset_where_domain_doesnt_exist' do
+    VCR.use_cassette('ns1_update_changeset_where_domain_doesnt_exist') do
       record_data = {
         address: '10.10.10.48',
         fqdn: 'test_update_changeset_where_domain_doesnt_exist.test.recordstore.io',
@@ -158,7 +158,7 @@ class NS1Test < Minitest::Test
   end
 
   def test_update_changeset_for_fqdn_with_multiple_answers
-    VCR.use_cassette 'ns1_update_changeset_for_fqdn_with_multiple_answers' do
+    VCR.use_cassette('ns1_update_changeset_for_fqdn_with_multiple_answers') do
       base_record_data = {
         fqdn: 'test_update_changeset_multiples.test.recordstore.io',
         ttl: 600,
@@ -220,7 +220,7 @@ class NS1Test < Minitest::Test
   def test_add_changeset_with_nil_zone
     record = Record::A.new(fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io', ttl: 600, address: '10.10.10.42')
 
-    VCR.use_cassette 'ns1_add_changeset_nil_zone' do
+    VCR.use_cassette('ns1_add_changeset_nil_zone') do
       assert_raises NS1::MissingParameter do
         @ns1.apply_changeset(Changeset.new(
           current_records: [],
@@ -235,7 +235,7 @@ class NS1Test < Minitest::Test
   def test_add_changset_missing_zone
     record = Record::A.new(fqdn: 'test_add_changset_missing_zone.test.recordstore.io', ttl: 600, address: '10.10.10.42')
 
-    VCR.use_cassette 'ns1_add_changeset_missing_zone' do
+    VCR.use_cassette('ns1_add_changeset_missing_zone') do
       assert_raises do
         @ns1.apply_changeset(Changeset.new(
           current_records: [],
@@ -251,7 +251,7 @@ class NS1Test < Minitest::Test
   def test_record_retrieved_after_adding_record_changeset
     record = Record::A.new(fqdn: 'test_add_a.test.recordstore.io', ttl: 600, address: '10.10.10.1')
 
-    VCR.use_cassette 'ns1_add_a_changeset' do
+    VCR.use_cassette('ns1_add_a_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -272,7 +272,7 @@ class NS1Test < Minitest::Test
   end
 
   def test_updating_record_ttl
-    VCR.use_cassette 'ns1_updating_record_ttl' do
+    VCR.use_cassette('ns1_updating_record_ttl') do
       record_data = { fqdn: 'test_updating_ttl.test.recordstore.io', ttl: 600, address: '10.10.10.1' }
       record = Record::A.new(record_data)
 
@@ -304,7 +304,7 @@ class NS1Test < Minitest::Test
   def test_alias_record_retrieved_after_adding_record_changeset
     record = Record::ALIAS.new(fqdn: 'test_add_alias.test.recordstore.io', ttl: 600, alias: '10.10.10.1')
 
-    VCR.use_cassette 'ns1_add_alias_changeset' do
+    VCR.use_cassette('ns1_add_alias_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -327,7 +327,7 @@ class NS1Test < Minitest::Test
   def test_carecord_retrieved_after_adding_record_changeset
     record = Record::CAA.new(fqdn: 'test_add_caa.test.recordstore.io', ttl: 600, flags: 0, tag: 'issue', value: 'shopify.com')
 
-    VCR.use_cassette 'ns1_add_caa_changeset' do
+    VCR.use_cassette('ns1_add_caa_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -350,7 +350,7 @@ class NS1Test < Minitest::Test
   def test_cname_record_retrieved_after_adding_record_changeset
     record = Record::CNAME.new(fqdn: 'test_add_alias.test.recordstore.io.', ttl: 600, cname: 'test.recordstore.io.')
 
-    VCR.use_cassette 'ns1_add_cname_changeset' do
+    VCR.use_cassette('ns1_add_cname_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -373,7 +373,7 @@ class NS1Test < Minitest::Test
   def test_mx_record_retrieved_after_adding_record_changeset
     record = Record::MX.new(fqdn: 'test_add_mx.test.recordstore.io', ttl: 600, preference: 10, exchange: 'mxa.mailgun.org')
 
-    VCR.use_cassette 'ns1_add_mx_changeset' do
+    VCR.use_cassette('ns1_add_mx_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -397,7 +397,7 @@ class NS1Test < Minitest::Test
   def test_ns_record_retrieved_after_adding_record_changeset
     record = Record::NS.new(fqdn: 'test_add_ns.test.recordstore.io.', ttl: 600, nsdname: 'test.recordstore.io.')
 
-    VCR.use_cassette 'ns1_add_ns_changeset' do
+    VCR.use_cassette('ns1_add_ns_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -420,7 +420,7 @@ class NS1Test < Minitest::Test
   def test_txt_record_retrieved_after_adding_record_changeset
     record = Record::TXT.new(fqdn: 'test_add_txt.test.recordstore.io.', ttl: 600, txtdata: 'Hello World!')
 
-    VCR.use_cassette 'ns1_add_txt_changeset' do
+    VCR.use_cassette('ns1_add_txt_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -442,7 +442,7 @@ class NS1Test < Minitest::Test
   def test_spf_record_retrieved_after_adding_record_changeset
     record = Record::SPF.new(fqdn: 'test_add_spf.test.recordstore.io.', ttl: 600, txtdata: 'Hello World!')
 
-    VCR.use_cassette 'ns1_add_spf_changeset' do
+    VCR.use_cassette('ns1_add_spf_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -464,7 +464,7 @@ class NS1Test < Minitest::Test
   def test_srv_record_retrieved_after_adding_record_changeset
     record = Record::SRV.new(fqdn: 'test_add_spf.test.recordstore.io.', ttl: 600, priority: 1, weight: 2, port: 3, target: 'spf.shopify.com.')
 
-    VCR.use_cassette 'ns1_add_srv_changeset' do
+    VCR.use_cassette('ns1_add_srv_changeset') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
@@ -492,7 +492,7 @@ class NS1Test < Minitest::Test
       Record::A.new(fqdn: 'one_of_these_should_remain.test.recordstore.io', ttl: 600, address: '10.10.10.43'),
     ]
 
-    VCR.use_cassette 'ns1_remove_record_should_not_remove_all_records_for_fqdn' do
+    VCR.use_cassette('ns1_remove_record_should_not_remove_all_records_for_fqdn') do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record_1, record_2],

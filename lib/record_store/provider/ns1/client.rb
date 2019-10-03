@@ -26,19 +26,19 @@ module RecordStore
 
       def create_record(zone:, fqdn:, type:, params:)
         result = super(zone, fqdn, type, params)
-        raise(Error, result.to_s) if result.is_a? NS1::Response::Error
+        raise(Error, result.to_s) if result.is_a?(NS1::Response::Error)
         nil
       end
 
       def modify_record(zone:, fqdn:, type:, params:)
         result = super(zone, fqdn, type, params)
-        raise(Error, result.to_s) if result.is_a? NS1::Response::Error
+        raise(Error, result.to_s) if result.is_a?(NS1::Response::Error)
         nil
       end
 
       def delete_record(zone:, fqdn:, type:)
         result = super(zone, fqdn, type)
-        raise(Error, result.to_s) if result.is_a? NS1::Response::Error
+        raise(Error, result.to_s) if result.is_a?(NS1::Response::Error)
         nil
       end
     end

@@ -1,8 +1,8 @@
 require 'fog/dynect'
 require 'limiter'
 
-Fog::DNS::Dynect::Real.extend Limiter::Mixin
-Fog::DNS::Dynect::Real.limit_method :request, rate: 5, interval: 1 # 5 RPS == 300 RPM
+Fog::DNS::Dynect::Real.extend(Limiter::Mixin)
+Fog::DNS::Dynect::Real.limit_method(:request, rate: 5, interval: 1) # 5 RPS == 300 RPM
 
 module RecordStore
   class Provider::DynECT < Provider
