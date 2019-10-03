@@ -325,7 +325,7 @@ class NS1Test < Minitest::Test
   end
 
   def test_carecord_retrieved_after_adding_record_changeset
-    record = Record::CAA.new(fqdn: 'test_add_caa.test.recordstore.io', ttl: 600, flags:0, tag:'issue', value:'shopify.com')
+    record = Record::CAA.new(fqdn: 'test_add_caa.test.recordstore.io', ttl: 600, flags: 0, tag: 'issue', value: 'shopify.com')
 
     VCR.use_cassette 'ns1_add_caa_changeset' do
       @ns1.apply_changeset(Changeset.new(
