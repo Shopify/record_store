@@ -61,7 +61,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.none? do|current_record|
+      contains_desired_record = current_records.none? do |current_record|
         current_record.is_a?(Record::A) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -260,7 +260,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::A) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -313,7 +313,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::ALIAS) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -336,7 +336,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::CAA) &&
           record.flags == current_record.flags &&
           record.tag == current_record.tag &&
@@ -359,7 +359,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::CNAME) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -382,7 +382,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::MX) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -406,7 +406,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::NS) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -429,7 +429,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::TXT) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -451,7 +451,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::SPF) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -473,7 +473,7 @@ class NS1Test < Minitest::Test
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      contains_desired_record = current_records.any? do|current_record|
+      contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::SRV) &&
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
@@ -507,14 +507,14 @@ class NS1Test < Minitest::Test
       ))
       records = @ns1.retrieve_current_records(zone: @zone_name)
 
-      record_2_missing = records.none? do|current_record|
+      record_2_missing = records.none? do |current_record|
         current_record.is_a?(Record::A) &&
           record_2.fqdn == current_record.fqdn &&
           record_2.ttl == current_record.ttl &&
           record_2.address == current_record.address
       end
 
-      record_1_found = records.any? do|current_record|
+      record_1_found = records.any? do |current_record|
         current_record.is_a?(Record::A) &&
           record_1.fqdn == current_record.fqdn &&
           record_1.ttl == current_record.ttl &&
