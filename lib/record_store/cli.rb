@@ -83,11 +83,10 @@ module RecordStore
             end
           end
 
-          next if options.fetch('verbose')
-            puts "Unchanged:"
-            changeset.unchanged.each do |record|
-              puts " - #{record}"
-            end
+          next unless options.fetch('verbose')
+          puts "Unchanged:"
+          changeset.unchanged.each do |record|
+            puts " - #{record}"
           end
         end
         puts '=' * 20
