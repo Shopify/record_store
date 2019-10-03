@@ -33,7 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'ruby-limiter', '~> 1.0', '>= 1.0.1'
   spec.add_runtime_dependency 'ns1'
 
-
   spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'bundler'
