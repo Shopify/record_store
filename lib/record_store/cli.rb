@@ -34,8 +34,7 @@ module RecordStore
     def list
       Zone.each do |name, zone|
         puts "Zone: #{name}"
-        zone.records.each do |record|
-          record.log!
+        zone.records.each(&:log!)
         end
       end
     end
