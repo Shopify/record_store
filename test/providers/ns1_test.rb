@@ -408,10 +408,10 @@ class NS1Test < Minitest::Test
 
       contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::NS) &&
-          record.fqdn == current_record.fqdn &&
-          record.ttl == current_record.ttl &&
-          record.nsdname == current_record.nsdname
-       end
+        record.fqdn == current_record.fqdn &&
+        record.ttl == current_record.ttl &&
+        record.nsdname == current_record.nsdname
+      end
 
       assert contains_desired_record
     end
@@ -434,7 +434,7 @@ class NS1Test < Minitest::Test
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
           record.txtdata == current_record.txtdata
-       end
+      end
       assert contains_desired_record
     end
   end
@@ -456,7 +456,7 @@ class NS1Test < Minitest::Test
           record.fqdn == current_record.fqdn &&
           record.ttl == current_record.ttl &&
           record.txtdata == current_record.txtdata
-       end
+      end
       assert contains_desired_record
     end
   end
@@ -481,7 +481,7 @@ class NS1Test < Minitest::Test
           record.weight == current_record.weight &&
           record.port == current_record.port &&
           record.target == current_record.target
-       end
+      end
       assert contains_desired_record
     end
   end
