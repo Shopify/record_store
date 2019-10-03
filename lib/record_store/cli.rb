@@ -234,30 +234,28 @@ module RecordStore
     SKIP_CHECKS = 'SKIP_DEPLOY_VALIDATIONS'
     desc 'validate_initial_state', "Validates state hasn't diverged since the last deploy"
     def validate_initial_state
-      begin
-        assert_empty_diff
-        puts "Deploy will cause no changes, no need to validate initial state"
-      rescue SystemExit
-        if File.exist?(File.expand_path(SKIP_CHECKS, Dir.pwd))
-          puts "Found '#{SKIP_CHECKS}', skipping predeploy validations"
-        else
-          puts "Checkout git SHA #{ENV['LAST_DEPLOYED_SHA']}"
-          `git checkout #{ENV['LAST_DEPLOYED_SHA']}`
-          abort "Checkout of old commit failed" if $?.exitstatus != 0
+      assert_empty_diff
+      puts "Deploy will cause no changes, no need to validate initial state"
+    rescue SystemExit
+      if File.exist?(File.expand_path(SKIP_CHECKS, Dir.pwd))
+        puts "Found '#{SKIP_CHECKS}', skipping predeploy validations"
+      else
+        puts "Checkout git SHA #{ENV['LAST_DEPLOYED_SHA']}"
+        `git checkout #{ENV['LAST_DEPLOYED_SHA']}`
+        abort "Checkout of old commit failed" if $?.exitstatus != 0
 
-          `record-store secrets`
-          abort "Decrypt secrets failed" if $?.exitstatus != 0
+        `record-store secrets`
+        abort "Decrypt secrets failed" if $?.exitstatus != 0
 
-          `record-store assert_empty_diff`
-          abort "Dyn status has diverged!" if $?.exitstatus != 0
+        `record-store assert_empty_diff`
+        abort "Dyn status has diverged!" if $?.exitstatus != 0
 
-          puts "Checkout git SHA #{ENV['REVISION']}"
-          `git checkout #{ENV['REVISION']}`
-          abort "Checkout of new commit failed" if $?.exitstatus != 0
+        puts "Checkout git SHA #{ENV['REVISION']}"
+        `git checkout #{ENV['REVISION']}`
+        abort "Checkout of new commit failed" if $?.exitstatus != 0
 
-          `record-store secrets`
-          abort "Decrypt secrets failed" if $?.exitstatus != 0
-        end
+        `record-store secrets`
+        abort "Decrypt secrets failed" if $?.exitstatus != 0
       end
     end
 
