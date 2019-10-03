@@ -200,7 +200,7 @@ module RecordStore
         end
 
         invalid_records = zone.records.reject(&:valid?)
-        puts '  Invalid records' if invalid_records.size > 0
+        puts '  Invalid records' unless invalid_records.empty?
 
         invalid_records.each do |record|
           puts "    #{record}"
@@ -210,7 +210,7 @@ module RecordStore
         end
       end
 
-      if invalid_zones.size > 0
+      unless invalid_zones.empty?
         abort "The following zones were invalid: #{invalid_zones.join(', ')}"
       else
         puts "All zones have valid definitions."
