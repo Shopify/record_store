@@ -85,7 +85,7 @@ module RecordStore
     def build_changeset
       current_records_set = (current_records - unchanged).sort_by(&:to_s).group_by(&:key)
       desired_records_set = (desired_records - unchanged).sort_by(&:to_s).group_by(&:key)
-      current_records_set.default_proc = desired_records_set.default_proc = proc {Array.new}
+      current_records_set.default_proc = desired_records_set.default_proc = proc { [] }
 
       record_keys = current_records_set.keys | desired_records_set.keys
 
