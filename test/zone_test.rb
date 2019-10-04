@@ -166,7 +166,7 @@ class ZoneTest < Minitest::Test
     assert_equal 1, zone.errors[:records].length
     assert_equal "A CNAME record is defined for www.example.com., so this record is not allowed: [ARecord] www.example.com. 600 IN A 1.2.3.4", zone.errors[:records].first
 
-   zone = valid_zone_from_records("example.com", records: [
+    zone = valid_zone_from_records("example.com", records: [
       { type: 'CNAME', fqdn: 'example.com.', ttl: 600, cname: 'www.example.com.' },
     ])
     refute_predicate zone, :valid?
