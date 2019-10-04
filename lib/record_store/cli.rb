@@ -1,3 +1,5 @@
+require 'English'
+
 module RecordStore
   class CLI < Thor
     class_option :config, desc: 'Path to config.yml', aliases: '-c'
@@ -169,7 +171,7 @@ module RecordStore
       end
 
       secrets = %x(ejson decrypt #{RecordStore.secrets_path.sub(/\.json\z/, ".#{environment}.ejson")})
-      if $?.exitstatus == 0
+      if $CHILD_STATUS.exitstatus == 0
         File.write(RecordStore.secrets_path, secrets)
       else
         abort secrets
@@ -240,20 +242,20 @@ module RecordStore
       else
         puts "Checkout git SHA #{ENV['LAST_DEPLOYED_SHA']}"
         %x(git checkout #{ENV['LAST_DEPLOYED_SHA']})
-        abort "Checkout of old commit failed" if $?.exitstatus != 0
+        abort "Checkout of old commit failed" if $CHILD_STATUS.exitstatus != 0
 
         %x(record-store secrets)
-        abort "Decrypt secrets failed" if $?.exitstatus != 0
+        abort "Decrypt secrets failed" if $CHILD_STATUS.exitstatus != 0
 
         %x(record-store assert_empty_diff)
-        abort "Dyn status has diverged!" if $?.exitstatus != 0
+        abort "Dyn status has diverged!" if $CHILD_STATUS.exitstatus != 0
 
         puts "Checkout git SHA #{ENV['REVISION']}"
         %x(git checkout #{ENV['REVISION']})
-        abort "Checkout of new commit failed" if $?.exitstatus != 0
+        abort "Checkout of new commit failed" if $CHILD_STATUS.exitstatus != 0
 
         %x(record-store secrets)
-        abort "Decrypt secrets failed" if $?.exitstatus != 0
+        abort "Decrypt secrets failed" if $CHILD_STATUS.exitstatus != 0
       end
     end
 
