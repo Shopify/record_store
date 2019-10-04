@@ -15,7 +15,7 @@ class Minitest::Test
   RecordStore.config_path = DUMMY_CONFIG_PATH
 
   SECRET_KEYS = {
-    'google_cloud_dns' =>  %w(
+    'google_cloud_dns' => %w(
       private_key_id
       private_key
       client_email
