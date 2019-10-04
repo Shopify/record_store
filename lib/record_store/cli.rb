@@ -168,7 +168,7 @@ module RecordStore
         end
       end
 
-      secrets = `ejson decrypt #{RecordStore.secrets_path.sub(/\.json\z/, ".#{environment}.ejson")}`
+      secrets = %x(ejson decrypt #{RecordStore.secrets_path.sub(/\.json\z/, ".#{environment}.ejson")})
       if $?.exitstatus == 0
         File.write(RecordStore.secrets_path, secrets)
       else
@@ -239,20 +239,20 @@ module RecordStore
         puts "Found '#{SKIP_CHECKS}', skipping predeploy validations"
       else
         puts "Checkout git SHA #{ENV['LAST_DEPLOYED_SHA']}"
-        `git checkout #{ENV['LAST_DEPLOYED_SHA']}`
+        %x(git checkout #{ENV['LAST_DEPLOYED_SHA']})
         abort "Checkout of old commit failed" if $?.exitstatus != 0
 
-        `record-store secrets`
+        %x(record-store secrets)
         abort "Decrypt secrets failed" if $?.exitstatus != 0
 
-        `record-store assert_empty_diff`
+        %x(record-store assert_empty_diff)
         abort "Dyn status has diverged!" if $?.exitstatus != 0
 
         puts "Checkout git SHA #{ENV['REVISION']}"
-        `git checkout #{ENV['REVISION']}`
+        %x(git checkout #{ENV['REVISION']})
         abort "Checkout of new commit failed" if $?.exitstatus != 0
 
-        `record-store secrets`
+        %x(record-store secrets)
         abort "Decrypt secrets failed" if $?.exitstatus != 0
       end
     end
