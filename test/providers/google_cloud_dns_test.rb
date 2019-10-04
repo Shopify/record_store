@@ -174,8 +174,7 @@ class GoogleCloudDNSTest < Minitest::Test
         desired_records: [a_record],
         provider: RecordStore::Provider::GoogleCloudDNS,
         zone: @zone_name
-      )
-    )
+      ))
     end
   end
 
