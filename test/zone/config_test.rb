@@ -15,7 +15,7 @@ class ConfigTest < Minitest::Test
 
   def test_config_is_properly_loaded_from_zonefile
     tmp_config = Tempfile.new(['config', '.yml'])
-    zonefile = """
+    zonefile = "
 example.com:
   config:
     ignore_patterns:
@@ -26,7 +26,7 @@ example.com:
       - DynECT
       - DNSimple
     supports_alias: true
-"""
+"
     tmp_config.write(zonefile)
     tmp_config.close
 
