@@ -10,13 +10,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_a_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'a.dns-test.shopify.io.',
         'A',
         600,
         '10.11.12.13'
-      ))
+      )
+    )
 
     assert_kind_of Record::A, record
     assert_equal 'a.dns-test.shopify.io.', record.fqdn
@@ -25,13 +27,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_aaaa_from_api
-     record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'aaaa.dns-test.shopify.io.',
         'AAAA',
         600,
         '2001:0db8:85a3:0000:0000:EA75:1337:BEEF'
-      ))
+      )
+    )
 
     assert_kind_of Record::AAAA, record
     assert_equal 'aaaa.dns-test.shopify.io.', record.fqdn
@@ -40,13 +44,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_caa_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'cname.dns-test.shopify.io.',
         'CAA',
         1800,
         ['0 issue "digicert.com"']
-      ))
+      )
+    )
 
     assert_kind_of Record::CAA, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -57,13 +63,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_cname_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'cname.dns-test.shopify.io.',
         'CNAME',
         600,
         'dns-test.shopify.io.'
-      ))
+      )
+    )
 
     assert_kind_of Record::CNAME, record
     assert_equal 'cname.dns-test.shopify.io.', record.fqdn
@@ -72,13 +80,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_mx_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'mx.dns-test.shopify.io.',
         'MX',
         60,
         ['10 mail-server.example.com.'],
-      ))
+      )
+    )
 
     assert_kind_of Record::MX, record
     assert_equal 'mx.dns-test.shopify.io.', record.fqdn
@@ -88,13 +98,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_multiple_ns_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'dns-test.shopify.io.',
         'NS',
         3600,
         ['ns-cloud-d4.googledomains.com.'],
-      ))
+      )
+    )
 
     assert_kind_of Record::NS, record
     assert_equal 'dns-test.shopify.io.', record.fqdn
@@ -103,13 +115,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_srv_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         '_service._TCP.srv.dns-test.shopify.io.',
         'SRV',
         60,
         ['10 47 80 target-srv.dns-test.shopify.io.']
-      ))
+      )
+    )
 
     assert_kind_of Record::SRV, record
     assert_equal '_service._tcp.srv.dns-test.shopify.io.', record.fqdn
@@ -121,13 +135,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_txt_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'txt.dns-test.shopify.io.',
         'TXT',
         60,
         ['"Hello, world!"']
-      ))
+      )
+    )
 
     assert_kind_of Record::TXT, record
     assert_equal 'txt.dns-test.shopify.io.', record.fqdn
@@ -136,13 +152,15 @@ class GoogleCloudDNSTest < Minitest::Test
   end
 
   def test_build_soa_from_api
-    record = Provider::GoogleCloudDNS.send(:build_from_api,
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
       Google::Cloud::Dns::Record.new(
         'dns-test.shopify.io.',
         'SOA',
         60,
         'ns-cloud-d1.googledomains.com. cloud-dns-hostmaster.google.com. 3 21600 3600 259200 300'
-      ))
+      )
+    )
 
     assert_nil record
   end
@@ -156,7 +174,8 @@ class GoogleCloudDNSTest < Minitest::Test
         desired_records: [a_record],
         provider: RecordStore::Provider::GoogleCloudDNS,
         zone: @zone_name
-      ))
+      )
+    )
     end
   end
 
