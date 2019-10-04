@@ -169,7 +169,8 @@ class ChangesetTest < Minitest::Test
         ttl: 86400,
         fqdn: 'test-record.dns-test.shopify.io',
         address: '10.10.10.10',
-    }])
+      }]
+    )
 
     # Cassette matches zone's records except with an additional ALIAS record
     VCR.use_cassette('dynect_retrieve_current_records') do

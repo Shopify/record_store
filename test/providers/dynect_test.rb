@@ -10,7 +10,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_a_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       'zone' => 'dns-test.shopify.io',
       'fqdn' => 'test.dns-test.shopify.io',
       'record_type' => 'A',
@@ -27,7 +28,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_aaaa_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "aaaa.dns-test.shopify.io",
@@ -62,7 +64,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_caa_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 1800,
       "fqdn" => "cname.dns-test.shopify.io",
@@ -83,7 +86,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_cname_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "cname.dns-test.shopify.io",
@@ -100,7 +104,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_mx_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "mx.dns-test.shopify.io",
@@ -119,7 +124,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_ns_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 3600,
       "fqdn" => "dns-test.shopify.io",
@@ -136,7 +142,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_srv_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "_service._TCP.srv.dns-test.shopify.io",
@@ -159,7 +166,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_soa_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 3600,
       "fqdn" => "dns-test.shopify.io",
@@ -180,7 +188,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_txt_from_api
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "txt.dns-test.shopify.io",
@@ -197,7 +206,8 @@ class DynECTTest < Minitest::Test
   end
 
   def test_build_txt_from_api_handles_mixed_case_fqdn
-    record = Provider::DynECT.send(:build_from_api,
+    record = Provider::DynECT.send(
+      :build_from_api,
       "zone" => "dns-test.shopify.io",
       "ttl" => 60,
       "fqdn" => "Txt.dns-test.shopify.io",
