@@ -21,12 +21,10 @@ module RecordStore
     private
 
     def valid_address?
-      begin
-        ip = IPAddr.new(address)
-        errors.add(:address, 'is not an IPv6 address') unless ip.ipv6?
-      rescue IPAddr::InvalidAddressError
-        errors.add(:address, 'is invalid')
-      end
+      ip = IPAddr.new(address)
+      errors.add(:address, 'is not an IPv6 address') unless ip.ipv6?
+    rescue IPAddr::InvalidAddressError
+      errors.add(:address, 'is invalid')
     end
   end
 end
