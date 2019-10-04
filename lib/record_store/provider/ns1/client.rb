@@ -43,5 +43,4 @@ module RecordStore
       end
     end
   end
-
 end
