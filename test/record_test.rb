@@ -88,7 +88,7 @@ class RecordTest < Minitest::Test
   def test_validates_ttl
     assert_predicate Record::A.new(fqdn: 'example.com.', ttl: 600, address: '10.11.12.13'), :valid?
     refute_predicate Record::A.new(fqdn: 'example.com.', ttl: -1, address: '10.11.12.13'), :valid?
-    refute_predicate Record::A.new(fqdn: 'example.com.', ttl: 2 ** 32, address: '10.11.12.13'), :valid?
+    refute_predicate Record::A.new(fqdn: 'example.com.', ttl: 2**32, address: '10.11.12.13'), :valid?
   end
 
   def test_validates_caa
