@@ -389,7 +389,7 @@ class ZoneTest < Minitest::Test
       { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
     ])
     refute_predicate invalid_zone, :valid?
-    assert_match /does not support ALIAS records/, invalid_zone.errors[:records].first
+    assert_match(/does not support ALIAS records/, invalid_zone.errors[:records].first)
   end
 
   def test_modified_returns_all_zones_with_changes
