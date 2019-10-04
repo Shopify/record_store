@@ -80,6 +80,7 @@ module RecordStore
         File.unlink(*Dir["#{dir}/*"])
         Dir.unlink(dir)
       rescue Errno::ENOENT
+        nil
       end
 
       def write_record_files(name, records)
