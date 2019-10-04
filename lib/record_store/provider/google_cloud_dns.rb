@@ -72,7 +72,6 @@ module RecordStore
           [record.type, record.fqdn]
         end
 
-
         record_sets.map do |(rr_type, rr_fqdn), records_for_set|
           zone.record(rr_fqdn, rr_type, records_for_set[0].ttl, records_for_set.map(&:rdata_txt))
         end
