@@ -86,16 +86,18 @@ module RecordStore
       "[#{type}Record] #{fqdn} #{ttl} IN #{type} #{rdata_txt}"
     end
 
-    protected
+    class << self
+      protected
 
-    def validate_label_length
-      unless fqdn.split('.').all? { |label| label.length <= 63 }
-        errors.add(:fqdn, "A label should be at most 63 characters")
+      def validate_label_length
+        unless fqdn.split('.').all? { |label| label.length <= 63 }
+          errors.add(:fqdn, "A label should be at most 63 characters")
+        end
       end
-    end
 
-    def self.ensure_ends_with_dot(fqdn)
-      fqdn.end_with?(".") ? fqdn : "#{fqdn}."
+      def self.ensure_ends_with_dot(fqdn)
+        fqdn.end_with?(".") ? fqdn : "#{fqdn}."
+      end
     end
   end
 end
