@@ -12,7 +12,7 @@ module RecordStore
       # Downloads all the records from the provider.
       #
       # Returns: an array of `Record` for each record in the provider's zone
-      def retrieve_current_records(zone:, stdout: $stdout)
+      def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
         full_api_records = records_for_zone(zone).map do |short_record|
           client.record(
             zone: zone,
@@ -139,7 +139,7 @@ module RecordStore
         )
       end
 
-      def build_from_api(api_record, zone)
+      def build_from_api(api_record, zone) # rubocop:disable Lint/UnusedMethodArgument
         fqdn = Record.ensure_ends_with_dot(api_record["domain"])
 
         record_type = api_record["type"]

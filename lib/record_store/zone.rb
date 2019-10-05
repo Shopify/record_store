@@ -41,7 +41,7 @@ module RecordStore
       end
 
       MAX_PARALLEL_THREADS = 10
-      def modified(verbose: false)
+      def modified(verbose: false) # rubocop:disable Lint/UnusedMethodArgument
         modified_zones = []
         mutex = Mutex.new
         zones = all
