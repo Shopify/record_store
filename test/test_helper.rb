@@ -104,7 +104,11 @@ class Minitest::Test
     Provider::GoogleCloudDNS.instance_variable_set(:@dns, nil)
   end
 
-  def build_record_store_config(zones_path: 'zones/', secrets_path: 'secrets.json', zones: ['empty.com', 'one-record.com'])
+  def build_record_store_config(
+    zones_path: 'zones/',
+    secrets_path: 'secrets.json',
+    zones: ['empty.com', 'one-record.com']
+  )
     {
       zones_path: zones_path,
       secrets_path: secrets_path,

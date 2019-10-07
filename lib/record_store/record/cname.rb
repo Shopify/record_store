@@ -2,7 +2,11 @@ module RecordStore
   class Record::CNAME < Record
     attr_accessor :cname
 
-    validates :cname, presence: true, format: { with: Record::CNAME_REGEX, message: 'is not a fully qualified domain name' }
+    validates :cname, presence: true, format:
+      {
+        with: Record::CNAME_REGEX,
+        message: 'is not a fully qualified domain name',
+      }
     validate :validate_circular_reference
 
     def initialize(record)
