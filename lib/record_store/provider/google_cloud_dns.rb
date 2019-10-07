@@ -3,7 +3,7 @@ require 'google/cloud/dns'
 module RecordStore
   class Provider::GoogleCloudDNS < Provider
     class << self
-      def apply_changeset(changeset, stdout = $stdout) # rubocop:disable Lint/UnusedMethodArgument
+      def apply_changeset(changeset, _stdout)
         zone = session.zone(convert_to_name(changeset.zone))
 
         deletions = convert_records_to_gcloud_record_sets(zone, changeset.current_records)

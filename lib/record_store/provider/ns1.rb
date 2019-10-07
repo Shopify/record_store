@@ -139,7 +139,7 @@ module RecordStore
         )
       end
 
-      def build_from_api(api_record, zone) # rubocop:disable Lint/UnusedMethodArgument
+      def build_from_api(api_record)
         fqdn = Record.ensure_ends_with_dot(api_record["domain"])
 
         record_type = api_record["type"]
