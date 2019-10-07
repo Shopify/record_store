@@ -8,4 +8,5 @@ before_install:
   - gem --version
 
 before_script:
+  - bin/rubocop --version && bin/rubocop
   - bin/setup

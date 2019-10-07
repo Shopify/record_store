@@ -17,3 +17,7 @@ commands:
       else
         bundle exec ruby -Itest "$@"
       fi
+  style:
+    syntax: ""
+    desc:   'Run rubocop'
+    run:    'bin/rubocop'

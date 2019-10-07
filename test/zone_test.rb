@@ -348,7 +348,7 @@ class ZoneTest < Minitest::Test
     with_zones_tmpdir do
       zone = Zone.new(name: 'two-records.com', records: [
         { type: 'A', fqdn: 'a-records.two-records.com', address: "10.10.10.10", ttl: 60 },
-        { type: 'A', fqdn: 'a-records.two-records.com', address: "10.10.10.11", ttl: 60 }
+        { type: 'A', fqdn: 'a-records.two-records.com', address: "10.10.10.11", ttl: 60 },
       ])
 
       zone.write(format: :directory)
