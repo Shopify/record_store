@@ -8,4 +8,4 @@ RecordStore.zones_path = File.expand_path('../../dev/zones', __FILE__)
 RecordStore.config_path = File.expand_path('../../dev/config.yml', __FILE__)
 
 require 'pry'
-binding.pry(RecordStore)
+binding.pry(RecordStore) # rubocop:disable Lint/Debugger
