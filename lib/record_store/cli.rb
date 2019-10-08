@@ -226,8 +226,10 @@ module RecordStore
         end
 
         unless removals.empty?
-          abort "As a safety measure, you cannot remove more than #{MAXIMUM_REMOVALS} "\
-                "records at a time per zone. (zones failing this: #{removals.map(&:name).join(', ')})"
+          error = +"As a safety measure, you cannot remove more than #{MAXIMUM_REMOVALS} "
+          error << 'records at a time per zone. '
+          error << "(zones failing this: #{removals.map(&:name).join(', ')})"
+          abort error
         end
       end
     end
