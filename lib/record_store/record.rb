@@ -90,7 +90,7 @@ module RecordStore
       fqdn.end_with?(".") ? fqdn : "#{fqdn}."
     end
 
-    private_class_method :method
+    private_class_method :ensure_ends_with_dot
 
     protected
 
