@@ -52,7 +52,7 @@ module RecordStore
       end
 
       # returns an array of Record objects that match the records which exist in the provider
-      def retrieve_current_records(zone:, stdout: $stdout)
+      def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
         raise NotImplementedError
       end
 
@@ -102,15 +102,15 @@ module RecordStore
 
       private
 
-      def add(record)
+      def add(record) # rubocop:disable Lint/UnusedMethodArgument
         raise NotImplementedError
       end
 
-      def remove(record)
+      def remove(record) # rubocop:disable Lint/UnusedMethodArgument
         raise NotImplementedError
       end
 
-      def update(id, record)
+      def update(id, record) # rubocop:disable Lint/UnusedMethodArgument
         raise NotImplementedError
       end
     end
