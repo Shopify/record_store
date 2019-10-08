@@ -155,8 +155,10 @@ class ZoneTest < Minitest::Test
     ])
     refute_predicate zone, :valid?
     assert_equal 2, zone.errors[:records].length
-    assert_equal "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. 600 IN CNAME alternative.example.com.", zone.errors[:records][0]
-    assert_equal "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. 600 IN CNAME real.example.com.", zone.errors[:records][1]
+    assert_equal "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
+                 "600 IN CNAME alternative.example.com.", zone.errors[:records][0]
+    assert_equal "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
+                 "600 IN CNAME real.example.com.", zone.errors[:records][1]
 
     zone = valid_zone_from_records("example.com", records: [
       { type: 'CNAME', fqdn: 'www.example.com.', ttl: 600, cname: 'real.example.com.' },
@@ -164,14 +166,16 @@ class ZoneTest < Minitest::Test
     ])
     refute_predicate zone, :valid?
     assert_equal 1, zone.errors[:records].length
-    assert_equal "A CNAME record is defined for www.example.com., so this record is not allowed: [ARecord] www.example.com. 600 IN A 1.2.3.4", zone.errors[:records].first
+    assert_equal "A CNAME record is defined for www.example.com., so this record is not allowed: "\
+                 "[ARecord] www.example.com. 600 IN A 1.2.3.4", zone.errors[:records].first
 
     zone = valid_zone_from_records("example.com", records: [
       { type: 'CNAME', fqdn: 'example.com.', ttl: 600, cname: 'www.example.com.' },
     ])
     refute_predicate zone, :valid?
     assert_equal 1, zone.errors[:records].length
-    assert_equal 'A CNAME record cannot be defined on the root of the zone: [CNAMERecord] example.com. 600 IN CNAME www.example.com.', zone.errors[:records][0]
+    assert_equal 'A CNAME record cannot be defined on the root of the zone: [CNAMERecord] example.com. '\
+                 '600 IN CNAME www.example.com.', zone.errors[:records][0]
   end
 
   def test_filter_records
@@ -368,13 +372,16 @@ class ZoneTest < Minitest::Test
     ])
 
     refute_predicate invalid_zone, :valid?
-    assert_equal "All TXT records for matching-records.com. should have the same TTL", invalid_zone.errors[:records].first
+    assert_equal "All TXT records for matching-records.com. "\
+                 "should have the same TTL", invalid_zone.errors[:records].first
   end
 
   def test_zone_validates_support_for_alias_records
-    valid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'], supports_alias: true }, records: [
-      { type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 },
-    ])
+    valid_zone = Zone.new(
+      name: 'matching-records.com',
+      config: { providers: ['DynECT'], supports_alias: true },
+      records: [{ type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 }]
+    )
     assert_predicate valid_zone, :valid?
 
     invalid_zone = Zone.new(name: 'matching-records.com', config: { providers: ['DynECT'] }, records: [

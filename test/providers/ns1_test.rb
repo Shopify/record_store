@@ -206,7 +206,8 @@ class NS1Test < Minitest::Test
 
       # Check
       updated_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == updated_record }
-      first_record_does_not_exist = @ns1.retrieve_current_records(zone: @zone_name).none? { |r| r == original_records[0] }
+      first_record_does_not_exist = @ns1.retrieve_current_records(zone: @zone_name)
+        .none? { |r| r == original_records[0] }
       second_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == original_records[1] }
       third_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == original_records[2] }
 
@@ -218,7 +219,11 @@ class NS1Test < Minitest::Test
   end
 
   def test_add_changeset_with_nil_zone
-    record = Record::A.new(fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io', ttl: 600, address: '10.10.10.42')
+    record = Record::A.new(
+      fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io',
+      ttl: 600,
+      address: '10.10.10.42'
+    )
 
     VCR.use_cassette('ns1_add_changeset_nil_zone') do
       assert_raises NS1::MissingParameter do
@@ -325,7 +330,13 @@ class NS1Test < Minitest::Test
   end
 
   def test_carecord_retrieved_after_adding_record_changeset
-    record = Record::CAA.new(fqdn: 'test_add_caa.test.recordstore.io', ttl: 600, flags: 0, tag: 'issue', value: 'shopify.com')
+    record = Record::CAA.new(
+      fqdn: 'test_add_caa.test.recordstore.io',
+      ttl: 600,
+      flags: 0,
+      tag: 'issue',
+      value: 'shopify.com'
+    )
 
     VCR.use_cassette('ns1_add_caa_changeset') do
       @ns1.apply_changeset(Changeset.new(
@@ -371,7 +382,12 @@ class NS1Test < Minitest::Test
   end
 
   def test_mx_record_retrieved_after_adding_record_changeset
-    record = Record::MX.new(fqdn: 'test_add_mx.test.recordstore.io', ttl: 600, preference: 10, exchange: 'mxa.mailgun.org')
+    record = Record::MX.new(
+      fqdn: 'test_add_mx.test.recordstore.io',
+      ttl: 600,
+      preference: 10,
+      exchange: 'mxa.mailgun.org'
+    )
 
     VCR.use_cassette('ns1_add_mx_changeset') do
       @ns1.apply_changeset(Changeset.new(
@@ -462,7 +478,14 @@ class NS1Test < Minitest::Test
   end
 
   def test_srv_record_retrieved_after_adding_record_changeset
-    record = Record::SRV.new(fqdn: 'test_add_spf.test.recordstore.io.', ttl: 600, priority: 1, weight: 2, port: 3, target: 'spf.shopify.com.')
+    record = Record::SRV.new(
+      fqdn: 'test_add_spf.test.recordstore.io.',
+      ttl: 600,
+      priority: 1,
+      weight: 2,
+      port: 3,
+      target: 'spf.shopify.com.'
+    )
 
     VCR.use_cassette('ns1_add_srv_changeset') do
       @ns1.apply_changeset(Changeset.new(

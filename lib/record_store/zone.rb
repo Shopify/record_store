@@ -6,7 +6,11 @@ module RecordStore
     attr_accessor :name
     attr_reader :config
 
-    validates :name, presence: true, format: { with: Record::FQDN_REGEX, message: 'is not a fully qualified domain name' }
+    validates :name, presence: true, format:
+      {
+        with: Record::FQDN_REGEX,
+        message: 'is not a fully qualified domain name',
+      }
     validate :validate_records
     validate :validate_config
     validate :validate_all_records_are_unique
@@ -156,7 +160,8 @@ module RecordStore
           when 'CNAME'
             errors.add(:records, "Multiple CNAME records are defined for #{record.fqdn}: #{record}")
           else
-            errors.add(:records, "A CNAME record is defined for #{cname_record.fqdn}, so this record is not allowed: #{record}")
+            cname_error = "A CNAME record is defined for #{cname_record.fqdn}, so this record is not allowed: #{record}"
+            errors.add(:records, cname_error)
           end
         end
       end

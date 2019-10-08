@@ -115,7 +115,8 @@ module RecordStore
 
     option :name, desc: 'Zone to download', aliases: '-n', type: :string, required: true
     option :provider, desc: 'Provider in which this zone exists', aliases: '-p', type: :string
-    desc 'download', 'Downloads all records from zone and creates YAML zone definition in zones/ e.g. record-store download --name=shopify.io'
+    desc 'download', 'Downloads all records from zone and creates YAML zone definition in zones/ '\
+                     'e.g. record-store download --name=shopify.io'
     def download
       name = options.fetch('name')
       abort 'Please omit the period at the end of the zone' if name.ends_with?('.')
@@ -153,8 +154,9 @@ module RecordStore
       abort "Please omit the period at the end of the zone" if name.ends_with?('.')
 
       yaml = YAML.load_file("#{RecordStore.zones_path}/#{name}.yml")
-      yaml.fetch(name).fetch('records').sort_by! { |r| [r.fetch('fqdn'), r.fetch('type'), r['nsdname'] || r['address']] }
-
+      yaml.fetch(name).fetch('records').sort_by! do |r|
+        [r.fetch('fqdn'), r.fetch('type'), r['nsdname'] || r['address']]
+      end
       File.write("#{RecordStore.zones_path}/#{name}.yml", yaml.deep_stringify_keys.to_yaml.gsub("---\n", ''))
     end
 
@@ -226,7 +228,10 @@ module RecordStore
         end
 
         unless removals.empty?
-          abort "As a safety measure, you cannot remove more than #{MAXIMUM_REMOVALS} records at a time per zone. (zones failing this: #{removals.map(&:name).join(', ')})"
+          error = +"As a safety measure, you cannot remove more than #{MAXIMUM_REMOVALS} "
+          error << 'records at a time per zone. '
+          error << "(zones failing this: #{removals.map(&:name).join(', ')})"
+          abort error
         end
       end
     end

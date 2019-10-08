@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.email       = ['willem@railsdoctors.com', 'emil@shopify.com']
 
   spec.summary     = 'Manage DNS using git'
-  spec.description = "Manage DNS through a git-based workflow. If you're looking for the original 'record_store', that has been renamed to 'sequel_record_store'."
+  spec.description = "Manage DNS through a git-based workflow. If you're looking for the original 'record_store',"\
+                     " that has been renamed to 'sequel_record_store'."
   spec.homepage    = 'https://github.com/Shopify/record_store'
   spec.license     = 'MIT'
 

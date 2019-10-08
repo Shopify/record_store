@@ -46,7 +46,10 @@ module RecordStore
     end
 
     def zones_path
-      @zones_path ||= Pathname.new(File.expand_path(config.fetch('zones_path'), File.dirname(config_path))).realpath.to_s
+      @zones_path ||= Pathname.new(
+        File.expand_path(config.fetch('zones_path'),
+        File.dirname(config_path)),
+      ).realpath.to_s
     end
 
     def config_path
