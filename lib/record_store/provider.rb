@@ -13,11 +13,11 @@ module RecordStore
         end
 
         case ns_server
-        when /dnsimple\.com\z/
+        when /\.dnsimple\.com\z/
           'DNSimple'
-        when /dynect\.net\z/
+        when /\.dynect\.net\z/
           'DynECT'
-        when /googledomains\.com\z/
+        when /\.googledomains\.com\z/
           'GoogleCloudDNS'
         when /\.nsone\.net\z/
           'NS1'
