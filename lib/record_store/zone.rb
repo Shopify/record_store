@@ -160,8 +160,8 @@ module RecordStore
           when 'CNAME'
             errors.add(:records, "Multiple CNAME records are defined for #{record.fqdn}: #{record}")
           else
-            errors.add(:records, "A CNAME record is defined for #{cname_record.fqdn}, "\
-            "so this record is not allowed: #{record}")
+            cname_error = "A CNAME record is defined for #{cname_record.fqdn}, so this record is not allowed: #{record}"
+            errors.add(:records, cname_error)
           end
         end
       end

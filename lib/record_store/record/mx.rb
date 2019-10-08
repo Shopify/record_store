@@ -2,11 +2,11 @@ module RecordStore
   class Record::MX < Record
     attr_accessor :exchange, :preference
 
-    validates :preference, numericality:
+    validates :preference, presence: true, numericality:
       {
         only_integer: true,
         greater_than_or_equal_to: 0,
-      }, presence: true
+      }
     validates :exchange, presence: true, format:
       {
         with: Record::FQDN_REGEX,

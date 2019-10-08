@@ -206,8 +206,8 @@ class NS1Test < Minitest::Test
 
       # Check
       updated_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == updated_record }
-      first_record_does_not_exist = @ns1.retrieve_current_records(zone: @zone_name).none? \
-      { |r| r == original_records[0] }
+      first_record_does_not_exist = @ns1.retrieve_current_records(zone: @zone_name)
+        .none? { |r| r == original_records[0] }
       second_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == original_records[1] }
       third_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == original_records[2] }
 

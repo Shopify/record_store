@@ -129,8 +129,11 @@ module RecordStore
           answer["answer"] = build_api_answer_from_record(record)
         end
 
-        raise(Error, "while trying to update a record, could not find answer with fqdn: "\
-        "#{record.fqdn}, type; #{record.type}, id: #{id}") unless updated
+        unless updated
+          error = +'while trying to update a record, could not find answer with fqdn: '
+          error << "#{record.fqdn}, type; #{record.type}, id: #{id}"
+          raise Error, error
+        end
 
         client.modify_record(
           zone: zone,

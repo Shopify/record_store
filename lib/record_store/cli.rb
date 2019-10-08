@@ -152,9 +152,9 @@ module RecordStore
       abort "Please omit the period at the end of the zone" if name.ends_with?('.')
 
       yaml = YAML.load_file("#{RecordStore.zones_path}/#{name}.yml")
-      yaml.fetch(name).fetch('records').sort_by! \
-      { |r| [r.fetch('fqdn'), r.fetch('type'), r['nsdname'] || r['address']] }
-
+      yaml.fetch(name).fetch('records').sort_by! do |r|
+        [r.fetch('fqdn'), r.fetch('type'), r['nsdname'] || r['address']]
+      end
       File.write("#{RecordStore.zones_path}/#{name}.yml", yaml.deep_stringify_keys.to_yaml.gsub("---\n", ''))
     end
 
@@ -227,7 +227,7 @@ module RecordStore
 
         unless removals.empty?
           abort "As a safety measure, you cannot remove more than #{MAXIMUM_REMOVALS} "\
-          "records at a time per zone. (zones failing this: #{removals.map(&:name).join(', ')})"
+                "records at a time per zone. (zones failing this: #{removals.map(&:name).join(', ')})"
         end
       end
     end
