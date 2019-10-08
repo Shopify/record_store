@@ -27,6 +27,10 @@ module RecordStore
       def unquote(value)
         unescape(value.sub(/\A"(.*)"\z/, '\1'))
       end
+
+      def ensure_ends_with_dot(fqdn)
+        fqdn.end_with?(".") ? fqdn : "#{fqdn}."
+      end
     end
 
     def initialize(record)
@@ -85,12 +89,6 @@ module RecordStore
     def to_s
       "[#{type}Record] #{fqdn} #{ttl} IN #{type} #{rdata_txt}"
     end
-
-    def self.ensure_ends_with_dot(fqdn)
-      fqdn.end_with?(".") ? fqdn : "#{fqdn}."
-    end
-
-    private_class_method :ensure_ends_with_dot
 
     protected
 
