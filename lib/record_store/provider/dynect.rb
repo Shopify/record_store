@@ -34,7 +34,7 @@ module RecordStore
 
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
-        session.get_all_records(zone).body.fetch('data').flat_map do |type, records|
+        session.get_all_records(zone).body.fetch('data').flat_map do |_type, records|
           records.map do |record_body|
             begin
               build_from_api(record_body)
