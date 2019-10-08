@@ -90,6 +90,8 @@ module RecordStore
       fqdn.end_with?(".") ? fqdn : "#{fqdn}."
     end
 
+    private_class_method :method
+
     protected
 
     def validate_label_length
