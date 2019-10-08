@@ -1,0 +1,19 @@
+inherit_from:
+  - https://shopify.github.io/ruby-style-guide/rubocop.yml
+
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - vendor/**/*
+  UseCache: true
+  CacheRootDirectory: tmp/rubocop
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MethodCallWithArgsParentheses:
+  Include:
+    - '**/*.rb'
+
+Style/ClassAndModuleChildren:
+  Enabled: false

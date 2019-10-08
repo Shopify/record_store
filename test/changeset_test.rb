@@ -18,12 +18,12 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert cs.changes.all? { |c| c.is_a?(Changeset::Change) }
-    assert cs.changes.all?(&:addition?)
-    assert_equal 2, cs.changes.length
-    assert_equal 2, cs.additions.length
-    assert_equal 0, cs.removals.length
-    assert_equal 0, cs.updates.length
+    assert(cs.changes.all? { |c| c.is_a?(Changeset::Change) })
+    assert(cs.changes.all?(&:addition?))
+    assert_equal(2, cs.changes.length)
+    assert_equal(2, cs.additions.length)
+    assert_equal(0, cs.removals.length)
+    assert_equal(0, cs.updates.length)
   end
 
   def test_removals
@@ -34,12 +34,12 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert cs.changes.all? { |c| c.is_a?(Changeset::Change) }
-    assert cs.changes.all?(&:removal?)
-    assert_equal 2, cs.changes.length
-    assert_equal 0, cs.additions.length
-    assert_equal 2, cs.removals.length
-    assert_equal 0, cs.updates.length
+    assert(cs.changes.all? { |c| c.is_a?(Changeset::Change) })
+    assert(cs.changes.all?(&:removal?))
+    assert_equal(2, cs.changes.length)
+    assert_equal(0, cs.additions.length)
+    assert_equal(2, cs.removals.length)
+    assert_equal(0, cs.updates.length)
   end
 
   def test_no_changes
@@ -50,12 +50,12 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert_equal 0, cs.changes.length
-    assert_equal 0, cs.additions.length
-    assert_equal 0, cs.removals.length
-    assert_equal 0, cs.updates.length
+    assert_equal(0, cs.changes.length)
+    assert_equal(0, cs.additions.length)
+    assert_equal(0, cs.removals.length)
+    assert_equal(0, cs.updates.length)
 
-    assert_equal Set[@cname_record, @a_record], cs.unchanged
+    assert_equal(Set[@cname_record, @a_record], cs.unchanged)
   end
 
   def test_removal_and_addition
@@ -66,13 +66,13 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert_equal 2, cs.changes.length
-    assert_equal 1, cs.additions.length
-    assert_equal 1, cs.removals.length
-    assert_equal 0, cs.updates.length
+    assert_equal(2, cs.changes.length)
+    assert_equal(1, cs.additions.length)
+    assert_equal(1, cs.removals.length)
+    assert_equal(0, cs.updates.length)
 
-    assert_equal @a_record, cs.additions.first.record
-    assert_equal @cname_record, cs.removals.first.record
+    assert_equal(@a_record, cs.additions.first.record)
+    assert_equal(@cname_record, cs.removals.first.record)
   end
 
   def test_modifying_records_attr_is_done_through_update
@@ -85,10 +85,10 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert_equal 1, cs.changes.length
-    assert_equal 0, cs.additions.length
-    assert_equal 0, cs.removals.length
-    assert_equal 1, cs.updates.length
+    assert_equal(1, cs.changes.length)
+    assert_equal(0, cs.additions.length)
+    assert_equal(0, cs.removals.length)
+    assert_equal(1, cs.updates.length)
   end
 
   def test_diff_is_correct_when_current_records_is_larger_then_desired_records
@@ -103,10 +103,10 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert_equal 2, cs.changes.length
-    assert_equal 0, cs.additions.length
-    assert_equal 1, cs.removals.length
-    assert_equal 1, cs.updates.length
+    assert_equal(2, cs.changes.length)
+    assert_equal(0, cs.additions.length)
+    assert_equal(1, cs.removals.length)
+    assert_equal(1, cs.updates.length)
   end
 
   def test_diff_is_correct_when_desired_records_is_larger_then_current_records
@@ -121,10 +121,10 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert_equal 2, cs.changes.length
-    assert_equal 1, cs.additions.length
-    assert_equal 0, cs.removals.length
-    assert_equal 1, cs.updates.length
+    assert_equal(2, cs.changes.length)
+    assert_equal(1, cs.additions.length)
+    assert_equal(0, cs.removals.length)
+    assert_equal(1, cs.updates.length)
   end
 
   def test_additions_removals_and_changes_are_enumerable
@@ -135,9 +135,9 @@ class ChangesetTest < Minitest::Test
       zone: @zone,
     )
 
-    assert_kind_of Enumerable, cs.additions
-    assert_kind_of Enumerable, cs.removals
-    assert_kind_of Enumerable, cs.changes
+    assert_kind_of(Enumerable, cs.additions)
+    assert_kind_of(Enumerable, cs.removals)
+    assert_kind_of(Enumerable, cs.changes)
   end
 
   def test_changeset_build_from_creates_changeset_from_diff_between_zone_and_provider
@@ -249,7 +249,7 @@ class ChangesetTest < Minitest::Test
     )
 
     changes = changeset.updates.group_by(&:id)
-    assert_equal 'ns1.dnsimple.com.', changes[5].first.record.nsdname
-    assert_equal 'ns2.dnsimple.com.', changes[6].first.record.nsdname
+    assert_equal('ns1.dnsimple.com.', changes[5].first.record.nsdname)
+    assert_equal('ns2.dnsimple.com.', changes[6].first.record.nsdname)
   end
 end

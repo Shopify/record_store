@@ -104,7 +104,7 @@ module RecordStore
       end
 
       zones.each do |zone|
-        abort "Attempted to apply invalid zone: #{zone.name}" unless zone.valid?
+        abort("Attempted to apply invalid zone: #{zone.name}") unless zone.valid?
 
         changesets = zone.build_changesets
         changesets.each(&:apply)
@@ -119,8 +119,8 @@ module RecordStore
                      'e.g. record-store download --name=shopify.io'
     def download
       name = options.fetch('name')
-      abort 'Please omit the period at the end of the zone' if name.ends_with?('.')
-      abort 'Zone with this name already exists in zones/' if File.exist?("#{RecordStore.zones_path}/#{name}.yml")
+      abort('Please omit the period at the end of the zone') if name.ends_with?('.')
+      abort('Zone with this name already exists in zones/') if File.exist?("#{RecordStore.zones_path}/#{name}.yml")
 
       provider = options.fetch('provider', Provider.provider_for(name))
       if provider.nil?
@@ -151,7 +151,7 @@ module RecordStore
     desc 'sort', 'Sorts the zonefile alphabetically e.g. record-store sort --name=shopify.io'
     def sort
       name = options.fetch('name')
-      abort "Please omit the period at the end of the zone" if name.ends_with?('.')
+      abort("Please omit the period at the end of the zone") if name.ends_with?('.')
 
       yaml = YAML.load_file("#{RecordStore.zones_path}/#{name}.yml")
       yaml.fetch(name).fetch('records').sort_by! do |r|
@@ -176,7 +176,7 @@ module RecordStore
       if $CHILD_STATUS.success?
         File.write(RecordStore.secrets_path, secrets)
       else
-        abort secrets
+        abort(secrets)
       end
     end
 
@@ -185,7 +185,7 @@ module RecordStore
       zones = Zone.modified.map(&:name)
 
       unless zones.empty?
-        abort "The following zones have diverged: #{zones.join(', ')}"
+        abort("The following zones have diverged: #{zones.join(', ')}")
       end
     end
 
@@ -212,7 +212,7 @@ module RecordStore
       end
 
       if invalid_zones.present?
-        abort "The following zones were invalid: #{invalid_zones.join(', ')}"
+        abort("The following zones were invalid: #{invalid_zones.join(', ')}")
       else
         puts "All zones have valid definitions."
       end
@@ -231,7 +231,7 @@ module RecordStore
           error = +"As a safety measure, you cannot remove more than #{MAXIMUM_REMOVALS} "
           error << 'records at a time per zone. '
           error << "(zones failing this: #{removals.map(&:name).join(', ')})"
-          abort error
+          abort(error)
         end
       end
     end
@@ -247,20 +247,20 @@ module RecordStore
       else
         puts "Checkout git SHA #{ENV['LAST_DEPLOYED_SHA']}"
         %x(git checkout #{ENV['LAST_DEPLOYED_SHA']})
-        abort "Checkout of old commit failed" unless $CHILD_STATUS.success?
+        abort("Checkout of old commit failed") unless $CHILD_STATUS.success?
 
         %x(record-store secrets)
-        abort "Decrypt secrets failed" unless $CHILD_STATUS.success?
+        abort("Decrypt secrets failed") unless $CHILD_STATUS.success?
 
         %x(record-store assert_empty_diff)
-        abort "Dyn status has diverged!" unless $CHILD_STATUS.success?
+        abort("Dyn status has diverged!") unless $CHILD_STATUS.success?
 
         puts "Checkout git SHA #{ENV['REVISION']}"
         %x(git checkout #{ENV['REVISION']})
-        abort "Checkout of new commit failed" unless $CHILD_STATUS.success?
+        abort("Checkout of new commit failed") unless $CHILD_STATUS.success?
 
         %x(record-store secrets)
-        abort "Decrypt secrets failed" unless $CHILD_STATUS.success?
+        abort("Decrypt secrets failed") unless $CHILD_STATUS.success?
       end
     end
 
