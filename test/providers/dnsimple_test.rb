@@ -7,7 +7,7 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_supports_alias_by_default
-    assert_predicate Provider::DNSimple, :supports_alias?
+    assert_predicate(Provider::DNSimple, :supports_alias?)
   end
 
   def test_build_a_from_api
@@ -27,10 +27,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::A, record
-    assert_equal 'a.dns-scratch.me.', record.fqdn
-    assert_equal '8.8.8.8', record.address
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::A, record)
+    assert_equal('a.dns-scratch.me.', record.fqdn)
+    assert_equal('8.8.8.8', record.address)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_aaaa_from_api
@@ -50,10 +50,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::AAAA, record
-    assert_equal 'aaaa.dns-scratch.me.', record.fqdn
-    assert_equal '2001:0db8:85a3:0000:0000:EA75:1337:BEEF', record.address
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::AAAA, record)
+    assert_equal('aaaa.dns-scratch.me.', record.fqdn)
+    assert_equal('2001:0db8:85a3:0000:0000:EA75:1337:BEEF', record.address)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_alias_from_api
@@ -73,10 +73,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::ALIAS, record
-    assert_equal 'dns-scratch.me.', record.fqdn
-    assert_equal 'dns-scratch.herokuapp.com.', record.alias
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::ALIAS, record)
+    assert_equal('dns-scratch.me.', record.fqdn)
+    assert_equal('dns-scratch.herokuapp.com.', record.alias)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_caa_from_api
@@ -96,12 +96,12 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::CAA, record
-    assert_equal 'cname.dns-scratch.me.', record.fqdn
-    assert_equal 0, record.flags
-    assert_equal 'issue', record.tag
-    assert_equal 'digicert.com', record.value
-    assert_equal 1800, record.ttl
+    assert_kind_of(Record::CAA, record)
+    assert_equal('cname.dns-scratch.me.', record.fqdn)
+    assert_equal(0, record.flags)
+    assert_equal('issue', record.tag)
+    assert_equal('digicert.com', record.value)
+    assert_equal(1800, record.ttl)
   end
 
   def test_build_cname_from_api
@@ -121,10 +121,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::CNAME, record
-    assert_equal 'cname.dns-scratch.me.', record.fqdn
-    assert_equal 'dns-scratch.me.', record.cname
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::CNAME, record)
+    assert_equal('cname.dns-scratch.me.', record.fqdn)
+    assert_equal('dns-scratch.me.', record.cname)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_mx_from_api
@@ -144,11 +144,11 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::MX, record
-    assert_equal 'mx.dns-scratch.me.', record.fqdn
-    assert_equal 'mail-server.example.com.', record.exchange
-    assert_equal 10, record.preference
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::MX, record)
+    assert_equal('mx.dns-scratch.me.', record.fqdn)
+    assert_equal('mail-server.example.com.', record.exchange)
+    assert_equal(10, record.preference)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_ns_from_api
@@ -168,10 +168,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::NS, record
-    assert_equal 'dns-scratch.me.', record.fqdn
-    assert_equal 'ns1.dnsimple.com.', record.nsdname
-    assert_equal 3600, record.ttl
+    assert_kind_of(Record::NS, record)
+    assert_equal('dns-scratch.me.', record.fqdn)
+    assert_equal('ns1.dnsimple.com.', record.nsdname)
+    assert_equal(3600, record.ttl)
   end
 
   def test_build_srv_from_api
@@ -191,13 +191,13 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::SRV, record
-    assert_equal '_service._tcp.srv.dns-scratch.me.', record.fqdn
-    assert_equal 10, record.priority
-    assert_equal 47, record.weight
-    assert_equal 80, record.port
-    assert_equal 'target-srv.dns-scratch.me.', record.target
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::SRV, record)
+    assert_equal('_service._tcp.srv.dns-scratch.me.', record.fqdn)
+    assert_equal(10, record.priority)
+    assert_equal(47, record.weight)
+    assert_equal(80, record.port)
+    assert_equal('target-srv.dns-scratch.me.', record.target)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_soa_from_api
@@ -217,7 +217,7 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_nil record
+    assert_nil(record)
   end
 
   def test_build_txt_from_api
@@ -237,10 +237,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::TXT, record
-    assert_equal 'txt.dns-scratch.me.', record.fqdn
-    assert_equal 'Hello, world!', record.txtdata
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::TXT, record)
+    assert_equal('txt.dns-scratch.me.', record.fqdn)
+    assert_equal('Hello, world!', record.txtdata)
+    assert_equal(60, record.ttl)
   end
 
   def test_build_txt_from_api_handles_mixed_case_fqdn
@@ -260,10 +260,10 @@ class DNSimpleTest < Minitest::Test
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
 
-    assert_kind_of Record::TXT, record
-    assert_equal 'txt.dns-scratch.me.', record.fqdn
-    assert_equal 'Hello, world!', record.txtdata
-    assert_equal 60, record.ttl
+    assert_kind_of(Record::TXT, record)
+    assert_equal('txt.dns-scratch.me.', record.fqdn)
+    assert_equal('Hello, world!', record.txtdata)
+    assert_equal(60, record.ttl)
   end
 
   def test_apply_changeset_sets_state_to_match_changeset
@@ -355,10 +355,10 @@ class DNSimpleTest < Minitest::Test
   end
 
   def test_dnsimple_is_not_thawable
-    refute_predicate @dnsimple, :thawable?
+    refute_predicate(@dnsimple, :thawable?)
   end
 
   def test_dnsimple_is_not_freezable
-    refute_predicate @dnsimple, :freezable?
+    refute_predicate(@dnsimple, :freezable?)
   end
 end
