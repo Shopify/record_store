@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: patch
+    uri: https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test_add_changset_missing_zone.recordstore.io/records
+    body:
+      encoding: UTF-8
+      string: '{"items":[{"domain":"test_add_changset_missing_zone.test.recordstore.io.","rdata":"10.10.10.80","rtype":"A","ttl":2400,"operation":"ADD"}]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 11 Oct 2019 20:50:19 GMT
+      Content-Length:
+      - '139'
+      X-Content-Sha256:
+      - g0ZdzuxADPyBVtyCZJ9KTFz4poXmEbTPk8dOM9gvNv4=
+      Authorization:
+      - Signature headers="date (request-target) host content-length content-type
+        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/ocid1.user.oc1..aaaaaaaauiuiavna4hlhmb3iygm7jcxafxkgyqgjtwwdb6sl2rgww4pjbqaa/4e:a4:66:a7:56:bf:71:dc:ec:4a:c7:f3:9f:b3:35:20",algorithm="rsa-sha256",signature="W39EBwNqs4v5eaXTP2pLNATmiFiS4U/VE3Hh5vfebyFE+hGg4VYbR5zaIY1/+QVTUmLwcZcfkGXei0Bor0hZmMy1vy2WlPlSj8E7sSt0omQiDLF7xKgmu6qEuD5zXNAf/ZjlbNg3i0/ayH68TXev7CE2LojxVNVWPd8pO8goesh6qiq9Y8suZ5+VYwvNv0AMUlL5VPFVpLM1WIO0vYvHPn1mZdTmXvyvEdvoQMH90ZDBp3AqYHwVr6pi06ziluB+fcTIJ9iU3vHNp6gkGJv7vBBlp1h4mXatWAAajDL3NvT/vQhL5jGcCdmtsGpaYzcR/seOcotw9IbBJHfxwT3DOg==",version="1"
+      Opc-Client-Info:
+      - Oracle-RubySDK/2.6.0
+      Opc-Request-Id:
+      - 80B2A6BFF73440F08D854D7B4E3462D2
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 11 Oct 2019 20:50:20 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '101'
+      Connection:
+      - keep-alive
+      Opc-Request-Id:
+      - 80B2A6BFF73440F08D854D7B4E3462D2/4508627D3E8846BF99C44A67FE53974A/CD4D1CA13EEB45A3AF6C5582E37401BC
+    body:
+      encoding: UTF-8
+      string: '{"code":"NotAuthorizedOrNotFound","message":"Authorization failed or
+        requested resource not found."}
+
+        '
+    http_version: 
+  recorded_at: Fri, 11 Oct 2019 20:50:20 GMT
+recorded_with: VCR 5.0.0

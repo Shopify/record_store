@@ -27,6 +27,56 @@ class OracleCloudDNSTest < Minitest::Test
     end
   end
 
+  def test_add_multiple_changesets
+    records = [
+      Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 1200, address: '10.10.10.65'),
+      Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 1200, address: '10.10.10.70'),
+    ]
+
+    VCR.use_cassette('oracle_add_multiple_changesets') do
+      @oracle_cloud_dns.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: records,
+        provider: @oracle_cloud_dns,
+        zone: @zone_name
+      ))
+    end
+  end
+
+  def test_add_changeset_with_nil_zone
+    record = Record::A.new(
+      fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io',
+      ttl: 600,
+      address: '10.10.10.42'
+    )
+
+    VCR.use_cassette('oracle_add_changeset_nil_zone') do
+      assert_raises RuntimeError do
+        @oracle_cloud_dns.apply_changeset(Changeset.new(
+          current_records: [],
+          desired_records: [record],
+          provider: @oracle_cloud_dns,
+          zone: nil
+        ))
+      end
+    end
+  end
+
+  def test_add_changset_missing_zone
+    record = Record::A.new(fqdn: 'test_add_changset_missing_zone.test.recordstore.io', ttl: 2400, address: '10.10.10.80')
+
+    VCR.use_cassette('oracle_add_changeset_missing_zone') do
+      assert_raises do
+        @oracle_cloud_dns.apply_changeset(Changeset.new(
+          current_records: [],
+          desired_records: [record],
+          provider: @oracle_cloud_dns,
+          # Maintainers Note: Ensure that the `recordstore.io` zone does not exist
+          zone: 'test_add_changset_missing_zone.recordstore.io'
+        ))
+      end
+    end
+  end
 
   def test_remove_changeset
     record = Record::A.new(fqdn: 'test_remove_changeset.test.recordstore.io', ttl: 600, address: '10.10.10.42')
@@ -45,39 +95,22 @@ class OracleCloudDNSTest < Minitest::Test
         provider: @oracle_cloud_dns,
         zone: @zone_name
       ))
-      # current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
+      current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
-      # contains_desired_record = current_records.none? do |current_record|
-      #   current_record.is_a?(Record::A) &&
-      #     record.fqdn == current_record.fqdn &&
-      #     record.ttl == current_record.ttl &&
-      #     record.address == current_record.address
-      # end
-
-      # assert contains_desired_record
+      contains_desired_record = current_records.none? do |current_record|
+        current_record.is_a?(Record::A) &&
+          record.fqdn == current_record.fqdn &&
+          record.ttl == current_record.ttl &&
+          record.address == current_record.address
+      end
+      assert contains_desired_record
     end
   end
-
-  # def test_add_multiple_changesets
-  #   records = [
-  #     Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 600, address: '10.10.10.42'),
-  #     Record::A.new(fqdn: 'test_add_multiple_changesets.test.recordstore.io', ttl: 600, address: '10.10.10.43'),
-  #   ]
-
-  #   VCR.use_cassette('ns1_add_multiple_changesets') do
-  #     @ns1.apply_changeset(Changeset.new(
-  #       current_records: [],
-  #       desired_records: records,
-  #       provider: @ns1,
-  #       zone: @zone_name
-  #     ))
-  #   end
-  # end
 
 
 
   # def test_update_changeset
-  #   VCR.use_cassette('ns1_update_changeset') do
+  #   VCR.use_cassette('oracle_update_changeset') do
   #     record_data = {
   #       address: '10.10.10.48',
   #       fqdn: 'test_update_changeset.test.recordstore.io',
@@ -87,30 +120,30 @@ class OracleCloudDNSTest < Minitest::Test
   #     # Create a record
   #     record = Record::A.new(record_data)
 
-  #     @ns1.apply_changeset(Changeset.new(
+  #     @oracle_cloud_dns.apply_changeset(Changeset.new(
   #       current_records: [],
   #       desired_records: [record],
-  #       provider: @ns1,
+  #       provider: @oracle_cloud_dns,
   #       zone: @zone_name
   #     ))
 
   #     # Retrieve it
-  #     record = @ns1.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
+  #     record = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
   #     assert !record.nil?
 
   #     updated_record = Record::A.new(record_data)
   #     updated_record.address = "10.10.10.49"
 
   #     # Try to update it
-  #     @ns1.apply_changeset(Changeset.new(
+  #     @oracle_cloud_dns.apply_changeset(Changeset.new(
   #       current_records: [record],
   #       desired_records: [updated_record],
-  #       provider: @ns1,
+  #       provider: @oracle_cloud_dns,
   #       zone: @zone_name,
   #     ))
 
-  #     updated_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == updated_record }
-  #     old_record_does_not_exist = @ns1.retrieve_current_records(zone: @zone_name).none? { |r| r == record }
+  #     updated_record_exists = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name).any? { |r| r == updated_record }
+  #     old_record_does_not_exist = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name).none? { |r| r == record }
 
   #     assert updated_record_exists
   #     assert old_record_does_not_exist
@@ -222,40 +255,7 @@ class OracleCloudDNSTest < Minitest::Test
   #   end
   # end
 
-  # def test_add_changeset_with_nil_zone
-  #   record = Record::A.new(
-  #     fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io',
-  #     ttl: 600,
-  #     address: '10.10.10.42'
-  #   )
-
-  #   VCR.use_cassette('ns1_add_changeset_nil_zone') do
-  #     assert_raises NS1::MissingParameter do
-  #       @ns1.apply_changeset(Changeset.new(
-  #         current_records: [],
-  #         desired_records: [record],
-  #         provider: @ns1,
-  #         zone: nil
-  #       ))
-  #     end
-  #   end
-  # end
-
-  # def test_add_changset_missing_zone
-  #   record = Record::A.new(fqdn: 'test_add_changset_missing_zone.test.recordstore.io', ttl: 600, address: '10.10.10.42')
-
-  #   VCR.use_cassette('ns1_add_changeset_missing_zone') do
-  #     assert_raises do
-  #       @ns1.apply_changeset(Changeset.new(
-  #         current_records: [],
-  #         desired_records: [record],
-  #         provider: @ns1,
-  #         # Maintainers Note: Ensure that the `recordstore.io` zone does not exist
-  #         zone: 'test_add_changset_missing_zone.recordstore.io'
-  #       ))
-  #     end
-  #   end
-  # end
+ 
 
   # def test_record_retrieved_after_adding_record_changeset
   #   record = Record::A.new(fqdn: 'test_add_a.test.recordstore.io', ttl: 600, address: '10.10.10.1')

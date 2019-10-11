@@ -15,9 +15,8 @@ module RecordStore
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
         all_records = []
-        byebug
-        client.get_zone_records(zone, zone_version: client.get_zone(zone).data.version).each do |response|         
-          all_recrods += response.data.items
+        client.get_zone_records(zone, zone_version: zone_version(zone)).each do |response|
+          all_records += response.data.items
         end
         all_records.map { |r| build_from_api(r) }.flatten.compact
       end
@@ -107,61 +106,57 @@ module RecordStore
         super.fetch('oracle_cloud_dns')
       end
 
-      def build_from_api()
-        fqdn = Record.ensure_ends_with_dot(api_record["domain"])
+      def build_from_api(api_record)
+        fqdn = Record.ensure_ends_with_dot(api_record.domain)
 
-        record_type = api_record["type"]
+        record_type = api_record.rtype
         return if record_type == 'SOA'
 
-        api_record["answers"].map do |api_answer|
-          answer = api_answer["answer"]
-          record = {
-            ttl: api_record["ttl"],
-            fqdn: fqdn.downcase,
-            record_id: api_answer["id"],
-          }
+        record = {
+          ttl: api_record.ttl,
+          fqdn: fqdn.downcase,
+          record_id: api_record.record_hash,
+        }
+        
+        case record_type
+        when 'A', 'AAAA'
+          record.merge!(address: api_record.rdata)
+        when 'ALIAS'
+          record.merge!(alias: api_record.rdata)
+        when 'CAA'
+          flags, tag, value = api_record.rdata.split(' ')
 
-          case record_type
-          when 'A', 'AAAA'
-            record.merge!(address: answer.first)
-          when 'ALIAS'
-            record.merge!(alias: answer.first)
-          when 'CAA'
-            flags, tag, value = answer
+          record.merge!(
+            flags: flags.to_i,
+            tag: tag,
+            value: Record.unquote(value),
+          )
+        when 'CNAME'
+          record.merge!(cname: api_record.rdata)
+        when 'MX'
 
-            record.merge!(
-              flags: flags.to_i,
-              tag: tag,
-              value: Record.unquote(value),
-            )
-          when 'CNAME'
-            record.merge!(cname: answer.first)
-          when 'MX'
+          preference, exchange = api_record.rdata
 
-            preference, exchange = answer
+          record.merge!(
+            preference: preference.to_i,
+            exchange: exchange,
+          )
+        when 'NS'
+          record.merge!(nsdname: api_record.rdata)
+        when 'SPF', 'TXT'
+          record.merge!(txtdata: Record.unescape(api_record.rdata).gsub(';', '\;'))
+        when 'SRV'
+          priority, weight, port, host = api_record.rdata.split(' ')
 
-            record.merge!(
-              preference: preference.to_i,
-              exchange: exchange,
-            )
-          when 'NS'
-            record.merge!(nsdname: answer.first)
-          when 'SPF', 'TXT'
-            record.merge!(txtdata: Record.unescape(answer.first).gsub(';', '\;'))
-          when 'SRV'
-            priority, weight, port, host = answer
-
-            record.merge!(
-              priority: priority.to_i,
-              weight: weight.to_i,
-              port: port.to_i,
-              target: Record.ensure_ends_with_dot(host),
-            )
-          end
-          Record.const_get(record_type).new(record)
+          record.merge!(
+            priority: priority.to_i,
+            weight: weight.to_i,
+            port: port.to_i,
+            target: Record.ensure_ends_with_dot(host),
+          )
         end
+        Record.const_get(record_type).new(record)
       end
-
     end
   end
 end
