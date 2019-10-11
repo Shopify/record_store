@@ -37,6 +37,9 @@ class Minitest::Test
       api_token
       base_url
     ),
+    'oracle_cloud_dns' => %w(
+      compartment_id
+    ),
   }
 
   VCR.configure do |config|
@@ -94,6 +97,13 @@ class Minitest::Test
     config.filter_sensitive_data('<GOOGLE_CLOUD_DNS_AUTH_SECRET>') do |interaction|
       if interaction.request.uri == '<GOOGLE_CLOUD_DNS_TOKEN_URI>'
         interaction.request.body
+      end
+    end
+
+    config.filter_sensitive_data('<ORACLE_CLOUD_DNS_COMPARTMENT_KEY>') do |interaction|
+      next unless interaction.request.uri =~ /oraclecloud/
+      if (auth_token = interaction.request.headers['ORACLE_CLOUD_DNS_COMPARTMENT_KEY']).present?
+        auth_token.first
       end
     end
   end

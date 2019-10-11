@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://dns.ca-toronto-1.oraclecloud.com/20180115/zones?compartmentId=<ORACLE_CLOUD_DNS_COMPARTMENT_ID>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 10 Oct 2019 21:12:59 GMT
+      Authorization:
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/ocid1.user.oc1..aaaaaaaauiuiavna4hlhmb3iygm7jcxafxkgyqgjtwwdb6sl2rgww4pjbqaa/4e:a4:66:a7:56:bf:71:dc:ec:4a:c7:f3:9f:b3:35:20",algorithm="rsa-sha256",signature="C/STp8WHHA1wXXhVqhYlNgcjEFQ8UPKc3x9tPv/vNotzVDmn2UvkU+q/cCjMxuK/uT8mw6ypesNn3sTVb4cbaVuR6x1THY6aVkIEl4vEe27LiQFFiQh7km2wNfQQGBCtOwBYlu8OoyrI35Hl2RqHOnRZWVdW9lnUm5y5juyycOocys++DUYL9MXEGgXwym1cbacpxQ3Uob1QceSN+igRjhESlvJQsnWFdJfmGRUI2caFiRPiYP+6KMnIqtduV/6Og6/2ykRYG/M34H0w5GyXfLsnJfE78L4WBy4vww6LHKQ8O5yjbJFbek0W5N7agVWDJNGdVkXH827VrzShJp8ILQ==",version="1"
+      Opc-Client-Info:
+      - Oracle-RubySDK/2.6.0
+      Opc-Request-Id:
+      - 5AC5B9DD12904F379E047F6DE72F2506
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 10 Oct 2019 21:13:03 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '424'
+      Connection:
+      - keep-alive
+      Opc-Request-Id:
+      - 5AC5B9DD12904F379E047F6DE72F2506/B80D061F5EBC4DC595BF088960AA60AF/768AA8ACC7F44CB981515C257810AE77
+      Opc-Total-Items:
+      - '3'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"zoneType":"PRIMARY","name":"test.recordstore.io","self":"https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test.recordstore.io","timeCreated":"2019-10-10T17:24:05Z","version":"71","serial":71,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.chrome","self":"https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test.recordstore.chrome","timeCreated":"2019-10-07T15:33:43Z","version":"7","serial":7,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..45a5e96b9bf7434e8b441d6b6208681c","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"shopify-test.com","self":"https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/shopify-test.com","timeCreated":"2019-09-25T20:22:20Z","version":"1","serial":1,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..3d13ad9087ba46bda815695da88a4482","lifecycleState":"ACTIVE"}]
+
+        '
+    http_version: 
+  recorded_at: Thu, 10 Oct 2019 21:13:03 GMT
+recorded_with: VCR 5.0.0

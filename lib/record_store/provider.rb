@@ -21,6 +21,8 @@ module RecordStore
           'GoogleCloudDNS'
         when /\.nsone\.net\z/
           'NS1'
+        when /\.oraclecloud\.net\z/
+          'OracleCloudDNS'
         end
       end
 
