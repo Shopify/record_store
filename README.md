@@ -53,6 +53,14 @@ In addition, the `AliasService` permission is required to be able to read or wri
 
 For a breakdown of what each permission allows read through [DynECT's permissions guide](https://help.dyn.com/user-and-group-permissions/).
 
+### Google Cloud DNS
+
+In order to use Google Cloud DNS, you'll need to add the `Project ID` and `Service Account Credentials` to `secrets.json`. The `Service Account Credentials` is a JSON format file that you need to generate on Google Cloud Platform. You can find more details about the authentication from [here](https://googleapis.dev/ruby/google-cloud-dns/latest/file.AUTHENTICATION.html).
+
+### NS1
+
+To use NS1, you'll need the API key generated from `Account Settings` on NS1 website and add the key to `secrets.json`.
+
 ----
 
 # Architecture
