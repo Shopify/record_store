@@ -1,5 +1,4 @@
 require_relative 'ns1/client'
-require 'byebug'
 
 module RecordStore
   class Provider::NS1 < Provider
