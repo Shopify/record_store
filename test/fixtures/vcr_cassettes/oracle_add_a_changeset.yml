@@ -1,0 +1,155 @@
+---
+http_interactions:
+- request:
+    method: patch
+    uri: https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test.recordstore.io/records
+    body:
+      encoding: UTF-8
+      string: '{"items":[{"domain":"test_add_a.test.recordstore.io.","rdata":"10.10.10.1","rtype":"A","ttl":600,"operation":"ADD"}]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 15 Oct 2019 20:13:55 GMT
+      Content-Length:
+      - '117'
+      X-Content-Sha256:
+      - Wk7NEd89MzojOnB+k2+jIr1YoN7JYB5Kf/2ulwCNhUY=
+      Authorization:
+      - Signature headers="date (request-target) host content-length content-type
+        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/ocid1.user.oc1..aaaaaaaauiuiavna4hlhmb3iygm7jcxafxkgyqgjtwwdb6sl2rgww4pjbqaa/4e:a4:66:a7:56:bf:71:dc:ec:4a:c7:f3:9f:b3:35:20",algorithm="rsa-sha256",signature="eCm5teAKPxsaATrW7HekHWELJwDxGw2Y0A1yKX/r0ahM8+vy696T+eG9NssB5gg/J3jro16Tqo98SHIxLqNlHRXb8us6htRbHEkZ+tm8TnHsdNdi7sfX7NBFAmKD+iCJPSEqISjC373uMkGZf++9G+3/50WcMzhbL0Ccq4723ItSH6AaZBUZhLynhBRI7IpRuBC7H08mj1AnZ2YS82lhe6ll2YdJTxlSQfi8iwIS2S7pQl90a9A5fUfeg8NmH3Z2JDQ3TmLs6xsLAH895k5wbKaRIaF5xB8ztkAAA45J60VxamnuxhxNacssdOiX/CU7C7aPHW/mWnPbhQcDkIaEIQ==",version="1"
+      Opc-Client-Info:
+      - Oracle-RubySDK/2.6.0
+      Opc-Request-Id:
+      - C959E94460654CF5BCA85FD05F5DE870
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 15 Oct 2019 20:13:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1562'
+      Connection:
+      - keep-alive
+      Opc-Request-Id:
+      - C959E94460654CF5BCA85FD05F5DE870/EBD14DB62CD0402F9D3052FFB16E6631/D490D4363DBB49928E401BDCB44E74A3
+      Etag:
+      - '"297ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json"'
+      Opc-Total-Items:
+      - '8'
+    body:
+      encoding: UTF-8
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 297 3600 600 604800 1800","rrsetVersion":"297","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"355bba4539e1fd6403cbea529441a6a5","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"297","rtype":"A","ttl":600},{"domain":"test_add_mx.test.recordstore.io","recordHash":"47623f33af94b83f8eefa0520d7497e7","isProtected":false,"rdata":"10
+        mxa.mailgun.org.","rrsetVersion":"293","rtype":"MX","ttl":600},{"domain":"test_update_changeset_where_domain_doesnt_exist.test.recordstore.io","recordHash":"024e31093e6dd7f271536b95adc05cde","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"296","rtype":"A","ttl":600}]}
+
+        '
+    http_version: 
+  recorded_at: Tue, 15 Oct 2019 20:13:57 GMT
+- request:
+    method: get
+    uri: https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test.recordstore.io
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 15 Oct 2019 20:13:57 GMT
+      Authorization:
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/ocid1.user.oc1..aaaaaaaauiuiavna4hlhmb3iygm7jcxafxkgyqgjtwwdb6sl2rgww4pjbqaa/4e:a4:66:a7:56:bf:71:dc:ec:4a:c7:f3:9f:b3:35:20",algorithm="rsa-sha256",signature="bxwjzPe/jD1s6BfLDV/ouGUzyE+Y/Exw7xNpD0gjrglzusoyJzZG7oIdhV8xWJLM5uK4lWz1qtUUlXWYu1TTwYkvfC1IwWhyOU/qfahLZcQEvsePlS7oecbimKKeH140vbH0NQK5NQqSxmYtgdmLpTfLqddMa3sji05vKHPRI04iC9VGNLz8jB2roxXj13QtdsA5Hdm6VE+evg0bVVoxAoyey/6/YR+Xsav0Mxp/OUtR+m8wvC9MmkEbGfkI3WpI0DHqCdmV6Hg4K972b4tRbsxqcjKQYMbKOjKmxgOuMe1CA0pAanwFXg73oFrW2pXTx9al0pd+Ki1Yzj0mI4M8/w==",version="1"
+      Opc-Client-Info:
+      - Oracle-RubySDK/2.6.0
+      Opc-Request-Id:
+      - 1EC9D40F909F467C8EF590CF4E653E5B
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 15 Oct 2019 20:13:58 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '357'
+      Connection:
+      - keep-alive
+      Opc-Request-Id:
+      - 1EC9D40F909F467C8EF590CF4E653E5B/54EE8048E975442680F6F0CFB48E6F83/0F38202D3C7F4C6592A098757CB78608
+      Etag:
+      - '"297ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf<ORACLE_CLOUD_DNS_COMPARTMENT_ID>164374825086dc65cd5dc548c248f61328b5d668#application/json--gzip"'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"zoneType":"PRIMARY","name":"test.recordstore.io","externalMasters":[],"self":"https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test.recordstore.io","timeCreated":"2019-10-10T17:24:05Z","version":"297","serial":297,"nameservers":[{"hostname":"ns1.p68.dns.oraclecloud.net"},{"hostname":"ns2.p68.dns.oraclecloud.net"},{"hostname":"ns3.p68.dns.oraclecloud.net"},{"hostname":"ns4.p68.dns.oraclecloud.net"}],"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf","lifecycleState":"ACTIVE"}
+
+        '
+    http_version: 
+  recorded_at: Tue, 15 Oct 2019 20:13:58 GMT
+- request:
+    method: get
+    uri: https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test.recordstore.io/records?zoneVersion=297
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 15 Oct 2019 20:13:58 GMT
+      Authorization:
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/ocid1.user.oc1..aaaaaaaauiuiavna4hlhmb3iygm7jcxafxkgyqgjtwwdb6sl2rgww4pjbqaa/4e:a4:66:a7:56:bf:71:dc:ec:4a:c7:f3:9f:b3:35:20",algorithm="rsa-sha256",signature="dY5bqhuSblFb4a1tWl4dQP4w4QPhttJv84mOEw6DgKU5UwJdluGPzhGo9lyPJcEnuFwAwjv2ttnoq+8nvmG3rqLDe2PbTpfrDpXfxXonTnLDbdHq20SnNeQYWdxvxPyBonupDgx1f4J7UNLvBUGFjbuSXVJSnCqv8yMaC9f70A+JGyn4O5Ok2lKkjtXUk2zBL17UUzgUrshVC3RKbhV3gs24hO/zyLqhBZojrPenIyIR2hQDzHV6kb25TzyKGBuCeR1ntR3RvivMORZJgS9RQ+GGrDHvnunJ6koIlyhbtVRr+yi5LoIK1+zPoifFPzNWA4xUMguCOHPsRSQDAeGdNA==",version="1"
+      Opc-Client-Info:
+      - Oracle-RubySDK/2.6.0
+      Opc-Request-Id:
+      - C20503B0394D4F0096F170C24C8470C0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 15 Oct 2019 20:14:00 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '496'
+      Connection:
+      - keep-alive
+      Opc-Request-Id:
+      - C20503B0394D4F0096F170C24C8470C0/4337E414C7DB409B8E12F6146F1FC30D/D3D7F85EEB1D41F294997BC3052955AE
+      Etag:
+      - '"297ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
+      Opc-Total-Items:
+      - '8'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 297 3600 600 604800 1800","rrsetVersion":"297","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"355bba4539e1fd6403cbea529441a6a5","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"297","rtype":"A","ttl":600},{"domain":"test_add_mx.test.recordstore.io","recordHash":"47623f33af94b83f8eefa0520d7497e7","isProtected":false,"rdata":"10
+        mxa.mailgun.org.","rrsetVersion":"293","rtype":"MX","ttl":600},{"domain":"test_update_changeset_where_domain_doesnt_exist.test.recordstore.io","recordHash":"024e31093e6dd7f271536b95adc05cde","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"296","rtype":"A","ttl":600}]}
+
+        '
+    http_version: 
+  recorded_at: Tue, 15 Oct 2019 20:14:00 GMT
+recorded_with: VCR 5.0.0
