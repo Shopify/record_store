@@ -35,23 +35,17 @@ module RecordStore
 
       private
 
-      # Returns the version of the zone
-      def zone_version(zone)
-        client.get_zone(zone).data.version
-      end
-
       # Creates a new record to the zone. It is expected this call modifies external state.
       #
       # Arguments:
       # record - a kind of `Record`
       def add(record, zone)
-        record_rdata = retrieve_rdata_based_on_record_type(record)
         patch_add_record = [
           OCI::Dns::Models::RecordOperation.new(
             domain: record.fqdn,
             rtype: record.type,
             ttl: record.ttl,
-            rdata: record_rdata,
+            rdata: record.rdata_txt,
             operation: 'ADD',
           ),
         ]
@@ -68,7 +62,6 @@ module RecordStore
       # record - a kind of `Record`
       def remove(record, zone)
         record_fqdn = Record.ensure_ends_without_dot(record.fqdn)
-        record_rdata = retrieve_rdata_based_on_record_type(record)
         found_record = client.get_zone_records(
           zone,
           rtype: record.type,
@@ -84,7 +77,7 @@ module RecordStore
               record_hash: record_hash,
               rtype: record.type,
               ttl: record.ttl,
-              rdata: record_rdata,
+              rdata: record.rdata_txt,
               operation: 'REMOVE',
             ),
           ]
@@ -105,11 +98,10 @@ module RecordStore
       # record - a kind of `Record` which the record with `id` should be updated to
       def update(id, record, zone)
         record_fqdn = Record.ensure_ends_without_dot(record.fqdn)
-        record_rdata = retrieve_rdata_based_on_record_type(record)
 
         # Retrieve all records that you want to keep before it's updated because it will overwrite
         all_records = []
-        client.get_zone_records(zone, zone_version: zone_version(zone)).each do |response|
+        client.get_zone_records(zone).each do |response|
           all_records += response.data.items
         end
 
@@ -129,7 +121,7 @@ module RecordStore
           domain: record_fqdn,
           ttl: record.ttl,
           rtype: record.type,
-          rdata: record_rdata
+          rdata: record.rdata_txt
         )
         update_zone_record_items.delete_if { |r| id == r.record_hash }
 
@@ -185,10 +177,6 @@ module RecordStore
           raise NameError, "Unsupported record type: #{record_type}"
         end
         Record.const_get(record_type).new(record)
-      end
-
-      def retrieve_rdata_based_on_record_type(record)
-        record.rdata_txt
       end
     end
   end

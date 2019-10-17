@@ -33,7 +33,7 @@ module RecordStore
       end
 
       def ensure_ends_without_dot(fqdn)
-        fqdn.end_with?(".") ? fqdn.sub(/\.$/, '') : fqdn
+        fqdn.sub(/\.$/, '')
       end
     end
 
