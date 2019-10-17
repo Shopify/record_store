@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: patch
-    uri: https://dns.ca-toronto-1.oraclecloud.com/20180115/zones/test_add_changset_missing_zone.recordstore.io/records
+    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test_add_changset_missing_zone.recordstore.io/records
     body:
       encoding: UTF-8
       string: '{"items":[{"domain":"test_add_changset_missing_zone.test.recordstore.io.","rdata":"10.10.10.80","rtype":"A","ttl":2400,"operation":"ADD"}]}'
@@ -14,25 +14,25 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Tue, 15 Oct 2019 20:16:23 GMT
+      - Thu, 17 Oct 2019 19:29:21 GMT
       Content-Length:
       - '139'
       X-Content-Sha256:
       - g0ZdzuxADPyBVtyCZJ9KTFz4poXmEbTPk8dOM9gvNv4=
       Authorization:
       - Signature headers="date (request-target) host content-length content-type
-        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/ocid1.user.oc1..aaaaaaaauiuiavna4hlhmb3iygm7jcxafxkgyqgjtwwdb6sl2rgww4pjbqaa/4e:a4:66:a7:56:bf:71:dc:ec:4a:c7:f3:9f:b3:35:20",algorithm="rsa-sha256",signature="IpfzDzJllHHKvXATMICukNAkc+yH6Ca10VQQsSCJ2H59Z3hdRh0NhHv53hb+QbCOML/mmseng0T1LMHYOl8qcoq9j7MopKAQleMJlRVgQjx5hQT808D6YI0F/R60Q7WNJbSvHhlhI56TTnX5o0GELx4n9DCQH+nQWN3UX2YxGZT+eSraoTjiywDkkc/+EnTKWhz/9M2xA4+9rubCl51pWh3XgBJGZXP4wqrRGNkrVYkx75HMw9rJYeJXFWAPfNRN2bDRWQm0p+TUEamxATkDGRRFwmbfJg5VeNHdgHZPs51J8SnSA9DfuXLPwJZTY6gsDBbTAgQ+eGhojV/cpccEoA==",version="1"
+        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="tx9QLit+jxGxOZs9bWJHZRzXwKOLFrLPkOhwDiA2R4/mFmi8AzjB4oAuCnAMiLP86XsTWqFIGvo7WvKwNgyxLd3y6J/ul94smhbzBmLfkeIDRjxSiyrZasm/4OQYm0okYSPrhIVA0XWZ8ykhCNQPT1IdTQt8VNM7+NptqAJcnHyWbstwF30V0qbYSAU0G1qgQdEhSAnK4JCsTzfkl8kL2qCjfD2sNl3PvbcN0PWcb07GKrryHAlvbK5OUFb8WRhSrlwZkQGZppzTdzlsf7VrzgsNdvOYFnHqSpTeUbZDicvemzqHu9zRw68My1g4XIZ6plnF73xjJ8lWB9/s1QLdzQ==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - 9CA55C82FB084B45AB5D3FEDBF5C12F0
+      - F09834CBE8494536BD9DEB05DD538F19
   response:
     status:
       code: 404
       message: Not Found
     headers:
       Date:
-      - Tue, 15 Oct 2019 20:16:24 GMT
+      - Thu, 17 Oct 2019 19:29:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -40,7 +40,7 @@ http_interactions:
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - 9CA55C82FB084B45AB5D3FEDBF5C12F0/71A8CE188909477693258159DB776B0E/0DE66B98546C4F3FAF1AFCB2A5031A12
+      - F09834CBE8494536BD9DEB05DD538F19/FF9522CE20EE4CB09A464B9EA7449B24/EC0EC5DFEFDD44B2AB29E61DAB3036DF
     body:
       encoding: UTF-8
       string: '{"code":"NotAuthorizedOrNotFound","message":"Authorization failed or
@@ -48,5 +48,5 @@ http_interactions:
 
         '
     http_version: 
-  recorded_at: Tue, 15 Oct 2019 20:16:25 GMT
+  recorded_at: Thu, 17 Oct 2019 19:29:22 GMT
 recorded_with: VCR 5.0.0

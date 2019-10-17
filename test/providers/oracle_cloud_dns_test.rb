@@ -109,6 +109,32 @@ class OracleCloudDNSTest < Minitest::Test
     end
   end
 
+  def test_remove_does_not_exist_changeset
+    record = Record::A.new(
+      fqdn: 'test_remove_does_not_exist_changeset.test.recordstore.io',
+      ttl: 600,
+      address: '10.10.10.99'
+    )
+
+    VCR.use_cassette('oracle_remove_does_not_exist_changesets') do
+      @oracle_cloud_dns.apply_changeset(Changeset.new(
+        current_records: [record],
+        desired_records: [],
+        provider: @oracle_cloud_dns,
+        zone: @zone_name
+      ))
+      current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
+
+      contains_desired_record = current_records.none? do |current_record|
+        current_record.is_a?(Record::A) &&
+          record.fqdn == current_record.fqdn &&
+          record.ttl == current_record.ttl &&
+          record.address == current_record.address
+      end
+      assert contains_desired_record
+    end
+  end
+
   def test_record_retrieved_after_adding_record_changeset
     record = Record::A.new(fqdn: 'test_add_a.test.recordstore.io', ttl: 600, address: '10.10.10.1')
 

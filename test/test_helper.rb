@@ -39,6 +39,11 @@ class Minitest::Test
     ),
     'oracle_cloud_dns' => %w(
       compartment_id
+      user
+      fingerprint
+      key_content
+      tenancy
+      region
     ),
   }
 
@@ -100,9 +105,9 @@ class Minitest::Test
       end
     end
 
-    config.filter_sensitive_data('<ORACLE_CLOUD_DNS_COMPARTMENT_KEY>') do |interaction|
+    config.filter_sensitive_data('<ORACLE_CLOUD_DNS_COMPARTMENT_ID>') do |interaction|
       next unless interaction.request.uri =~ /oraclecloud/
-      if (auth_token = interaction.request.headers['ORACLE_CLOUD_DNS_COMPARTMENT_KEY']).present?
+      if (auth_token = interaction.request.headers['ORACLE_CLOUD_DNS_COMPARTMENT_ID']).present?
         auth_token.first
       end
     end
@@ -112,6 +117,7 @@ class Minitest::Test
     Provider::DynECT.instance_variable_set(:@dns, nil)
     Provider::DNSimple.instance_variable_set(:@dns, nil)
     Provider::GoogleCloudDNS.instance_variable_set(:@dns, nil)
+    Provider::OracleCloudDNS.instance_variable_set(:@dns, nil)
   end
 
   def build_record_store_config(

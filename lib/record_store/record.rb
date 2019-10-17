@@ -31,6 +31,10 @@ module RecordStore
       def ensure_ends_with_dot(fqdn)
         fqdn.end_with?(".") ? fqdn : "#{fqdn}."
       end
+
+      def ensure_ends_without_dot(fqdn)
+        fqdn.end_with?(".") ? fqdn.sub(/\.$/, '') : fqdn
+      end
     end
 
     def initialize(record)
