@@ -6,14 +6,16 @@ module RecordStore
 
     class << self
       def client
-        config = OCI::Config.new
-        config.user = secrets['user']
-        config.fingerprint = secrets['fingerprint']
-        config.key_content = secrets['key_content']
-        config.tenancy = secrets['tenancy']
-        config.region = secrets['region']
-        config.validate
-        OCI::Dns::DnsClient.new(config: config)
+        @client ||= begin
+          config = OCI::Config.new
+          config.user = secrets['user']
+          config.fingerprint = secrets['fingerprint']
+          config.key_content = secrets['key_content']
+          config.tenancy = secrets['tenancy']
+          config.region = secrets['region']
+          config.validate
+          OCI::Dns::DnsClient.new(config: config)
+        end
       end
 
       # Downloads all the records from the provider.
@@ -24,8 +26,9 @@ module RecordStore
           .flat_map { |response| response.data.items }
           .flat_map { |api_record| build_from_api(api_record) }
           .compact
-      rescue StandardError
-        stdout.puts "Cannot build recrod for zone: #{zone}"
+      rescue OCI::Errors::HttpRequestBasedError
+        stdout.puts "Cannot build record for zone: #{zone}"
+        raise
       end
 
       # Returns an array of the zones managed by provider as strings
@@ -69,26 +72,23 @@ module RecordStore
           domain: record_fqdn,
         ).data.items.last
 
-        begin
-          record_hash = found_record.record_hash
-          patch_remove_record = [
-            OCI::Dns::Models::RecordOperation.new(
-              domain: record_fqdn,
-              record_hash: record_hash,
-              rtype: record.type,
-              ttl: record.ttl,
-              rdata: record.rdata_txt,
-              operation: 'REMOVE',
-            ),
-          ]
+        return unless found_record
+        record_hash = found_record.record_hash
+        patch_remove_record = [
+          OCI::Dns::Models::RecordOperation.new(
+            domain: record_fqdn,
+            record_hash: record_hash,
+            rtype: record.type,
+            ttl: record.ttl,
+            rdata: record.rdata_txt,
+            operation: 'REMOVE',
+          ),
+        ]
 
-          client.patch_zone_records(
-            zone,
-            OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_remove_record)
-          )
-        rescue NoMethodError
-          puts "An exception occurred while deleting changeset which doesn't exist"
-        end
+        client.patch_zone_records(
+          zone,
+          OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_remove_record)
+        )
       end
 
       # Updates an existing record in the zone. It is expected this call modifies external state.
@@ -156,7 +156,6 @@ module RecordStore
           record[:flags] = flags.to_i
           record[:tag] = tag
           record[:value] = Record.unquote(value)
-
         when 'CNAME'
           record[:cname] = api_record.rdata
         when 'MX'
