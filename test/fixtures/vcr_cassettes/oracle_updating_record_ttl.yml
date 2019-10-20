@@ -14,50 +14,46 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 17 Oct 2019 20:33:54 GMT
+      - Sun, 20 Oct 2019 01:59:16 GMT
       Content-Length:
       - '124'
       X-Content-Sha256:
       - "+Cckc3TvLJC5vvUj6TZqNsv4miScCbJH7SDWbFiRGOo="
       Authorization:
       - Signature headers="date (request-target) host content-length content-type
-        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="HdaBZv1cmsiEtcVMDlX7ePteSk8l2ENgYafVch8tA9sNneb8F38lRo0eQvIHe3zDtEm/tPymYC9AHkJR7biJhdDAzAB9DB1TEaKS8UxBBKmbHgM7fiPqpqkl0FkQ6tAD1FSSxj8ZbVD/p7l4UnCgIjk+L2EW26hOFyyt9IXXz5Xl84YFUV55ghDs3c5BfgUu1WN6Nrqyc5x+/OwNL4krsuwLbGNxt8w4gtso/luUaT+Bxindr93Hlrcyy27Rs2jk9RBRn9Z2F4WsSae+GJyofhpImAxCFb810Lc7RKuSa1MTYdt+1u19S15iiDiKUynapig4VbMKbS/NVyATGh4qyA==",version="1"
+        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="yYiRsx/pHGh9LRsQy7i0+gAep10jZt/63HW0yzLMj2WGLfIUtq8NDQGe8ON5bT5sKzj4CRBqHQAVKI41QVisD79AJ4+Y1Ce+BMlDkhFNc0rVOyQsO0y414WSiLcYYzs5X0jgSA7TUfR61YWcaOpFviaQGtzNQFdpg4MHXdJHvA0FJAM1PrLDh0pKzISD24jBXslYwSvfTOkevFr/PUtCkzQUe48M1/W2UhiP1ChuL0PNmNqUWnkUD8yE/cdmO91RKBjKe/JCABydfSvf94Frwp/ctaNIDlli/nPC+C1JtoEW0IlRlgiyN/wzb2H845NvlFnyvHtUpLvKXMMYvXR/4A==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - 1E8AF0108C01454A8939B15B13645191
+      - 90099193519044F3A6A123C5450425EE
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2019 20:33:59 GMT
+      - Sun, 20 Oct 2019 01:59:21 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '4424'
+      - '1597'
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - 1E8AF0108C01454A8939B15B13645191/E8F6BC20C0BB4520ADB5331B559C3992/07AB67E8A47C44399BB7349E71A83A7E
+      - 90099193519044F3A6A123C5450425EE/8189B3FAAE084D03A150064779F9BB7D/8377DDB6D800434585F45296CDD4372C
       Etag:
-      - '"674ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json"'
+      - '"808ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json"'
       Opc-Total-Items:
-      - '23'
+      - '8'
     body:
       encoding: UTF-8
-      string: '{"items":[{"domain":"one_of_these_should_remain.test.recordstore.io","recordHash":"3153836c43e27b679201633d1007bf65","isProtected":false,"rdata":"20.20.20.20","rrsetVersion":"653","rtype":"A","ttl":600},{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
-        hostmaster.test.recordstore.io. 674 3600 600 604800 1800","rrsetVersion":"674","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"be15e9b06c54272d90b79843a017382c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"634","rtype":"A","ttl":600},{"domain":"test_add_alias.test.recordstore.io","recordHash":"14b59fe0495c7e289fb1fe5b6b4d262c","isProtected":false,"rdata":"recordstore.com.","rrsetVersion":"648","rtype":"ALIAS","ttl":600},{"domain":"test_add_caa.test.recordstore.io","recordHash":"7ed4fb48e23f82b37a365fde24fcf2de","isProtected":false,"rdata":"0
-        issue \"shopify.com\"","rrsetVersion":"635","rtype":"CAA","ttl":600},{"domain":"test_add_changeset.test.recordstore.io","recordHash":"32cb338273b00668dd007e8eb4c92f3d","isProtected":false,"rdata":"10.10.10.42","rrsetVersion":"643","rtype":"A","ttl":600},{"domain":"test_add_cname.test.recordstore.io","recordHash":"319f0644572fe2dead9970acb0732271","isProtected":false,"rdata":"test.recordstore.io.","rrsetVersion":"646","rtype":"CNAME","ttl":600},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"4f317640ca5af17d3239c5659aa20d49","isProtected":false,"rdata":"10.10.10.65","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"706d2dbc88f60cab4725aad899a8c2bb","isProtected":false,"rdata":"10.10.10.70","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_mx.test.recordstore.io","recordHash":"ee70a2c453293978ad791978e226d57d","isProtected":false,"rdata":"10
-        mxa.mailgun.org.","rrsetVersion":"649","rtype":"MX","ttl":600},{"domain":"test_add_ns.test.recordstore.io","recordHash":"31fc460a0652837f2f2c29a8be6e004c","isProtected":false,"rdata":"ns_test.p68.dns.oraclecloud.net.","rrsetVersion":"632","rtype":"NS","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"6fe2b1badcc6efaa141a0c4ab8898f57","isProtected":false,"rdata":"1
-        2 3 spf.shopify.com.","rrsetVersion":"623","rtype":"SRV","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"98ccd1a06645015e86d50041e28c24db","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"647","rtype":"SPF","ttl":600},{"domain":"test_add_txt.test.recordstore.io","recordHash":"b6d2d31bb74e1a21fe8873aa3e347e5d","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"633","rtype":"TXT","ttl":600},{"domain":"test_update_changeset.test.recordstore.io","recordHash":"ca488b555811a2463691d42832c9b3c5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"673","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"04dca340f66aa8fd3c2fdaa4a7c19ec5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"94ce954eec7a09889bff4f8b09e1ef83","isProtected":false,"rdata":"10.10.10.48","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"a032e07920fb5a93c95c3ea067dde3be","isProtected":false,"rdata":"10.10.10.50","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"aa592ef417194ba6dba43e7e38f92365","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"674","rtype":"A","ttl":600}]}
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 808 3600 600 604800 1800","rrsetVersion":"808","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_remove_first_from_two_a_records_changeset.test.recordstore.io","recordHash":"0fcac14a69f25022df6b1ddc2ac9d307","isProtected":false,"rdata":"70.70.70.77","rrsetVersion":"804","rtype":"A","ttl":600},{"domain":"test_remove_first_from_two_txt_records_changeset.test.recordstore.io","recordHash":"a6b3277747045ccf882fb9fe11dbcba9","isProtected":false,"rdata":"\"text
+        2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"ae82fff78779e17e72661843adb69470","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"808","rtype":"A","ttl":600}]}
 
         '
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 20:33:59 GMT
+  recorded_at: Sun, 20 Oct 2019 01:59:21 GMT
 - request:
     method: get
     uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io/records
@@ -72,47 +68,43 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 17 Oct 2019 20:33:59 GMT
+      - Sun, 20 Oct 2019 01:59:21 GMT
       Authorization:
-      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="oSQ/i7CdsMMxLg5AyKKmw6tDNAwiObJOiqjEd0yk6xjp0H9P0JyK7Pnnlk3MPU+Vg41+zAk4QhgFQI+wFMS1rALFHVPdGelc/rblBl9Y6BqfBGw5bTXPvAybyoUKNdbXCpwMFmuJv91Kv2A976+Oo7jY2aorXeNuncK2tv+N8B6CS3iX3hgKUOeTmN/6QDmYOhL25JA6pWlJS13zDLdxgnVHiW8PDu6hoxLiV+vxRrOHINCcpRQd0/Gm1Qt/H+hlh+7ZUWTlkrF4HYnsbHNIQf+6dkdMKpWmNW0iZsXBVb3mGdohoLebuvD90aCCeBJChmp59BXBXut5mv2s92madw==",version="1"
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="vTVS4tvA/3T9S7Hw160ym5ZfVmGwFQAdEAIxhmwVItrYUognsLptwem+feqU00ATxu7WIItelbXfrRNBPcABf60vh/GJmwbT5q7QNgxwC95OieufT+Z+OL/mjT7shg1pgu2BZ2XulRlPKPlCnlf1rt0uIp/Xyi2oDC3lzLu2nzQoFUrMrq66hYMtkpah81+vYQUkv8GPAlgBPKAJcvHvhMIl15ZHE4o9RyEHx7LbSKkezaXmbHNqT6Qd6OoJj2OEM3B9BAyK8Q2XvSlQRqR7w+v3L+qiPO+oYkuReMIy83y/g9CkTd29CBPvbKOa71kWN031TFyjo5lyjt0N/Bufkw==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - F4942CA5BBED4EF88C95FDC4463F1732
+      - EE9B2CE85A394A8D8166F95F79C65E5F
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2019 20:34:01 GMT
+      - Sun, 20 Oct 2019 01:59:23 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1085'
+      - '501'
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - F4942CA5BBED4EF88C95FDC4463F1732/64FAABE757C5455A9DFBF5D52ED7363F/5034E1AB68C148D1A59C13BD8BB707C0
+      - EE9B2CE85A394A8D8166F95F79C65E5F/9BCE1CA237EC4823ABDED4EF8332176C/C99E85077BC64FBCAB72C30B469E2C94
       Etag:
-      - '"674ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
+      - '"808ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
       Opc-Total-Items:
-      - '23'
+      - '8'
       Vary:
       - Accept-Encoding
     body:
       encoding: ASCII-8BIT
-      string: '{"items":[{"domain":"one_of_these_should_remain.test.recordstore.io","recordHash":"3153836c43e27b679201633d1007bf65","isProtected":false,"rdata":"20.20.20.20","rrsetVersion":"653","rtype":"A","ttl":600},{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
-        hostmaster.test.recordstore.io. 674 3600 600 604800 1800","rrsetVersion":"674","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"be15e9b06c54272d90b79843a017382c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"634","rtype":"A","ttl":600},{"domain":"test_add_alias.test.recordstore.io","recordHash":"14b59fe0495c7e289fb1fe5b6b4d262c","isProtected":false,"rdata":"recordstore.com.","rrsetVersion":"648","rtype":"ALIAS","ttl":600},{"domain":"test_add_caa.test.recordstore.io","recordHash":"7ed4fb48e23f82b37a365fde24fcf2de","isProtected":false,"rdata":"0
-        issue \"shopify.com\"","rrsetVersion":"635","rtype":"CAA","ttl":600},{"domain":"test_add_changeset.test.recordstore.io","recordHash":"32cb338273b00668dd007e8eb4c92f3d","isProtected":false,"rdata":"10.10.10.42","rrsetVersion":"643","rtype":"A","ttl":600},{"domain":"test_add_cname.test.recordstore.io","recordHash":"319f0644572fe2dead9970acb0732271","isProtected":false,"rdata":"test.recordstore.io.","rrsetVersion":"646","rtype":"CNAME","ttl":600},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"4f317640ca5af17d3239c5659aa20d49","isProtected":false,"rdata":"10.10.10.65","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"706d2dbc88f60cab4725aad899a8c2bb","isProtected":false,"rdata":"10.10.10.70","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_mx.test.recordstore.io","recordHash":"ee70a2c453293978ad791978e226d57d","isProtected":false,"rdata":"10
-        mxa.mailgun.org.","rrsetVersion":"649","rtype":"MX","ttl":600},{"domain":"test_add_ns.test.recordstore.io","recordHash":"31fc460a0652837f2f2c29a8be6e004c","isProtected":false,"rdata":"ns_test.p68.dns.oraclecloud.net.","rrsetVersion":"632","rtype":"NS","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"6fe2b1badcc6efaa141a0c4ab8898f57","isProtected":false,"rdata":"1
-        2 3 spf.shopify.com.","rrsetVersion":"623","rtype":"SRV","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"98ccd1a06645015e86d50041e28c24db","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"647","rtype":"SPF","ttl":600},{"domain":"test_add_txt.test.recordstore.io","recordHash":"b6d2d31bb74e1a21fe8873aa3e347e5d","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"633","rtype":"TXT","ttl":600},{"domain":"test_update_changeset.test.recordstore.io","recordHash":"ca488b555811a2463691d42832c9b3c5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"673","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"04dca340f66aa8fd3c2fdaa4a7c19ec5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"94ce954eec7a09889bff4f8b09e1ef83","isProtected":false,"rdata":"10.10.10.48","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"a032e07920fb5a93c95c3ea067dde3be","isProtected":false,"rdata":"10.10.10.50","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"aa592ef417194ba6dba43e7e38f92365","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"674","rtype":"A","ttl":600}]}
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 808 3600 600 604800 1800","rrsetVersion":"808","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_remove_first_from_two_a_records_changeset.test.recordstore.io","recordHash":"0fcac14a69f25022df6b1ddc2ac9d307","isProtected":false,"rdata":"70.70.70.77","rrsetVersion":"804","rtype":"A","ttl":600},{"domain":"test_remove_first_from_two_txt_records_changeset.test.recordstore.io","recordHash":"a6b3277747045ccf882fb9fe11dbcba9","isProtected":false,"rdata":"\"text
+        2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"ae82fff78779e17e72661843adb69470","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"808","rtype":"A","ttl":600}]}
 
         '
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 20:34:01 GMT
+  recorded_at: Sun, 20 Oct 2019 01:59:23 GMT
 - request:
     method: get
     uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io/records
@@ -127,59 +119,51 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 17 Oct 2019 20:34:01 GMT
+      - Sun, 20 Oct 2019 01:59:23 GMT
       Authorization:
-      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="2t0QJQXJ2Bj8fAEZNufPK39jtSNVs3CnuIPpO03Yh6u4v6KNwp6YcHyr6AZvFL7B37b4O4CD1wwPpURHXFulizrQY7PYsLzQGhxzNPkCLy7rm8HrpXt8c/0joal2aWaQLbSG3pxNFLH0NCUAagPYx4M10SsBcNVMpkll9ful6sBJ22J8xg+7UvNT2zYcGE36pB9eqcLYf7GlNRKc0VHkxIs7cdAr7Lrg9IXCK9Jsjisf78KaBm2NzcDHywNUiwgSbh4BBFMInnH7uy3zGTYhhYskULZwNOVbCkcWAwTrTefOeFXcxyM5PiRPlD0hKAmLh6NZg1KM5XNCEQ0b3rngow==",version="1"
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="stsAfb1r6HIZwmu8T8mns5ZL3LpLVMxJJl4tI5Ty0nuK9PDsiJE1dGBRtrBwm+DGFCl+3k6Ngnz5xLTpmRaMJulXG7AMsJ97c8FNKLfnKAY1/x3+RxeCoAkeIoGQ0Dd6KqHZ43SPbmYuMSSHltBDI+daC+NLrZ73LamG9Jk/KCYDunSfBnU3dpEnLtVy4K0+HhHNCZnzW26fIHLd6fk72BYpnnG5fOD9HNqW2EhTltcXUU3Q0iTBfpX16eH/xmW+4rkLhdcu03OSGXsCK8U07jKcu99JjbwTe3BDmAxHslBfDym4YXloZKfNMWeJow6qsjk9kWWOD7dA3o2phJLNWg==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - 8CFB81452EEF47F6AA16789F7443EE05
+      - 82E3F278DE4E491FA3EFCED88FC798BB
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2019 20:34:02 GMT
+      - Sun, 20 Oct 2019 01:59:24 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1085'
+      - '501'
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - 8CFB81452EEF47F6AA16789F7443EE05/765EC49725D6464183E1AF46412E61AE/02DDF3DF048C41F9A02A049C3F5CB8AD
+      - 82E3F278DE4E491FA3EFCED88FC798BB/D4AA066078224E329BABCEC48DF0EB28/DD68063FB8654410BA22DEAE91FCDF38
       Etag:
-      - '"674ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
+      - '"808ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
       Opc-Total-Items:
-      - '23'
+      - '8'
       Vary:
       - Accept-Encoding
     body:
       encoding: ASCII-8BIT
-      string: '{"items":[{"domain":"one_of_these_should_remain.test.recordstore.io","recordHash":"3153836c43e27b679201633d1007bf65","isProtected":false,"rdata":"20.20.20.20","rrsetVersion":"653","rtype":"A","ttl":600},{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
-        hostmaster.test.recordstore.io. 674 3600 600 604800 1800","rrsetVersion":"674","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"be15e9b06c54272d90b79843a017382c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"634","rtype":"A","ttl":600},{"domain":"test_add_alias.test.recordstore.io","recordHash":"14b59fe0495c7e289fb1fe5b6b4d262c","isProtected":false,"rdata":"recordstore.com.","rrsetVersion":"648","rtype":"ALIAS","ttl":600},{"domain":"test_add_caa.test.recordstore.io","recordHash":"7ed4fb48e23f82b37a365fde24fcf2de","isProtected":false,"rdata":"0
-        issue \"shopify.com\"","rrsetVersion":"635","rtype":"CAA","ttl":600},{"domain":"test_add_changeset.test.recordstore.io","recordHash":"32cb338273b00668dd007e8eb4c92f3d","isProtected":false,"rdata":"10.10.10.42","rrsetVersion":"643","rtype":"A","ttl":600},{"domain":"test_add_cname.test.recordstore.io","recordHash":"319f0644572fe2dead9970acb0732271","isProtected":false,"rdata":"test.recordstore.io.","rrsetVersion":"646","rtype":"CNAME","ttl":600},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"4f317640ca5af17d3239c5659aa20d49","isProtected":false,"rdata":"10.10.10.65","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"706d2dbc88f60cab4725aad899a8c2bb","isProtected":false,"rdata":"10.10.10.70","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_mx.test.recordstore.io","recordHash":"ee70a2c453293978ad791978e226d57d","isProtected":false,"rdata":"10
-        mxa.mailgun.org.","rrsetVersion":"649","rtype":"MX","ttl":600},{"domain":"test_add_ns.test.recordstore.io","recordHash":"31fc460a0652837f2f2c29a8be6e004c","isProtected":false,"rdata":"ns_test.p68.dns.oraclecloud.net.","rrsetVersion":"632","rtype":"NS","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"6fe2b1badcc6efaa141a0c4ab8898f57","isProtected":false,"rdata":"1
-        2 3 spf.shopify.com.","rrsetVersion":"623","rtype":"SRV","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"98ccd1a06645015e86d50041e28c24db","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"647","rtype":"SPF","ttl":600},{"domain":"test_add_txt.test.recordstore.io","recordHash":"b6d2d31bb74e1a21fe8873aa3e347e5d","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"633","rtype":"TXT","ttl":600},{"domain":"test_update_changeset.test.recordstore.io","recordHash":"ca488b555811a2463691d42832c9b3c5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"673","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"04dca340f66aa8fd3c2fdaa4a7c19ec5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"94ce954eec7a09889bff4f8b09e1ef83","isProtected":false,"rdata":"10.10.10.48","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"a032e07920fb5a93c95c3ea067dde3be","isProtected":false,"rdata":"10.10.10.50","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"aa592ef417194ba6dba43e7e38f92365","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"674","rtype":"A","ttl":600}]}
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 808 3600 600 604800 1800","rrsetVersion":"808","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_remove_first_from_two_a_records_changeset.test.recordstore.io","recordHash":"0fcac14a69f25022df6b1ddc2ac9d307","isProtected":false,"rdata":"70.70.70.77","rrsetVersion":"804","rtype":"A","ttl":600},{"domain":"test_remove_first_from_two_txt_records_changeset.test.recordstore.io","recordHash":"a6b3277747045ccf882fb9fe11dbcba9","isProtected":false,"rdata":"\"text
+        2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"ae82fff78779e17e72661843adb69470","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"808","rtype":"A","ttl":600}]}
 
         '
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 20:34:02 GMT
+  recorded_at: Sun, 20 Oct 2019 01:59:24 GMT
 - request:
     method: put
     uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io/records
     body:
       encoding: UTF-8
-      string: '{"items":[{"domain":"one_of_these_should_remain.test.recordstore.io","recordHash":"3153836c43e27b679201633d1007bf65","isProtected":true,"rdata":"20.20.20.20","rrsetVersion":"653","rtype":"A","ttl":600},{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
-        hostmaster.test.recordstore.io. 674 3600 600 604800 1800","rrsetVersion":"674","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"be15e9b06c54272d90b79843a017382c","isProtected":true,"rdata":"10.10.10.1","rrsetVersion":"634","rtype":"A","ttl":600},{"domain":"test_add_alias.test.recordstore.io","recordHash":"14b59fe0495c7e289fb1fe5b6b4d262c","isProtected":true,"rdata":"recordstore.com.","rrsetVersion":"648","rtype":"ALIAS","ttl":600},{"domain":"test_add_caa.test.recordstore.io","recordHash":"7ed4fb48e23f82b37a365fde24fcf2de","isProtected":true,"rdata":"0
-        issue \"shopify.com\"","rrsetVersion":"635","rtype":"CAA","ttl":600},{"domain":"test_add_changeset.test.recordstore.io","recordHash":"32cb338273b00668dd007e8eb4c92f3d","isProtected":true,"rdata":"10.10.10.42","rrsetVersion":"643","rtype":"A","ttl":600},{"domain":"test_add_cname.test.recordstore.io","recordHash":"319f0644572fe2dead9970acb0732271","isProtected":true,"rdata":"test.recordstore.io.","rrsetVersion":"646","rtype":"CNAME","ttl":600},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"4f317640ca5af17d3239c5659aa20d49","isProtected":true,"rdata":"10.10.10.65","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"706d2dbc88f60cab4725aad899a8c2bb","isProtected":true,"rdata":"10.10.10.70","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_mx.test.recordstore.io","recordHash":"ee70a2c453293978ad791978e226d57d","isProtected":true,"rdata":"10
-        mxa.mailgun.org.","rrsetVersion":"649","rtype":"MX","ttl":600},{"domain":"test_add_ns.test.recordstore.io","recordHash":"31fc460a0652837f2f2c29a8be6e004c","isProtected":true,"rdata":"ns_test.p68.dns.oraclecloud.net.","rrsetVersion":"632","rtype":"NS","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"6fe2b1badcc6efaa141a0c4ab8898f57","isProtected":true,"rdata":"1
-        2 3 spf.shopify.com.","rrsetVersion":"623","rtype":"SRV","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"98ccd1a06645015e86d50041e28c24db","isProtected":true,"rdata":"\"Hello
-        World!\"","rrsetVersion":"647","rtype":"SPF","ttl":600},{"domain":"test_add_txt.test.recordstore.io","recordHash":"b6d2d31bb74e1a21fe8873aa3e347e5d","isProtected":true,"rdata":"\"Hello
-        World!\"","rrsetVersion":"633","rtype":"TXT","ttl":600},{"domain":"test_update_changeset.test.recordstore.io","recordHash":"ca488b555811a2463691d42832c9b3c5","isProtected":true,"rdata":"10.10.10.49","rrsetVersion":"673","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"04dca340f66aa8fd3c2fdaa4a7c19ec5","isProtected":true,"rdata":"10.10.10.49","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"94ce954eec7a09889bff4f8b09e1ef83","isProtected":true,"rdata":"10.10.10.48","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"a032e07920fb5a93c95c3ea067dde3be","isProtected":true,"rdata":"10.10.10.50","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","rdata":"10.10.10.1","rtype":"A","ttl":10}]}'
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 808 3600 600 604800 1800","rrsetVersion":"808","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_remove_first_from_two_a_records_changeset.test.recordstore.io","recordHash":"0fcac14a69f25022df6b1ddc2ac9d307","isProtected":true,"rdata":"70.70.70.77","rrsetVersion":"804","rtype":"A","ttl":600},{"domain":"test_remove_first_from_two_txt_records_changeset.test.recordstore.io","recordHash":"a6b3277747045ccf882fb9fe11dbcba9","isProtected":true,"rdata":"\"text
+        2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","rdata":"10.10.10.1","rtype":"A","ttl":10}]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -188,50 +172,46 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 17 Oct 2019 20:34:02 GMT
+      - Sun, 20 Oct 2019 01:59:24 GMT
       Content-Length:
-      - '4316'
+      - '1504'
       X-Content-Sha256:
-      - i6qK+SBQfEeLj/zGhbgTJvdNZcvefCj+zQggGasJxuA=
+      - lfrYSRR39mvZVh8RAIy/ZvodDiV1/V3c96Ez2E+cY+Y=
       Authorization:
       - Signature headers="date (request-target) host content-length content-type
-        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="VYalupC7Jbp0E7L4xnfgkM1kEqnPwdBCivAd1XyWt0T2mCM651w78j0JYFG0cTwoVLItabqtKo5wrqOImTMiWlaTVQWvV9b1lkrxFD1a3JzolwJ9JKtCjZredJD1IdSk90B1GcuesUc4iIeHF8hxPZkIyLkznJiz+BpevnJyMB6BeBweNIpapawrDujE2wJ3NGsxq+/326zr4X0ELQfEOFh7zVuRSvtpi5vPn9CCHKoFzTuuvpn4d8ae12ytfJICyhR5xyVdTgeX0C1x7UuMDGWylzjvYB6QR2OehtYC5omOAsZ2Gh6hEiKWDh/z/+y99WKO0pA1ouL6pFCKplePiA==",version="1"
+        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="sRb7eZv7UBqKvKN0gaOSziFx+JjUHv6F4Zqn1NUfIzHGNvHHEmandjubtQq8GUOE6pCDnkyI5KXYJ3efad42XPYsTWVUcPXMyl5HjOGkAxQTeVe8jDxV31UhrMJpnvJMCA0bcdbHrHbRMlpvwDyjdwJ2uj6u+yQ9AMV4+LzeTwCfulPLxbv6aFGdYhk6E3tq7fJYvJbMTTVGyKT3i1taPuWzLQEcgAIRDGaXu9QRO3y+lSZ0QO9fxi/IEVQRXN73BeQjGPoxagHqGUuoeXeihIboFpaHA/Qw3CBaYhao12/u8Evsl0x2PT3WU+CPnTBAC6OiVSBot6YEM2kn3y8qXQ==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - FC23F15BE7B84CD3AB45FEDE4EF21BA3
+      - 3735481C6519401189B4E21552C44A9C
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2019 20:34:04 GMT
+      - Sun, 20 Oct 2019 01:59:26 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '4423'
+      - '1596'
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - FC23F15BE7B84CD3AB45FEDE4EF21BA3/AB921A65348E480795772BC18316510E/FEC21841E52C447E9CB64D8A1A1F9F9B
+      - 3735481C6519401189B4E21552C44A9C/2231F756E9FA455E83AF462D85E36C03/49430BF11E97403CBB0DA861BE38AA97
       Etag:
-      - '"675ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json"'
+      - '"809ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json"'
       Opc-Total-Items:
-      - '23'
+      - '8'
     body:
       encoding: UTF-8
-      string: '{"items":[{"domain":"one_of_these_should_remain.test.recordstore.io","recordHash":"3153836c43e27b679201633d1007bf65","isProtected":false,"rdata":"20.20.20.20","rrsetVersion":"653","rtype":"A","ttl":600},{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
-        hostmaster.test.recordstore.io. 675 3600 600 604800 1800","rrsetVersion":"675","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"be15e9b06c54272d90b79843a017382c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"634","rtype":"A","ttl":600},{"domain":"test_add_alias.test.recordstore.io","recordHash":"14b59fe0495c7e289fb1fe5b6b4d262c","isProtected":false,"rdata":"recordstore.com.","rrsetVersion":"648","rtype":"ALIAS","ttl":600},{"domain":"test_add_caa.test.recordstore.io","recordHash":"7ed4fb48e23f82b37a365fde24fcf2de","isProtected":false,"rdata":"0
-        issue \"shopify.com\"","rrsetVersion":"635","rtype":"CAA","ttl":600},{"domain":"test_add_changeset.test.recordstore.io","recordHash":"32cb338273b00668dd007e8eb4c92f3d","isProtected":false,"rdata":"10.10.10.42","rrsetVersion":"643","rtype":"A","ttl":600},{"domain":"test_add_cname.test.recordstore.io","recordHash":"319f0644572fe2dead9970acb0732271","isProtected":false,"rdata":"test.recordstore.io.","rrsetVersion":"646","rtype":"CNAME","ttl":600},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"4f317640ca5af17d3239c5659aa20d49","isProtected":false,"rdata":"10.10.10.65","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"706d2dbc88f60cab4725aad899a8c2bb","isProtected":false,"rdata":"10.10.10.70","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_mx.test.recordstore.io","recordHash":"ee70a2c453293978ad791978e226d57d","isProtected":false,"rdata":"10
-        mxa.mailgun.org.","rrsetVersion":"649","rtype":"MX","ttl":600},{"domain":"test_add_ns.test.recordstore.io","recordHash":"31fc460a0652837f2f2c29a8be6e004c","isProtected":false,"rdata":"ns_test.p68.dns.oraclecloud.net.","rrsetVersion":"632","rtype":"NS","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"6fe2b1badcc6efaa141a0c4ab8898f57","isProtected":false,"rdata":"1
-        2 3 spf.shopify.com.","rrsetVersion":"623","rtype":"SRV","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"98ccd1a06645015e86d50041e28c24db","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"647","rtype":"SPF","ttl":600},{"domain":"test_add_txt.test.recordstore.io","recordHash":"b6d2d31bb74e1a21fe8873aa3e347e5d","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"633","rtype":"TXT","ttl":600},{"domain":"test_update_changeset.test.recordstore.io","recordHash":"ca488b555811a2463691d42832c9b3c5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"673","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"04dca340f66aa8fd3c2fdaa4a7c19ec5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"94ce954eec7a09889bff4f8b09e1ef83","isProtected":false,"rdata":"10.10.10.48","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"a032e07920fb5a93c95c3ea067dde3be","isProtected":false,"rdata":"10.10.10.50","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"16ba3e9b01077b58e577def12f340d0c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"675","rtype":"A","ttl":10}]}
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 809 3600 600 604800 1800","rrsetVersion":"809","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_remove_first_from_two_a_records_changeset.test.recordstore.io","recordHash":"0fcac14a69f25022df6b1ddc2ac9d307","isProtected":false,"rdata":"70.70.70.77","rrsetVersion":"804","rtype":"A","ttl":600},{"domain":"test_remove_first_from_two_txt_records_changeset.test.recordstore.io","recordHash":"a6b3277747045ccf882fb9fe11dbcba9","isProtected":false,"rdata":"\"text
+        2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"4956667caf7bb85c691e5c5237be57e5","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"809","rtype":"A","ttl":10}]}
 
         '
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 20:34:04 GMT
+  recorded_at: Sun, 20 Oct 2019 01:59:26 GMT
 - request:
     method: get
     uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io/records
@@ -246,45 +226,41 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 17 Oct 2019 20:34:04 GMT
+      - Sun, 20 Oct 2019 01:59:26 GMT
       Authorization:
-      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="kyTl1ibOiap7f1tqpNnU/shhvJ63L1YRvdAAMIFKA+KlMKaWJEkDigTLzoL4phsx3l2tFjBfvF+U1DHI0BJN0SM3/M0FbrIii9SmWDDT7CUqcJgDxXB2ZjGskBzAqwitWBcUDUMwJQSGiTi4GFK+ZUAl0zafii0baMiU3Khm/N+ibgLOQnVrrSugbofYy83q1QFj8zJkTDg5AXIY2akBLHMFc1n7xWwSQg/CsfaFippVFwpK02RmY6zSvL1kdqrOKt7MJy/qfTG6iGo4wB7/k6snzqFfKg7EFJ7vv5tY2OVkp8cUI4vMoFIP/nINGgm3lGXW80Ou0f6Xg7QlXmnlFQ==",version="1"
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="mtYtp05ImnjGud3Tj9RsKHcz48MIT+PgrM+c8Do9Adb+T6/mJuIY5+0fJla7GXHmHLKwIhHzqMhzko/C5A4LNJHIajU2BbxZrp2IpbqDJEdkhhzOdbMYn5OBmaqLFj5OInAvVMuRpY3+xZfkEW1psPLEH1tDtbxVEFPw9i4TLcfVUBwIfWtbfECoaj0LkHK709GSJu/0uhvzsJwjASLQzoTJiJdyceTZb/VLqdWBindNnIT9GY12OLEmYYRKqKXjPA5SaV3CEjxodtV5WKgzcuUHoDNIfy4AaYDOHv1exm5XAVZvj7aRrF2rjt6poBKgwjZkzK2aMGX6Q85Pp4hJSA==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - 25241593AC8840A8B71F490B94AA868A
+      - 0AD11495CA5D4390B41FD15D8CD252E1
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2019 20:34:05 GMT
+      - Sun, 20 Oct 2019 01:59:27 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1088'
+      - '504'
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - 25241593AC8840A8B71F490B94AA868A/B731417298DA40F7A7CE12850B19B7CF/2D6169E73D78445FA46F945CD4135C6E
+      - 0AD11495CA5D4390B41FD15D8CD252E1/CC5130CD43A74142A3EDF60E1EC1397E/8D0E726C39EC472A85C1F0E216934CDA
       Etag:
-      - '"675ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
+      - '"809ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf#application/json--gzip"'
       Opc-Total-Items:
-      - '23'
+      - '8'
       Vary:
       - Accept-Encoding
     body:
       encoding: ASCII-8BIT
-      string: '{"items":[{"domain":"one_of_these_should_remain.test.recordstore.io","recordHash":"3153836c43e27b679201633d1007bf65","isProtected":false,"rdata":"20.20.20.20","rrsetVersion":"653","rtype":"A","ttl":600},{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
-        hostmaster.test.recordstore.io. 675 3600 600 604800 1800","rrsetVersion":"675","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_add_a.test.recordstore.io","recordHash":"be15e9b06c54272d90b79843a017382c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"634","rtype":"A","ttl":600},{"domain":"test_add_alias.test.recordstore.io","recordHash":"14b59fe0495c7e289fb1fe5b6b4d262c","isProtected":false,"rdata":"recordstore.com.","rrsetVersion":"648","rtype":"ALIAS","ttl":600},{"domain":"test_add_caa.test.recordstore.io","recordHash":"7ed4fb48e23f82b37a365fde24fcf2de","isProtected":false,"rdata":"0
-        issue \"shopify.com\"","rrsetVersion":"635","rtype":"CAA","ttl":600},{"domain":"test_add_changeset.test.recordstore.io","recordHash":"32cb338273b00668dd007e8eb4c92f3d","isProtected":false,"rdata":"10.10.10.42","rrsetVersion":"643","rtype":"A","ttl":600},{"domain":"test_add_cname.test.recordstore.io","recordHash":"319f0644572fe2dead9970acb0732271","isProtected":false,"rdata":"test.recordstore.io.","rrsetVersion":"646","rtype":"CNAME","ttl":600},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"4f317640ca5af17d3239c5659aa20d49","isProtected":false,"rdata":"10.10.10.65","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_multiple_changesets.test.recordstore.io","recordHash":"706d2dbc88f60cab4725aad899a8c2bb","isProtected":false,"rdata":"10.10.10.70","rrsetVersion":"629","rtype":"A","ttl":1200},{"domain":"test_add_mx.test.recordstore.io","recordHash":"ee70a2c453293978ad791978e226d57d","isProtected":false,"rdata":"10
-        mxa.mailgun.org.","rrsetVersion":"649","rtype":"MX","ttl":600},{"domain":"test_add_ns.test.recordstore.io","recordHash":"31fc460a0652837f2f2c29a8be6e004c","isProtected":false,"rdata":"ns_test.p68.dns.oraclecloud.net.","rrsetVersion":"632","rtype":"NS","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"6fe2b1badcc6efaa141a0c4ab8898f57","isProtected":false,"rdata":"1
-        2 3 spf.shopify.com.","rrsetVersion":"623","rtype":"SRV","ttl":600},{"domain":"test_add_spf.test.recordstore.io","recordHash":"98ccd1a06645015e86d50041e28c24db","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"647","rtype":"SPF","ttl":600},{"domain":"test_add_txt.test.recordstore.io","recordHash":"b6d2d31bb74e1a21fe8873aa3e347e5d","isProtected":false,"rdata":"\"Hello
-        World!\"","rrsetVersion":"633","rtype":"TXT","ttl":600},{"domain":"test_update_changeset.test.recordstore.io","recordHash":"ca488b555811a2463691d42832c9b3c5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"673","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"04dca340f66aa8fd3c2fdaa4a7c19ec5","isProtected":false,"rdata":"10.10.10.49","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"94ce954eec7a09889bff4f8b09e1ef83","isProtected":false,"rdata":"10.10.10.48","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_update_changeset_multiples.test.recordstore.io","recordHash":"a032e07920fb5a93c95c3ea067dde3be","isProtected":false,"rdata":"10.10.10.50","rrsetVersion":"671","rtype":"A","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"16ba3e9b01077b58e577def12f340d0c","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"675","rtype":"A","ttl":10}]}
+      string: '{"items":[{"domain":"test.recordstore.io","recordHash":"310c67902c922a120f57be281f18cbbf","isProtected":true,"rdata":"ns4.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"3cd20f2c5f00d5d32490ed469d5bdfca","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.
+        hostmaster.test.recordstore.io. 809 3600 600 604800 1800","rrsetVersion":"809","rtype":"SOA","ttl":300},{"domain":"test.recordstore.io","recordHash":"4c2fa92cd5f92000ca884da52cab98a3","isProtected":true,"rdata":"ns1.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"9ad655bf964bdd3bab3bd00e8a85ca3a","isProtected":true,"rdata":"ns2.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test.recordstore.io","recordHash":"a233c1ceab46c9e4e04f82910297b6ed","isProtected":true,"rdata":"ns3.p68.dns.oraclecloud.net.","rrsetVersion":"1","rtype":"NS","ttl":86400},{"domain":"test_remove_first_from_two_a_records_changeset.test.recordstore.io","recordHash":"0fcac14a69f25022df6b1ddc2ac9d307","isProtected":false,"rdata":"70.70.70.77","rrsetVersion":"804","rtype":"A","ttl":600},{"domain":"test_remove_first_from_two_txt_records_changeset.test.recordstore.io","recordHash":"a6b3277747045ccf882fb9fe11dbcba9","isProtected":false,"rdata":"\"text
+        2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"4956667caf7bb85c691e5c5237be57e5","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"809","rtype":"A","ttl":10}]}
 
         '
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 20:34:05 GMT
+  recorded_at: Sun, 20 Oct 2019 01:59:27 GMT
 recorded_with: VCR 5.0.0

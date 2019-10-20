@@ -1,4 +1,5 @@
 require 'oci'
+require 'byebug'
 
 module RecordStore
   class Provider::OracleCloudDNS < Provider
@@ -68,12 +69,11 @@ module RecordStore
         found_record = client.get_zone_records(
           zone,
           rtype: record.type,
-          zone_version: client.get_zone(zone).data.version,
           domain: record_fqdn,
-        ).data.items.last
+        ).data.items.select { |r| r.record_hash if r.rdata == record.rdata_txt }
 
         return unless found_record
-        record_hash = found_record.record_hash
+        record_hash = found_record.first.record_hash if found_record.length == 1
         patch_remove_record = [
           OCI::Dns::Models::RecordOperation.new(
             domain: record_fqdn,
@@ -100,10 +100,7 @@ module RecordStore
         record_fqdn = Record.ensure_ends_without_dot(record.fqdn)
 
         # Retrieve all records that you want to keep before it's updated because it will overwrite
-        all_records = []
-        client.get_zone_records(zone).each do |response|
-          all_records += response.data.items
-        end
+        all_records = client.get_zone_records(zone).map(&:data).map(&:items).flatten
 
         update_zone_record_items = all_records.map do |r|
           OCI::Dns::Models::RecordDetails.new(
@@ -165,9 +162,9 @@ module RecordStore
         when 'NS'
           record[:nsdname] = api_record.rdata
         when 'SPF', 'TXT'
-          record.merge!(txtdata: Record.unquote(api_record.rdata))
+          record[:txtdata] = Record.unquote(api_record.rdata)
         when 'SRV'
-          priority, weight, port, host = api_record.rdata.split(' ')
+          priority, weight, port, host = api_record.rdata.split
           record[:priority] = priority.to_i
           record[:weight] = weight.to_i
           record[:port] = port.to_i

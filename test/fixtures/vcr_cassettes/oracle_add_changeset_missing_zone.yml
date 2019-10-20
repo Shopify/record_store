@@ -14,25 +14,25 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 17 Oct 2019 19:29:21 GMT
+      - Sun, 20 Oct 2019 02:00:19 GMT
       Content-Length:
       - '139'
       X-Content-Sha256:
       - g0ZdzuxADPyBVtyCZJ9KTFz4poXmEbTPk8dOM9gvNv4=
       Authorization:
       - Signature headers="date (request-target) host content-length content-type
-        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="tx9QLit+jxGxOZs9bWJHZRzXwKOLFrLPkOhwDiA2R4/mFmi8AzjB4oAuCnAMiLP86XsTWqFIGvo7WvKwNgyxLd3y6J/ul94smhbzBmLfkeIDRjxSiyrZasm/4OQYm0okYSPrhIVA0XWZ8ykhCNQPT1IdTQt8VNM7+NptqAJcnHyWbstwF30V0qbYSAU0G1qgQdEhSAnK4JCsTzfkl8kL2qCjfD2sNl3PvbcN0PWcb07GKrryHAlvbK5OUFb8WRhSrlwZkQGZppzTdzlsf7VrzgsNdvOYFnHqSpTeUbZDicvemzqHu9zRw68My1g4XIZ6plnF73xjJ8lWB9/s1QLdzQ==",version="1"
+        x-content-sha256",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="CUPjEQETmcliUmoAlQOhla3DK/gc+IP9TJWmtgLkJLCF/vqJ4ApVh0McmOg7wEZauSNIASKap6blT5C/eZSdNmHrt8T1ekdiPEsTpShpL0S+6+lzka5CyNvzj/3xqd8F/ItUvjjjopOw1jYMPyVB87Ju5ImaATKLlJrVHEysPmmqPOZ3hQK4drXhiu0DoSUd7uWzf8qopPFo3vka2qDknSuJEarederboY4yiEFVtm5MUynssuF1+dL0AkYg/uVSxCumtut/Gz4Cl5gGEzUb1Rz/bGLE2I/6UKYwlsWUhEgeDHxVhocDaxI80gdFDIR6R7OryJoJHMOR+KIurktDSg==",version="1"
       Opc-Client-Info:
       - Oracle-RubySDK/2.6.0
       Opc-Request-Id:
-      - F09834CBE8494536BD9DEB05DD538F19
+      - EDA89020F4DF4E2BA3E2572326618413
   response:
     status:
       code: 404
       message: Not Found
     headers:
       Date:
-      - Thu, 17 Oct 2019 19:29:22 GMT
+      - Sun, 20 Oct 2019 02:00:20 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -40,7 +40,7 @@ http_interactions:
       Connection:
       - keep-alive
       Opc-Request-Id:
-      - F09834CBE8494536BD9DEB05DD538F19/FF9522CE20EE4CB09A464B9EA7449B24/EC0EC5DFEFDD44B2AB29E61DAB3036DF
+      - EDA89020F4DF4E2BA3E2572326618413/67B063E8DCA04D499C56F76457837DCB/CB27ECA2E38440FB81A1ACD2637B446F
     body:
       encoding: UTF-8
       string: '{"code":"NotAuthorizedOrNotFound","message":"Authorization failed or
@@ -48,5 +48,5 @@ http_interactions:
 
         '
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 19:29:22 GMT
+  recorded_at: Sun, 20 Oct 2019 02:00:20 GMT
 recorded_with: VCR 5.0.0
