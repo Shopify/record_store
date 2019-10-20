@@ -70,7 +70,7 @@ module RecordStore
           zone,
           rtype: record.type,
           domain: record_fqdn,
-        ).data.items.select { |r| r.record_hash if r.rdata == record.rdata_txt }
+        ).data.items.select { |r| r.rdata == record.rdata_txt }
 
         return unless found_record
         record_hash = found_record.first.record_hash if found_record.length == 1
