@@ -42,6 +42,30 @@ class OracleCloudDNSTest < Minitest::Test
     end
   end
 
+  def test_add_same_two_txt_but_only_one_stores_changesets
+    records = [
+      Record::TXT.new(fqdn: 'test_add_same_two_txt_changesets.test.recordstore.io', ttl: 1200, txtdata: 'same text'),
+      Record::TXT.new(fqdn: 'test_add_same_two_txt_changesets.test.recordstore.io', ttl: 1200, txtdata: 'same text'),
+    ]
+
+    VCR.use_cassette('oracle_add_same_two_txt_changesets') do
+      @oracle_cloud_dns.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: records,
+        provider: @oracle_cloud_dns,
+        zone: @zone_name
+      ))
+      current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
+      contains_desired_record = [] << current_records.any? do |current_record|
+        current_record.is_a?(Record::TXT) &&
+          records[0].fqdn == current_record.fqdn &&
+          records[0].ttl == current_record.ttl &&
+          records[0].txtdata == current_record.txtdata
+      end
+      assert contains_desired_record.length == 1
+    end
+  end
+
   def test_add_changeset_with_nil_zone
     record = Record::A.new(
       fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io',

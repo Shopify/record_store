@@ -1,5 +1,4 @@
 require 'oci'
-require 'byebug'
 
 module RecordStore
   class Provider::OracleCloudDNS < Provider
