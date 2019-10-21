@@ -55,11 +55,39 @@ For a breakdown of what each permission allows read through [DynECT's permission
 
 ### Google Cloud DNS
 
-In order to use Google Cloud DNS, you'll need to add the `Project ID` and `Service Account Credentials` to `secrets.json`. The `Service Account Credentials` is a JSON format file that you need to generate on Google Cloud Platform. You can find more details about the authentication from [here](https://googleapis.dev/ruby/google-cloud-dns/latest/file.AUTHENTICATION.html).
+In order to use Google Cloud DNS, you'll need to add the `Service Account Credentials` to `secrets.json`. The `Service Account Credentials` is a JSON format file that you need to generate on Google Cloud Platform. You can find more details about the authentication from [here](https://googleapis.dev/ruby/google-cloud-dns/latest/file.AUTHENTICATION.html).
+
+Here's an exmaple of the JSON format file and you can simply copy all information and paste to `google_cloud_dns`'s key in `secrets.json`.
+```json
+{
+"type": "service_account",
+"project_id": "[PROJECT-ID]",
+"private_key_id": "[KEY-ID]",
+"private_key": "-----BEGIN PRIVATE KEY-----\n[PRIVATE-KEY]\n-----END PRIVATE KEY-----\n",
+"client_email": "[SERVICE-ACCOUNT-EMAIL]",
+"client_id": "[CLIENT-ID]",
+"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+"token_uri": "https://accounts.google.com/o/oauth2/token",
+"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/[SERVICE-ACCOUNT-EMAIL]"
+}
+```
 
 ### NS1
 
-To use NS1, you'll need the API key generated from `Account Settings` on NS1 website and add the key to `secrets.json`.
+To use NS1, you'll need the API key generated from `Account Settings` on NS1 website and add the generated API to `ns1` in `secrets.json`.
+
+### Oracle Cloud Infrastructure
+
+In order to use OCI, you'll need to add the `compartment_id`, `user`, `fingerprint`, `key_content`, `tenancy`, and `region` to `secrets.json`.
+
+For the `compartment_id`, you want to check `Compartment Details` from `Compartments` in `Identity` on the website, and it starts with `ocid1.compartment.oci..` or `ocid1.tenancy.oci..`.
+
+`user` will be found in `User Details` from `Users` in `Identity` on the website, and it starts with `ocid1.user.oc1..`.
+
+Regarding `fingerprint` and `key_content`, you'll need to generate an API Signing Key (key pair) by following [these steps](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm).
+
+`tenancy` and `region` are in the Profile menu. `tenancy` starts with `ocid1.tenancy.oc1..`.
 
 ----
 
