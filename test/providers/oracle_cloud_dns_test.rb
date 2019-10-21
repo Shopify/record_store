@@ -215,6 +215,46 @@ class OracleCloudDNSTest < Minitest::Test
     end
   end
 
+  def test_remove_second_from_two_txt_records_changeset
+    records = [
+      Record::TXT.new(
+        fqdn: 'test_remove_second_from_two_txt_records_changeset.test.recordstore.io',
+        ttl: 1200,
+        txtdata: 'text 1'
+      ),
+      Record::TXT.new(
+        fqdn: 'test_remove_second_from_two_txt_records_changeset.test.recordstore.io',
+        ttl: 1200,
+        txtdata: 'text 2'
+      ),
+    ]
+
+    VCR.use_cassette('oracle_remove_second_from_two_txt_records_changesets') do
+      @oracle_cloud_dns.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: records,
+        provider: @oracle_cloud_dns,
+        zone: @zone_name
+      ))
+
+      @oracle_cloud_dns.apply_changeset(Changeset.new(
+        current_records: records,
+        desired_records: [records[0]],
+        provider: @oracle_cloud_dns,
+        zone: @zone_name
+      ))
+      current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
+
+      contains_desired_record = current_records.any? do |current_record|
+        current_record.is_a?(Record::TXT) &&
+          records[0].fqdn == current_record.fqdn &&
+          records[0].ttl == current_record.ttl &&
+          records[0].txtdata == current_record.txtdata
+      end
+      assert contains_desired_record
+    end
+  end
+
   def test_record_retrieved_after_adding_record_changeset
     record = Record::A.new(fqdn: 'test_add_a.test.recordstore.io', ttl: 600, address: '10.10.10.1')
 
