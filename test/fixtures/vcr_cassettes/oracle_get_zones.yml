@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones?compartmentId=<ORACLE_CLOUD_DNS_COMPARTMENT_ID>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 20 Oct 2019 01:57:48 GMT
+      Authorization:
+      - Signature headers="date (request-target) host",keyId="<ORACLE_CLOUD_DNS_COMPARTMENT_ID>/<ORACLE_CLOUD_DNS_USER>/<ORACLE_CLOUD_DNS_FINGERPRINT>",algorithm="rsa-sha256",signature="LtNoyvjvOHECTwk9lJdKA20TstBeWJfBrmb6bR7eRABfdfyv98OX3ouyPAXOQrdakKapW1zjEugalwIh4+fO0PXM4NCocHe+eivA2O54trCAIo+LSa+8ImG3/+tmKMLOpmk6nMIoXDpwl7491eIapmEKxUG3lUZNP+ZKQMduTECoeEvnLXChgbCtsPOyy0v3PX/DMBfgqB81q3qqkrW6peXzY5X5ciiO5TXd9nwD8zb9UBBLVbVZo07Du8LaQczGwYz8M4ttMoHYmdzN1L68GK0DbKNZ/IEZDGfNHFiqDHU5SIUnMF6s04gtZbZDBUaS5xWEsLp6fGDTqD25nc2VKw==",version="1"
+      Opc-Client-Info:
+      - Oracle-RubySDK/2.6.0
+      Opc-Request-Id:
+      - CA24E541A15140A58AD1FDF05824A871
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 20 Oct 2019 01:57:51 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '479'
+      Connection:
+      - keep-alive
+      Opc-Request-Id:
+      - CA24E541A15140A58AD1FDF05824A871/C9BF18A2F5BA4DD3A69613731A1EBF8F/BD9C4D50F5BB4D1596440CA9F0694A51
+      Opc-Total-Items:
+      - '4'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"zoneType":"PRIMARY","name":"test.terraform.chrome","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.terraform.chrome","timeCreated":"2019-10-17T20:16:45Z","version":"5","serial":5,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..a3b7caf52d624797b5c2ed7dffb55216","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.io","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io","timeCreated":"2019-10-10T17:24:05Z","version":"799","serial":799,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.chrome","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.chrome","timeCreated":"2019-10-07T15:33:43Z","version":"7","serial":7,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..45a5e96b9bf7434e8b441d6b6208681c","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"shopify-test.com","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/shopify-test.com","timeCreated":"2019-09-25T20:22:20Z","version":"1","serial":1,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..3d13ad9087ba46bda815695da88a4482","lifecycleState":"ACTIVE"}]
+
+        '
+    http_version: 
+  recorded_at: Sun, 20 Oct 2019 01:57:51 GMT
+recorded_with: VCR 5.0.0

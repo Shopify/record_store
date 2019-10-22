@@ -46,6 +46,10 @@ module RecordStore
         fqdn.end_with?(".") ? fqdn : "#{fqdn}."
       end
 
+      def ensure_ends_without_dot(fqdn)
+        fqdn.sub(/\.$/, '')
+      end
+
       def needs_long_quotes?(value)
         value.length > 255 && value !~ /^((\\)?"((\\"|[^"])){1,255}(\\)?"\s*)+$/
       end

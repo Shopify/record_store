@@ -37,6 +37,14 @@ class Minitest::Test
       api_token
       base_url
     ),
+    'oracle_cloud_dns' => %w(
+      compartment_id
+      user
+      fingerprint
+      key_content
+      tenancy
+      region
+    ),
   }
 
   VCR.configure do |config|
@@ -96,12 +104,20 @@ class Minitest::Test
         interaction.request.body
       end
     end
+
+    config.filter_sensitive_data('<ORACLE_CLOUD_DNS_COMPARTMENT_ID>') do |interaction|
+      next unless interaction.request.uri =~ /oraclecloud/
+      if (auth_token = interaction.request.headers['ORACLE_CLOUD_DNS_COMPARTMENT_ID']).present?
+        auth_token.first
+      end
+    end
   end
 
   def teardown
     Provider::DynECT.instance_variable_set(:@dns, nil)
     Provider::DNSimple.instance_variable_set(:@dns, nil)
     Provider::GoogleCloudDNS.instance_variable_set(:@dns, nil)
+    Provider::OracleCloudDNS.instance_variable_set(:@dns, nil)
   end
 
   def build_record_store_config(
