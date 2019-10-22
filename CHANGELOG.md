@@ -1,4 +1,7 @@
 # CHANGELOG
+## 5.7.0
+- add OCI library as runtime dependency [FEATURE]
+
 ## 5.6.0
 - add OCI provider [FEATURE]
 
