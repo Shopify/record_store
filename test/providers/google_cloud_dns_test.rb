@@ -151,6 +151,23 @@ class GoogleCloudDNSTest < Minitest::Test
     assert_equal(60, record.ttl)
   end
 
+  def test_build_long_txt_from_api
+    record = Provider::GoogleCloudDNS.send(
+      :build_from_api,
+      Google::Cloud::Dns::Record.new(
+        'txt.dns-test.shopify.io.',
+        'TXT',
+        60,
+        ['"' + "a" * 255 + '" "' + "a" * 45 + '"']
+      )
+    )
+
+    assert_kind_of(Record::TXT, record)
+    assert_equal('txt.dns-test.shopify.io.', record.fqdn)
+    assert_equal('a' * 300, record.txtdata)
+    assert_equal(60, record.ttl)
+  end
+
   def test_build_soa_from_api
     record = Provider::GoogleCloudDNS.send(
       :build_from_api,

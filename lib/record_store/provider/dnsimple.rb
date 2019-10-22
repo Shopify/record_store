@@ -138,7 +138,6 @@ module RecordStore
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
           record_hash[:priority] = record.priority
         end
-
         record_hash
       end
     end

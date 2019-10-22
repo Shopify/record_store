@@ -17,7 +17,21 @@ module RecordStore
       end
 
       def quote(value)
-        %("#{escape(value)}")
+        result = escape(value)
+        %("#{result}")
+      end
+
+      def long_quote(value)
+        result = value
+        if needs_long_quotes?(value)
+          result = unquote(value).scan(/.{1,255}/).join('" "')
+          result = %("#{result}")
+        end
+        result
+      end
+
+      def unlong_quote(value)
+        value.length > 255 ? value.scan(/.{1,258}/).map { |x| x.sub(/^\"/, "").sub(/\" ?$/, "") }.join : unquote(value)
       end
 
       def unescape(value)
@@ -32,8 +46,8 @@ module RecordStore
         fqdn.end_with?(".") ? fqdn : "#{fqdn}."
       end
 
-      def ensure_ends_without_dot(fqdn)
-        fqdn.sub(/\.$/, '')
+      def needs_long_quotes?(value)
+        value.length > 255 && value !~ /^((\\)?"((\\"|[^"])){1,255}(\\)?"\s*)+$/
       end
     end
 

@@ -72,6 +72,14 @@ class RecordTest < Minitest::Test
     refute_predicate(Record::A.new(fqdn: ("a." * 126) + "com.", ttl: 600, address: '10.11.12.13'), :valid?) # over 254
   end
 
+  def test_validates_txt_length
+    default_txt = { fqdn: "example.com.", ttl: 600 }
+
+    assert_predicate(Record::TXT.new(default_txt.merge(txtdata: ("a" * 255))), :valid?)
+
+    refute_predicate(Record::TXT.new(default_txt.merge(txtdata: ('"aa" ' * 5000))), :valid?)
+  end
+
   def test_validates_escaped_txtdata
     default_txt = { fqdn: "example.com.", ttl: 600 }
 
@@ -279,5 +287,21 @@ class RecordTest < Minitest::Test
 
   def test_unquote_value
     assert_equal('text with "quotes"', Record.unquote('"text with \"quotes\""'))
+  end
+
+  def test_unlong_quote_value
+    assert_equal('text with "quotes"', Record.unlong_quote('"text with \"quotes\""'))
+    assert_equal(("a" * 265), Record.unlong_quote('"' + ("a" * 255) + '" "' + ("a" * 10) + '"'))
+    assert_equal(("a" * 600), Record.unlong_quote('"' + ("a" * 255) + '" ' \
+                  + '"' + ("a" * 255) + '" ' + '"' + ("a" * 90)))
+    assert_equal(("a" * 600), Record.unlong_quote(Record.quote(("a" * 600))))
+    assert_equal(("a" * 600), Record.unlong_quote("a" * 600))
+  end
+
+  def test_long_quote_value
+    assert_equal('short text with "quotes"', Record.long_quote('short text with "quotes"'))
+    assert_equal(Record.long_quote("a" * 265), '"' + ("a" * 255) + '" "' + ("a" * 10) + '"')
+    assert_equal(Record.long_quote("a" * 600), '"' + ("a" * 255) + '" "' \
+                  + ("a" * 255) + '" "' + ("a" * 90) + '"')
   end
 end
