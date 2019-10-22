@@ -2,7 +2,7 @@ module RecordStore
   class Record::TXT < Record
     attr_accessor :txtdata
 
-    validates :txtdata, presence: true, length: { maximum: 255 }
+    validates :txtdata, presence: true, length: { maximum: 4096 }
     validate :escaped_semicolons
 
     def initialize(record)
