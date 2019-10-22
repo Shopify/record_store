@@ -88,7 +88,7 @@ module RecordStore
 
       def api_rdata(record)
         case record.type
-        when 'TXT'
+        when 'SPF', 'TXT'
           { txtdata: Record.long_quote(record.rdata_txt) }
         else
           record.rdata
