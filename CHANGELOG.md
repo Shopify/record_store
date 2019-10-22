@@ -1,4 +1,9 @@
 # CHANGELOG
+## 5.6.0
+- add OCI provider [FEATURE]
+
+## 5.5.3
+- add NS1 provider [FEATURE]
 
 ## 5.4.3
 - use fog-dynect 0.4.0 to avoid version override [REFACTOR]
