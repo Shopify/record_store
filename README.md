@@ -167,14 +167,14 @@ class Provider
   #
   # Arguments:
   # record - a kind of `Record`
-  def add(record)
+  def add(zone, record)
   end
 
   # Deletes an existing record from the zone. It is expected this call modifies external state.
   #
   # Arguments:
   # record - a kind of `Record`
-  def remove(record)
+  def remove(zone, record)
   end
 
   # Updates an existing record in the zone. It is expected this call modifies external state.
@@ -182,7 +182,7 @@ class Provider
   # Arguments:
   # id - provider specific ID of record to update
   # record - a kind of `Record` which the record with `id` should be updated to
-  def update(id, record)
+  def update(zone, id, record)
   end
 end
 ```
