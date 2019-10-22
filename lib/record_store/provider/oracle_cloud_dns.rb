@@ -72,22 +72,27 @@ module RecordStore
         ).data.items.select { |r| r.rdata == record.rdata_txt }
 
         return unless found_record
-        record_hash = found_record.first.record_hash if found_record.length == 1
-        patch_remove_record = [
-          OCI::Dns::Models::RecordOperation.new(
-            domain: record_fqdn,
-            record_hash: record_hash,
-            rtype: record.type,
-            ttl: record.ttl,
-            rdata: record.rdata_txt,
-            operation: 'REMOVE',
-          ),
-        ]
+        begin
+          record_hash = found_record.first.record_hash if found_record.length == 1
+        rescue NoMethodError
+          puts "No matching record to remove: #{record_fqdn}, #{record.type}"
+        else
+          patch_remove_record = [
+            OCI::Dns::Models::RecordOperation.new(
+              domain: record_fqdn,
+              record_hash: record_hash,
+              rtype: record.type,
+              ttl: record.ttl,
+              rdata: record.rdata_txt,
+              operation: 'REMOVE',
+            ),
+          ]
 
-        client.patch_zone_records(
-          zone,
-          OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_remove_record)
-        )
+          client.patch_zone_records(
+            zone,
+            OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_remove_record)
+          )
+        end
       end
 
       # Updates an existing record in the zone. It is expected this call modifies external state.
