@@ -2,6 +2,9 @@
 ## 5.6.0
 - add OCI provider [FEATURE]
 
+## 5.5.4
+- add long TXT record support (with quotes around 255 char long strings, depending on provider) [FEATURE]
+
 ## 5.5.3
 - add NS1 provider [FEATURE]
 
