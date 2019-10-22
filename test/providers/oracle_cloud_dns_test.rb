@@ -147,7 +147,7 @@ class OracleCloudDNSTest < Minitest::Test
         provider: @oracle_cloud_dns,
         zone: @zone_name
       ))
-    current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
+      current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
       contains_desired_record = current_records.none? do |current_record|
         current_record.is_a?(Record::A) &&
