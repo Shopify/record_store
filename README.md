@@ -53,6 +53,42 @@ In addition, the `AliasService` permission is required to be able to read or wri
 
 For a breakdown of what each permission allows read through [DynECT's permissions guide](https://help.dyn.com/user-and-group-permissions/).
 
+### Google Cloud DNS
+
+In order to use Google Cloud DNS, you'll need to add the `Service Account Credentials` to `secrets.json`. The `Service Account Credentials` is a JSON format file that you need to generate on Google Cloud Platform. You can find more details about the authentication from [here](https://googleapis.dev/ruby/google-cloud-dns/latest/file.AUTHENTICATION.html).
+
+Here's an example of the JSON format file. You can simply copy all information and paste to `secrets.json` under the key, `google_cloud_dns`.
+```json
+{
+"type": "service_account",
+"project_id": "[PROJECT-ID]",
+"private_key_id": "[KEY-ID]",
+"private_key": "-----BEGIN PRIVATE KEY-----\n[PRIVATE-KEY]\n-----END PRIVATE KEY-----\n",
+"client_email": "[SERVICE-ACCOUNT-EMAIL]",
+"client_id": "[CLIENT-ID]",
+"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+"token_uri": "https://accounts.google.com/o/oauth2/token",
+"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/[SERVICE-ACCOUNT-EMAIL]"
+}
+```
+
+### NS1
+
+To use NS1, you'll need the API key generated from `Account Settings` on NS1 website. Add the generated API to the value of the `api_key` key of the `ns1` object in `secrets.json`.
+
+### Oracle Cloud Infrastructure
+
+In order to use OCI, you'll need to add the `compartment_id`, `user`, `fingerprint`, `key_content`, `tenancy`, and `region` keys to `secrets.json`.
+
+To find the `compartment_id`, the value you need is available in the `Compartment Details`, that you can find by following the `Identity` menu on the website, and selecting the `Compartments` menu. The value you want starts with `ocid1.compartment.oci..` or `ocid1.tenancy.oci..`.
+
+The `user` will be found in the `User Details`, that you can find by following the `Users` on the website, and selecting the `Identity` menu on the website, and the value starts with `ocid1.user.oc1..`.
+
+Regarding the `fingerprint` and `key_content`, you'll need to generate an API Signing Key (key pair) by following [these steps](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm).
+
+The `tenancy` and `region` are in the `Profile` menu. The `tenancy` starts with `ocid1.tenancy.oc1..`.
+
 ----
 
 # Architecture
@@ -131,14 +167,14 @@ class Provider
   #
   # Arguments:
   # record - a kind of `Record`
-  def add(record)
+  def add(zone, record)
   end
 
   # Deletes an existing record from the zone. It is expected this call modifies external state.
   #
   # Arguments:
   # record - a kind of `Record`
-  def remove(record)
+  def remove(zone, record)
   end
 
   # Updates an existing record in the zone. It is expected this call modifies external state.
@@ -146,7 +182,7 @@ class Provider
   # Arguments:
   # id - provider specific ID of record to update
   # record - a kind of `Record` which the record with `id` should be updated to
-  def update(id, record)
+  def update(zone, id, record)
   end
 end
 ```
