@@ -57,7 +57,7 @@ For a breakdown of what each permission allows read through [DynECT's permission
 
 In order to use Google Cloud DNS, you'll need to add the `Service Account Credentials` to `secrets.json`. The `Service Account Credentials` is a JSON format file that you need to generate on Google Cloud Platform. You can find more details about the authentication from [here](https://googleapis.dev/ruby/google-cloud-dns/latest/file.AUTHENTICATION.html).
 
-Here's an exmaple of the JSON format file and you can simply copy all information and paste to `secrets.json`.
+Here's an example of the JSON format file. You can simply copy all information and paste to `secrets.json` under the key, `google_cloud_dns`.
 ```json
 {
 "type": "service_account",
@@ -75,19 +75,19 @@ Here's an exmaple of the JSON format file and you can simply copy all informatio
 
 ### NS1
 
-To use NS1, you'll need the API key generated from `Account Settings` on NS1 website and add the generated API to `ns1` in `secrets.json`.
+To use NS1, you'll need the API key generated from `Account Settings` on NS1 website. Add the generated API to the value of the `api_key` key of the `ns1` object in `secrets.json`.
 
 ### Oracle Cloud Infrastructure
 
-In order to use OCI, you'll need to add the `compartment_id`, `user`, `fingerprint`, `key_content`, `tenancy`, and `region` to `secrets.json`.
+In order to use OCI, you'll need to add the `compartment_id`, `user`, `fingerprint`, `key_content`, `tenancy`, and `region` keys to `secrets.json`.
 
-For the `compartment_id`, you want to check `Compartment Details` from `Compartments` in `Identity` on the website, and it starts with `ocid1.compartment.oci..` or `ocid1.tenancy.oci..`.
+To find the `compartment_id`, the value you need is available in the `Compartment Details`, that you can find by following the `Identity` menu on the website, and selecting the `Compartments` menu. The value you want starts with `ocid1.compartment.oci..` or `ocid1.tenancy.oci..`.
 
-The `user` will be found in `User Details` from `Users` in `Identity` on the website, and it starts with `ocid1.user.oc1..`.
+The `user` will be found in the `User Details`, that you can find by following the `Users` on the website, and selecting the `Identity` menu on the website, and the value starts with `ocid1.user.oc1..`.
 
 Regarding the `fingerprint` and `key_content`, you'll need to generate an API Signing Key (key pair) by following [these steps](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm).
 
-The `tenancy` and `region` are in the Profile menu. The `tenancy` starts with `ocid1.tenancy.oc1..`.
+The `tenancy` and `region` are in the `Profile` menu. The `tenancy` starts with `ocid1.tenancy.oc1..`.
 
 ----
 
