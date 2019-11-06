@@ -1,4 +1,7 @@
 # CHANGELOG
+## 5.8.0
+- add API rate limit for NS1 provider [FEATURE]
+
 ## 5.7.0
 - add OCI library as runtime dependency [FEATURE]
 

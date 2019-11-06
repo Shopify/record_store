@@ -1,10 +1,12 @@
 require_relative 'ns1/client'
+require 'limiter'
 
 module RecordStore
   class Provider::NS1 < Provider
     class Error < StandardError; end
 
     class << self
+      include Limiter
       def client
         Provider::NS1::Client.new(api_key: secrets['api_key'])
       end
@@ -13,6 +15,7 @@ module RecordStore
       #
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
+        limiter_for_get_api
         full_api_records = records_for_zone(zone).map do |short_record|
           client.record(
             zone: zone,
@@ -27,6 +30,7 @@ module RecordStore
 
       # Returns an array of the zones managed by provider as strings
       def zones
+        limiter_for_get_api
         client.zones.map { |zone| zone['zone'] }
       end
 
@@ -34,6 +38,7 @@ module RecordStore
 
       # Fetches simplified records for the provided zone
       def records_for_zone(zone)
+        limiter_for_get_api
         client.zone(zone)["records"]
       end
 
@@ -42,6 +47,7 @@ module RecordStore
       # Arguments:
       # record - a kind of `Record`
       def add(record, zone)
+        limiter_for_post_or_put_api
         new_answers = [{ answer: build_api_answer_from_record(record) }]
 
         record_fqdn = record.fqdn.sub(/\.$/, '')
@@ -76,6 +82,7 @@ module RecordStore
       # Arguments:
       # record - a kind of `Record`
       def remove(record, zone)
+        limiter_for_post_or_put_api
         record_fqdn = record.fqdn.sub(/\.$/, '')
 
         existing_record = client.record(
@@ -112,6 +119,7 @@ module RecordStore
       # id - provider specific ID of record to update
       # record - a kind of `Record` which the record with `id` should be updated to
       def update(id, record, zone)
+        limiter_for_post_or_put_api
         record_fqdn = record.fqdn.sub(/\.$/, '')
 
         existing_record = client.record(
@@ -218,6 +226,23 @@ module RecordStore
 
       def secrets
         super.fetch('ns1')
+      end
+
+      def limiter_ratequeue_initializing
+        if @queue.nil?
+          @queue = RateQueue.new(10000, interval: 3600)
+        end
+      end
+
+      def limiter_for_get_api
+        limiter_ratequeue_initializing
+        @queue.shift
+      end
+
+      def limiter_for_post_or_put_api
+        limiter_ratequeue_initializing
+        # POST or PUT API is three times expensive than GET API
+        3.times { @queue.shift }
       end
     end
   end
