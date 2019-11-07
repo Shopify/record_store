@@ -17,22 +17,24 @@ http_interactions:
       - Ruby
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       Date:
-      - Fri, 27 Sep 2019 19:35:05 GMT
+      - Thu, 07 Nov 2019 22:12:21 GMT
       Content-Type:
       - application/json
-      Content-Length:
-      - '31'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=da6440db960cfa81a75954ee3ee0fd7a11569612905; expires=Sat, 26-Sep-20
-        19:35:05 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=dee057a909df413261b0c2fd9805d9ed81573164741; expires=Fri, 06-Nov-20
+        22:12:21 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '895'
+      - '882'
+      Etag:
+      - W/"8861061cec3ad298f90629cb82bde9bd59f8cba7"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -43,27 +45,38 @@ http_interactions:
       - no-cache
       Cache-Control:
       - no-cache
+      - private, max-age=0, no-cache, no-store
       Expires:
       - '0'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubdomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
       Expect-Ct:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
       - cloudflare
       Cf-Ray:
-      - 51cfeb32cc9fab9a-YYZ
+      - 5322a5ef7d0fab76-YYZ
     body:
-      encoding: UTF-8
-      string: '{"message":"record not found"}
+      encoding: ASCII-8BIT
+      string: '{"domain":"test_add_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc4829dbbccf90001f272c4"},{"answer":["10.10.10.42"],"id":"5dc49466c94a9000012362c8"},{"answer":["10.10.10.42"],"id":"5dc49571f2abd00001902048"}],"id":"5dc4829dbbccf90001f272c5","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Fri, 27 Sep 2019 19:35:05 GMT
+  recorded_at: Thu, 07 Nov 2019 22:12:21 GMT
 - request:
-    method: put
+    method: post
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_changeset.test.recordstore.io/A
     body:
       encoding: UTF-8
-      string: '{"answers":[{"answer":["10.10.10.42"]}],"ttl":600,"zone":"test.recordstore.io","domain":"test_add_changeset.test.recordstore.io","type":"A"}'
+      string: '{"answers":[{"answer":["10.10.10.42"],"id":"5dc4829dbbccf90001f272c4"},{"answer":["10.10.10.42"],"id":"5dc49466c94a9000012362c8"},{"answer":["10.10.10.42"],"id":"5dc49571f2abd00001902048"},{"answer":["10.10.10.42"]}],"ttl":600}'
     headers:
       X-Nsone-Key:
       - "<NS1_API_KEY>"
@@ -81,7 +94,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 27 Sep 2019 19:35:05 GMT
+      - Thu, 07 Nov 2019 22:12:21 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -89,16 +102,16 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d82bc7cb0c868b1535ae59f680d9529661569612905; expires=Sat, 26-Sep-20
-        19:35:05 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d4b6562732cc7d2795fbee83e6af359851573164741; expires=Fri, 06-Nov-20
+        22:12:21 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '97'
+      - '299'
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
-      - '100'
+      - '300'
       X-Ratelimit-Period:
-      - '200'
+      - '300'
       Pragma:
       - no-cache
       Cache-Control:
@@ -114,17 +127,19 @@ http_interactions:
       - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=63072000; includeSubdomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
       Expect-Ct:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
       - cloudflare
       Cf-Ray:
-      - 51cfeb33e997ab46-YYZ
+      - 5322a5f05d15cac4-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5d8e6469f2abd00001fbac8a"}],"id":"5d8e6469f2abd00001fbac8b","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_add_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc4829dbbccf90001f272c4"},{"answer":["10.10.10.42"],"id":"5dc49466c94a9000012362c8"},{"answer":["10.10.10.42"],"id":"5dc49571f2abd00001902048"},{"answer":["10.10.10.42"],"id":"5dc496c5c9c79d0001c8ee22"}],"id":"5dc4829dbbccf90001f272c5","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Fri, 27 Sep 2019 19:35:05 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Thu, 07 Nov 2019 22:12:21 GMT
+recorded_with: VCR 5.0.0

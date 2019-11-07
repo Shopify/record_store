@@ -1,5 +1,7 @@
 require_relative 'ns1/client'
 require 'limiter'
+require 'net/http'
+require 'byebug'
 
 module RecordStore
   class Provider::NS1 < Provider
@@ -15,7 +17,7 @@ module RecordStore
       #
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
-        limiter_for_get_api
+        limiter_for_operation_api
         full_api_records = records_for_zone(zone).map do |short_record|
           client.record(
             zone: zone,
@@ -30,7 +32,7 @@ module RecordStore
 
       # Returns an array of the zones managed by provider as strings
       def zones
-        limiter_for_get_api
+        limiter_for_operation_api
         client.zones.map { |zone| zone['zone'] }
       end
 
@@ -38,7 +40,7 @@ module RecordStore
 
       # Fetches simplified records for the provided zone
       def records_for_zone(zone)
-        limiter_for_get_api
+        limiter_for_operation_api
         client.zone(zone)["records"]
       end
 
@@ -47,7 +49,7 @@ module RecordStore
       # Arguments:
       # record - a kind of `Record`
       def add(record, zone)
-        limiter_for_post_or_put_api
+        limiter_for_operation_api
         new_answers = [{ answer: build_api_answer_from_record(record) }]
 
         record_fqdn = record.fqdn.sub(/\.$/, '')
@@ -82,7 +84,7 @@ module RecordStore
       # Arguments:
       # record - a kind of `Record`
       def remove(record, zone)
-        limiter_for_post_or_put_api
+        limiter_for_operation_api
         record_fqdn = record.fqdn.sub(/\.$/, '')
 
         existing_record = client.record(
@@ -119,7 +121,7 @@ module RecordStore
       # id - provider specific ID of record to update
       # record - a kind of `Record` which the record with `id` should be updated to
       def update(id, record, zone)
-        limiter_for_post_or_put_api
+        limiter_for_operation_api
         record_fqdn = record.fqdn.sub(/\.$/, '')
 
         existing_record = client.record(
@@ -230,19 +232,24 @@ module RecordStore
 
       def limiter_ratequeue_initializing
         if @queue.nil?
-          @queue = RateQueue.new(10000, interval: 3600)
+          uri = URI('https://api.nsone.net/v1/monitoring/regions')
+          req = Net::HTTP::Get.new(uri)
+          req['X-NSONE-Key'] = secrets['api_key']
+          res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+            http.request(req)
+          end
+
+          ratelimit_limit = res.to_hash["x-ratelimit-limit"].first.to_i
+          ratelimit_period = res.to_hash["x-ratelimit-period"].first.to_i
+
+          ratelimit_per_second = ratelimit_limit / ratelimit_period
+          @queue = RateQueue.new(ratelimit_per_second, interval: 1)
         end
       end
 
-      def limiter_for_get_api
+      def limiter_for_operation_api
         limiter_ratequeue_initializing
         @queue.shift
-      end
-
-      def limiter_for_post_or_put_api
-        limiter_ratequeue_initializing
-        # POST or PUT API is three times expensive than GET API
-        3.times { @queue.shift }
       end
     end
   end
