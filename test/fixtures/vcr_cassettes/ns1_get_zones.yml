@@ -2,26 +2,26 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.nsone.net/v1/zones
+    uri: https://api.nsone.net/v1/monitoring/regions
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      X-Nsone-Key:
-      - "<NS1_API_KEY>"
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
       User-Agent:
       - Ruby
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
   response:
     status:
       code: 200
       message: OK
     headers:
       Date:
-      - Thu, 07 Nov 2019 22:13:27 GMT
+      - Fri, 08 Nov 2019 14:31:56 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -29,12 +29,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d1803092cddfdb9dc18e5f748f2c3a8d41573164806; expires=Fri, 06-Nov-20
-        22:13:26 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d77b9ef57317c57012528275699a6080f1573223516; expires=Sat, 07-Nov-20
+        14:31:56 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '730'
+      - '824'
       Etag:
-      - W/"035b4cd8b1f130840c0e5996c2657494abde8517"
+      - W/"b230bb083a76eeefc5985ad97c0c8e9188ba2eb4"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -63,12 +63,85 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 5322a78bbc54cabc-YYZ
+      - 532840e46c47ca9c-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '[{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"dev.recordstore.io","network_pools":["p07"],"serial":1569855698,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p07.nsone.net","dns2.p07.nsone.net","dns3.p07.nsone.net","dns4.p07.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p07.nsone.net","ttl":3600,"id":"5d921649bbccf90001ff95ee","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p07"},{"nx_ttl":60,"retry":7200,"dnssec":false,"zone":"ns1.shopify.io","network_pools":["p03"],"serial":1570482853,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p03.nsone.net","dns2.p03.nsone.net","dns3.p03.nsone.net","dns4.p03.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p03.nsone.net","ttl":60,"id":"5d715e23c94a900001192d45","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p03"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test-for-chris.recordstore.com","network_pools":["p06"],"serial":1572893652,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p06.nsone.net","ttl":3600,"id":"5dc073d4403d5d0001e05cb8","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p06"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.recordstore.chrome","network_pools":["p02"],"serial":1569963467,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p02.nsone.net","dns2.p02.nsone.net","dns3.p02.nsone.net","dns4.p02.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p02.nsone.net","ttl":3600,"id":"5d9250d5bbccf90001ffe1f8","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p02"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.recordstore.io","network_pools":["p03"],"serial":1573164804,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p03.nsone.net","dns2.p03.nsone.net","dns3.p03.nsone.net","dns4.p03.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p03.nsone.net","ttl":3600,"id":"5dc48265bbccf90001dc7e0a","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p03"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.yml.recordstore.io","network_pools":["p06"],"serial":1571861668,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p06.nsone.net","ttl":3600,"id":"5db0b4a4c9c79d000163dce4","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p06"},{"nx_ttl":1800,"retry":600,"dnssec":false,"zone":"tm2.shopifysvc.com","network_pools":["p07"],"serial":1571155013,"primary":{"enabled":false,"secondaries":[]},"refresh":3600,"expiry":604800,"dns_servers":["dns1.p07.nsone.net","dns2.p07.nsone.net","dns3.p07.nsone.net","dns4.p07.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p07.nsone.net","ttl":900,"id":"5da5ec45c94a900001a5c936","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p07"}]
+      string: '[{"subnets":["209.177.156.77/32","163.114.225.0/24","2620:4d:4031::/48"],"code":"dal","name":"Dallas"},{"subnets":["209.58.164.15/32","2001:df1:800:a103:6751::124/128","163.114.227.0/24","2620:4d:4034::/48"],"code":"sin","name":"Singapore"},{"subnets":["147.75.68.120/29","163.114.226.0/24","2620:4d:4030::/48"],"code":"sjc","name":"San
+        Jose"},{"subnets":["147.75.66.200/29","163.114.224.0/24","2620:4d:4032::/48"],"code":"lga","name":"New
+        York"},{"subnets":["147.75.80.32/29","163.114.228.0/24","2620:4d:4033::/48"],"code":"ams","name":"Amsterdam"}]
 
         '
     http_version: 
-  recorded_at: Thu, 07 Nov 2019 22:13:27 GMT
+  recorded_at: Fri, 08 Nov 2019 14:31:56 GMT
+- request:
+    method: get
+    uri: https://api.nsone.net/v1/zones
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 08 Nov 2019 14:31:57 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d3cbaa7564474e4205aba91aa9a8889f01573223517; expires=Sat, 07-Nov-20
+        14:31:57 GMT; path=/; domain=.nsone.net; HttpOnly
+      X-Ratelimit-Remaining:
+      - '824'
+      Etag:
+      - W/"db779880dad5ed4a1befedb95bdb1c1f5ee907aa"
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '900'
+      X-Ratelimit-Period:
+      - '300'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      - private, max-age=0, no-cache, no-store
+      Expires:
+      - '0'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubdomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 532840e55a693022-YYZ
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"dev.recordstore.io","network_pools":["p07"],"serial":1569855698,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p07.nsone.net","dns2.p07.nsone.net","dns3.p07.nsone.net","dns4.p07.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p07.nsone.net","ttl":3600,"id":"5d921649bbccf90001ff95ee","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p07"},{"nx_ttl":60,"retry":7200,"dnssec":false,"zone":"ns1.shopify.io","network_pools":["p03"],"serial":1570482853,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p03.nsone.net","dns2.p03.nsone.net","dns3.p03.nsone.net","dns4.p03.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p03.nsone.net","ttl":60,"id":"5d715e23c94a900001192d45","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p03"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test-for-chris.recordstore.com","network_pools":["p06"],"serial":1572893652,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p06.nsone.net","ttl":3600,"id":"5dc073d4403d5d0001e05cb8","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p06"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.recordstore.chrome","network_pools":["p02"],"serial":1569963467,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p02.nsone.net","dns2.p02.nsone.net","dns3.p02.nsone.net","dns4.p02.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p02.nsone.net","ttl":3600,"id":"5d9250d5bbccf90001ffe1f8","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p02"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.recordstore.io","network_pools":["p04"],"serial":1573223514,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p04.nsone.net","dns2.p04.nsone.net","dns3.p04.nsone.net","dns4.p04.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p04.nsone.net","ttl":3600,"id":"5dc57c2fc9c79d0001a46263","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p04"},{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.yml.recordstore.io","network_pools":["p06"],"serial":1571861668,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p06.nsone.net","ttl":3600,"id":"5db0b4a4c9c79d000163dce4","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p06"},{"nx_ttl":1800,"retry":600,"dnssec":false,"zone":"tm2.shopifysvc.com","network_pools":["p07"],"serial":1571155013,"primary":{"enabled":false,"secondaries":[]},"refresh":3600,"expiry":604800,"dns_servers":["dns1.p07.nsone.net","dns2.p07.nsone.net","dns3.p07.nsone.net","dns4.p07.nsone.net"],"meta":{},"link":null,"primary_master":"dns1.p07.nsone.net","ttl":900,"id":"5da5ec45c94a900001a5c936","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p07"}]
+
+        '
+    http_version: 
+  recorded_at: Fri, 08 Nov 2019 14:31:57 GMT
 recorded_with: VCR 5.0.0
