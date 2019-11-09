@@ -6,7 +6,6 @@ module RecordStore
     class Error < StandardError; end
 
     class << self
-      include Limiter
       def client
         Provider::NS1::Client.new(api_key: secrets['api_key'])
       end
@@ -15,7 +14,6 @@ module RecordStore
       #
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
-        api_rate_limit
         full_api_records = records_for_zone(zone).map do |short_record|
           client.record(
             zone: zone,
@@ -30,7 +28,6 @@ module RecordStore
 
       # Returns an array of the zones managed by provider as strings
       def zones
-        api_rate_limit
         client.zones.map { |zone| zone['zone'] }
       end
 
@@ -38,7 +35,6 @@ module RecordStore
 
       # Fetches simplified records for the provided zone
       def records_for_zone(zone)
-        api_rate_limit
         client.zone(zone)["records"]
       end
 
@@ -47,7 +43,6 @@ module RecordStore
       # Arguments:
       # record - a kind of `Record`
       def add(record, zone)
-        api_rate_limit
         new_answers = [{ answer: build_api_answer_from_record(record) }]
 
         record_fqdn = record.fqdn.sub(/\.$/, '')
@@ -82,7 +77,6 @@ module RecordStore
       # Arguments:
       # record - a kind of `Record`
       def remove(record, zone)
-        api_rate_limit
         record_fqdn = record.fqdn.sub(/\.$/, '')
 
         existing_record = client.record(
@@ -119,7 +113,6 @@ module RecordStore
       # id - provider specific ID of record to update
       # record - a kind of `Record` which the record with `id` should be updated to
       def update(id, record, zone)
-        api_rate_limit
         record_fqdn = record.fqdn.sub(/\.$/, '')
 
         existing_record = client.record(
@@ -228,21 +221,33 @@ module RecordStore
         super.fetch('ns1')
       end
 
-      def api_rate_limit
-        uri = URI('https://api.nsone.net/v1/monitoring/regions')
-        req = Net::HTTP::Get.new(uri)
-        req['X-NSONE-Key'] = secrets['api_key']
-        res = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-          http.request(req)
-        end
+      # Patch the method which retrieves headers for API rate limit dynamically
+      module NS1::Transport
+        refine NetHttp do
+          def process_response(response)
+            ratelimit = ['remaining', 'period']
+              .map { |k| [k, response["x-ratelimit-#{k}"].to_i] }.to_h
 
-        ratelimit_remaining = res.to_hash["x-ratelimit-remaining"].first.to_i
-        ratelimit_period = res.to_hash["x-ratelimit-period"].first.to_i
+            ratelimit_remaining = ratelimit["remaining"]
+            ratelimit_period = ratelimit["period"]
 
-        if ratelimit_remaining < 2
-          sleep(ratelimit_period)
+            if ratelimit_remaining < 2
+              sleep(ratelimit_period)
+            else
+              sleep(ratelimit_period / ratelimit_remaining)
+            end
+
+            body = JSON.parse(response.body)
+            case response
+            when Net::HTTPOK
+              NS1::Response::Success.new(body, response.code.to_i)
+            else
+              NS1::Response::Error.new(body, response.code.to_i)
+            end
+          rescue JSON::ParserError
+            raise NS1::Transport::ResponseParseError
+          end
         end
-        sleep(ratelimit_period / ratelimit_remaining)
       end
     end
   end
