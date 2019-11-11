@@ -21,7 +21,7 @@ http_interactions:
       message: Not Found
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:51 GMT
+      - Mon, 11 Nov 2019 18:01:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -29,10 +29,10 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d7af6d4c8dbeb1c4efd0c68c058d3bfea1573320591; expires=Sun, 08-Nov-20
-        17:29:51 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d7a646b550f742c7b201e7cca9f9c5b7c1573495295; expires=Tue, 10-Nov-20
+        18:01:35 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '824'
+      - '876'
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -52,14 +52,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e08aeecaa0-YYZ
+      - 53422c1fba1ecacc-YYZ
     body:
       encoding: UTF-8
       string: '{"message":"record not found"}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:51 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:35 GMT
 - request:
     method: put
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/one_of_these_should_remain.test.recordstore.io/A
@@ -83,7 +83,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:51 GMT
+      - Mon, 11 Nov 2019 18:01:36 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -91,8 +91,8 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=df297907de0c48af24d52f94bf24004cc1573320591; expires=Sun, 08-Nov-20
-        17:29:51 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d2f0d567eab2fad633db3d9f0db22be8e1573495296; expires=Tue, 10-Nov-20
+        18:01:36 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
       - '99'
       X-Ratelimit-By:
@@ -123,14 +123,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e17ac4cab4-YYZ
+      - 53422c209f02cac4-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"}],"id":"5dc6f78fbbccf90001b507e3","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"}],"id":"5dc9a200c94a9000011b3c94","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:51 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:36 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/one_of_these_should_remain.test.recordstore.io/A
@@ -152,7 +152,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:51 GMT
+      - Mon, 11 Nov 2019 18:01:38 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -160,12 +160,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dd34d97cac2e7f9baffc057a33d9418061573320591; expires=Sun, 08-Nov-20
-        17:29:51 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d547d501dfa085c54a7653fe824ad65de1573495298; expires=Tue, 10-Nov-20
+        18:01:38 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '824'
+      - '882'
       Etag:
-      - W/"bb9f5d906a30c39c731ffc96d96cd4509da39fdd"
+      - W/"44bc7fdd1e41575abb8707059307147368547d74"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -194,20 +194,20 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e27f74ab5e-YYZ
+      - 53422c2e3f9ecabc-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"}],"id":"5dc6f78fbbccf90001b507e3","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"}],"id":"5dc9a200c94a9000011b3c94","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:51 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:38 GMT
 - request:
     method: post
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/one_of_these_should_remain.test.recordstore.io/A
     body:
       encoding: UTF-8
-      string: '{"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"},{"answer":["10.10.10.43"]}],"ttl":600}'
+      string: '{"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"},{"answer":["10.10.10.43"]}],"ttl":600}'
     headers:
       X-Nsone-Key:
       - "<NS1_API_KEY>"
@@ -225,7 +225,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:52 GMT
+      - Mon, 11 Nov 2019 18:01:38 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -233,8 +233,8 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d4a5747660471a3095f9a579c515247581573320591; expires=Sun, 08-Nov-20
-        17:29:51 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d319131e6c753b303e9943fd4c6c3eb371573495298; expires=Tue, 10-Nov-20
+        18:01:38 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
       - '299'
       X-Ratelimit-By:
@@ -265,14 +265,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e39f33cab0-YYZ
+      - 53422c2f284aab3a-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"},{"answer":["10.10.10.43"],"id":"5dc6f790403d5d0001f0d5d5"}],"id":"5dc6f78fbbccf90001b507e3","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"},{"answer":["10.10.10.43"],"id":"5dc9a202c9c79d0001a96714"}],"id":"5dc9a200c94a9000011b3c94","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:52 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:38 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/one_of_these_should_remain.test.recordstore.io/A
@@ -294,7 +294,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:52 GMT
+      - Mon, 11 Nov 2019 18:01:39 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -302,12 +302,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d3a44742cd12fb339f65c3e74ea80417f1573320592; expires=Sun, 08-Nov-20
-        17:29:52 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d34efbd4ca91f41f1c0ddd89bbcef2c811573495299; expires=Tue, 10-Nov-20
+        18:01:39 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '825'
+      - '885'
       Etag:
-      - W/"b7e396c8edf7e6f94175dc8f5728a519310fad97"
+      - W/"5bbe47a8e1d62c9e01d0f8983303f8692bc032c2"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -336,20 +336,20 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e5ae603034-YYZ
+      - 53422c3699a9aba6-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"},{"answer":["10.10.10.43"],"id":"5dc6f790403d5d0001f0d5d5"}],"id":"5dc6f78fbbccf90001b507e3","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"},{"answer":["10.10.10.43"],"id":"5dc9a202c9c79d0001a96714"}],"id":"5dc9a200c94a9000011b3c94","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:52 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:39 GMT
 - request:
     method: post
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/one_of_these_should_remain.test.recordstore.io/A
     body:
       encoding: UTF-8
-      string: '{"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"}]}'
+      string: '{"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"}]}'
     headers:
       X-Nsone-Key:
       - "<NS1_API_KEY>"
@@ -367,7 +367,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:52 GMT
+      - Mon, 11 Nov 2019 18:01:39 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -375,10 +375,10 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d4078df182c16cfef0242f8642a79edd21573320592; expires=Sun, 08-Nov-20
-        17:29:52 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=db65a768b4ad8861ece40b392bd07dee01573495299; expires=Tue, 10-Nov-20
+        18:01:39 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '298'
+      - '299'
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -407,14 +407,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e6ad9eab9a-YYZ
+      - 53422c379e98cab4-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"}],"id":"5dc6f78fbbccf90001b507e3","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"}],"id":"5dc9a200c94a9000011b3c94","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:52 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:40 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io
@@ -436,7 +436,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:52 GMT
+      - Mon, 11 Nov 2019 18:01:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -444,12 +444,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d72c798ef84e376cba40c2965df6703301573320592; expires=Sun, 08-Nov-20
-        17:29:52 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d07406312c3814aa3e36ad1b4888c7e431573495301; expires=Tue, 10-Nov-20
+        18:01:41 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '825'
+      - '889'
       Etag:
-      - W/"bd369283ebeaeaa082e1184291eeaf51067da1b2"
+      - W/"48bbdca5d5602ec833bd33e9f31bef582ff27516"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -478,19 +478,19 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e7dfa5ab88-YYZ
+      - 53422c407fbcca98-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.recordstore.io","network_pools":["p07"],"serial":1573320592,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p07.nsone.net","dns2.p07.nsone.net","dns3.p07.nsone.net","dns4.p07.nsone.net"],"records":[{"domain":"one_of_these_should_remain.test.recordstore.io","short_answers":["10.10.10.42"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc6f78fbbccf90001b507e3"},{"domain":"test.recordstore.io","short_answers":["dns1.p07.nsone.net","dns2.p07.nsone.net","dns3.p07.nsone.net","dns4.p07.nsone.net"],"ttl":3600,"tier":1,"type":"NS","id":"5dc6f750bbccf90001839ffc"},{"domain":"test_add_a.test.recordstore.io","short_answers":["10.10.10.1"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc6f77ff2abd00001ee0b98"},{"domain":"test_add_alias.test.recordstore.io","short_answers":["10.10.10.1."],"link":null,"ttl":600,"tier":1,"type":"ALIAS","id":"5dc6f786bbccf90001b507d8"},{"domain":"test_add_alias.test.recordstore.io","short_answers":["test.recordstore.io."],"link":null,"ttl":600,"tier":1,"type":"CNAME","id":"5dc6f776403d5d00012afa73"},{"domain":"test_add_caa.test.recordstore.io","short_answers":["0
-        issue shopify.com"],"link":null,"ttl":600,"tier":1,"type":"CAA","id":"5dc6f767f2abd00001a174b7"},{"domain":"test_add_changeset.test.recordstore.io","short_answers":["10.10.10.42"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc6f76dc9c79d0001a62e59"},{"domain":"test_add_multiple_changesets.test.recordstore.io","short_answers":["10.10.10.42","10.10.10.43"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc6f775c94a900001011185"},{"domain":"test_add_mx.test.recordstore.io","short_answers":["10
-        mxa.mailgun.org."],"link":null,"ttl":600,"tier":1,"type":"MX","id":"5dc6f76ef2abd00001ee0b88"},{"domain":"test_add_ns.test.recordstore.io","short_answers":["test.recordstore.io."],"link":null,"ttl":600,"tier":1,"type":"NS","id":"5dc6f76fc9c79d00012f2ef4"},{"domain":"test_add_spf.test.recordstore.io","short_answers":["Hello
-        World!"],"link":null,"ttl":600,"tier":1,"type":"SPF","id":"5dc6f784bbccf900014da170"},{"domain":"test_add_spf.test.recordstore.io","short_answers":["1
-        2 3 spf.shopify.com."],"link":null,"ttl":600,"tier":1,"type":"SRV","id":"5dc6f781c94a9000018788b7"},{"domain":"test_add_txt.test.recordstore.io","short_answers":["Hello
-        World!"],"link":null,"ttl":600,"tier":1,"type":"TXT","id":"5dc6f773f2abd00001ee0b8d"},{"domain":"test_update_changeset.test.recordstore.io","short_answers":["10.10.10.49"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc6f779f2abd0000166a9cb"},{"domain":"test_update_changeset_multiples.test.recordstore.io","short_answers":["10.10.10.50","10.10.10.48","10.10.10.49"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc6f761bbccf900018eadd9"},{"domain":"test_updating_ttl.test.recordstore.io","short_answers":["10.10.10.1"],"link":null,"ttl":10,"tier":1,"type":"A","id":"5dc6f789bbccf900018eae12"}],"meta":{},"link":null,"primary_master":"dns1.p07.nsone.net","ttl":3600,"id":"5dc6f750bbccf90001839ff7","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p07"}
+      string: '{"nx_ttl":3600,"retry":7200,"dnssec":false,"zone":"test.recordstore.io","network_pools":["p04"],"serial":1573495299,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"dns_servers":["dns1.p04.nsone.net","dns2.p04.nsone.net","dns3.p04.nsone.net","dns4.p04.nsone.net"],"records":[{"domain":"one_of_these_should_remain.test.recordstore.io","short_answers":["10.10.10.42"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc9a200c94a9000011b3c94"},{"domain":"test.recordstore.io","short_answers":["dns1.p04.nsone.net","dns2.p04.nsone.net","dns3.p04.nsone.net","dns4.p04.nsone.net"],"ttl":3600,"tier":1,"type":"NS","id":"5dc9a15cc9c79d0001326a47"},{"domain":"test_add_a.test.recordstore.io","short_answers":["10.10.10.1"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc9a1c2c9c79d00010da5ae"},{"domain":"test_add_alias.test.recordstore.io","short_answers":["10.10.10.1."],"link":null,"ttl":600,"tier":1,"type":"ALIAS","id":"5dc9a1d0bbccf9000186d1b1"},{"domain":"test_add_alias.test.recordstore.io","short_answers":["test.recordstore.io."],"link":null,"ttl":600,"tier":1,"type":"CNAME","id":"5dc9a1d6bbccf9000150da4d"},{"domain":"test_add_caa.test.recordstore.io","short_answers":["0
+        issue shopify.com"],"link":null,"ttl":600,"tier":1,"type":"CAA","id":"5dc9a1eac94a9000011b3c7b"},{"domain":"test_add_changeset.test.recordstore.io","short_answers":["10.10.10.42"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc9a1a4c94a9000011b3c23"},{"domain":"test_add_multiple_changesets.test.recordstore.io","short_answers":["10.10.10.42","10.10.10.43"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc9a19cc9c79d0001326ac2"},{"domain":"test_add_mx.test.recordstore.io","short_answers":["10
+        mxa.mailgun.org."],"link":null,"ttl":600,"tier":1,"type":"MX","id":"5dc9a1e5c94a9000014f6db5"},{"domain":"test_add_ns.test.recordstore.io","short_answers":["test.recordstore.io."],"link":null,"ttl":600,"tier":1,"type":"NS","id":"5dc9a1b5bbccf900013b8bbc"},{"domain":"test_add_spf.test.recordstore.io","short_answers":["Hello
+        World!"],"link":null,"ttl":600,"tier":1,"type":"SPF","id":"5dc9a1a1403d5d0001f40219"},{"domain":"test_add_spf.test.recordstore.io","short_answers":["1
+        2 3 spf.shopify.com."],"link":null,"ttl":600,"tier":1,"type":"SRV","id":"5dc9a1efbbccf9000186d1dd"},{"domain":"test_add_txt.test.recordstore.io","short_answers":["Hello
+        World!"],"link":null,"ttl":600,"tier":1,"type":"TXT","id":"5dc9a1ccc9c79d0001a966d1"},{"domain":"test_update_changeset.test.recordstore.io","short_answers":["10.10.10.49"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc9a1f3f2abd00001a04de2"},{"domain":"test_update_changeset_multiples.test.recordstore.io","short_answers":["10.10.10.50","10.10.10.48","10.10.10.49"],"link":null,"ttl":600,"tier":1,"type":"A","id":"5dc9a1a7403d5d0001fa4f51"},{"domain":"test_updating_ttl.test.recordstore.io","short_answers":["10.10.10.1"],"link":null,"ttl":10,"tier":1,"type":"A","id":"5dc9a1dcf2abd00001a4abd5"}],"meta":{},"link":null,"primary_master":"dns1.p04.nsone.net","ttl":3600,"id":"5dc9a15cc9c79d0001326a42","hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p04"}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:52 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:41 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/one_of_these_should_remain.test.recordstore.io/A
@@ -512,7 +512,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:52 GMT
+      - Mon, 11 Nov 2019 18:01:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -520,12 +520,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d47a22fa26e6b2f14cf13d16369916efc1573320592; expires=Sun, 08-Nov-20
-        17:29:52 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=de389040ebdbf966daaf3b94e22bc043b1573495301; expires=Tue, 10-Nov-20
+        18:01:41 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '824'
+      - '889'
       Etag:
-      - W/"bb9f5d906a30c39c731ffc96d96cd4509da39fdd"
+      - W/"44bc7fdd1e41575abb8707059307147368547d74"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -554,14 +554,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e8eb56aba6-YYZ
+      - 53422c416d5e27d2-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f78fbbccf90001b507e2"}],"id":"5dc6f78fbbccf90001b507e3","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"one_of_these_should_remain.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a200c94a9000011b3c93"}],"id":"5dc9a200c94a9000011b3c94","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:52 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:41 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test.recordstore.io/NS
@@ -583,7 +583,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:52 GMT
+      - Mon, 11 Nov 2019 18:01:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -591,12 +591,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d4154e1c73f6bb70b8e7774bf10cf40a71573320592; expires=Sun, 08-Nov-20
-        17:29:52 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=dda204ac087abcfff16f73152a09feec11573495301; expires=Tue, 10-Nov-20
+        18:01:41 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '824'
+      - '888'
       Etag:
-      - W/"9c28146f12950d86c9668b468ee59f6c2e06c1c9"
+      - W/"2b57562c6d711d98ea8806432d7550b6cb6c3e1c"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -625,14 +625,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182e9fcf4ab82-YYZ
+      - 53422c425b91ab6a-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":false,"answers":[{"answer":["dns1.p07.nsone.net"],"meta":{},"id":"5dc6f750bbccf90001839ff8"},{"answer":["dns2.p07.nsone.net"],"meta":{},"id":"5dc6f750bbccf90001839ff9"},{"answer":["dns3.p07.nsone.net"],"meta":{},"id":"5dc6f750bbccf90001839ffa"},{"answer":["dns4.p07.nsone.net"],"meta":{},"id":"5dc6f750bbccf90001839ffb"}],"id":"5dc6f750bbccf90001839ffc","regions":{},"meta":{},"filters":[],"ttl":3600,"tier":1,"feeds":[],"type":"NS","networks":[0]}
+      string: '{"domain":"test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":false,"answers":[{"answer":["dns1.p04.nsone.net"],"meta":{},"id":"5dc9a15cc9c79d0001326a43"},{"answer":["dns2.p04.nsone.net"],"meta":{},"id":"5dc9a15cc9c79d0001326a44"},{"answer":["dns3.p04.nsone.net"],"meta":{},"id":"5dc9a15cc9c79d0001326a45"},{"answer":["dns4.p04.nsone.net"],"meta":{},"id":"5dc9a15cc9c79d0001326a46"}],"id":"5dc9a15cc9c79d0001326a47","regions":{},"meta":{},"filters":[],"ttl":3600,"tier":1,"feeds":[],"type":"NS","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:52 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:41 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_a.test.recordstore.io/A
@@ -654,7 +654,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:53 GMT
+      - Mon, 11 Nov 2019 18:01:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -662,12 +662,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dbac2470e20e9fd7ecb2397307b7aca5e1573320593; expires=Sun, 08-Nov-20
-        17:29:53 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=deca2700fee26e6feba828f6073e930e81573495301; expires=Tue, 10-Nov-20
+        18:01:41 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '823'
+      - '888'
       Etag:
-      - W/"b27e4f0ea0eafa853631986db264ef8e96251124"
+      - W/"64806d563d0dc25bc05750a54e3079dc1442beb1"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -696,14 +696,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182eaebdfab3a-YYZ
+      - 53422c437b0527de-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_a.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.1"],"id":"5dc6f77ff2abd00001ee0b97"}],"id":"5dc6f77ff2abd00001ee0b98","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_add_a.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.1"],"id":"5dc9a1c2c9c79d00010da5ad"}],"id":"5dc9a1c2c9c79d00010da5ae","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:53 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:41 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_alias.test.recordstore.io/ALIAS
@@ -725,7 +725,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:53 GMT
+      - Mon, 11 Nov 2019 18:01:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -733,12 +733,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dcce4bf701bf3232385b74bba03deae0f1573320593; expires=Sun, 08-Nov-20
-        17:29:53 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=ded699be36b70f016721ce2a06c9567f51573495301; expires=Tue, 10-Nov-20
+        18:01:41 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '823'
+      - '887'
       Etag:
-      - W/"e3898cdc5d133b014e624ad2426856c1f1139f67"
+      - W/"d2c0e9868d885c32f8830a1a2d2e42596583031e"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -767,14 +767,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182ebdf93cac8-YYZ
+      - 53422c445e66cac8-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_alias.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.1."],"id":"5dc6f786bbccf90001b507d7"}],"id":"5dc6f786bbccf90001b507d8","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"ALIAS","networks":[0]}
+      string: '{"domain":"test_add_alias.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.1."],"id":"5dc9a1d0bbccf9000186d1b0"}],"id":"5dc9a1d0bbccf9000186d1b1","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"ALIAS","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:53 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:41 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_alias.test.recordstore.io/CNAME
@@ -796,7 +796,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:53 GMT
+      - Mon, 11 Nov 2019 18:01:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -804,12 +804,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d815b67ef2645fd9558ce881e842849821573320593; expires=Sun, 08-Nov-20
-        17:29:53 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d9be1e288fca4b47dec7585c5f3177ed11573495301; expires=Tue, 10-Nov-20
+        18:01:41 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '822'
+      - '886'
       Etag:
-      - W/"f26f376f1fc00c8db664cf6d392bb440d0dd4d43"
+      - W/"3d78ed7743e0abfbea376f2ec454535d4e8c46b4"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -838,14 +838,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182ed1991cabc-YYZ
+      - 53422c454970cac4-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_alias.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["test.recordstore.io."],"id":"5dc6f776403d5d00012afa72"}],"id":"5dc6f776403d5d00012afa73","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"CNAME","networks":[0]}
+      string: '{"domain":"test_add_alias.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["test.recordstore.io."],"id":"5dc9a1d6bbccf9000150da4c"}],"id":"5dc9a1d6bbccf9000150da4d","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"CNAME","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:53 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:41 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_caa.test.recordstore.io/CAA
@@ -867,7 +867,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:53 GMT
+      - Mon, 11 Nov 2019 18:01:42 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -875,12 +875,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d9489646d08d18aebcefd35e86d441fea1573320593; expires=Sun, 08-Nov-20
-        17:29:53 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d094ceccf06ca9d54b31657551c659bbd1573495302; expires=Tue, 10-Nov-20
+        18:01:42 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '822'
+      - '886'
       Etag:
-      - W/"a9af17e69fb3db1b25b8c909b46abc90c9ac165a"
+      - W/"ad6007c84d279d6ab707ebeebfff3b3ba27a91d7"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -909,14 +909,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182ee38b527de-YYZ
+      - 53422c462a0ecaa0-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_caa.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":[0,"issue","shopify.com"],"id":"5dc6f767f2abd00001a174b6"}],"id":"5dc6f767f2abd00001a174b7","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"CAA","networks":[0]}
+      string: '{"domain":"test_add_caa.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":[0,"issue","shopify.com"],"id":"5dc9a1eac94a9000011b3c7a"}],"id":"5dc9a1eac94a9000011b3c7b","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"CAA","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:53 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:42 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_changeset.test.recordstore.io/A
@@ -938,7 +938,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:53 GMT
+      - Mon, 11 Nov 2019 18:01:42 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -946,12 +946,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dcce4bf701bf3232385b74bba03deae0f1573320593; expires=Sun, 08-Nov-20
-        17:29:53 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=dcc00380529d317ca36494b7c44c552c01573495302; expires=Tue, 10-Nov-20
+        18:01:42 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '821'
+      - '885'
       Etag:
-      - W/"d58095143eee5bbc913e0764206f75cb23c811c2"
+      - W/"c9f0990401ecbefe8a6690d90e743f4d41a8d8f6"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -980,14 +980,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182ef48e7cac8-YYZ
+      - 53422c472f05cac8-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f76dc9c79d0001a62e58"}],"id":"5dc6f76dc9c79d0001a62e59","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_add_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a1a4c94a9000011b3c22"}],"id":"5dc9a1a4c94a9000011b3c23","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:53 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:42 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_multiple_changesets.test.recordstore.io/A
@@ -1009,7 +1009,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:42 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1017,12 +1017,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d114aae94b88cfc8bb5dc1f1b9b2cb42f1573320593; expires=Sun, 08-Nov-20
-        17:29:53 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d572753671d1d6e218bc3243233ecd2fc1573495302; expires=Tue, 10-Nov-20
+        18:01:42 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '821'
+      - '885'
       Etag:
-      - W/"aeb4a2266d55e75b7299e2b596ad7dec7232547f"
+      - W/"be0fffa7bd7fba04eed217992bf534868d46792c"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1051,14 +1051,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f059353028-YYZ
+      - 53422c482ac7ab5e-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_multiple_changesets.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc6f775c94a900001011184"},{"answer":["10.10.10.43"],"id":"5dc6f776c94a9000018788ae"}],"id":"5dc6f775c94a900001011185","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_add_multiple_changesets.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.42"],"id":"5dc9a19cc9c79d0001326ac1"},{"answer":["10.10.10.43"],"id":"5dc9a19fc9c79d000145db5b"}],"id":"5dc9a19cc9c79d0001326ac2","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:42 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_mx.test.recordstore.io/MX
@@ -1080,7 +1080,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:42 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1088,12 +1088,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dd25d65755f3c69269e30d1e64ca2cd711573320594; expires=Sun, 08-Nov-20
-        17:29:54 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d300767bbdc384e51e1817428aca832551573495302; expires=Tue, 10-Nov-20
+        18:01:42 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '820'
+      - '884'
       Etag:
-      - W/"42d95985d0d4bb057379b182f1c2c492571d6468"
+      - W/"ed1a83ec21d4db96844e06f6bb9e5658db7278b9"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1122,14 +1122,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f1291dcaa8-YYZ
+      - 53422c492c50cacc-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_mx.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":[10,"mxa.mailgun.org."],"id":"5dc6f76ef2abd00001ee0b87"}],"id":"5dc6f76ef2abd00001ee0b88","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"MX","networks":[0]}
+      string: '{"domain":"test_add_mx.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":[10,"mxa.mailgun.org."],"id":"5dc9a1e5c94a9000014f6db4"}],"id":"5dc9a1e5c94a9000014f6db5","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"MX","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:42 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_ns.test.recordstore.io/NS
@@ -1151,7 +1151,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:42 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1159,12 +1159,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d636ff67b7d64717d4c7fbe20db0eb95b1573320594; expires=Sun, 08-Nov-20
-        17:29:54 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d2b22deb5f1ccfc391b34ea584b0bc3fc1573495302; expires=Tue, 10-Nov-20
+        18:01:42 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '820'
+      - '884'
       Etag:
-      - W/"cedc5a5b082ec45885658f7c20783a925e1ab40c"
+      - W/"3be13f8b06c6fa6aea695193cd921834fda91651"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1193,14 +1193,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f24b7ecab8-YYZ
+      - 53422c4a4901caa8-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_ns.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["test.recordstore.io."],"id":"5dc6f76fc9c79d00012f2ef3"}],"id":"5dc6f76fc9c79d00012f2ef4","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"NS","networks":[0]}
+      string: '{"domain":"test_add_ns.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["test.recordstore.io."],"id":"5dc9a1b5bbccf900013b8bbb"}],"id":"5dc9a1b5bbccf900013b8bbc","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"NS","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:42 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_spf.test.recordstore.io/SPF
@@ -1222,7 +1222,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:42 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1230,12 +1230,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=daa1ffc86ebe39ae3764f21a38e21e5961573320594; expires=Sun, 08-Nov-20
-        17:29:54 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=dee9a5d11df8dc82be375f0880629f8311573495302; expires=Tue, 10-Nov-20
+        18:01:42 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '819'
+      - '883'
       Etag:
-      - W/"599290b60cc696fa1d3010fa46ea00b6a2754f1b"
+      - W/"b0c29cdb5c27b5ab209a3990eb1b2e5e9dcfc8fd"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1264,15 +1264,15 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f34fdfab5e-YYZ
+      - 53422c4b4a8dca98-YYZ
     body:
       encoding: ASCII-8BIT
       string: '{"domain":"test_add_spf.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["Hello
-        World!"],"id":"5dc6f784bbccf900014da16f"}],"id":"5dc6f784bbccf900014da170","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"SPF","networks":[0]}
+        World!"],"id":"5dc9a1a1403d5d0001f40218"}],"id":"5dc9a1a1403d5d0001f40219","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"SPF","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:42 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_spf.test.recordstore.io/SRV
@@ -1294,7 +1294,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:43 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1302,12 +1302,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d4fbedc426d79b315d3386cc67569463f1573320594; expires=Sun, 08-Nov-20
-        17:29:54 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d81911bac572caef96692b94202d772ca1573495303; expires=Tue, 10-Nov-20
+        18:01:43 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '819'
+      - '883'
       Etag:
-      - W/"69eeddec9f3572e539c2b3b16eb1e1bc7e4a0ed1"
+      - W/"bad0937198fce73ecb8c9464102fe59629f5cad7"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1336,14 +1336,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f44c76ab94-YYZ
+      - 53422c4c3916ab64-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_add_spf.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":[1,2,3,"spf.shopify.com."],"id":"5dc6f781c94a9000018788b6"}],"id":"5dc6f781c94a9000018788b7","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"SRV","networks":[0]}
+      string: '{"domain":"test_add_spf.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":[1,2,3,"spf.shopify.com."],"id":"5dc9a1efbbccf9000186d1dc"}],"id":"5dc9a1efbbccf9000186d1dd","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"SRV","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:43 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_add_txt.test.recordstore.io/TXT
@@ -1365,7 +1365,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:43 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1373,12 +1373,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dc18f0055f75a5d20e550951cbf0b3a001573320594; expires=Sun, 08-Nov-20
-        17:29:54 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d95f4291e60f1f6f73482735033a9c61e1573495303; expires=Tue, 10-Nov-20
+        18:01:43 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '818'
+      - '882'
       Etag:
-      - W/"ffa328cbcfd84b6e43f1d98baa03edd27622ed88"
+      - W/"02b2274124c8fe82c7e5a24db087dbc46ce33fbd"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1407,15 +1407,15 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f55cb8ca94-YYZ
+      - 53422c4d5ae927e4-YYZ
     body:
       encoding: ASCII-8BIT
       string: '{"domain":"test_add_txt.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["Hello
-        World!"],"id":"5dc6f773f2abd00001ee0b8c"}],"id":"5dc6f773f2abd00001ee0b8d","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"TXT","networks":[0]}
+        World!"],"id":"5dc9a1ccc9c79d0001a966d0"}],"id":"5dc9a1ccc9c79d0001a966d1","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"TXT","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:43 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_update_changeset.test.recordstore.io/A
@@ -1437,7 +1437,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:54 GMT
+      - Mon, 11 Nov 2019 18:01:43 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1445,12 +1445,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d3f83801429976abd223cd0180693a0bf1573320594; expires=Sun, 08-Nov-20
-        17:29:54 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d65ff546a2e636d8d88707ba37f7edcb91573495303; expires=Tue, 10-Nov-20
+        18:01:43 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '818'
+      - '882'
       Etag:
-      - W/"737015079b9c628a41ff661577cd00afb06ff05c"
+      - W/"1f18ed19ebbcdc4050147154342aa716605e9b78"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1479,14 +1479,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f65d94ca98-YYZ
+      - 53422c4e3d9aab4c-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_update_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.49"],"id":"5dc6f779f2abd0000166a9ca"}],"id":"5dc6f779f2abd0000166a9cb","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_update_changeset.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.49"],"id":"5dc9a1f3f2abd00001a04de1"}],"id":"5dc9a1f3f2abd00001a04de2","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:54 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:43 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_update_changeset_multiples.test.recordstore.io/A
@@ -1508,7 +1508,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:55 GMT
+      - Mon, 11 Nov 2019 18:01:43 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1516,12 +1516,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=daaa4090b336ecaab9a23335fe715abc41573320595; expires=Sun, 08-Nov-20
-        17:29:55 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d960953b8060de27f3fffc4d7559c100d1573495303; expires=Tue, 10-Nov-20
+        18:01:43 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '817'
+      - '881'
       Etag:
-      - W/"8bb7d50d9fc9aaa8e83ef341071d01ff3db13373"
+      - W/"299ea05b4360b069b76850f4e2b96a0b5a8ff3d3"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1550,14 +1550,14 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f75ccd27ea-YYZ
+      - 53422c4f384ccab4-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_update_changeset_multiples.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.50"],"id":"5dc6f761bbccf900018eadd8"},{"answer":["10.10.10.48"],"id":"5dc6f762bbccf90001385034"},{"answer":["10.10.10.49"],"id":"5dc6f763403d5d0001ae6350"}],"id":"5dc6f761bbccf900018eadd9","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_update_changeset_multiples.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.50"],"id":"5dc9a1a7403d5d0001fa4f50"},{"answer":["10.10.10.48"],"id":"5dc9a1a9c94a9000011b3c29"},{"answer":["10.10.10.49"],"id":"5dc9a1abc94a900001044acf"}],"id":"5dc9a1a7403d5d0001fa4f51","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:55 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:43 GMT
 - request:
     method: get
     uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_updating_ttl.test.recordstore.io/A
@@ -1579,7 +1579,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 09 Nov 2019 17:29:55 GMT
+      - Mon, 11 Nov 2019 18:01:43 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -1587,12 +1587,12 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d89eddfc57b17ef04a49c397b6355bd611573320595; expires=Sun, 08-Nov-20
-        17:29:55 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=dba1c2211e53f4ef576768e0990b3995d1573495303; expires=Tue, 10-Nov-20
+        18:01:43 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '817'
+      - '881'
       Etag:
-      - W/"8b90c51145ebe8cc0f4f53c5e90a35ac2a354d13"
+      - W/"9e34939eb9090ca4bfa392e97edc44c9b26928a9"
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -1621,12 +1621,12 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 533182f85c9fab5e-YYZ
+      - 53422c504a7e303a-YYZ
     body:
       encoding: ASCII-8BIT
-      string: '{"domain":"test_updating_ttl.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.1"],"id":"5dc6f789bbccf900018eae11"}],"id":"5dc6f789bbccf900018eae12","regions":{},"meta":{},"link":null,"filters":[],"ttl":10,"tier":1,"type":"A","networks":[0]}
+      string: '{"domain":"test_updating_ttl.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.1"],"id":"5dc9a1dcf2abd00001a4abd4"}],"id":"5dc9a1dcf2abd00001a4abd5","regions":{},"meta":{},"link":null,"filters":[],"ttl":10,"tier":1,"type":"A","networks":[0]}
 
         '
     http_version: 
-  recorded_at: Sat, 09 Nov 2019 17:29:55 GMT
+  recorded_at: Mon, 11 Nov 2019 18:01:43 GMT
 recorded_with: VCR 5.0.0

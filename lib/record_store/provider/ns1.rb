@@ -1,5 +1,5 @@
 require_relative 'ns1/client'
-require 'net/http'
+require_relative 'ns1/patch_api_header'
 
 module RecordStore
   class Provider::NS1 < Provider
@@ -219,35 +219,6 @@ module RecordStore
 
       def secrets
         super.fetch('ns1')
-      end
-
-      # Patch the method which retrieves headers for API rate limit dynamically
-      module NS1::Transport
-        refine NetHttp do
-          def process_response(response)
-            ratelimit = ['remaining', 'period']
-              .map { |k| [k, response["x-ratelimit-#{k}"].to_i] }.to_h
-
-            ratelimit_remaining = ratelimit["remaining"]
-            ratelimit_period = ratelimit["period"]
-
-            if ratelimit_remaining < 2
-              sleep(ratelimit_period)
-            else
-              sleep(ratelimit_period / ratelimit_remaining)
-            end
-
-            body = JSON.parse(response.body)
-            case response
-            when Net::HTTPOK
-              NS1::Response::Success.new(body, response.code.to_i)
-            else
-              NS1::Response::Error.new(body, response.code.to_i)
-            end
-          rescue JSON::ParserError
-            raise NS1::Transport::ResponseParseError
-          end
-        end
       end
     end
   end
