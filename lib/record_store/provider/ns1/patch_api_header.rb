@@ -4,9 +4,8 @@ require 'net/http'
 module NS1::Transport
   class NetHttp
     def process_response(response)
-      ratelimit = ['remaining', 'period']
-        .map { |k| [k, response["x-ratelimit-#{k}"].to_i] }.to_h
-      sleep(ratelimit['period'] / [1, ratelimit['remaining']].max.to_f)
+      sleep(response.to_hash["x-ratelimit-period"].first.to_i /
+        [1, response.to_hash["x-ratelimit-remaining"].first.to_i].max.to_f)
 
       body = JSON.parse(response.body)
       case response
