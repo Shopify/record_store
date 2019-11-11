@@ -6,7 +6,7 @@ module NS1::Transport
     def process_response(response)
       ratelimit = ['remaining', 'period']
         .map { |k| [k, response["x-ratelimit-#{k}"].to_i] }.to_h
-      sleep(ratelimit['period'] / [1, ratelimit['remaining']].max)
+      sleep(ratelimit['period'] / [1, ratelimit['remaining']].max.to_f)
 
       body = JSON.parse(response.body)
       case response
