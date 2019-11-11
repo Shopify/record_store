@@ -21,7 +21,7 @@ http_interactions:
       message: Bad Request
     headers:
       Date:
-      - Fri, 27 Sep 2019 19:35:36 GMT
+      - Mon, 11 Nov 2019 18:00:25 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -29,10 +29,10 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d9efbc77efb942389a68dc5292dc0d1c41569612936; expires=Sat, 26-Sep-20
-        19:35:36 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d36fc80835ca7e643f9fcdc8d6d475b551573495225; expires=Tue, 10-Nov-20
+        18:00:25 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
-      - '819'
+      - '893'
       X-Ratelimit-By:
       - customer
       X-Ratelimit-Limit:
@@ -45,12 +45,14 @@ http_interactions:
       - no-cache
       Expires:
       - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
       Expect-Ct:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
       - cloudflare
       Cf-Ray:
-      - 51cfebf46d92cab8-YYZ
+      - 53422a687eeeab7c-YYZ
     body:
       encoding: UTF-8
       string: '{"message":"\"test_add_changset_missing_zone.test.recordstore.io\"
@@ -58,7 +60,7 @@ http_interactions:
 
         '
     http_version: 
-  recorded_at: Fri, 27 Sep 2019 19:35:36 GMT
+  recorded_at: Mon, 11 Nov 2019 18:00:25 GMT
 - request:
     method: put
     uri: https://api.nsone.net/v1/zones/test_add_changset_missing_zone.recordstore.io/test_add_changset_missing_zone.test.recordstore.io/A
@@ -82,7 +84,7 @@ http_interactions:
       message: Bad Request
     headers:
       Date:
-      - Fri, 27 Sep 2019 19:35:36 GMT
+      - Mon, 11 Nov 2019 18:00:25 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -90,8 +92,8 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d9efbc77efb942389a68dc5292dc0d1c41569612936; expires=Sat, 26-Sep-20
-        19:35:36 GMT; path=/; domain=.nsone.net; HttpOnly
+      - __cfduid=d8a4292b6a538e800558d904003de51901573495225; expires=Tue, 10-Nov-20
+        18:00:25 GMT; path=/; domain=.nsone.net; HttpOnly
       X-Ratelimit-Remaining:
       - '99'
       X-Ratelimit-By:
@@ -106,12 +108,14 @@ http_interactions:
       - no-cache
       Expires:
       - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
       Expect-Ct:
       - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
       Server:
       - cloudflare
       Cf-Ray:
-      - 51cfebf51f13cab8-YYZ
+      - 53422a696b62ab94-YYZ
     body:
       encoding: UTF-8
       string: '{"message":"\"test_add_changset_missing_zone.test.recordstore.io\"
@@ -119,5 +123,5 @@ http_interactions:
 
         '
     http_version: 
-  recorded_at: Fri, 27 Sep 2019 19:35:36 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Mon, 11 Nov 2019 18:00:25 GMT
+recorded_with: VCR 5.0.0
