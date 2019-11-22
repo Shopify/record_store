@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/focus'
 require 'mocha/mini_test'
 require 'vcr'
 require 'pry'
