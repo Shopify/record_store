@@ -47,16 +47,11 @@ module RecordStore
       #
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
-        full_api_records = records_for_zone(zone).map do |short_record|
-          client.record(
-            zone: zone,
-            fqdn: short_record["domain"],
-            type: short_record["type"],
-            must_exist: true,
-          )
+        records = records_for_zone(zone).map do |short_record|
+          build_from_api(short_record)
         end
 
-        full_api_records.map { |r| build_from_api(r) }.flatten.compact
+        records.flatten.compact
       end
 
       # Returns an array of the zones managed by provider as strings
@@ -157,10 +152,17 @@ module RecordStore
 
         # Identify the answer in this record with the matching ID, and update it
         updated = false
-        existing_record["answers"].each do |answer|
-          next if answer["id"] != id
+        existing_record["answers"].each do |existing_answer|
+          existing_answer_id = ApiAnswer.from_full_api_answer(
+            record_id: existing_record['id'],
+            type: existing_record['type'],
+            answer: existing_answer,
+          ).id
+
+          next if existing_answer_id != id
+
           updated = true
-          answer["answer"] = build_api_answer_from_record(record)
+          existing_answer["answer"] = build_api_answer_from_record(record)
         end
 
         unless updated
@@ -183,21 +185,28 @@ module RecordStore
         record_type = api_record["type"]
         return if record_type == 'SOA'
 
-        api_record["answers"].map do |api_answer|
-          answer = api_answer["answer"]
+        answers = api_record["short_answers"].map do |raw_answer|
+          ApiAnswer.from_short_api_answer(
+            record_id: api_record['id'],
+            type: api_record['type'],
+            answer: raw_answer,
+          )
+        end
+
+        answers.map do |answer|
           record = {
             ttl: api_record["ttl"],
             fqdn: fqdn.downcase,
-            record_id: api_answer["id"],
+            record_id: answer.id,
           }
 
           case record_type
           when 'A', 'AAAA'
-            record.merge!(address: answer.first)
+            record.merge!(address: answer.rrdata_string)
           when 'ALIAS'
-            record.merge!(alias: answer.first)
+            record.merge!(alias: answer.rrdata_string)
           when 'CAA'
-            flags, tag, value = answer
+            flags, tag, value = answer.rrdata
 
             record.merge!(
               flags: flags.to_i,
@@ -205,21 +214,21 @@ module RecordStore
               value: Record.unquote(value),
             )
           when 'CNAME'
-            record.merge!(cname: answer.first)
+            record.merge!(cname: answer.rrdata_string)
           when 'MX'
 
-            preference, exchange = answer
+            preference, exchange = answer.rrdata
 
             record.merge!(
               preference: preference.to_i,
               exchange: exchange,
             )
           when 'NS'
-            record.merge!(nsdname: answer.first)
+            record.merge!(nsdname: answer.rrdata_string)
           when 'SPF', 'TXT'
-            record.merge!(txtdata: Record.unlong_quote(Record.unescape(answer.first).gsub(';', '\;')))
+            record.merge!(txtdata: Record.unlong_quote(Record.unescape(answer.rrdata_string).gsub(';', '\;')))
           when 'SRV'
-            priority, weight, port, host = answer
+            priority, weight, port, host = answer.rrdata
 
             record.merge!(
               priority: priority.to_i,
