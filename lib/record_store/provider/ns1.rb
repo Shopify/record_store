@@ -5,6 +5,39 @@ module RecordStore
   class Provider::NS1 < Provider
     class Error < StandardError; end
 
+    class ApiAnswer
+      def self.from_full_api_answer(type:, record_id:, answer:)
+        ApiAnswer.new(type: type, record_id: record_id, rrdata: answer["answer"])
+      end
+
+      def self.from_short_api_answer(type:, record_id:, answer:)
+        rrdata_fields = case type
+        when 'SPF', 'TXT'
+          [answer]
+        else
+          answer.split
+        end
+
+        ApiAnswer.new(type: type, record_id: record_id, rrdata: rrdata_fields)
+      end
+
+      attr_accessor :type, :record_id, :rrdata
+
+      def initialize(type:, record_id:, rrdata:)
+        @type = type
+        @record_id = record_id
+        @rrdata = rrdata
+      end
+
+      def rrdata_string
+        rrdata.join(' ')
+      end
+
+      def id
+        [record_id, type, rrdata.join(':')].join(':')
+      end
+    end
+
     class << self
       def client
         Provider::NS1::Client.new(api_key: secrets['api_key'])
