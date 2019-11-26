@@ -6,19 +6,21 @@ module RecordStore
     class Error < StandardError; end
 
     class ApiAnswer
-      def self.from_full_api_answer(type:, record_id:, answer:)
-        ApiAnswer.new(type: type, record_id: record_id, rrdata: answer["answer"])
-      end
-
-      def self.from_short_api_answer(type:, record_id:, answer:)
-        rrdata_fields = case type
-        when 'SPF', 'TXT'
-          [answer]
-        else
-          answer.split
+      class << self
+        def from_full_api_answer(type:, record_id:, answer:)
+          ApiAnswer.new(type: type, record_id: record_id, rrdata: answer["answer"])
         end
 
-        ApiAnswer.new(type: type, record_id: record_id, rrdata: rrdata_fields)
+        def from_short_api_answer(type:, record_id:, answer:)
+          rrdata_fields = case type
+          when 'SPF', 'TXT'
+            [answer]
+          else
+            answer.split
+          end
+
+          ApiAnswer.new(type: type, record_id: record_id, rrdata: rrdata_fields)
+        end
       end
 
       attr_accessor :type, :record_id, :rrdata
