@@ -8,7 +8,7 @@ module RecordStore
     class ApiAnswer
       class << self
         def from_full_api_answer(type:, record_id:, answer:)
-          ApiAnswer.new(type: type, record_id: record_id, rrdata: answer["answer"])
+          ApiAnswer.new(type: type, record_id: record_id, rrdata: answer['answer'])
         end
 
         def from_short_api_answer(type:, record_id:, answer:)
@@ -65,7 +65,7 @@ module RecordStore
 
       # Fetches simplified records for the provided zone
       def records_for_zone(zone)
-        client.zone(zone)["records"]
+        client.zone(zone)['records']
       end
 
       # Creates a new record to the zone. It is expected this call modifies external state.
@@ -154,7 +154,7 @@ module RecordStore
 
         # Identify the answer in this record with the matching ID, and update it
         updated = false
-        existing_record["answers"].each do |existing_answer|
+        existing_record['answers'].each do |existing_answer|
           existing_answer_id = ApiAnswer.from_full_api_answer(
             record_id: existing_record['id'],
             type: existing_record['type'],
@@ -164,7 +164,7 @@ module RecordStore
           next if existing_answer_id != id
 
           updated = true
-          existing_answer["answer"] = build_api_answer_from_record(record)
+          existing_answer['answer'] = build_api_answer_from_record(record)
         end
 
         unless updated
@@ -177,17 +177,17 @@ module RecordStore
           zone: zone,
           fqdn: record_fqdn,
           type: record.type,
-          params: { answers: existing_record["answers"], ttl: record.ttl }
+          params: { answers: existing_record['answers'], ttl: record.ttl }
         )
       end
 
       def build_from_api(api_record)
-        fqdn = Record.ensure_ends_with_dot(api_record["domain"])
+        fqdn = Record.ensure_ends_with_dot(api_record['domain'])
 
-        record_type = api_record["type"]
+        record_type = api_record['type']
         return if record_type == 'SOA'
 
-        answers = api_record["short_answers"].map do |raw_answer|
+        answers = api_record['short_answers'].map do |raw_answer|
           ApiAnswer.from_short_api_answer(
             record_id: api_record['id'],
             type: api_record['type'],
@@ -197,7 +197,7 @@ module RecordStore
 
         answers.map do |answer|
           record = {
-            ttl: api_record["ttl"],
+            ttl: api_record['ttl'],
             fqdn: fqdn.downcase,
             record_id: answer.id,
           }
