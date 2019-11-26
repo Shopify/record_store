@@ -36,7 +36,7 @@ module RecordStore
       end
 
       def id
-        [record_id, type, rrdata.join(':')].join(':')
+        [record_id, type, *rrdata]
       end
     end
 
