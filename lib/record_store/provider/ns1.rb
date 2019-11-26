@@ -49,11 +49,9 @@ module RecordStore
       #
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout) # rubocop:disable Lint/UnusedMethodArgument
-        records = records_for_zone(zone).map do |short_record|
-          build_from_api(short_record)
-        end
-
-        records.flatten.compact
+        records_for_zone(zone)
+          .flat_map { |short_record| build_from_api(short_record) }
+          .compact
       end
 
       # Returns an array of the zones managed by provider as strings
