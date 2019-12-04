@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/focus'
-require 'mocha/mini_test'
+require 'mocha/minitest'
 require 'vcr'
 require 'pry'
 require 'fileutils'
