@@ -245,7 +245,7 @@ module RecordStore
         if record.is_a?(Record::MX)
           [record.preference, record.exchange]
         elsif record.is_a?(Record::TXT) || record.is_a?(Record::SPF)
-          [Record.long_quote(record.txtdata)]
+          [Record.long_quote(record.txtdata).gsub('\;', ';')]
         elsif record.is_a?(Record::CAA)
           [record.flags, record.tag, record.value]
         elsif record.is_a?(Record::SRV)

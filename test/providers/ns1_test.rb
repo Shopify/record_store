@@ -546,4 +546,56 @@ class NS1Test < Minitest::Test
       assert record_1_found, "expected record that was not removed to be present in NS1"
     end
   end
+
+  def test_escaped_colons_maintained_when_exported_from_ns1
+    imported_txt_record = Record::TXT.new(
+      fqdn: 'test_escaped_colons_maintained_when_exported.test.recordstore.io.',
+      ttl: 60,
+      txtdata: 'v=DKIM\; k=rsa\;'
+    )
+
+    VCR.use_cassette('ns1_escaped_colons_maintained_when_exported_from_ns1') do
+      @ns1.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [imported_txt_record],
+        provider: @ns1,
+        zone: @zone_name
+      ))
+
+      records = @ns1.retrieve_current_records(zone: @zone_name)
+
+      matching_records = records.select do |record|
+        record.fqdn == imported_txt_record.fqdn
+      end
+
+      assert_equal 1, matching_records.size, "could not find the record that was just imported"
+      assert_equal imported_txt_record.txtdata, matching_records.first.txtdata
+    end
+  end
+
+  def test_colons_always_escaped_when_exported_from_ns1
+    imported_txt_record = Record::TXT.new(
+      fqdn: 'test_colons_always_escaped_when_exported.test.recordstore.io.',
+      ttl: 60,
+      txtdata: 'v=DKIM; k=rsa;'
+    )
+
+    VCR.use_cassette('ns1_colons_always_escaped_when_exported_from_ns1') do
+      @ns1.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [imported_txt_record],
+        provider: @ns1,
+        zone: @zone_name
+      ))
+
+      records = @ns1.retrieve_current_records(zone: @zone_name)
+
+      matching_records = records.select do |record|
+        record.fqdn == imported_txt_record.fqdn
+      end
+
+      assert_equal 1, matching_records.size, 'could not find the record that was just imported'
+      assert_equal matching_records.first.txtdata, 'v=DKIM\; k=rsa\;'
+    end
+  end
 end
