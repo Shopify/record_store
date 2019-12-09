@@ -112,6 +112,10 @@ class Minitest::Test
         auth_token.first
       end
     end
+
+    config.before_playback do |interaction|
+      interaction.response.headers['X-Ratelimit-Period'] = 0
+    end
   end
 
   def teardown
