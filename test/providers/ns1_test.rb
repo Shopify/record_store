@@ -598,4 +598,34 @@ class NS1Test < Minitest::Test
       assert_equal matching_records.first.txtdata, 'v=DKIM\; k=rsa\;'
     end
   end
+
+  def test_very_long_txt_record_more_than_255_chars_ns1
+    txtdata = '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'\
+      '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'\
+      '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789'
+
+    imported_txt_record = Record::TXT.new(
+      fqdn: 'very_long_txt_record_more_than_255_chars.test.recordstore.io.',
+      ttl: 60,
+      txtdata: txtdata,
+    )
+
+    VCR.use_cassette('ns1_very_long_txt_record_more_than_255_chars') do
+      @ns1.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [imported_txt_record],
+        provider: @ns1,
+        zone: @zone_name
+      ))
+
+      records = @ns1.retrieve_current_records(zone: @zone_name)
+
+      matching_records = records.select do |record|
+        record.fqdn == imported_txt_record.fqdn
+      end
+
+      assert_equal 1, matching_records.size, 'could not find the record that was just imported'
+      assert_equal matching_records.first.txtdata, txtdata
+    end
+  end
 end

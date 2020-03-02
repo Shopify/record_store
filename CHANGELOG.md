@@ -1,4 +1,7 @@
 # CHANGELOG
+## 5.7.4
+- NS1: changing the way long TXT records are processed (no more splitting to do on our side)
+
 ## 5.7.1
 - add API rate limit for NS1 provider [FEATURE]
 
