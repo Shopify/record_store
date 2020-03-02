@@ -478,7 +478,7 @@ Style/TrivialAccessors:
   AllowPredicates: true
   AllowDSLWriters: false
   IgnoreClassMethods: false
-  AllowedMethod:
+  AllowedMethods:
   - to_ary
   - to_a
   - to_c
@@ -509,7 +509,7 @@ Style/WhileUntilModifier:
 Metrics/BlockNesting:
   Max: 3
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
   AllowHeredoc: true
   AllowURI: true
