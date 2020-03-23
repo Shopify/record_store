@@ -646,7 +646,10 @@ class NS1Test < Minitest::Test
     end
 
     # Cassette request body will assert that `use_client_subnet` is set to false in the request
-    VCR.use_cassette('ns1_test_new_records_have_edns_client_subnet_disabled', match_requests_on: [json_request_body_matcher]) do
+    VCR.use_cassette(
+      'ns1_test_new_records_have_edns_client_subnet_disabled',
+      match_requests_on: [json_request_body_matcher]
+    ) do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [new_record],
