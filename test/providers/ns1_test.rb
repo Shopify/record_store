@@ -628,4 +628,34 @@ class NS1Test < Minitest::Test
       assert_equal matching_records.first.txtdata, txtdata
     end
   end
+
+  def test_new_records_have_edns_client_subnet_disabled
+    new_record = Record::TXT.new(
+      fqdn: 'test_new_records_have_edns_client_subnet_disabled.test.recordstore.io',
+      ttl: 3600,
+      txtdata: 'Some answer'
+    )
+
+    json_request_body_matcher = lambda do |request_1, request_2|
+      return true if request_1.headers['Content-Type'] != ['application/json'] &&
+        request_2.headers['Content-Type'] != ['application/json']
+
+      request_1.uri == request_2.uri &&
+        request_1.method == request_2.method &&
+        JSON.parse(request_1.body) == JSON.parse(request_2.body)
+    end
+
+    # Cassette request body will assert that `use_client_subnet` is set to false in the request
+    VCR.use_cassette(
+      'ns1_test_new_records_have_edns_client_subnet_disabled',
+      match_requests_on: [json_request_body_matcher]
+    ) do
+      @ns1.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [new_record],
+        provider: @ns1,
+        zone: @zone_name
+      ))
+    end
+  end
 end

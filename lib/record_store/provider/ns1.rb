@@ -86,7 +86,11 @@ module RecordStore
             zone: zone,
             fqdn: record_fqdn,
             type: record.type,
-            params: { answers: new_answers, ttl: record.ttl }
+            params: {
+              answers: new_answers,
+              ttl: record.ttl,
+              use_client_subnet: false, # only required for filter chains that are not supported by record_store
+            }
           )
           return
         end
