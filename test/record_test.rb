@@ -304,4 +304,14 @@ class RecordTest < Minitest::Test
     assert_equal(Record.long_quote("a" * 600), '"' + ("a" * 255) + '" "' \
                   + ("a" * 255) + '" "' + ("a" * 90) + '"')
   end
+
+  def test_valid_sshfp_record
+    assert_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ), :valid?)
+  end
 end
