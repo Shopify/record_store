@@ -314,4 +314,34 @@ class RecordTest < Minitest::Test
       fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
     ), :valid?)
   end
+
+  def test_unknown_sshfp_algorithm
+    refute_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: 999,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ), :valid?)
+  end
+
+  def test_unknown_sshfp_fingerprint_type
+    refute_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: 999,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ), :valid?)
+  end
+
+  def test_non_hexadecimal_fingerprints
+    refute_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    ), :valid?)
+  end
 end

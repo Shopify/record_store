@@ -22,9 +22,13 @@ module RecordStore
 
     FINGERPRINT_REGEX = /\A[[:xdigit:]]+\Z/
 
-    validates :algorithm, presence: true#, inclusion: { in: ALGORITHMS.constants }
-    validates :fptype, presence: true#, inclusion: { in: FINGERPRINT_TYPES.keys }
-    validates :fingerprint, presence: true#, format: { with: FINGERPRINT_REGEX }
+    validates :algorithm,
+      presence: true,
+      inclusion: { in: Algorithms.constants(false).map(&Algorithms.method(:const_get)) }
+    validates :fptype,
+      presence: true,
+      inclusion: { in: FingerprintTypes.constants(false).map(&FingerprintTypes.method(:const_get)) }
+    validates :fingerprint, presence: true, format: { with: FINGERPRINT_REGEX }
 
     def initialize(record)
       super
