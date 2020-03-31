@@ -242,7 +242,10 @@ class RecordTest < Minitest::Test
     assert_equal('10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].rdata_txt)
     assert_equal('"Hello, world!"', RECORD_FIXTURES[:txt].rdata_txt)
     assert_equal('"v=spf1 -all"', RECORD_FIXTURES[:spf].rdata_txt)
-    assert_equal('4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3', RECORD_FIXTURES[:sshfp].rdata_txt)
+    assert_equal(
+      '4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+      RECORD_FIXTURES[:sshfp].rdata_txt
+    )
   end
 
   def test_consistent_print_formatting
@@ -261,7 +264,11 @@ class RecordTest < Minitest::Test
                  'target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s)
     assert_equal('[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s)
     assert_equal('[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s)
-    assert_equal('[SSHFPRecord] dns-test.shopify.io. 3600 IN SSHFP 4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3', RECORD_FIXTURES[:sshfp].to_s)
+    assert_equal(
+      '[SSHFPRecord] dns-test.shopify.io. 3600 IN SSHFP 4 2 '\
+      '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+      RECORD_FIXTURES[:sshfp].to_s
+    )
   end
 
   def test_txt_record_with_embedded_whitespace
