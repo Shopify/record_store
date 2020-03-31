@@ -3,7 +3,6 @@ module RecordStore
     attr_accessor :algorithm, :fptype, :fingerprint
 
     # https://www.iana.org/assignments/dns-sshfp-rr-parameters/dns-sshfp-rr-parameters.xhtml
-    #
     module Algorithms
       RESERVED = 0
       RSA = 1
@@ -31,8 +30,8 @@ module RecordStore
     end
 
     validates :algorithm, presence: true, inclusion: { in: constants_defined_in(Algorithms) }
-    validates :fptype, presence: true, inclusion: { in: constants_defined_in(FingerprintTypes) }
     validates :fingerprint, presence: true, format: { with: FINGERPRINT_REGEX }
+    validates :fptype, presence: true, inclusion: { in: constants_defined_in(FingerprintTypes) }
 
     def initialize(record)
       super
@@ -40,6 +39,18 @@ module RecordStore
       @algorithm = record.fetch(:algorithm)
       @fptype = record.fetch(:fptype)
       @fingerprint = record.fetch(:fingerprint)
+    end
+
+    def rdata
+      {
+        algorithm: algorithm,
+        fingerprint: fingerprint,
+        fptype: fptype,
+      }
+    end
+
+    def rdata_txt
+      "#{algorithm} #{fptype} #{fingerprint}"
     end
   end
 end
