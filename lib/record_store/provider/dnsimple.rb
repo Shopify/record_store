@@ -3,6 +3,10 @@ require 'dnsimple'
 module RecordStore
   class Provider::DNSimple < Provider
     class << self
+      def record_types
+        super | Set.new(['SSHFP'])
+      end
+
       def supports_alias?
         true
       end
