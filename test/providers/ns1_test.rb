@@ -668,7 +668,6 @@ class NS1Test < Minitest::Test
       fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
     )
 
-    # Cassette request body will assert that `use_client_subnet` is set to false in the request
     VCR.use_cassette('test_does_not_allow_addition_of_sshfp_records') do
       err = assert_raises(Provider::NS1::Error) do
         @ns1.apply_changeset(Changeset.new(
@@ -698,7 +697,6 @@ class NS1Test < Minitest::Test
       fingerprint: '0000000000000000000000000000000000000000000000000000000000000000',
     )
 
-    # Cassette request body will assert that `use_client_subnet` is set to false in the request
     VCR.use_cassette('test_does_not_allow_updates_to_sshfp_records') do
       err = assert_raises(Provider::NS1::Error) do
         @ns1.apply_changeset(Changeset.new(
