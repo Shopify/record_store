@@ -49,11 +49,11 @@ class CLITest < Minitest::Test
         fptype: Record::SSHFP::FingerprintTypes::SHA_256,
         fingerprint: '0000000000000000000000000000000000000000000000000000000000000000',
       }]),
-  ])
+    ])
 
-  RecordStore::Changeset.any_instance.expects(:apply).never
+    RecordStore::Changeset.any_instance.expects(:apply).never
 
-  VCR.use_cassette('test_applies_no_changes_if_any_zone_invalid') do
+    VCR.use_cassette('test_applies_no_changes_if_any_zone_invalid') do
       RecordStore::CLI.start(%w(apply))
     end
   rescue SystemExit
