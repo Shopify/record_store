@@ -103,9 +103,16 @@ module RecordStore
         exit
       end
 
-      zones.each do |zone|
-        abort("Attempted to apply invalid zone: #{zone.name}") unless zone.valid?
+      invalid_zones = zones.select(&:invalid?)
+      unless invalid_zones.empty?
+        error_message = invalid_zones
+          .map { |z| "Attempted to apply invalid zone: #{z.name}: #{z.errors.full_messages.join(',')}" }
+          .join("\n")
 
+        abort(error_message)
+      end
+
+      zones.each do |zone|
         changesets = zone.build_changesets
         changesets.each(&:apply)
       end
