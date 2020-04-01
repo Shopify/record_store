@@ -1,0 +1,129 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.nsone.net/v1/zones/test.recordstore.io/_sshfp1.test.recordstore.io/SSHFP
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Tue, 31 Mar 2020 22:30:48 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '53'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dce1e69f25440cc75369e1d5e86d5665d1585693848; expires=Thu, 30-Apr-20
+        22:30:48 GMT; path=/; domain=.nsone.net; HttpOnly; SameSite=Lax
+      Cf-Ray:
+      - 57cd8456be65e212-ORD
+      Cache-Control:
+      - no-cache
+      Expires:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Pragma:
+      - no-cache
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '900'
+      X-Ratelimit-Period:
+      - '300'
+      X-Ratelimit-Remaining:
+      - '899'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"message":"\"SSHFP\" not a manageable record type"}
+
+        '
+    http_version: null
+  recorded_at: Tue, 31 Mar 2020 22:30:48 GMT
+- request:
+    method: put
+    uri: https://api.nsone.net/v1/zones/test.recordstore.io/_sshfp1.test.recordstore.io/SSHFP
+    body:
+      encoding: UTF-8
+      string: '{"answers":[{"answer":["4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3"]}],"ttl":3600,"use_client_subnet":false,"zone":"test.recordstore.io","domain":"_sshfp1.test.recordstore.io","type":"SSHFP"}'
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Tue, 31 Mar 2020 22:30:48 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '53'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=da90ba1ad2e6916eb07a8b331673f235a1585693848; expires=Thu, 30-Apr-20
+        22:30:48 GMT; path=/; domain=.nsone.net; HttpOnly; SameSite=Lax
+      Cf-Ray:
+      - 57cd845a1954ca9c-YYZ
+      Cache-Control:
+      - no-cache
+      Expires:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Pragma:
+      - no-cache
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '100'
+      X-Ratelimit-Period:
+      - '200'
+      X-Ratelimit-Remaining:
+      - '99'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"message":"\"SSHFP\" not a manageable record type"}
+
+        '
+    http_version: null
+  recorded_at: Tue, 31 Mar 2020 22:30:48 GMT
+recorded_with: VCR 5.1.0
