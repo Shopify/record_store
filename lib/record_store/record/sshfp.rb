@@ -19,7 +19,7 @@ module RecordStore
       SHA_256 = 2
     end
 
-    FINGERPRINT_REGEX = /\A[[:xdigit:]]+\Z/
+    FINGERPRINT_REGEX = /\A[[:xdigit:]]+\z/
 
     class << self
       private
