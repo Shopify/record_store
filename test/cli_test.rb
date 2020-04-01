@@ -41,9 +41,9 @@ class CLITest < Minitest::Test
         ttl: 3600,
         txtdata: 'This record is valid',
       }]),
-      Zone.new(name: 'test2.recordstore.io', config: ns1_config, records: [{
+      Zone.new(name: 'sshfp1.test.recordstore.io', config: ns1_config, records: [{
         type: 'SSHFP',
-        fqdn: "ns1.does.not.support.sshfp.test2.recordstore.io.",
+        fqdn: "ns1.does.not.support.sshfp1.test.recordstore.io.",
         ttl: 3600,
         algorithm: Record::SSHFP::Algorithms::ED25519,
         fptype: Record::SSHFP::FingerprintTypes::SHA_256,
