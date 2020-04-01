@@ -414,6 +414,39 @@ class ZoneTest < Minitest::Test
     assert_equal(fqdns.map(&:downcase), fqdns)
   end
 
+  def test_zone_validates_support_for_sshfp_records
+    valid_zone = Zone.new(
+      name: 'test.recordstore.io',
+      config: { providers: ['DNSimple'] },
+      records: [{
+        type: 'SSHFP',
+        fqdn: 'test.recordstore.io',
+        algorithm: Record::SSHFP::Algorithms::RSA,
+        fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+        fingerprint: '0',
+        ttl: 60,
+      }],
+    )
+    assert_predicate(valid_zone, :valid?)
+
+    ['NS1', 'DynECT', 'GoogleCloudDNS'].each do |provider|
+      invalid_zone = Zone.new(
+        name: 'test.recordstore.io',
+        config: { providers: [provider] },
+        records: [{
+          type: 'SSHFP',
+          fqdn: 'test.recordstore.io',
+          algorithm: Record::SSHFP::Algorithms::RSA,
+          fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+          fingerprint: '0',
+          ttl: 60,
+        }],
+      )
+      refute_predicate(invalid_zone, :valid?)
+      assert_match(/SSHFP is not a supported/, invalid_zone.errors[:records].first)
+    end
+  end
+
   private
 
   def valid_zone_from_records(name, records:)

@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<DNSIMPLE_BASE_URL>/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records"
+    body:
+      encoding: UTF-8
+      string: '{"name":"_sshfp1","ttl":3600,"type":"SSHFP","content":"4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3"}'
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - dnsimple-ruby/4.4.0
+      Authorization:
+      - Bearer <DNSIMPLE_API_TOKEN>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 31 Mar 2020 21:36:19 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2392'
+      X-Ratelimit-Reset:
+      - '1585693346'
+      Etag:
+      - W/"6f99c3eefd9d3e6a79e26b0715e879c3"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - fce8bcea-de9a-463a-a0cc-01133dcc3b9c
+      X-Runtime:
+      - '0.068194'
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Strict-Transport-Security:
+      - max-age=31536000
+      Link:
+      - <https://dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records>;
+        rel="canonical"
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":1690347,"zone_id":"dns-scratch.me","parent_id":null,"name":"_sshfp1","content":"4
+        2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3","ttl":3600,"priority":null,"type":"SSHFP","regions":["global"],"system_record":false,"created_at":"2020-03-31T21:36:19Z","updated_at":"2020-03-31T21:36:19Z"}}'
+    http_version: null
+  recorded_at: Tue, 31 Mar 2020 21:36:19 GMT
+recorded_with: VCR 5.1.0

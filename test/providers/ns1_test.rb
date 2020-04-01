@@ -658,4 +658,55 @@ class NS1Test < Minitest::Test
       ))
     end
   end
+
+  def test_does_not_allow_addition_of_sshfp_records
+    sshfp_record = Record::SSHFP.new(
+      fqdn: "_sshfp1.#{@zone_name}.",
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    )
+
+    VCR.use_cassette('test_does_not_allow_addition_of_sshfp_records') do
+      err = assert_raises(Provider::NS1::Error) do
+        @ns1.apply_changeset(Changeset.new(
+          current_records: [],
+          desired_records: [sshfp_record],
+          provider: @ns1,
+          zone: @zone_name
+        ))
+      end
+      assert_match(/SSHFP/, err.message)
+    end
+  end
+
+  def test_does_not_allow_updates_to_sshfp_records
+    old_sshfp_record = Record::SSHFP.new(
+      fqdn: "_sshfp1.#{@zone_name}.",
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    )
+    new_sshfp_record = Record::SSHFP.new(
+      fqdn: "_sshfp1.#{@zone_name}.",
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '0000000000000000000000000000000000000000000000000000000000000000',
+    )
+
+    VCR.use_cassette('test_does_not_allow_updates_to_sshfp_records') do
+      err = assert_raises(Provider::NS1::Error) do
+        @ns1.apply_changeset(Changeset.new(
+          current_records: [old_sshfp_record],
+          desired_records: [new_sshfp_record],
+          provider: @ns1,
+          zone: @zone_name
+        ))
+      end
+      assert_match(/SSHFP/, err.message)
+    end
+  end
 end

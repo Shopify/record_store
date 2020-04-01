@@ -28,6 +28,13 @@ class RecordTest < Minitest::Test
       target: 'target-srv.dns-test.shopify.io.',
       ttl: 60
     ),
+    sshfp: Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ),
   }
 
   def test_build_from_yaml_definition
@@ -235,6 +242,10 @@ class RecordTest < Minitest::Test
     assert_equal('10 47 80 target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].rdata_txt)
     assert_equal('"Hello, world!"', RECORD_FIXTURES[:txt].rdata_txt)
     assert_equal('"v=spf1 -all"', RECORD_FIXTURES[:spf].rdata_txt)
+    assert_equal(
+      '4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+      RECORD_FIXTURES[:sshfp].rdata_txt
+    )
   end
 
   def test_consistent_print_formatting
@@ -253,6 +264,11 @@ class RecordTest < Minitest::Test
                  'target-srv.dns-test.shopify.io.', RECORD_FIXTURES[:srv].to_s)
     assert_equal('[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s)
     assert_equal('[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s)
+    assert_equal(
+      '[SSHFPRecord] dns-test.shopify.io. 3600 IN SSHFP 4 2 '\
+      '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+      RECORD_FIXTURES[:sshfp].to_s
+    )
   end
 
   def test_txt_record_with_embedded_whitespace
@@ -303,5 +319,45 @@ class RecordTest < Minitest::Test
     assert_equal(Record.long_quote("a" * 265), '"' + ("a" * 255) + '" "' + ("a" * 10) + '"')
     assert_equal(Record.long_quote("a" * 600), '"' + ("a" * 255) + '" "' \
                   + ("a" * 255) + '" "' + ("a" * 90) + '"')
+  end
+
+  def test_valid_sshfp_record
+    assert_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ), :valid?)
+  end
+
+  def test_unknown_sshfp_algorithm
+    refute_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: 999,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ), :valid?)
+  end
+
+  def test_unknown_sshfp_fingerprint_type
+    refute_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: 999,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    ), :valid?)
+  end
+
+  def test_non_hexadecimal_fingerprints
+    refute_predicate(Record::SSHFP.new(
+      fqdn: 'dns-test.shopify.io',
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    ), :valid?)
   end
 end

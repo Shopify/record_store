@@ -3,6 +3,10 @@ require 'dnsimple'
 module RecordStore
   class Provider::DNSimple < Provider
     class << self
+      def record_types
+        super | Set.new(['SSHFP'])
+      end
+
       def supports_alias?
         true
       end
@@ -95,6 +99,13 @@ module RecordStore
           record.merge!(preference: api_record.priority, exchange: api_record.content)
         when 'NS'
           record.merge!(nsdname: api_record.content)
+        when 'SSHFP'
+          algorithm, fptype, fingerprint = api_record.content.split(' ')
+          record.merge!(
+            algorithm: algorithm.to_i,
+            fptype: fptype.to_i,
+            fingerprint: fingerprint,
+          )
         when 'SPF', 'TXT'
           record.merge!(txtdata: Record.unescape(api_record.content).gsub(';', '\;'))
         when 'SRV'
@@ -132,6 +143,8 @@ module RecordStore
           record_hash[:content] = record.exchange.chomp('.')
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
+        when 'SSHFP'
+          record_hash[:content] = record.rdata_txt
         when 'SPF', 'TXT'
           record_hash[:content] = Record.escape(record.txtdata).gsub('\;', ';')
         when 'SRV'

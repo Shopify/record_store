@@ -289,6 +289,47 @@ class DNSimpleTest < Minitest::Test
     assert_equal(60, record.ttl)
   end
 
+  def test_build_sshfp_from_api
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 18003479,
+      "parent_id" => nil,
+      "name" => "_sshfp1",
+      "content" => "1 1 0000000000000000000000000000000000000000000000000000000000000001",
+      "ttl" => 3600,
+      "priority" => nil,
+      "type" => "SSHFP",
+      "system_record" => false,
+      "created_at" => "2020-03-31T20:11:35Z",
+      "updated_at" => "2020-03-31T20:11:35Z",
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of(Record::SSHFP, record)
+    assert_equal(Record::SSHFP::Algorithms::RSA, record.algorithm)
+    assert_equal('0000000000000000000000000000000000000000000000000000000000000001', record.fingerprint)
+    assert_equal(Record::SSHFP::FingerprintTypes::SHA_1, record.fptype)
+  end
+
+  def test_apply_sshfp_changeset
+    sshfp_record = Record::SSHFP.new(
+      fqdn: "_sshfp1.#{@zone_name}.",
+      ttl: 3600,
+      algorithm: Record::SSHFP::Algorithms::ED25519,
+      fptype: Record::SSHFP::FingerprintTypes::SHA_256,
+      fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+    )
+
+    VCR.use_cassette('dnsimple_apply_sshfp_changeset') do
+      @dnsimple.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [sshfp_record],
+        provider: RecordStore::Provider::DNSimple,
+        zone: @zone_name
+      ))
+    end
+  end
+
   def test_apply_changeset_sets_state_to_match_changeset
     a_record = Record::A.new(fqdn: 'test-record.dns-scratch.me.', ttl: 86400, address: '10.10.10.42')
 

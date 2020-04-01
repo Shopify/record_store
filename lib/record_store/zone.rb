@@ -181,7 +181,7 @@ module RecordStore
 
       providers.each do |provider|
         (record_types - provider.record_types).each do |record_type|
-          errors.add(:records, "#{record_type} is a not a supported record type in #{provider}")
+          errors.add(:records, "#{record_type} is not a supported record type in #{provider}")
         end
       end
     end
