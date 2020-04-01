@@ -32,34 +32,6 @@ class CLITest < Minitest::Test
     ENV['EJSON_KEYDIR'] = ejson_keydir
   end
 
-  def test_applies_no_changes_if_any_zone_invalid
-    ns1_config = { providers: ['NS1'] }
-    Zone.expects(:modified).returns([
-      Zone.new(name: 'test.recordstore.io', config: ns1_config, records: [{
-        type: 'TXT',
-        fqdn: "test.recordstore.io.",
-        ttl: 3600,
-        txtdata: 'This record is valid',
-      }]),
-      Zone.new(name: 'test2.recordstore.io', config: ns1_config, records: [{
-        type: 'SSHFP',
-        fqdn: "ns1.does.not.support.sshfp.test2.recordstore.io.",
-        ttl: 3600,
-        algorithm: Record::SSHFP::Algorithms::ED25519,
-        fptype: Record::SSHFP::FingerprintTypes::SHA_256,
-        fingerprint: '0000000000000000000000000000000000000000000000000000000000000000',
-      }]),
-  ])
-
-  RecordStore::Changeset.any_instance.expects(:apply).never
-
-  VCR.use_cassette('test_applies_no_changes_if_any_zone_invalid') do
-      RecordStore::CLI.start(%w(apply))
-    end
-  rescue SystemExit
-    # pass: CLI is expected to `abort`. Prevent the Minitest reporter from dying.
-  end
-
   def test_returns_nonzero_exit_status
     stderr = STDERR.clone
     STDERR.reopen(File::NULL, "w")
