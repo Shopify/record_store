@@ -61,6 +61,7 @@ module RecordStore
     def config_path=(config_path)
       @config = @zones_path = @secrets_path = nil
       @config_path = config_path
+      Zone.reset
     end
 
     def config
