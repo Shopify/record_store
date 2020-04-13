@@ -40,8 +40,8 @@ module RecordStore
         puts "Zone: #{name}"
         puts "Providers:"
         zone.config.providers.each { |p| puts "- #{p}" }
-        if (delegation = zone.fetch_delegation)
-          puts "Delegation:"
+        if (delegation = zone.fetch_authority)
+          puts "Authoritative nameservers:"
           delegation.each { |d| puts "- #{d}" }
         else
           STDERR.puts "ERROR: Unable to determine delegation (#{name})"

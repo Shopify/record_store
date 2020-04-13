@@ -128,31 +128,31 @@ module RecordStore
       m.root-servers.net
     )
 
-    def fetch_delegation(nameserver = ROOT_SERVERS.sample)
+    def fetch_authority(nameserver = ROOT_SERVERS.sample)
       Resolv::DNS.open(nameserver: nameserver) do |resolv|
         resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
           break if reply.answer.any?
 
           raise "No authority found (#{name})" unless reply.authority.any?
 
-          break extract_delegation(reply)
+          break extract_authority(reply)
         end
       end
     end
 
     private
 
-    def extract_delegation(reply)
+    def extract_authority(reply)
       authority = reply.authority.sample
 
       if unrooted_name.casecmp?(authority.first.to_s)
-        extract_authority(reply.authority)
+        build_authority(reply.authority)
       else
-        fetch_delegation(authority.last.name.to_s) || extract_authority(reply.authority)
+        fetch_authority(authority.last.name.to_s) || build_authority(reply.authority)
       end
     end
 
-    def extract_authority(authority)
+    def build_authority(authority)
       authority.map.with_index do |(name, ttl, data), index|
         Record::NS.new(ttl: ttl, fqdn: name.to_s, nsdname: data.name.to_s, record_id: index)
       end
