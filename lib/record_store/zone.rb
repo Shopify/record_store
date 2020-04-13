@@ -131,15 +131,13 @@ module RecordStore
     def fetch_delegation(nameserver = ROOT_SERVERS.sample)
       Resolv::DNS.open(nameserver: nameserver) do |resolv|
         resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
-          return if reply.answer.any?
+          break if reply.answer.any?
 
           raise "No authority found (#{name})" unless reply.authority.any?
 
-          return extract_delegation(reply)
+          break extract_delegation(reply)
         end
       end
-
-      nil
     end
 
     private
