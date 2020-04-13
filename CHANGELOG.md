@@ -1,6 +1,13 @@
 # CHANGELOG
+## 5.9.0
+- add `--all` option for `record-store list` to list ignored records too [FEATURE]
+- add `record-store info` command to list providers and delegation for zones [FEATURE]
+
+## 5.8.0
+- support SSHFP record type [FEATURE]
+
 ## 5.7.4
-- NS1: changing the way long TXT records are processed (no more splitting to do on our side)
+- NS1: changing the way long TXT records are processed (no more splitting to do on our side) [BUGFIX]
 
 ## 5.7.1
 - add API rate limit for NS1 provider [FEATURE]
