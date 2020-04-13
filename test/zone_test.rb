@@ -34,6 +34,12 @@ class ZoneTest < Minitest::Test
     assert_nil(Zone.find('missing-zone.com'))
   end
 
+  def test_zone_all_includes_ignored_records
+    zone = Zone.find('ignored-ns.com')
+    assert_equal(1, zone.records.size)
+    assert_equal(5, zone.all.size)
+  end
+
   def test_zone_has_configurable_ignore_pattern
     zone = Zone.find('one-record.com')
     assert_equal(1, zone.records.size)

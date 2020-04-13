@@ -33,10 +33,12 @@ module RecordStore
     end
 
     desc 'list', 'Lists out records in YAML zonefiles'
+    option :all, desc: 'Show all records', aliases: '-a', type: :boolean, default: false
     def list
       Zone.each do |name, zone|
         puts "Zone: #{name}"
-        zone.records.each(&:log!)
+        records = options.fetch('all') ? zone.all : zone.records
+        records.each(&:log!)
       end
     end
 

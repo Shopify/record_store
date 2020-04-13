@@ -86,6 +86,10 @@ module RecordStore
       @name.chomp('.')
     end
 
+    def all
+      @records
+    end
+
     def records
       @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
     end
