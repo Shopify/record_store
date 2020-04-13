@@ -32,6 +32,23 @@ module RecordStore
       end
     end
 
+    desc 'info', 'Show information about zones under management'
+    option :delegation, desc: 'Include delegation', aliases: '-d', type: :boolean, default: false
+    def info
+      Zone.each do |name, zone|
+        puts "\n"
+        puts "Zone: #{name}"
+        puts "Providers:"
+        zone.config.providers.each { |p| puts "- #{p}" }
+        if delegation = zone.fetch_delegation
+          puts "Delegation:"
+          delegation.each { |d| puts "- #{d}" }
+        else
+          STDERR.puts "ERROR: Unable to determine delegation (#{name})"
+        end
+      end
+    end
+
     desc 'list', 'Lists out records in YAML zonefiles'
     option :all, desc: 'Show all records', aliases: '-a', type: :boolean, default: false
     def list
