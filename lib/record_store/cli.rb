@@ -40,7 +40,7 @@ module RecordStore
         puts "Zone: #{name}"
         puts "Providers:"
         zone.config.providers.each { |p| puts "- #{p}" }
-        if delegation = zone.fetch_delegation
+        if (delegation = zone.fetch_delegation)
           puts "Delegation:"
           delegation.each { |d| puts "- #{d}" }
         else
