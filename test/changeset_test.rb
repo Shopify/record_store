@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ChangesetTest < Minitest::Test
   def setup
+    super
     @cname_record = Record::CNAME.new(fqdn: 'www.example.com', ttl: 60, cname: 'www.example.org')
     @cname_record_copy = Record::CNAME.new(fqdn: 'www.example.com', ttl: 60, cname: 'www.example.org')
     @a_record = Record::A.new(fqdn: 'www.example.com', ttl: 60, address: '10.11.12.13')

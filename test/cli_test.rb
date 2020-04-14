@@ -5,6 +5,7 @@ class CLITest < Minitest::Test
   EJSON_PRIVATE_KEY = '739c6c987f8520b725fe608ac9f537610f7cfbe612d73d5256d3ac56ae060a1b'
 
   def teardown
+    super
     RecordStore.config_path = DUMMY_CONFIG_PATH
   end
 

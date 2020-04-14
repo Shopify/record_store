@@ -2,6 +2,7 @@ require 'test_helper'
 
 class NS1Test < Minitest::Test
   def setup
+    super
     @zone_name = 'test.recordstore.io'
     @ns1 = Provider::NS1
   end

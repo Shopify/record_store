@@ -119,6 +119,7 @@ class Minitest::Test
   end
 
   def teardown
+    super
     Provider::DynECT.instance_variable_set(:@dns, nil)
     Provider::DNSimple.instance_variable_set(:@dns, nil)
     Provider::GoogleCloudDNS.instance_variable_set(:@dns, nil)

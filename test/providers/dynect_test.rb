@@ -2,6 +2,7 @@ require 'test_helper'
 
 class DynECTTest < Minitest::Test
   def setup
+    super
     @zone_name = 'dns-test.shopify.io'
   end
 

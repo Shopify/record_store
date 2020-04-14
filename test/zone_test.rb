@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ZoneTest < Minitest::Test
   def setup
+    super
     Zone.reset
   end
 
