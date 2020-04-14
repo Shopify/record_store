@@ -1,4 +1,6 @@
 module TestConfig
+  private
+
   def build_record_store_config(
     zones_path: 'zones/',
     secrets_path: 'secrets.json',

@@ -86,6 +86,10 @@ module RecordStore
       @name.chomp('.')
     end
 
+    def all
+      @records
+    end
+
     def records
       @records_cache ||= Zone.filter_records(@records, config.ignore_patterns)
     end
@@ -108,7 +112,51 @@ module RecordStore
       self.class.write(name, config: config, records: records, **write_options)
     end
 
+    ROOT_SERVERS = %w(
+      a.root-servers.net
+      b.root-servers.net
+      c.root-servers.net
+      d.root-servers.net
+      e.root-servers.net
+      f.root-servers.net
+      g.root-servers.net
+      h.root-servers.net
+      i.root-servers.net
+      j.root-servers.net
+      k.root-servers.net
+      l.root-servers.net
+      m.root-servers.net
+    )
+
+    def fetch_authority(nameserver = ROOT_SERVERS.sample)
+      Resolv::DNS.open(nameserver: nameserver) do |resolv|
+        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
+          break if reply.answer.any?
+
+          raise "No authority found (#{name})" unless reply.authority.any?
+
+          break extract_authority(reply)
+        end
+      end
+    end
+
     private
+
+    def extract_authority(reply)
+      authority = reply.authority.sample
+
+      if unrooted_name.casecmp?(authority.first.to_s)
+        build_authority(reply.authority)
+      else
+        fetch_authority(authority.last.name.to_s) || build_authority(reply.authority)
+      end
+    end
+
+    def build_authority(authority)
+      authority.map.with_index do |(name, ttl, data), index|
+        Record::NS.new(ttl: ttl, fqdn: name.to_s, nsdname: data.name.to_s, record_id: index)
+      end
+    end
 
     def build_records(records)
       records.map { |record| Record.build_from_yaml_definition(record) }

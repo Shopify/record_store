@@ -1,0 +1,30 @@
+ignored-ns.com:
+  config:
+    providers:
+    - DNSimple
+    ignore_patterns:
+    - type: NS
+      fqdn: ignored-ns.com.
+
+  records:
+    - type: A
+      fqdn: a-record.ignored-ns.com.
+      address: 10.10.10.10
+      ttl: 86400
+
+    - type: NS
+      fqdn: ignored-ns.com.
+      ttl: 3600
+      nsdname: ns1.dnsimple.com.
+    - type: NS
+      fqdn: ignored-ns.com.
+      ttl: 3600
+      nsdname: ns2.dnsimple.com.
+    - type: NS
+      fqdn: ignored-ns.com.
+      ttl: 3600
+      nsdname: ns3.dnsimple.com.
+    - type: NS
+      fqdn: ignored-ns.com.
+      ttl: 3600
+      nsdname: ns4.dnsimple.com.
