@@ -62,11 +62,7 @@ class CLITest < Minitest::Test
   end
 
   def test_returns_nonzero_exit_status
-    stderr = STDERR.clone
-    STDERR.reopen(File::NULL, "w")
     Thor.expects(:exit).with(false)
     RecordStore::CLI.start(%w(does not exist))
-  ensure
-    STDERR.reopen(stderr)
   end
 end
