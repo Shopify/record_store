@@ -12,4 +12,4 @@ module TestConfig
   end
 end
 
-Minitest::Test.send(:prepend, TestConfig)
+Minitest::Test.prepend(TestConfig)

@@ -360,4 +360,9 @@ class RecordTest < Minitest::Test
       fingerprint: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     ), :valid?)
   end
+
+  def test_spf_is_deprecated
+    Record::SPF.new(fqdn: 'dns-test.shopify.io.', txtdata: 'v=spf1 -all', ttl: 3600)
+    assert_includes($stderr.string, "SPF record type is deprecated (See RFC 7208 Section 14.1)")
+  end
 end
