@@ -2,6 +2,7 @@ require 'test_helper'
 
 class DNSimpleTest < Minitest::Test
   def setup
+    super
     @zone_name = 'dns-scratch.me'
     @dnsimple = Provider::DNSimple
   end

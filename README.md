@@ -125,7 +125,7 @@ To add a new Provider, create a class inheriting `Provider` in [`lib/record_stor
 
 **Note**: _there's no need to wrap `Provider#apply_changeset` unless it's necessary to do something before/after making changes to a zone._
 
-Provider API interactions are tested with [VCR](https://github.com/vcr/vcr). To generate the fixtures, update [`test/dummy/secrets.json`](test/dummy/secrets.json) with valid credentials, run the test suite, and change the values back to stub credentials.
+Provider API interactions are tested with [VCR](https://github.com/vcr/vcr). To generate the fixtures, update [`test/fixtures/config/dummy/secrets.json`](test/fixtures/config/dummy/secrets.json) with valid credentials, run the test suite, and change the values back to stub credentials.
 
 **Important**: _be sure to [filter sensitive data](https://github.com/Shopify/record_store/blob/1ec0d1410cf8bedf79bc63e8e4cdc7cdb0f1019b/test/test_helper.rb#L23-L56) from the fixtures or you're going to have a bad time._
 
@@ -193,7 +193,7 @@ For provider-specific records (e.g. `ALIAS`), create the record model in `lib/re
 
 #### Secrets
 
-When adding a new provider, be sure to update the `secrets.json` in [`template/secrets.json`](template/secrets.json) and [`test/dummy/secrets.json`](test/dummy/secrets.json) with the new provider and required fields for the API to work.
+When adding a new provider, be sure to update the `secrets.json` in [`template/secrets.json`](template/secrets.json) and [`test/fixtures/config/dummy/secrets.json`](test/fixtures/config/dummy/secrets.json) with the new provider and required fields for the API to work.
 
 
 ### Test Changes on Providers

@@ -2,6 +2,7 @@ require 'test_helper'
 
 class OracleCloudDNSTest < Minitest::Test
   def setup
+    super
     @zone_name = 'test.recordstore.io'
     @oracle_cloud_dns = Provider::OracleCloudDNS
   end
