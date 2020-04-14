@@ -6,12 +6,12 @@ require 'pry'
 require 'fileutils'
 require 'webmock'
 
-$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 require 'record_store'
 
 class Minitest::Test
   include RecordStore
-  DUMMY_CONFIG_PATH = File.expand_path('../dummy/config.yml', __FILE__)
+  DUMMY_CONFIG_PATH = File.expand_path('fixtures/config/dummy/config.yml', __dir__)
 
   RecordStore.config_path = DUMMY_CONFIG_PATH
 
