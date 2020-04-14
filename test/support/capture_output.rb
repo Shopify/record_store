@@ -17,4 +17,4 @@ module CaptureOutput
   end
 end
 
-Minitest::Test.send(:prepend, CaptureOutput)
+Minitest::Test.prepend(CaptureOutput)

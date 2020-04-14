@@ -8,4 +8,4 @@ module ProviderTeardown
   end
 end
 
-Minitest::Test.send(:prepend, ProviderTeardown)
+Minitest::Test.prepend(ProviderTeardown)
