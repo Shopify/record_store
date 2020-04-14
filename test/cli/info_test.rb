@@ -2,6 +2,18 @@ require 'test_helper'
 
 module CLI
   class InfoTest < Minitest::Test
+    def setup
+      super
+      Zone.expects(:defined).returns(
+        'example.com' => Zone.new(name: 'example.com', config: { providers: %w(DNSimple NS1) })
+      )
+    end
+
+    def teardown
+      super
+      RecordStore.config_path = DUMMY_CONFIG_PATH
+    end
+
     def test_prints_zone
       RecordStore::CLI.start(%w(info))
 
@@ -14,8 +26,7 @@ module CLI
       providers = <<~PROVIDERS
         Providers:
         - DNSimple
-        - DynECT
-        - GoogleCloudDNS
+        - NS1
       PROVIDERS
 
       assert_includes($stdout.string, providers)
