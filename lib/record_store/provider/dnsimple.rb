@@ -99,6 +99,8 @@ module RecordStore
           record.merge!(preference: api_record.priority, exchange: api_record.content)
         when 'NS'
           record.merge!(nsdname: api_record.content)
+        when 'PTR'
+          record.merge!(ptrdname: api_record.content)
         when 'SSHFP'
           algorithm, fptype, fingerprint = api_record.content.split(' ')
           record.merge!(

@@ -413,6 +413,28 @@ class DNSimpleTest < Minitest::Test
     end
   end
 
+  def test_build_ptr_from_api
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      'id' => 1714852,
+      'zone_id' => '1.0.0.127.in-addr.arpa',
+      'parent_id' => nil,
+      'name' => '',
+      'content' => 'example.com.',
+      'ttl' => 60,
+      'priority' => nil,
+      'type' => 'PTR',
+      'regions' => [ 'global' ],
+      'system_record' => false,
+      'created_at' => '2020-04-15T23:26:19Z',
+      'updated_at' => '2020-04-15T23:26:19Z'
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of(Record::PTR, record)
+    assert_equal('example.com.', record.ptrdname)
+  end
+
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette('dnsimple_zones') do
       assert_equal @dnsimple.zones, [@zone_name]
