@@ -24,7 +24,9 @@ module RecordStore
           'DynECT'
         when /\.googledomains\.com\z/
           'GoogleCloudDNS'
-        when /\.nsone\.net\z/
+        when /\.nsone\.net\z/,
+             /\.ns1global\.net\z/,
+             /\.ns1global\.org\z/
           'NS1'
         when /\.oraclecloud\.net\z/
           'OracleCloudDNS'

@@ -55,6 +55,18 @@ class ProviderTest < Minitest::Test
     assert_equal('NS1', provider)
   end
 
+  def test_provider_for_recognizes_nsone_global_org_ns_record
+    ns = Record::NS.new(fqdn: 'nsone.net', ttl: 172_800, nsdname: 'dns1.g01.ns1global.org.')
+    provider = Provider.provider_for(ns)
+    assert_equal('NS1', provider)
+  end
+
+  def test_provider_for_recognizes_nsone_global_net_ns_record
+    ns = Record::NS.new(fqdn: 'nsone.net', ttl: 172_800, nsdname: 'dns1.g01.ns1global.net.')
+    provider = Provider.provider_for(ns)
+    assert_equal('NS1', provider)
+  end
+
   def test_provider_for_recognizes_oraclecloud_ns_record
     ns = Record::NS.new(fqdn: 'oraclecloud.net', ttl: 172_800, nsdname: 'ns1.p68.dns.oraclecloud.net.')
     provider = Provider.provider_for(ns)
