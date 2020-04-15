@@ -4,12 +4,11 @@ module RecordStore
   class Provider
     class << self
       def provider_for(zone_name)
-        dns = Resolv::DNS.new(nameserver: ['8.8.8.8', '8.8.4.4'])
-
         begin
-          ns_server = dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
+          ns_server = master_nameserver_for(zone_name)
         rescue Resolv::ResolvError
-          abort("Domain doesn't exist")
+          $stderr.puts "Domain doesn't exist (#{zone_name})"
+          return
         end
 
         case ns_server
@@ -114,6 +113,12 @@ module RecordStore
 
       def update(id, record)
         raise NotImplementedError
+      end
+
+      def master_nameserver_for(zone_name)
+        dns = Resolv::DNS.new(nameserver: ['8.8.8.8', '8.8.4.4'])
+
+        dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
       end
     end
   end
