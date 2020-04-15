@@ -3,13 +3,19 @@ require 'resolv'
 module RecordStore
   class Provider
     class << self
-      def provider_for(zone_name)
-        begin
-          ns_server = master_nameserver_for(zone_name)
-        rescue Resolv::ResolvError
-          $stderr.puts "Domain doesn't exist (#{zone_name})"
-          return
-        end
+      def provider_for(object)
+        ns_server =
+          case object
+          when Record::NS
+            object.nsdname.chomp('.')
+          else
+            begin
+              master_nameserver_for(object)
+            rescue Resolv::ResolvError
+              $stderr.puts "Domain doesn't exist (#{object})"
+              return
+            end
+          end
 
         case ns_server
         when /\.dnsimple\.com\z/

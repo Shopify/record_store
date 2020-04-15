@@ -37,6 +37,42 @@ class ProviderTest < Minitest::Test
     assert_equal('DNSimple', provider)
   end
 
+  def test_provider_for_recognizes_dnsimple_ns_record
+    ns = Record::NS.new(fqdn: 'dnsimple.com', ttl: 172_800, nsdname: 'ns1.dnsimple.com.')
+    provider = Provider.provider_for(ns)
+    assert_equal('DNSimple', provider)
+  end
+
+  def test_provider_for_recognizes_dynect_ns_record
+    ns = Record::NS.new(fqdn: 'dynect.net', ttl: 172_800, nsdname: 'ns1.p19.dynect.net.')
+    provider = Provider.provider_for(ns)
+    assert_equal('DynECT', provider)
+  end
+
+  def test_provider_for_recognizes_google_cloud_dns_ns_record
+    ns = Record::NS.new(fqdn: 'googledomains.com', ttl: 172_800, nsdname: 'ns5.googledomains.com.')
+    provider = Provider.provider_for(ns)
+    assert_equal('GoogleCloudDNS', provider)
+  end
+
+  def test_provider_for_recognizes_nsone_ns_record
+    ns = Record::NS.new(fqdn: 'nsone.net', ttl: 172_800, nsdname: 'dns1.p01.nsone.net.')
+    provider = Provider.provider_for(ns)
+    assert_equal('NS1', provider)
+  end
+
+  def test_provider_for_recognizes_oraclecloud_ns_record
+    ns = Record::NS.new(fqdn: 'oraclecloud.net', ttl: 172_800, nsdname: 'ns1.p68.dns.oraclecloud.net.')
+    provider = Provider.provider_for(ns)
+    assert_equal('OracleCloudDNS', provider)
+  end
+
+  def test_provider_for_recognizes_dnsimple_ns_record
+    ns = Record::NS.new(fqdn: 'dnsimple.com', ttl: 172_800, nsdname: 'ns1.dnsimple.com.')
+    provider = Provider.provider_for(ns)
+    assert_equal('DNSimple', provider)
+  end
+
   def test_provider_for_handles_unknown_provider
     Provider.expects(:master_nameserver_for).with('example.com').returns('ns.icann.org')
     provider = Provider.provider_for('example.com')
