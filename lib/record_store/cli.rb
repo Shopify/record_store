@@ -59,8 +59,8 @@ module RecordStore
       end
     end
 
-    option :verbose, desc: 'Print records that haven\'t diverged', aliases: '-v', type: :boolean, default: false
     desc 'diff', 'Displays the DNS differences between the zone files in this repo and production'
+    option :verbose, desc: 'Print records that haven\'t diverged', aliases: '-v', type: :boolean, default: false
     def diff
       puts "Diffing #{Zone.defined.count} zones"
 
@@ -212,6 +212,58 @@ module RecordStore
 
       unless zones.empty?
         abort("The following zones have diverged: #{zones.join(', ')}")
+      end
+    end
+
+    desc 'validate_authority', 'Validates that authoritative nameservers match the providers'
+    option :verbose, desc: 'Include valid zones in output', aliases: '-v', type: :boolean, default: false
+    def validate_authority
+      verbose = options.fetch('verbose')
+
+      Zone.each do |name, zone|
+        authority = zone.fetch_authority
+
+        delegation = Hash.new { |h,k| h[k] = [] }
+        authority.each do |ns|
+          delegation[Provider.provider_for(ns)] << ns
+        end
+
+        delegated = delegation.keys.sort
+        configured = zone.config.providers.sort
+
+        ok = configured & delegated
+        missing = configured - delegated
+        unconfigured = delegated - configured
+
+        next if !verbose && missing.empty? && unconfigured.empty?
+
+        puts "\n"
+        puts "Zone: #{name}"
+
+        if verbose
+          ok.each do |provider|
+            puts "- #{provider}:"
+            delegation[provider].each do |ns|
+              puts "  - #{ns.nsdname}"
+            end
+          end
+        end
+
+        missing.each do |provider|
+          puts "- #{provider}: authoritative nameservers not found for configured provider"
+        end
+
+        unconfigured.each do |provider|
+          if provider
+            puts "- #{provider}: unexpected authoritative nameservers found"
+          else
+            puts "- Unknown: unknown authoritative nameservers found"
+          end
+
+          delegation[provider].each do |ns|
+            puts "  - #{ns.nsdname}"
+          end
+        end
       end
     end
 
