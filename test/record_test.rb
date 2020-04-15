@@ -365,4 +365,18 @@ class RecordTest < Minitest::Test
     Record::SPF.new(fqdn: 'dns-test.shopify.io.', txtdata: 'v=spf1 -all', ttl: 3600)
     assert_includes($stderr.string, "SPF record type is deprecated (See RFC 7208 Section 14.1)")
   end
+
+  def test_valid_ptr_record
+    assert_predicate(Record::PTR.new(
+      fqdn: '4.0.41.198.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_fqdn_is_outside_arpa_zone
+  end
+
+  def test_invalid_when_ptrdname_is_unrooted
+  end
 end
