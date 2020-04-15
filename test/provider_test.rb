@@ -31,12 +31,6 @@ class ProviderTest < Minitest::Test
     assert_equal('OracleCloudDNS', provider)
   end
 
-  def test_provider_for_recognizes_dnsimple_soa_for_zone_name
-    Provider.expects(:master_nameserver_for).with('dnsimple.com').returns('ns1.dnsimple.com')
-    provider = Provider.provider_for('dnsimple.com')
-    assert_equal('DNSimple', provider)
-  end
-
   def test_provider_for_recognizes_dnsimple_ns_record
     ns = Record::NS.new(fqdn: 'dnsimple.com', ttl: 172_800, nsdname: 'ns1.dnsimple.com.')
     provider = Provider.provider_for(ns)
