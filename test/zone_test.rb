@@ -454,6 +454,16 @@ class ZoneTest < Minitest::Test
     end
   end
 
+  def test_fetch_authority
+    zone = Zone.new(name: 'example.com')
+    nameservers = zone.fetch_authority
+    expected = [
+      Record::NS.new(fqdn: 'example.com', ttl: 172_800, nsdname: 'a.iana-servers.net.'),
+      Record::NS.new(fqdn: 'example.com', ttl: 172_800, nsdname: 'b.iana-servers.net.'),
+    ]
+    assert_equal(expected, nameservers)
+  end
+
   private
 
   def valid_zone_from_records(name, records:)
