@@ -3,14 +3,19 @@ require 'resolv'
 module RecordStore
   class Provider
     class << self
-      def provider_for(zone_name)
-        dns = Resolv::DNS.new(nameserver: ['8.8.8.8', '8.8.4.4'])
-
-        begin
-          ns_server = dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
-        rescue Resolv::ResolvError
-          abort("Domain doesn't exist")
-        end
+      def provider_for(object)
+        ns_server =
+          case object
+          when Record::NS
+            object.nsdname.chomp('.')
+          else
+            begin
+              master_nameserver_for(object)
+            rescue Resolv::ResolvError
+              $stderr.puts "Domain doesn't exist (#{object})"
+              return
+            end
+          end
 
         case ns_server
         when /\.dnsimple\.com\z/
@@ -19,7 +24,9 @@ module RecordStore
           'DynECT'
         when /\.googledomains\.com\z/
           'GoogleCloudDNS'
-        when /\.nsone\.net\z/
+        when /\.nsone\.net\z/,
+             /\.ns1global\.net\z/,
+             /\.ns1global\.org\z/
           'NS1'
         when /\.oraclecloud\.net\z/
           'OracleCloudDNS'
@@ -114,6 +121,12 @@ module RecordStore
 
       def update(id, record)
         raise NotImplementedError
+      end
+
+      def master_nameserver_for(zone_name)
+        dns = Resolv::DNS.new(nameserver: ['8.8.8.8', '8.8.4.4'])
+
+        dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
       end
     end
   end
