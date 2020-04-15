@@ -11,6 +11,10 @@ module RecordStore
       @ptrdname = record.fetch(:ptrdname)
     end
 
+    def rdata_txt
+      ptrdname.to_s
+    end
+
     def validate_fqdn_inside_in_addr_arpa_zone
       errors.add(:fqdn, 'must be in the `in-addr.arpa.` zone') unless fqdn.end_with?('in-addr.arpa.')
     end

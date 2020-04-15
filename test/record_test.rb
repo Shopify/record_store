@@ -20,6 +20,11 @@ class RecordTest < Minitest::Test
       preference: 10,
       ttl: 60
     ),
+    ptr: Record::PTR.new(
+      fqdn: '4.0.41.198.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ),
     srv: Record::SRV.new(
       fqdn: '_service._TCP.srv.dns-test.shopify.io.',
       priority: 10,
@@ -246,6 +251,7 @@ class RecordTest < Minitest::Test
       '4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
       RECORD_FIXTURES[:sshfp].rdata_txt
     )
+    assert_equal('a.root-servers.net.', RECORD_FIXTURES[:ptr].rdata_txt)
   end
 
   def test_consistent_print_formatting
