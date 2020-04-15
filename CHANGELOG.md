@@ -1,4 +1,9 @@
 # CHANGELOG
+
+## 5.10.0
+- add `record-store validate_authority` command to sanity check delegation [FEATURE]
+- fix handling of NXDOMAIN, etc. when fetching authoritative nameservers [BUGFIX]
+
 ## 5.9.0
 - add `--all` option for `record-store list` to list ignored records too [FEATURE]
 - add `record-store info` command to list providers and delegation for zones [FEATURE]
