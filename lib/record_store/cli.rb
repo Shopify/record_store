@@ -44,7 +44,7 @@ module RecordStore
           puts "Authoritative nameservers:"
           delegation.each { |d| puts "- #{d}" }
         else
-          STDERR.puts "ERROR: Unable to determine delegation (#{name})"
+          $stderr.puts "ERROR: Unable to determine delegation (#{name})"
         end
       end
     end
