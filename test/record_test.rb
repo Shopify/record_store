@@ -383,5 +383,10 @@ class RecordTest < Minitest::Test
   end
 
   def test_invalid_when_ptrdname_is_unrooted
+    refute_predicate(Record::PTR.new(
+      fqdn: '4.0.41.198.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net'
+    ), :valid?)
   end
 end
