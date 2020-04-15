@@ -61,12 +61,6 @@ class ProviderTest < Minitest::Test
     assert_equal('OracleCloudDNS', provider)
   end
 
-  def test_provider_for_recognizes_dnsimple_ns_record
-    ns = Record::NS.new(fqdn: 'dnsimple.com', ttl: 172_800, nsdname: 'ns1.dnsimple.com.')
-    provider = Provider.provider_for(ns)
-    assert_equal('DNSimple', provider)
-  end
-
   def test_provider_for_handles_unknown_provider
     Provider.expects(:master_nameserver_for).with('example.com').returns('ns.icann.org')
     provider = Provider.provider_for('example.com')
