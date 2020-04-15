@@ -223,7 +223,7 @@ module RecordStore
       Zone.each do |name, zone|
         authority = zone.fetch_authority
 
-        delegation = Hash.new { |h,k| h[k] = [] }
+        delegation = Hash.new { |h, k| h[k] = [] }
         authority.each do |ns|
           delegation[Provider.provider_for(ns)] << ns
         end
