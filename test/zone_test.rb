@@ -454,6 +454,28 @@ class ZoneTest < Minitest::Test
     end
   end
 
+  def test_fetch_authority
+    zone = Zone.new(name: 'example.com')
+    nameservers = zone.fetch_authority
+    expected = [
+      Record::NS.new(fqdn: 'example.com', ttl: 172_800, nsdname: 'a.iana-servers.net.'),
+      Record::NS.new(fqdn: 'example.com', ttl: 172_800, nsdname: 'b.iana-servers.net.'),
+    ]
+    assert_equal(expected, nameservers)
+  end
+
+  def test_fetch_authority_handles_nxdomain
+    zone = Zone.new(name: 'bc1a82e63eede5c2962efb11df850eea7d4c9a2a-nxdomain.com')
+    nameservers = zone.fetch_authority
+    assert_equal(nameservers.first.fqdn, 'com.')
+  end
+
+  def test_fetch_authority_handles_nxdomain_for_tld
+    zone = Zone.new(name: 'nxdomain.bc1a82e63eede5c2962efb11df850eea7d4c9a2a')
+    nameservers = zone.fetch_authority
+    assert_nil(nameservers)
+  end
+
   private
 
   def valid_zone_from_records(name, records:)

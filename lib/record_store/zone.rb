@@ -129,7 +129,7 @@ module RecordStore
     )
 
     def fetch_authority(nameserver = ROOT_SERVERS.sample)
-      Resolv::DNS.open(nameserver: nameserver) do |resolv|
+      authority = Resolv::DNS.open(nameserver: nameserver) do |resolv|
         resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
           break if reply.answer.any?
 
@@ -138,6 +138,11 @@ module RecordStore
           break extract_authority(reply)
         end
       end
+
+      # candidate DNS name is returned instead when NXDomain or other error
+      return nil if unrooted_name.casecmp?(Array(authority).first.to_s)
+
+      authority
     end
 
     private
