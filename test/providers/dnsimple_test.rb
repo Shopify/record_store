@@ -328,6 +328,18 @@ class DNSimpleTest < Minitest::Test
         provider: RecordStore::Provider::DNSimple,
         zone: @zone_name
       ))
+
+      records = @dnsimple.retrieve_current_records(zone: @zone_name)
+
+      matching_records = records.select do |record|
+        record.is_a?(Record::SSHFP) &&
+          record.fqdn == sshfp_record.fqdn
+      end
+
+      assert_equal(1, matching_records.size, 'could not find the SSHFP record that was just created')
+      assert_equal(Record::SSHFP::Algorithms::ED25519, matching_records.first.algorithm)
+      assert_equal(Record::SSHFP::FingerprintTypes::SHA_256, matching_records.first.fptype)
+      assert_equal('4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3', matching_records.first.fingerprint)
     end
   end
 
@@ -419,7 +431,7 @@ class DNSimpleTest < Minitest::Test
       'zone_id' => '1.0.0.127.in-addr.arpa',
       'parent_id' => nil,
       'name' => '',
-      'content' => 'example.com.',
+      'content' => 'example.com',
       'ttl' => 60,
       'priority' => nil,
       'type' => 'PTR',
