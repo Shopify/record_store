@@ -328,6 +328,21 @@ class DNSimpleTest < Minitest::Test
         provider: RecordStore::Provider::DNSimple,
         zone: @zone_name
       ))
+
+      records = @dnsimple.retrieve_current_records(zone: @zone_name)
+
+      matching_records = records.select do |record|
+        record.is_a?(Record::SSHFP) &&
+          record.fqdn == sshfp_record.fqdn
+      end
+
+      assert_equal(1, matching_records.size, 'could not find the SSHFP record that was just created')
+      assert_equal(Record::SSHFP::Algorithms::ED25519, matching_records.first.algorithm)
+      assert_equal(Record::SSHFP::FingerprintTypes::SHA_256, matching_records.first.fptype)
+      assert_equal(
+        '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+        matching_records.first.fingerprint
+      )
     end
   end
 
@@ -410,6 +425,55 @@ class DNSimpleTest < Minitest::Test
     VCR.use_cassette('dnsimple_retrieve_current_records') do
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
       assert_equal records_arr.sort_by(&:to_s), records.sort_by(&:to_s)
+    end
+  end
+
+  def test_build_ptr_from_api
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      'id' => 1714852,
+      'zone_id' => '1.0.0.127.in-addr.arpa',
+      'parent_id' => nil,
+      'name' => '',
+      'content' => 'example.com',
+      'ttl' => 60,
+      'priority' => nil,
+      'type' => 'PTR',
+      'regions' => ['global'],
+      'system_record' => false,
+      'created_at' => '2020-04-15T23:26:19Z',
+      'updated_at' => '2020-04-15T23:26:19Z'
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of(Record::PTR, record)
+    assert_equal('example.com.', record.ptrdname)
+  end
+
+  def test_apply_ptr_changeset
+    ptr_record = Record::PTR.new(
+      fqdn: '1.0.0.127.in-addr.arpa',
+      ttl: 60,
+      ptrdname: 'example.com.'
+    )
+
+    VCR.use_cassette('dnsimple_apply_ptr_changeset') do
+      @dnsimple.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [ptr_record],
+        provider: RecordStore::Provider::DNSimple,
+        zone: '1.0.0.127.in-addr.arpa'
+      ))
+
+      records = @dnsimple.retrieve_current_records(zone: '1.0.0.127.in-addr.arpa')
+
+      matching_records = records.select do |record|
+        record.is_a?(Record::PTR) &&
+          record.fqdn == ptr_record.fqdn
+      end
+
+      assert_equal(1, matching_records.size, 'could not find the PTR record that was just created')
+      assert_equal('example.com.', matching_records.first.ptrdname)
     end
   end
 

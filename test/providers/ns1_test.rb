@@ -710,4 +710,31 @@ class NS1Test < Minitest::Test
       assert_match(/SSHFP/, err.message)
     end
   end
+
+  def test_creates_ptr_records
+    ptr_record = Record::PTR.new(
+      fqdn: '4.3.2.1.in-addr.arpa',
+      ttl: 60,
+      ptrdname: 'example.com.'
+    )
+
+    VCR.use_cassette('test_creates_ptr_records') do
+      @ns1.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [ptr_record],
+        provider: @ns1,
+        zone: '4.3.2.1.in-addr.arpa'
+      ))
+
+      records = @ns1.retrieve_current_records(zone: '4.3.2.1.in-addr.arpa')
+
+      matching_records = records.select do |record|
+        record.is_a?(Record::PTR) &&
+          record.fqdn == ptr_record.fqdn
+      end
+
+      assert_equal(1, matching_records.size, 'could not find the PTR record that was just created')
+      assert_equal('example.com.', matching_records.first.ptrdname)
+    end
+  end
 end

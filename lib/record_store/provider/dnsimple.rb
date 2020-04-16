@@ -4,7 +4,7 @@ module RecordStore
   class Provider::DNSimple < Provider
     class << self
       def record_types
-        super | Set.new(['SSHFP'])
+        super | Set.new(%w(PTR SSHFP))
       end
 
       def supports_alias?
@@ -99,6 +99,8 @@ module RecordStore
           record.merge!(preference: api_record.priority, exchange: api_record.content)
         when 'NS'
           record.merge!(nsdname: api_record.content)
+        when 'PTR'
+          record.merge!(ptrdname: api_record.content)
         when 'SSHFP'
           algorithm, fptype, fingerprint = api_record.content.split(' ')
           record.merge!(
@@ -143,6 +145,8 @@ module RecordStore
           record_hash[:content] = record.exchange.chomp('.')
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
+        when 'PTR'
+          record_hash[:content] = record.ptrdname.chomp('.')
         when 'SSHFP'
           record_hash[:content] = record.rdata_txt
         when 'SPF', 'TXT'

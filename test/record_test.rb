@@ -20,6 +20,11 @@ class RecordTest < Minitest::Test
       preference: 10,
       ttl: 60
     ),
+    ptr: Record::PTR.new(
+      fqdn: '4.0.41.198.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ),
     srv: Record::SRV.new(
       fqdn: '_service._TCP.srv.dns-test.shopify.io.',
       priority: 10,
@@ -246,6 +251,7 @@ class RecordTest < Minitest::Test
       '4 2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
       RECORD_FIXTURES[:sshfp].rdata_txt
     )
+    assert_equal('a.root-servers.net.', RECORD_FIXTURES[:ptr].rdata_txt)
   end
 
   def test_consistent_print_formatting
@@ -364,5 +370,53 @@ class RecordTest < Minitest::Test
   def test_spf_is_deprecated
     Record::SPF.new(fqdn: 'dns-test.shopify.io.', txtdata: 'v=spf1 -all', ttl: 3600)
     assert_includes($stderr.string, "SPF record type is deprecated (See RFC 7208 Section 14.1)")
+  end
+
+  def test_valid_ptr_record
+    assert_predicate(Record::PTR.new(
+      fqdn: '4.0.41.198.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_fqdn_is_outside_arpa_zone
+    refute_predicate(Record::PTR.new(
+      fqdn: 'example.com',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_no_octets
+    refute_predicate(Record::PTR.new(
+      fqdn: 'in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_valid_when_between_one_to_four_octets
+    assert_predicate(Record::PTR.new(
+      fqdn: '111.22.3.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_over_four_octets
+    refute_predicate(Record::PTR.new(
+      fqdn: '1.2.3.4.5.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_octet_out_of_range
+    refute_predicate(Record::PTR.new(
+      fqdn: '256.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
   end
 end

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.11.0
+- support PTR record type [FEATURE]
+
 ## 5.10.0
 - add `record-store validate_authority` command to sanity check delegation [FEATURE]
 - fix handling of NXDOMAIN, etc. when fetching authoritative nameservers [BUGFIX]

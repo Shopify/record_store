@@ -25,7 +25,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 31 Mar 2020 21:36:19 GMT
+      - Thu, 16 Apr 2020 00:37:40 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -35,17 +35,17 @@ http_interactions:
       X-Ratelimit-Limit:
       - '2400'
       X-Ratelimit-Remaining:
-      - '2392'
+      - '2386'
       X-Ratelimit-Reset:
-      - '1585693346'
+      - '1586999438'
       Etag:
-      - W/"6f99c3eefd9d3e6a79e26b0715e879c3"
+      - W/"6b57889bdabb0c3baa679f01661880cc"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - fce8bcea-de9a-463a-a0cc-01133dcc3b9c
+      - 9a78ecc9-fcd0-4755-980d-0b16abcd65a7
       X-Runtime:
-      - '0.068194'
+      - '0.053619'
       X-Frame-Options:
       - DENY
       X-Content-Type-Options:
@@ -63,8 +63,75 @@ http_interactions:
         rel="canonical"
     body:
       encoding: UTF-8
-      string: '{"data":{"id":1690347,"zone_id":"dns-scratch.me","parent_id":null,"name":"_sshfp1","content":"4
-        2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3","ttl":3600,"priority":null,"type":"SSHFP","regions":["global"],"system_record":false,"created_at":"2020-03-31T21:36:19Z","updated_at":"2020-03-31T21:36:19Z"}}'
+      string: '{"data":{"id":1714861,"zone_id":"dns-scratch.me","parent_id":null,"name":"_sshfp1","content":"4
+        2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3","ttl":3600,"priority":null,"type":"SSHFP","regions":["global"],"system_record":false,"created_at":"2020-04-16T00:37:40Z","updated_at":"2020-04-16T00:37:40Z"}}'
     http_version: null
-  recorded_at: Tue, 31 Mar 2020 21:36:19 GMT
+  recorded_at: Thu, 16 Apr 2020 00:37:40 GMT
+- request:
+    method: get
+    uri: "<DNSIMPLE_BASE_URL>/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records?page=1&per_page=100"
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - dnsimple-ruby/4.4.0
+      Authorization:
+      - Bearer <DNSIMPLE_API_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 16 Apr 2020 00:37:40 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2385'
+      X-Ratelimit-Reset:
+      - '1586999438'
+      Etag:
+      - W/"c6567eb117040731bdb022d2d1f37edd"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - bd173601-68e6-4b5b-82a0-5d63a85a0b64
+      X-Runtime:
+      - '0.015173'
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Strict-Transport-Security:
+      - max-age=31536000
+      Link:
+      - <https://dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/dns-scratch.me/records?page=1&per_page=100>;
+        rel="canonical"
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":347564,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1519152713 86400 7200 604800 300","ttl":3600,"priority":null,"type":"SOA","regions":["global"],"system_record":true,"created_at":"2018-02-20T18:51:04Z","updated_at":"2020-04-16T00:37:40Z"},{"id":347565,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2018-02-20T18:51:04Z","updated_at":"2018-02-20T18:51:04Z"},{"id":347566,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2018-02-20T18:51:04Z","updated_at":"2018-02-20T18:51:04Z"},{"id":347567,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2018-02-20T18:51:04Z","updated_at":"2018-02-20T18:51:04Z"},{"id":347568,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2018-02-20T18:51:04Z","updated_at":"2018-02-20T18:51:04Z"},{"id":347593,"zone_id":"dns-scratch.me","parent_id":null,"name":"test-record","content":"10.10.10.42","ttl":86400,"priority":null,"type":"A","regions":["global"],"system_record":false,"created_at":"2018-02-20T19:41:59Z","updated_at":"2018-02-20T19:41:59Z"},{"id":347594,"zone_id":"dns-scratch.me","parent_id":null,"name":"","content":"dns-scratch.herokuapp.com","ttl":86400,"priority":null,"type":"ALIAS","regions":["global"],"system_record":false,"created_at":"2018-02-20T19:42:00Z","updated_at":"2018-02-20T19:42:00Z"},{"id":934857,"zone_id":"dns-scratch.me","parent_id":null,"name":"cname","content":"0
+        issue \"digicert.com\"","ttl":3600,"priority":null,"type":"CAA","regions":["global"],"system_record":false,"created_at":"2019-03-13T13:23:46Z","updated_at":"2019-03-13T13:23:46Z"},{"id":1714861,"zone_id":"dns-scratch.me","parent_id":null,"name":"_sshfp1","content":"4
+        2 4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3","ttl":3600,"priority":null,"type":"SSHFP","regions":["global"],"system_record":false,"created_at":"2020-04-16T00:37:40Z","updated_at":"2020-04-16T00:37:40Z"}],"pagination":{"current_page":1,"per_page":100,"total_entries":9,"total_pages":1}}'
+    http_version: null
+  recorded_at: Thu, 16 Apr 2020 00:37:40 GMT
 recorded_with: VCR 5.1.0

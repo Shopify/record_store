@@ -454,6 +454,37 @@ class ZoneTest < Minitest::Test
     end
   end
 
+  def test_zone_validates_support_for_ptr_records
+    ['DNSimple', 'NS1'].each do |provider|
+      valid_zone = Zone.new(
+        name: '1.2.3.4.in-addr.arpa',
+        config: { providers: [provider] },
+        records: [{
+          type: 'PTR',
+          fqdn: '1.2.3.4.in-addr.arpa',
+          ttl: 60,
+          ptrdname: 'example.com.',
+        }],
+      )
+      assert_predicate(valid_zone, :valid?)
+    end
+
+    ['DynECT', 'GoogleCloudDNS'].each do |provider|
+      invalid_zone = Zone.new(
+        name: '1.2.3.4.in-addr.arpa',
+        config: { providers: [provider] },
+        records: [{
+          type: 'PTR',
+          fqdn: '1.2.3.4.in-addr.arpa',
+          ttl: 60,
+          ptrdname: 'example.com.',
+        }],
+      )
+      refute_predicate(invalid_zone, :valid?)
+      assert_match(/PTR is not a supported/, invalid_zone.errors[:records].first)
+    end
+  end
+
   def test_fetch_authority
     zone = Zone.new(name: 'example.com')
     nameservers = zone.fetch_authority

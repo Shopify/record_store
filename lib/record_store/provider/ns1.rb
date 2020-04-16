@@ -41,6 +41,10 @@ module RecordStore
     end
 
     class << self
+      def record_types
+        super | Set.new(%w(PTR))
+      end
+
       def client
         Provider::NS1::Client.new(api_key: secrets['api_key'])
       end
@@ -229,6 +233,8 @@ module RecordStore
             )
           when 'NS'
             record.merge!(nsdname: answer.rrdata_string)
+          when 'PTR'
+            record.merge!(ptrdname: answer.rrdata_string)
           when 'SPF', 'TXT'
             record.merge!(txtdata: answer.rrdata_string.gsub(';', '\;'))
           when 'SRV'
