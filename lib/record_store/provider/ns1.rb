@@ -44,6 +44,7 @@ module RecordStore
       def record_types
         super | Set.new(['PTR'])
       end
+
       def client
         Provider::NS1::Client.new(api_key: secrets['api_key'])
       end
