@@ -458,7 +458,7 @@ class DNSimpleTest < Minitest::Test
       end
 
       assert_equal(1, matching_records.size, 'could not find the PTR record that was just created')
-      assert_equal(matching_records.first.ptrdname, 'example.com')
+      assert_equal('example.com.', matching_records.first.ptrdname)
     end
   end
 

@@ -8,7 +8,7 @@ module RecordStore
     def initialize(record)
       super
 
-      @ptrdname = record.fetch(:ptrdname)
+      @ptrdname = Record.ensure_ends_with_dot(record.fetch(:ptrdname))
     end
 
     def rdata
