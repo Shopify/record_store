@@ -4,7 +4,7 @@ module RecordStore
   class Provider::DNSimple < Provider
     class << self
       def record_types
-        super | Set.new(['PTR', 'SSHFP'])
+        super | Set.new(%w(PTR SSHFP))
       end
 
       def supports_alias?

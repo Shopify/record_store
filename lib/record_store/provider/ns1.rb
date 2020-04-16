@@ -42,7 +42,7 @@ module RecordStore
 
     class << self
       def record_types
-        super | Set.new(['PTR'])
+        super | Set.new(%w(PTR))
       end
 
       def client
