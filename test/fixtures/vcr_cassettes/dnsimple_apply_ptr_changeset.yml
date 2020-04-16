@@ -1,0 +1,134 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<DNSIMPLE_BASE_URL>/v2/<DNSIMPLE_ACCOUNT_ID>/zones/1.0.0.127.in-addr.arpa/records"
+    body:
+      encoding: UTF-8
+      string: '{"name":"","ttl":60,"type":"PTR","content":"example.com"}'
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - dnsimple-ruby/4.4.0
+      Authorization:
+      - Bearer <DNSIMPLE_API_TOKEN>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 16 Apr 2020 00:17:49 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2395'
+      X-Ratelimit-Reset:
+      - '1586999438'
+      Etag:
+      - W/"0a3d3fbb4ea274b1e116ed5bcf0e7f13"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f95f00dc-4cf1-4243-bc1f-a0a1de9294fa
+      X-Runtime:
+      - '0.051728'
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Strict-Transport-Security:
+      - max-age=31536000
+      Link:
+      - <https://dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/1.0.0.127.in-addr.arpa/records>;
+        rel="canonical"
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":1714858,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"example.com","ttl":60,"priority":null,"type":"PTR","regions":["global"],"system_record":false,"created_at":"2020-04-16T00:17:49Z","updated_at":"2020-04-16T00:17:49Z"}}'
+    http_version: null
+  recorded_at: Thu, 16 Apr 2020 00:17:49 GMT
+- request:
+    method: get
+    uri: "<DNSIMPLE_BASE_URL>/v2/<DNSIMPLE_ACCOUNT_ID>/zones/1.0.0.127.in-addr.arpa/records?page=1&per_page=100"
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - dnsimple-ruby/4.4.0
+      Authorization:
+      - Bearer <DNSIMPLE_API_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 16 Apr 2020 00:17:49 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2394'
+      X-Ratelimit-Reset:
+      - '1586999438'
+      Etag:
+      - W/"a87fcc9a7b60c1a339771c38b3429be6"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 22b7dab2-707d-4129-a2be-06c45fd6c11c
+      X-Runtime:
+      - '0.013078'
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Strict-Transport-Security:
+      - max-age=31536000
+      Link:
+      - <https://dnsimple.com/v2/<DNSIMPLE_ACCOUNT_ID>/zones/1.0.0.127.in-addr.arpa/records?page=1&per_page=100>;
+        rel="canonical"
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"id":1714846,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"ns1.dnsimple.com
+        admin.dnsimple.com 1586993088 86400 7200 604800 300","ttl":3600,"priority":null,"type":"SOA","regions":["global"],"system_record":true,"created_at":"2020-04-15T23:24:33Z","updated_at":"2020-04-16T00:17:49Z"},{"id":1714847,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2020-04-15T23:24:33Z","updated_at":"2020-04-15T23:24:33Z"},{"id":1714848,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2020-04-15T23:24:33Z","updated_at":"2020-04-15T23:24:33Z"},{"id":1714849,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2020-04-15T23:24:33Z","updated_at":"2020-04-15T23:24:33Z"},{"id":1714850,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"priority":null,"type":"NS","regions":["global"],"system_record":true,"created_at":"2020-04-15T23:24:33Z","updated_at":"2020-04-15T23:24:33Z"},{"id":1714858,"zone_id":"1.0.0.127.in-addr.arpa","parent_id":null,"name":"","content":"example.com","ttl":60,"priority":null,"type":"PTR","regions":["global"],"system_record":false,"created_at":"2020-04-16T00:17:49Z","updated_at":"2020-04-16T00:17:49Z"}],"pagination":{"current_page":1,"per_page":100,"total_entries":6,"total_pages":1}}'
+    http_version: null
+  recorded_at: Thu, 16 Apr 2020 00:17:49 GMT
+recorded_with: VCR 5.1.0

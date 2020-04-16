@@ -423,7 +423,7 @@ class DNSimpleTest < Minitest::Test
       'ttl' => 60,
       'priority' => nil,
       'type' => 'PTR',
-      'regions' => [ 'global' ],
+      'regions' => ['global'],
       'system_record' => false,
       'created_at' => '2020-04-15T23:26:19Z',
       'updated_at' => '2020-04-15T23:26:19Z'
@@ -433,6 +433,33 @@ class DNSimpleTest < Minitest::Test
 
     assert_kind_of(Record::PTR, record)
     assert_equal('example.com.', record.ptrdname)
+  end
+
+  def test_apply_ptr_changeset
+    ptr_record = Record::PTR.new(
+      fqdn: '1.0.0.127.in-addr.arpa',
+      ttl: 60,
+      ptrdname: 'example.com.'
+    )
+
+    VCR.use_cassette('dnsimple_apply_ptr_changeset') do
+      @dnsimple.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [ptr_record],
+        provider: RecordStore::Provider::DNSimple,
+        zone: '1.0.0.127.in-addr.arpa'
+      ))
+
+      records = @dnsimple.retrieve_current_records(zone: '1.0.0.127.in-addr.arpa')
+
+      matching_records = records.select do |record|
+        record.is_a?(Record::PTR) &&
+          record.fqdn == ptr_record.fqdn
+      end
+
+      assert_equal(1, matching_records.size, 'could not find the PTR record that was just created')
+      assert_equal(matching_records.first.ptrdname, 'example.com')
+    end
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider

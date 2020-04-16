@@ -145,6 +145,8 @@ module RecordStore
           record_hash[:content] = record.exchange.chomp('.')
         when 'NS'
           record_hash[:content] = record.nsdname.chomp('.')
+        when 'PTR'
+          record_hash[:content] = record.ptrdname.chomp('.')
         when 'SSHFP'
           record_hash[:content] = record.rdata_txt
         when 'SPF', 'TXT'
