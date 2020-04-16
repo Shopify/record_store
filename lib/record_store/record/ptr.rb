@@ -11,6 +11,10 @@ module RecordStore
       @ptrdname = record.fetch(:ptrdname)
     end
 
+    def rdata
+      { ptrdname: ptrdname }
+    end
+
     def rdata_txt
       ptrdname.to_s
     end

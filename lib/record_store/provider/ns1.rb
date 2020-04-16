@@ -229,6 +229,8 @@ module RecordStore
             )
           when 'NS'
             record.merge!(nsdname: answer.rrdata_string)
+          when 'PTR'
+            record.merge!(ptrdname: answer.rrdata_string)
           when 'SPF', 'TXT'
             record.merge!(txtdata: answer.rrdata_string.gsub(';', '\;'))
           when 'SRV'

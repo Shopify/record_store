@@ -1,0 +1,223 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.nsone.net/v1/zones/4.3.2.1.in-addr.arpa/4.3.2.1.in-addr.arpa/PTR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Thu, 16 Apr 2020 00:00:40 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '31'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d1aaefd56823aaa1dadd67cdeb6227fbd1586995240; expires=Sat, 16-May-20
+        00:00:40 GMT; path=/; domain=.nsone.net; HttpOnly; SameSite=Lax
+      Cf-Ray:
+      - 5849a09a8dc4cac8-YYZ
+      Cache-Control:
+      - no-cache
+      Expires:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Pragma:
+      - no-cache
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '900'
+      X-Ratelimit-Period:
+      - '300'
+      X-Ratelimit-Remaining:
+      - '899'
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Request-Id:
+      - 0221e2b4940000cac8eb182200000001
+    body:
+      encoding: UTF-8
+      string: '{"message":"record not found"}
+
+        '
+    http_version: null
+  recorded_at: Thu, 16 Apr 2020 00:00:40 GMT
+- request:
+    method: put
+    uri: https://api.nsone.net/v1/zones/4.3.2.1.in-addr.arpa/4.3.2.1.in-addr.arpa/PTR
+    body:
+      encoding: UTF-8
+      string: '{"answers":[{"answer":["example.com."]}],"ttl":60,"use_client_subnet":false,"zone":"4.3.2.1.in-addr.arpa","domain":"4.3.2.1.in-addr.arpa","type":"PTR"}'
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 16 Apr 2020 00:00:40 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d0c45ae617c0ffedb514aca857fa328931586995240; expires=Sat, 16-May-20
+        00:00:40 GMT; path=/; domain=.nsone.net; HttpOnly; SameSite=Lax
+      Cf-Ray:
+      - 5849a09dac29f999-YYZ
+      Cache-Control:
+      - no-cache, private, max-age=0, no-cache, no-store
+      Expires:
+      - Thu, 16 Apr 2020 00:00:39 GMT
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubdomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
+      Content-Security-Policy:
+      - 'script-src blob: ''unsafe-inline'' ''unsafe-eval'' ''self'' *.nsone.net *.nsone.co
+        disutgh7q0ncc.cloudfront.net www.google-analytics.com ns1.com translate.google.com;
+        report-uri https://cspaudit.prod.ns1.dev'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Pragma:
+      - no-cache
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '100'
+      X-Ratelimit-Period:
+      - '200'
+      X-Ratelimit-Remaining:
+      - '99'
+      X-Xss-Protection:
+      - 1; mode=block
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Request-Id:
+      - 0221e2b68b0000f999bc9ca200000001
+    body:
+      encoding: ASCII-8BIT
+      string: '{"domain":"4.3.2.1.in-addr.arpa","zone":"4.3.2.1.in-addr.arpa","use_client_subnet":false,"answers":[{"answer":["example.com."],"id":"5e97a028bbc7d1009b8fc5ad"}],"id":"5e97a028bbc7d1009b8fc5ae","regions":{},"meta":{},"link":null,"filters":[],"ttl":60,"tier":1,"type":"PTR","networks":[0]}
+
+        '
+    http_version: null
+  recorded_at: Thu, 16 Apr 2020 00:00:40 GMT
+- request:
+    method: get
+    uri: https://api.nsone.net/v1/zones/4.3.2.1.in-addr.arpa
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Nsone-Key:
+      - "<NS1_API_KEY>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 16 Apr 2020 00:00:43 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d7c8f852b85106a73308ee71617f129f21586995243; expires=Sat, 16-May-20
+        00:00:43 GMT; path=/; domain=.nsone.net; HttpOnly; SameSite=Lax
+      Cf-Ray:
+      - 5849a0acbde3f971-YYZ
+      Cache-Control:
+      - no-cache, private, max-age=0, no-cache, no-store
+      Etag:
+      - W/"f9c95b42cfe7a8e9cfbf3b2eab3a3618014be1ca"
+      Expires:
+      - Thu, 16 Apr 2020 00:00:42 GMT
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubdomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
+      Content-Security-Policy:
+      - 'script-src blob: ''unsafe-inline'' ''unsafe-eval'' ''self'' *.nsone.net *.nsone.co
+        disutgh7q0ncc.cloudfront.net www.google-analytics.com ns1.com translate.google.com;
+        report-uri https://cspaudit.prod.ns1.dev'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Pragma:
+      - no-cache
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Ratelimit-By:
+      - customer
+      X-Ratelimit-Limit:
+      - '900'
+      X-Ratelimit-Period:
+      - '300'
+      X-Ratelimit-Remaining:
+      - '899'
+      X-Xss-Protection:
+      - 1; mode=block
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Request-Id:
+      - 0221e2bff40000f971a096c200000001
+    body:
+      encoding: ASCII-8BIT
+      string: '{"nx_ttl":3600,"retry":7200,"zone":"4.3.2.1.in-addr.arpa","dnssec":false,"network_pools":["p06"],"serial":1586995240,"primary":{"enabled":false,"secondaries":[]},"refresh":43200,"expiry":1209600,"disabled":false,"records":[{"domain":"4.3.2.1.in-addr.arpa","short_answers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net"],"ttl":3600,"tier":1,"type":"NS","id":"5e979d8cbbc7d10093bc2398"},{"domain":"4.3.2.1.in-addr.arpa","short_answers":["example.com."],"link":null,"ttl":60,"tier":1,"type":"PTR","id":"5e97a028bbc7d1009b8fc5ae"}],"meta":{},"link":null,"primary_master":"dns1.p06.nsone.net","ttl":3600,"id":"5e979d8cbbc7d10093bc2393","dns_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net"],"hostmaster":"hostmaster@nsone.net","networks":[0],"pool":"p06"}
+
+        '
+    http_version: null
+  recorded_at: Thu, 16 Apr 2020 00:00:43 GMT
+recorded_with: VCR 5.1.0
