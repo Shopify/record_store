@@ -339,7 +339,10 @@ class DNSimpleTest < Minitest::Test
       assert_equal(1, matching_records.size, 'could not find the SSHFP record that was just created')
       assert_equal(Record::SSHFP::Algorithms::ED25519, matching_records.first.algorithm)
       assert_equal(Record::SSHFP::FingerprintTypes::SHA_256, matching_records.first.fptype)
-      assert_equal('4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3', matching_records.first.fingerprint)
+      assert_equal(
+        '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
+        matching_records.first.fingerprint
+      )
     end
   end
 
