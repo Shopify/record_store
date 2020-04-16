@@ -2,7 +2,7 @@ module RecordStore
   class Record::PTR < Record
     attr_accessor :ptrdname
 
-    OCTET_LABEL_SEQUENCE_REGEX = /\A(([0-9]|[1-9][0-9]|[1-9][0-9][0-9])\.){1,4}/
+    OCTET_LABEL_SEQUENCE_REGEX = /\A(?:([0-9]|[1-9][0-9]|[1-9][0-9][0-9])\.){1,4}/
     IN_ADDR_ARPA_SUFFIX_REGEX = /in-addr\.arpa\.\z/
     FQDN_FORMAT_REGEX = Regexp.new(OCTET_LABEL_SEQUENCE_REGEX.source + IN_ADDR_ARPA_SUFFIX_REGEX.source)
 
