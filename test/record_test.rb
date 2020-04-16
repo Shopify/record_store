@@ -387,4 +387,36 @@ class RecordTest < Minitest::Test
       ptrdname: 'a.root-servers.net.'
     ), :valid?)
   end
+
+  def test_invalid_when_no_octets
+    refute_predicate(Record::PTR.new(
+      fqdn: 'in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_valid_when_between_one_to_four_octets
+    assert_predicate(Record::PTR.new(
+      fqdn: '111.22.3.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_over_four_octets
+    refute_predicate(Record::PTR.new(
+      fqdn: '1.2.3.4.5.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
+
+  def test_invalid_when_octet_out_of_range
+    refute_predicate(Record::PTR.new(
+      fqdn: '256.in-addr.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.'
+    ), :valid?)
+  end
 end
