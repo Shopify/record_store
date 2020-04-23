@@ -189,7 +189,7 @@ class ChangesetTest < Minitest::Test
       name: 'dns-test.shopify.io',
       config: {
         providers: ['DynECT'],
-        ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.'}],
+        ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.' }],
       },
       records: [{
         type: 'NS',
@@ -234,7 +234,7 @@ class ChangesetTest < Minitest::Test
       name: 'dns-test.shopify.io',
       config: {
         providers: ['DynECT'],
-        ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.'}],
+        ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.' }],
       },
       records: [{
         type: 'NS',
