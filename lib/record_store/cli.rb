@@ -59,15 +59,17 @@ module RecordStore
       end
     end
 
-    desc 'diff', 'Displays the DNS differences between the zone files in this repo and production'
+    desc 'diff [ZONE ...]', 'Displays the DNS differences between the zone files in this repo and production'
     option :all, desc: 'Include all records', aliases: '-a', type: :boolean, default: false
     option :verbose, desc: 'Print records that haven\'t diverged', aliases: '-v', type: :boolean, default: false
-    def diff
-      puts "Diffing #{Zone.defined.count} zones"
+    def diff(*zones)
+      puts "Diffing #{zones.any? ? zones.count : Zone.defined.count} zone(s)"
 
       all = options.fetch('all')
 
       Zone.each do |name, zone|
+        next unless zones.empty? || zones.include?(name)
+
         changesets = zone.build_changesets(all: all)
 
         if !options.fetch('verbose') && changesets.all?(&:empty?)
@@ -84,21 +86,21 @@ module RecordStore
           puts '-' * 20
           puts "Provider: #{changeset.provider}"
 
-          if !changeset.additions.empty? || options.fetch('verbose')
+          if changeset.additions.any?
             puts "Add:"
             changeset.additions.map(&:record).each do |record|
               puts " - #{record}"
             end
           end
 
-          if !changeset.removals.empty? || options.fetch('verbose')
+          if changeset.removals.any?
             puts "Remove:"
             changeset.removals.map(&:record).each do |record|
               puts " - #{record}"
             end
           end
 
-          if !changeset.updates.empty? || options.fetch('verbose')
+          if changeset.updates.any?
             puts "Update:"
             changeset.updates.map(&:record).each do |record|
               puts " - #{record}"
