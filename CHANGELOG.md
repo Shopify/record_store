@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.0.0
+- add `--all` option for `record-store diff` to compare ignored records too [FEATURE]
+
 ## 5.11.0
 - support PTR record type [FEATURE]
 
