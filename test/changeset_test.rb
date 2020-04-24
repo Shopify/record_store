@@ -184,6 +184,97 @@ class ChangesetTest < Minitest::Test
     end
   end
 
+  def test_changeset_build_from_creates_changeset_excluding_ignored_records
+    zone = Zone.new(
+      name: 'dns-test.shopify.io',
+      config: {
+        providers: ['DynECT'],
+        ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.' }],
+      },
+      records: [{
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns1.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns2.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns3.p19.dynect.net.',
+      }, {
+        type: 'A',
+        ttl: 86400,
+        fqdn: 'test-record.dns-test.shopify.io',
+        address: '10.10.10.10',
+      }, {
+        type: 'ALIAS',
+        ttl: 60,
+        fqdn: 'dns-test.shopify.io',
+        alias: 'dns-test.herokuapp.com.',
+      }]
+    )
+
+    # Cassette matches zone's records except with an additional NS record
+    VCR.use_cassette('dynect_retrieve_current_records') do
+      changeset = Changeset.build_from(provider: zone.providers[0], zone: zone)
+
+      assert_predicate changeset.removals, :empty?
+      assert_predicate changeset.additions, :empty?
+      refute_predicate changeset.unchanged, :empty?
+    end
+  end
+
+  def test_changeset_build_from_creates_changeset_including_ignored_records
+    zone = Zone.new(
+      name: 'dns-test.shopify.io',
+      config: {
+        providers: ['DynECT'],
+        ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.' }],
+      },
+      records: [{
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns1.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns2.p19.dynect.net.',
+      }, {
+        type: 'NS',
+        ttl: 86400,
+        fqdn: 'dns-test.shopify.io',
+        nsdname: 'ns3.p19.dynect.net.',
+      }, {
+        type: 'A',
+        ttl: 86400,
+        fqdn: 'test-record.dns-test.shopify.io',
+        address: '10.10.10.10',
+      }, {
+        type: 'ALIAS',
+        ttl: 60,
+        fqdn: 'dns-test.shopify.io',
+        alias: 'dns-test.herokuapp.com.',
+      }]
+    )
+
+    # Cassette matches zone's records except with an additional NS record
+    VCR.use_cassette('dynect_retrieve_current_records') do
+      changeset = Changeset.build_from(provider: zone.providers[0], zone: zone, all: true)
+
+      assert_equal 1, changeset.removals.length
+      assert_kind_of Record::NS, changeset.removals[0].record
+      assert_predicate changeset.additions, :empty?
+      refute_predicate changeset.unchanged, :empty?
+    end
+  end
+
   def test_records_with_matching_content_take_priority_when_being_updated
     current_records = [
       Record::NS.new(

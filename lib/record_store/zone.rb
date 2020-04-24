@@ -70,10 +70,10 @@ module RecordStore
       @records = build_records(records)
     end
 
-    def build_changesets
+    def build_changesets(all: false)
       @changesets ||= begin
         providers.map do |provider|
-          Changeset.build_from(provider: provider, zone: self)
+          Changeset.build_from(provider: provider, zone: self, all: all)
         end
       end
     end

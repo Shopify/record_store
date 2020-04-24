@@ -36,12 +36,15 @@ module RecordStore
 
     attr_reader :current_records, :desired_records, :removals, :additions, :updates, :provider, :zone
 
-    def self.build_from(provider:, zone:)
+    def self.build_from(provider:, zone:, all: false)
       current_zone = provider.build_zone(zone_name: zone.unrooted_name, config: zone.config)
 
+      current_records = all ? current_zone.all : current_zone.records
+      desired_records = all ? zone.all : zone.records
+
       new(
-        current_records: current_zone.records,
-        desired_records: zone.records,
+        current_records: current_records,
+        desired_records: desired_records,
         provider: provider,
         zone: zone.unrooted_name
       )

@@ -57,7 +57,7 @@ http_interactions:
   recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
 - request:
     method: get
-    uri: https://www.googleapis.com/dns/v1/projects/project_id/managedZones/dns-test-shopify-io
+    uri: https://dns.googleapis.com/dns/v1/projects/project_id/managedZones/dns-test-shopify-io
     body:
       encoding: UTF-8
       string: ''
@@ -132,7 +132,7 @@ http_interactions:
   recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
 - request:
     method: get
-    uri: https://www.googleapis.com/dns/v1/projects/project_id/managedZones/4643813348782290994/rrsets?name=dns-test.shopify.io.&type=SOA
+    uri: https://dns.googleapis.com/dns/v1/projects/project_id/managedZones/4643813348782290994/rrsets?name=dns-test.shopify.io.&type=SOA
     body:
       encoding: UTF-8
       string: ''
@@ -207,7 +207,7 @@ http_interactions:
   recorded_at: Fri, 19 Jan 2018 23:00:56 GMT
 - request:
     method: post
-    uri: https://www.googleapis.com/dns/v1/projects/project_id/managedZones/4643813348782290994/changes
+    uri: https://dns.googleapis.com/dns/v1/projects/project_id/managedZones/4643813348782290994/changes
     body:
       encoding: UTF-8
       string: '{"additions":[{"kind":"dns#resourceRecordSet","name":"test-record.dns-test.shopify.io.","rrdatas":["10.10.10.42"],"ttl":86400,"type":"A"},{"kind":"dns#resourceRecordSet","name":"dns-test.shopify.io.","rrdatas":["ns-cloud-b1.googledomains.com.
