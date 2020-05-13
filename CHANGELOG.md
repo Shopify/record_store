@@ -1,4 +1,6 @@
 # CHANGELOG
+## 6.0.1
+- add API rate limiting to DNSimple provider
 
 ## 6.0.0
 - add `--all` option for `record-store diff` to compare ignored records too [FEATURE]
