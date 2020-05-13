@@ -490,4 +490,53 @@ class DNSimpleTest < Minitest::Test
   def test_dnsimple_is_not_freezable
     refute_predicate(@dnsimple, :freezable?)
   end
+
+  def test_dnsimple_rate_limit_sleep_called_with_right_arguments
+    # Expected values retrieved from record_store/test/fixtures/vcr_cassettes/dnsimple_zones.yaml
+    rate_limit_reset = 1519155898
+    rate_limit_remaining = 2336
+    session = @dnsimple.send(:session)
+    session.expects(:rate_limit_sleep).with(rate_limit_reset, rate_limit_remaining)
+
+    VCR.use_cassette('dnsimple_zones') do
+      assert_equal @dnsimple.zones, [@zone_name]
+    end
+  end
+
+  def test_dnsimple_rate_limit_sleep
+    # Expected values retrieved from record_store/test/fixtures/vcr_cassettes/dnsimple_zones.yaml
+    current_time_to_test = Time.at(1519126698)
+    rate_limit_reset = 1519155898
+    rate_limit_remaining = 2336
+    expected_sleep_duration = 12.494651262302098
+    helper_rate_limit_sleep_test(current_time_to_test, rate_limit_reset, rate_limit_remaining, expected_sleep_duration)
+  end
+
+  def test_dnsimple_rate_limit_sleep_with_old_reset_time
+    # If reset time is older than current time, sleep should not be called
+    current_time_to_test = Time.at(1529126698)
+    rate_limit_reset = 1519155898
+    rate_limit_remaining = 2336
+
+    Time.stubs(:now).returns(current_time_to_test)
+    session = @dnsimple.send(:session)
+    session.expects(:sleep).never
+    session.send(:rate_limit_sleep, rate_limit_reset, rate_limit_remaining)
+  end
+
+  def test_dnsimple_rate_limit_sleep_with_no_requests_remaining
+    # If there are no requests remainig, it is expected that rate_limit_sleep will sleep for the entire window
+    current_time_to_test = Time.at(1519126698)
+    rate_limit_reset = 1519155898
+    rate_limit_window = rate_limit_reset - current_time_to_test.to_i
+    rate_limit_remaining = 0
+    helper_rate_limit_sleep_test(current_time_to_test, rate_limit_reset, rate_limit_remaining, rate_limit_window)
+  end
+
+  def helper_rate_limit_sleep_test(current_time, rate_limit_reset, rate_limit_remaining, expected_sleep_duration)
+    session = @dnsimple.send(:session)
+    Time.stubs(:now).returns(current_time)
+    session.expects(:sleep).with(expected_sleep_duration)
+    session.send(:rate_limit_sleep, rate_limit_reset, rate_limit_remaining)
+  end
 end

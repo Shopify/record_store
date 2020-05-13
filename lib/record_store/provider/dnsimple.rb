@@ -1,4 +1,5 @@
 require 'dnsimple'
+require_relative 'dnsimple/patch_api_header'
 
 module RecordStore
   class Provider::DNSimple < Provider
