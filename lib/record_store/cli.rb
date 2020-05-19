@@ -220,12 +220,14 @@ module RecordStore
       end
     end
 
-    desc 'validate_authority', 'Validates that authoritative nameservers match the providers'
+    desc 'validate_authority [ZONE ...]', 'Validates that authoritative nameservers match the providers'
     option :verbose, desc: 'Include valid zones in output', aliases: '-v', type: :boolean, default: false
-    def validate_authority
+    def validate_authority(*zones)
       verbose = options.fetch('verbose')
 
       Zone.each do |name, zone|
+        next unless zones.empty? || zones.include?(name)
+
         authority = zone.fetch_authority
 
         delegation = Hash.new { |h, k| h[k] = [] }
