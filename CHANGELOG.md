@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## unreleased
+- sort zone files [FEATURE]
+- CLI support for specifying zones for validate_authority [FEATURE]
+
 ## 6.0.1
 - add API rate limiting to DNSimple provider [FEATURE]
 
