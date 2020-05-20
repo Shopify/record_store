@@ -495,6 +495,36 @@ class ZoneTest < Minitest::Test
     assert_equal(expected, nameservers)
   end
 
+  def test_fetch_authority_handles_unreachable_host
+    zone = Zone.new(name: 'shopify.ph')
+
+    zone.expects(:fetch_soa).with('b.root-servers.net')
+      .yields(mock_reply('ph.', ['ph.communitydns.net', '1.ns.ph']), mock_name('shopify.ph.'))
+      .returns([mock('result')])
+
+    zone.expects(:fetch_soa).with('ph.communitydns.net')
+      .raises(Errno::EHOSTUNREACH)
+
+    zone.expects(:fetch_soa).with('1.ns.ph')
+      .returns(
+        [
+          Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns1.dnsimple.com.'),
+          Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns2.dnsimple.com.'),
+          Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns3.dnsimple.com.'),
+          Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns4.dnsimple.com.'),
+        ]
+      )
+
+    nameservers = zone.fetch_authority('b.root-servers.net')
+    expected = [
+      Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns1.dnsimple.com.'),
+      Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns2.dnsimple.com.'),
+      Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns3.dnsimple.com.'),
+      Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns4.dnsimple.com.'),
+    ]
+    assert_equal(expected, nameservers)
+  end
+
   def test_fetch_authority_handles_nxdomain
     zone = Zone.new(name: 'bc1a82e63eede5c2962efb11df850eea7d4c9a2a-nxdomain.com')
     nameservers = zone.fetch_authority
@@ -513,6 +543,23 @@ class ZoneTest < Minitest::Test
   end
 
   private
+
+  def mock_name(name)
+    mock('name')
+  end
+
+  def mock_ns(name)
+    ns = mock('ns')
+    ns.stubs(name: name)
+    ns
+  end
+
+  def mock_reply(name, nameservers)
+    reply = mock('reply')
+    reply.stubs(:answer).returns([])
+    reply.stubs(:authority).returns(nameservers.map { |ns| [mock_name(name), 86400, mock_ns(ns)] })
+    reply
+  end
 
   def valid_zone_from_records(name, records:)
     Zone.new(name: name, records: records, config: { providers: ['DynECT'] })

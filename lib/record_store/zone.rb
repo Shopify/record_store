@@ -145,9 +145,11 @@ module RecordStore
 
     private
 
-    def fetch_soa(nameserver, &block)
+    def fetch_soa(nameserver)
       Resolv::DNS.open(nameserver: nameserver) do |resolv|
-        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA, &block)
+        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
+          yield reply, name
+        end
       end
     end
 
