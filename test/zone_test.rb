@@ -507,6 +507,11 @@ class ZoneTest < Minitest::Test
     assert_nil(nameservers)
   end
 
+  def test_loads_zones_alphabetically
+    zones = Zone.defined.keys
+    assert_equal(zones.sort, zones)
+  end
+
   private
 
   def valid_zone_from_records(name, records:)

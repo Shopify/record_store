@@ -8,15 +8,44 @@ module CLI
     end
 
     def test_prints_zones
-      mock_zone('business.new', authority: ns_unknown('new'))
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+      )
 
       RecordStore::CLI.start(%w(validate_authority))
 
       assert_includes($stdout.string, "Zone: business.new")
+      assert_includes($stdout.string, "Zone: myshopify.cloud")
+    end
+
+    def test_includes_specified_zones
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+      )
+
+      RecordStore::CLI.start(%w(validate_authority business.new))
+
+      assert_includes($stdout.string, "Zone: business.new")
+    end
+
+    def test_excludes_unspecified_zones
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+      )
+
+      RecordStore::CLI.start(%w(validate_authority business.new))
+
+      refute_includes($stdout.string, "Zone: myshopify.cloud")
     end
 
     def test_excludes_valid_zone
-      mock_zone('shopify.com')
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'shopify.com' => {}
+      )
 
       RecordStore::CLI.start(%w(validate_authority))
 
@@ -24,7 +53,10 @@ module CLI
     end
 
     def test_verbose_option_includes_valid_zones
-      mock_zone('shopify.com')
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'shopify.com' => {}
+      )
 
       RecordStore::CLI.start(%w(validate_authority --verbose))
 
@@ -32,21 +64,21 @@ module CLI
     end
 
     def test_reports_missing_authority
-      mock_zone('myshopify.cloud', authority: ns_dnsimple('myshopify.cloud'))
+      mock_defined_zones('myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') })
       RecordStore::CLI.start(%w(validate_authority))
 
       assert_includes($stdout.string, "- NS1: authoritative nameservers not found for configured provider")
     end
 
     def test_excludes_valid_authority
-      mock_zone('myshopify.cloud', authority: ns_dnsimple('myshopify.cloud'))
+      mock_defined_zones('myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') })
       RecordStore::CLI.start(%w(validate_authority))
 
       refute_includes($stdout.string, "- DNSimple:")
     end
 
     def test_verbose_option_includes_valid_authority
-      mock_zone('myshopify.cloud', authority: ns_dnsimple('myshopify.cloud'))
+      mock_defined_zones('myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') })
       RecordStore::CLI.start(%w(validate_authority --verbose))
 
       authority = <<~AUTHORITY
@@ -61,7 +93,7 @@ module CLI
     end
 
     def test_reports_extra_authority
-      mock_zone('myshopify.cloud', providers: %w(DNSimple))
+      mock_defined_zones('myshopify.cloud' => { providers: %w(DNSimple) })
       RecordStore::CLI.start(%w(validate_authority))
 
       authority = <<~AUTHORITY
@@ -76,7 +108,7 @@ module CLI
     end
 
     def test_reports_unknown_authority
-      mock_zone('business.new', authority: ns_unknown('new'))
+      mock_defined_zones('business.new' => { authority: ns_unknown('new') })
 
       RecordStore::CLI.start(%w(validate_authority))
 
@@ -96,10 +128,15 @@ module CLI
 
     private
 
+    def mock_defined_zones(zones)
+      defined = Array(zones).map { |zone_name, options| [zone_name, mock_zone(zone_name, **Hash(options))] }.to_h
+      Zone.expects(:defined).returns(defined)
+    end
+
     def mock_zone(zone_name, providers: %w(DNSimple NS1), authority: ns_dnsimple(zone_name) + ns_ns1(zone_name))
       zone = Zone.new(name: zone_name, config: { providers: providers })
-      zone.expects(:fetch_authority).returns(authority)
-      Zone.expects(:defined).returns(zone_name => zone)
+      zone.stubs(:fetch_authority).returns(authority)
+      zone
     end
 
     def ns_records(fqdn:, nsdomain:, count:, ttl: 172800)
@@ -123,29 +160,5 @@ module CLI
     def ns_unknown(fqdn)
       ns_records(fqdn: fqdn, nsdomain: 'charlestonroadregistry.com', count: 5)
     end
-
-    # def test_lists_providers
-    #   RecordStore::CLI.start(%w(info))
-
-    #   providers = <<~PROVIDERS
-    #     Providers:
-    #     - DNSimple
-    #     - NS1
-    #   PROVIDERS
-
-    #   assert_includes($stdout.string, providers)
-    # end
-
-    # def test_lists_authoritative_nameservers
-    #   RecordStore::CLI.start(%w(info))
-
-    #   authority = <<~AUTHORITY
-    #     Authoritative nameservers:
-    #     - [NSRecord] example.com. 172800 IN NS a.iana-servers.net.
-    #     - [NSRecord] example.com. 172800 IN NS b.iana-servers.net.
-    #   AUTHORITY
-
-    #   assert_includes($stdout.string, authority)
-    # end
   end
 end
