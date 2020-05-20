@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## unreleased
+## 6.1.0
 - sort zone files [FEATURE]
 - CLI support for specifying zones for validate_authority [FEATURE]
 - retry failed lookup using another nameserver if unreachable [BUGFIX]
