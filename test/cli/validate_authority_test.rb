@@ -8,15 +8,44 @@ module CLI
     end
 
     def test_prints_zones
-      mock_defined_zones('business.new' => { authority: ns_unknown('new') })
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+      )
 
       RecordStore::CLI.start(%w(validate_authority))
 
       assert_includes($stdout.string, "Zone: business.new")
+      assert_includes($stdout.string, "Zone: myshopify.cloud")
+    end
+
+    def test_includes_specified_zones
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+      )
+
+      RecordStore::CLI.start(%w(validate_authority business.new))
+
+      assert_includes($stdout.string, "Zone: business.new")
+    end
+
+    def test_excludes_unspecified_zones
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+      )
+
+      RecordStore::CLI.start(%w(validate_authority business.new))
+
+      refute_includes($stdout.string, "Zone: myshopify.cloud")
     end
 
     def test_excludes_valid_zone
-      mock_defined_zones('shopify.com')
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'shopify.com' => {}
+      )
 
       RecordStore::CLI.start(%w(validate_authority))
 
@@ -24,7 +53,10 @@ module CLI
     end
 
     def test_verbose_option_includes_valid_zones
-      mock_defined_zones('shopify.com')
+      mock_defined_zones(
+        'business.new' => { authority: ns_unknown('new') },
+        'shopify.com' => {}
+      )
 
       RecordStore::CLI.start(%w(validate_authority --verbose))
 
@@ -103,7 +135,7 @@ module CLI
 
     def mock_zone(zone_name, providers: %w(DNSimple NS1), authority: ns_dnsimple(zone_name) + ns_ns1(zone_name))
       zone = Zone.new(name: zone_name, config: { providers: providers })
-      zone.expects(:fetch_authority).returns(authority)
+      zone.stubs(:fetch_authority).returns(authority)
       zone
     end
 
