@@ -135,7 +135,7 @@ module RecordStore
 
           raise "No authority found (#{name})" unless reply.authority.any?
 
-          break extract_authority(reply)
+          break extract_authority(reply.authority)
         end
       end
 
@@ -147,13 +147,24 @@ module RecordStore
 
     private
 
-    def extract_authority(reply)
-      authority = reply.authority.sample
+    def resolve_authority(authority)
+      nameservers = authority.map { |a| a.last.name.to_s }
 
-      if unrooted_name.casecmp?(authority.first.to_s)
-        build_authority(reply.authority)
+      begin
+        nameserver = nameservers.shift
+        fetch_authority(nameserver)
+      rescue Errno::EHOSTUNREACH => e
+        $stderr.puts "Warning: #{e} [host=#{nameserver}]"
+        raise if nameservers.empty?
+        retry
+      end
+    end
+
+    def extract_authority(authority)
+      if unrooted_name.casecmp?(authority.first.first.to_s)
+        build_authority(authority)
       else
-        fetch_authority(authority.last.name.to_s) || build_authority(reply.authority)
+        resolve_authority(authority) || build_authority(authority)
       end
     end
 
