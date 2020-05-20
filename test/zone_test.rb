@@ -545,7 +545,9 @@ class ZoneTest < Minitest::Test
   private
 
   def mock_name(name)
-    mock('name')
+    n = mock('name')
+    n.stubs(:to_s).returns(name)
+    n
   end
 
   def mock_ns(name)
