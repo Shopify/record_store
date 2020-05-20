@@ -500,7 +500,6 @@ class ZoneTest < Minitest::Test
 
     zone.expects(:fetch_soa).with('b.root-servers.net')
       .yields(mock_reply('ph.', ['ph.communitydns.net', '1.ns.ph']), mock_name('shopify.ph.'))
-      .returns([mock('result')])
 
     zone.expects(:fetch_soa).with('ph.communitydns.net')
       .raises(Errno::EHOSTUNREACH)
