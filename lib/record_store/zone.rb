@@ -129,14 +129,12 @@ module RecordStore
     )
 
     def fetch_authority(nameserver = ROOT_SERVERS.sample)
-      authority = Resolv::DNS.open(nameserver: nameserver) do |resolv|
-        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
-          break if reply.answer.any?
+      authority = fetch_soa(nameserver) do |reply, _name|
+        break if reply.answer.any?
 
-          raise "No authority found (#{name})" unless reply.authority.any?
+        raise "No authority found (#{name})" unless reply.authority.any?
 
-          break extract_authority(reply)
-        end
+        break extract_authority(reply.authority)
       end
 
       # candidate DNS name is returned instead when NXDomain or other error
@@ -147,13 +145,32 @@ module RecordStore
 
     private
 
-    def extract_authority(reply)
-      authority = reply.authority.sample
+    def fetch_soa(nameserver)
+      Resolv::DNS.open(nameserver: nameserver) do |resolv|
+        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
+          yield reply, name
+        end
+      end
+    end
 
-      if unrooted_name.casecmp?(authority.first.to_s)
-        build_authority(reply.authority)
+    def resolve_authority(authority)
+      nameservers = authority.map { |a| a.last.name.to_s }
+
+      begin
+        nameserver = nameservers.shift
+        fetch_authority(nameserver)
+      rescue Errno::EHOSTUNREACH => e
+        $stderr.puts "Warning: #{e} [host=#{nameserver}]"
+        raise if nameservers.empty?
+        retry
+      end
+    end
+
+    def extract_authority(authority)
+      if unrooted_name.casecmp?(authority.first.first.to_s)
+        build_authority(authority)
       else
-        fetch_authority(authority.last.name.to_s) || build_authority(reply.authority)
+        resolve_authority(authority) || build_authority(authority)
       end
     end
 

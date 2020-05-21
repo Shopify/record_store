@@ -3,6 +3,7 @@
 ## unreleased
 - sort zone files [FEATURE]
 - CLI support for specifying zones for validate_authority [FEATURE]
+- retry failed lookup using another nameserver if unreachable [BUGFIX]
 
 ## 6.0.1
 - add API rate limiting to DNSimple provider [FEATURE]
