@@ -175,7 +175,9 @@ module RecordStore
     end
 
     def build_authority(authority)
-      authority.map.with_index do |(name, ttl, data), index|
+      ns = authority.select { |_name, _ttl, data| data.is_a?(Resolv::DNS::Resource::IN::NS) }
+
+      ns.map.with_index do |(name, ttl, data), index|
         Record::NS.new(ttl: ttl, fqdn: name.to_s, nsdname: data.name.to_s, record_id: index)
       end
     end
