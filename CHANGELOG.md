@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.1.1
+- Emit messages when waiting for rate-limit to elapse for DNSimple and NS1 providers, so deployment does not timeout [BUGFIX]
+
 ## 6.1.0
 - sort zone files [FEATURE]
 - CLI support for specifying zones for validate_authority [FEATURE]
