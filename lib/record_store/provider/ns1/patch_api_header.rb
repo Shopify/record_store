@@ -4,12 +4,19 @@ require_relative '../provider_utils/rate_limit'
 # Patch the method which retrieves headers for API rate limit dynamically
 module NS1::Transport
   class NetHttp
-    def process_response(response)
-      sleep_time = response.to_hash['x-ratelimit-period'].first.to_i /
-                   [1, response.to_hash['x-ratelimit-remaining'].first.to_i].max.to_f
+    X_RATELIMIT_PERIOD = 'x-ratelimit-period'.freeze
+    X_RATELIMIT_REMAINING = 'x-ratelimit-remaining'.freeze
 
-      rate_limit = RateLimit.new('NS1')
-      rate_limit.sleep_for(sleep_time)
+    def process_response(response)
+      response_hash = response.to_hash
+
+      if (response_hash.key?(X_RATELIMIT_PERIOD) && response_hash.key?(X_RATELIMIT_REMAINING))
+        sleep_time = response_hash[X_RATELIMIT_PERIOD].first.to_i /
+                     [1, response_hash[X_RATELIMIT_REMAINING].first.to_i].max.to_f
+
+        rate_limit = RateLimit.new('NS1')
+        rate_limit.sleep_for(sleep_time)
+      end
 
       body = JSON.parse(response.body)
       case response
