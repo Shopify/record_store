@@ -128,6 +128,20 @@ module RecordStore
 
         dns.getresource(zone_name, Resolv::DNS::Resource::IN::SOA).mname.to_s
       end
+
+      def retry_on_connection_errors(max_timeouts: 5, max_conn_resets: 5)
+        loop do
+          begin
+            return yield
+          rescue Net::OpenTimeout
+            raise if max_timeouts <= 0
+            max_timeouts -= 1
+          rescue Errno::ECONNRESET
+            raise if max_conn_resets <= 0
+            max_conn_resets -= 1
+          end
+        end
+      end
     end
   end
 end
