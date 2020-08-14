@@ -5,6 +5,7 @@ require 'vcr'
 require 'pry'
 require 'fileutils'
 require 'webmock'
+require 'webmock/minitest'
 
 $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 require 'record_store'
