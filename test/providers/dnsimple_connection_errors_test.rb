@@ -7,9 +7,9 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
       "current_page": 1,
       "per_page": 1,
       "total_entries": 0,
-      "total_pages": 1
+      "total_pages": 1,
     },
-    "data": []
+    "data": [],
   }.to_json.freeze
 
   def setup
