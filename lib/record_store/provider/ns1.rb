@@ -60,14 +60,18 @@ module RecordStore
 
       # Returns an array of the zones managed by provider as strings
       def zones
-        client.zones.map { |zone| zone['zone'] }
+        retry_on_connection_errors do
+          client.zones.map { |zone| zone['zone'] }
+        end
       end
 
       private
 
       # Fetches simplified records for the provided zone
       def records_for_zone(zone)
-        client.zone(zone)['records']
+        retry_on_connection_errors do
+          client.zone(zone)['records']
+        end
       end
 
       # Creates a new record to the zone. It is expected this call modifies external state.
