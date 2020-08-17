@@ -24,6 +24,10 @@ module RecordStore
         end
       end
 
+      def empty_non_terminal_over_wildcard?
+        valid_providers? && providers.any? { |provider| Provider.const_get(provider).empty_non_terminal_over_wildcard? }
+      end
+
       def to_hash
         config_hash = {
           providers: providers,

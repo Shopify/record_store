@@ -12,6 +12,10 @@ module RecordStore
         true
       end
 
+      def empty_non_terminal_over_wildcard?
+        false
+      end
+
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
         retry_on_connection_errors do

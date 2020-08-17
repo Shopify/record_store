@@ -37,6 +37,7 @@ example.com:
       zone.config.ignore_patterns.map(&:to_hash))
     assert_equal(['DynECT', 'DNSimple'], zone.config.providers)
     assert_predicate(zone.config, :supports_alias?)
+    assert_predicate(zone.config, :empty_non_terminal_over_wildcard?)
   end
 
   def test_config_supports_alias_based_on_provider
@@ -50,5 +51,18 @@ example.com:
   def test_config_does_not_supports_alias_when_multiple_providers_disagree
     config = Zone.new(name: 'dnsimple-config.com', config: { providers: ['DNSimple', 'DynECT'] }).config
     refute_predicate(config, :supports_alias?)
+  end
+
+  def test_config_empty_non_terminal_over_wildcard_when_multiple_providers_disagree
+    config = Zone.new(name: 'dnsimple-config.com', config: { providers: ['DNSimple', 'DynECT'] }).config
+    assert_predicate(config, :empty_non_terminal_over_wildcard?)
+  end
+
+  def test_config_empty_non_terminal_over_wildcard_based_on_provider
+    config = Zone.new(name: 'dynect-config.com', config: { providers: ['DynECT'] }).config
+    assert_predicate(config, :empty_non_terminal_over_wildcard?)
+
+    config = Zone.new(name: 'dnsimple-config.com', config: { providers: ['DNSimple'] }).config
+    refute_predicate(config, :empty_non_terminal_over_wildcard?)
   end
 end

@@ -383,6 +383,40 @@ class ZoneTest < Minitest::Test
                  "should have the same TTL", invalid_zone.errors[:records].first)
   end
 
+  def test_zone_validates_no_empty_non_terminal
+    valid_zone = Zone.new(
+      name: 'domain.example.com',
+      config: { providers: ['NS1', 'DNSimple'] },
+      records: [
+        { type: 'CNAME', fqdn: '*.domain.example.com', cname: 'target1.example.com', ttl: 60 },
+        { type: 'CNAME', fqdn: 'b.domain.example.com', cname: 'target2.example.com', ttl: 60 },
+        { type: 'CNAME', fqdn: 'a.b.domain.example.com', cname: 'target3.example.com', ttl: 60 },
+      ]
+    )
+    assert_predicate(valid_zone, :valid?)
+
+    valid_zone = Zone.new(
+      name: 'domain.example.com',
+      config: { providers: ['DNSimple'] },
+      records: [
+        { type: 'CNAME', fqdn: '*.domain.example.com', cname: 'target1.example.com', ttl: 60 },
+        { type: 'CNAME', fqdn: 'a.b.domain.example.com', cname: 'target3.example.com', ttl: 60 },
+      ]
+    )
+    assert_predicate(valid_zone, :valid?)
+
+    invalid_zone = Zone.new(
+      name: 'domain.example.com',
+      config: { providers: ['NS1', 'DNSimple'] },
+      records: [
+        { type: 'CNAME', fqdn: '*.domain.example.com', cname: 'target1.example.com', ttl: 60 },
+        { type: 'CNAME', fqdn: 'a.b.domain.example.com', cname: 'target3.example.com', ttl: 60 },
+      ]
+    )
+    refute_predicate(invalid_zone, :valid?)
+    assert_match(/found empty non-terminal/, invalid_zone.errors[:records].first)
+  end
+
   def test_zone_validates_support_for_alias_records
     valid_zone = Zone.new(
       name: 'matching-records.com',

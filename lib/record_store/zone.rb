@@ -18,6 +18,7 @@ module RecordStore
     validate :validate_cname_records_dont_point_to_root
     validate :validate_same_ttl_for_records_sharing_fqdn_and_type
     validate :validate_provider_can_handle_zone_records
+    validate :validate_no_empty_non_terminal
     validate :validate_can_handle_alias_records
 
     class << self
@@ -254,6 +255,28 @@ module RecordStore
       providers.each do |provider|
         (record_types - provider.record_types).each do |record_type|
           errors.add(:records, "#{record_type} is not a supported record type in #{provider}")
+        end
+      end
+    end
+
+    def validate_no_empty_non_terminal
+      return unless config.empty_non_terminal_over_wildcard?
+
+      wildcards = records.select(&:is_wildcard?).map(&:fqdn).uniq
+      wildcards.each do |wildcard|
+        suffix = wildcard.delete_prefix('*')
+
+        terminal_records = records.map(&:fqdn)
+          .select { |record| record.match?(/^([a-zA-Z0-9-_]+\.[a-zA-Z0-9-_])#{Regexp.escape(suffix)}$/) }
+        next unless terminal_records.any?
+
+        intermediate_records = records.map(&:fqdn)
+          .select { |record| record.match?(/^([a-zA-Z0-9-_]+)#{Regexp.escape(suffix)}$/) }
+        terminal_records.each do |terminal_record|
+          non_terminal = terminal_record.partition('.').last
+          errors.add(:records, "found empty non-terminal #{non_terminal} "\
+                     "(caused by existing records #{wildcard} and #{terminal_record})")\
+            unless intermediate_records.include?(non_terminal)
         end
       end
     end

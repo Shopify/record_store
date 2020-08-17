@@ -52,6 +52,10 @@ module RecordStore
         false
       end
 
+      def empty_non_terminal_over_wildcard?
+        true
+      end
+
       def build_zone(zone_name:, config:)
         zone = Zone.new(name: zone_name)
         zone.records = retrieve_current_records(zone: zone_name)
