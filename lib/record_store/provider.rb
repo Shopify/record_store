@@ -142,9 +142,13 @@ module RecordStore
           rescue Net::OpenTimeout
             raise if max_timeouts <= 0
             max_timeouts -= 1
+
+            $stderr.puts("Retrying after a connection timeout")
           rescue Errno::ECONNRESET
             raise if max_conn_resets <= 0
             max_conn_resets -= 1
+
+            $stderr.puts("Retrying in #{delay}s after a connection reset")
             backoff_sleep(delay)
             delay = [delay * backoff_multiplier, max_backoff].min
           end
