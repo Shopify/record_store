@@ -18,6 +18,8 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
   end
 
   def test_retrieve_current_records_retries_on_network_errors
+    @dnsimple.expects(:backoff_sleep).times(5).returns(true)
+
     stub_request(:get, %r{https://api.sandbox.dnsimple.com/v2/.+?/zones/zone/records\?page=1&per_page=100})
       .to_timeout.times(5)
       .to_raise(Errno::ECONNRESET).times(5)
@@ -27,6 +29,8 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
   end
 
   def test_retrieve_current_records_eventually_raises_after_too_many_timeouts
+    @dnsimple.expects(:backoff_sleep).never
+
     stub_request(:get, %r{https://api.sandbox.dnsimple.com/v2/.+?/zones/zone/records\?page=1&per_page=100})
       .to_timeout.times(6)
 
@@ -36,6 +40,8 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
   end
 
   def test_retrieve_current_records_raises_after_too_many_conn_resets
+    @dnsimple.expects(:backoff_sleep).times(5).returns(true)
+
     stub_request(:get, %r{https://api.sandbox.dnsimple.com/v2/.+?/zones/zone/records\?page=1&per_page=100})
       .to_raise(Errno::ECONNRESET).times(6)
 
@@ -45,6 +51,8 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
   end
 
   def test_zones_retries_on_network_errors
+    @dnsimple.expects(:backoff_sleep).times(5).returns(true)
+
     stub_request(:get, %r{https://api.sandbox.dnsimple.com/v2/.+?/zones\?page=1&per_page=100})
       .to_timeout.times(5)
       .to_raise(Errno::ECONNRESET).times(5)
@@ -54,6 +62,8 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
   end
 
   def test_zones_eventually_raises_after_too_many_timeouts
+    @dnsimple.expects(:backoff_sleep).never
+
     stub_request(:get, %r{https://api.sandbox.dnsimple.com/v2/.+?/zones\?page=1&per_page=100})
       .to_timeout.times(6)
 
@@ -63,6 +73,8 @@ class DNSimpleConnectionErrorsTest < Minitest::Test
   end
 
   def test_zones_raises_after_too_many_conn_resets
+    @dnsimple.expects(:backoff_sleep).times(5).returns(true)
+
     stub_request(:get, %r{https://api.sandbox.dnsimple.com/v2/.+?/zones\?page=1&per_page=100})
       .to_raise(Errno::ECONNRESET).times(6)
 
