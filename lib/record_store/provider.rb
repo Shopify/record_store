@@ -136,6 +136,13 @@ module RecordStore
         backoff_multiplier: 2,
         max_backoff: 10
       )
+        waiter = BackoffWaiter.new(
+          "Waiting to retry after a connection reset",
+          initial_delay: delay,
+          multiplier: backoff_multiplier,
+          max_delay: max_backoff,
+        )
+
         loop do
           begin
             return yield
@@ -148,15 +155,9 @@ module RecordStore
             raise if max_conn_resets <= 0
             max_conn_resets -= 1
 
-            $stderr.puts("Retrying in #{delay}s after a connection reset")
-            backoff_sleep(delay)
-            delay = [delay * backoff_multiplier, max_backoff].min
+            waiter.wait
           end
         end
-      end
-
-      def backoff_sleep(delay)
-        sleep(delay)
       end
     end
   end

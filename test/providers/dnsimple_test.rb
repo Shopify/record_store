@@ -520,7 +520,7 @@ class DNSimpleTest < Minitest::Test
 
     Time.stubs(:now).returns(current_time_to_test)
     session = @dnsimple.send(:session)
-    RateLimit.any_instance.expects(:sleep).never
+    RateLimitWaiter.any_instance.expects(:sleep).never
     session.send(:rate_limit_sleep, rate_limit_reset, rate_limit_remaining)
   end
 
@@ -536,8 +536,8 @@ class DNSimpleTest < Minitest::Test
   def helper_rate_limit_sleep_test(current_time, rate_limit_reset, rate_limit_remaining, expected_sleep_duration)
     session = @dnsimple.send(:session)
     Time.stubs(:now).returns(current_time)
-    RateLimit.any_instance.stubs(:sleep_for)
-    RateLimit.any_instance.expects(:sleep_for).with(expected_sleep_duration)
+    RateLimitWaiter.any_instance.stubs(:wait)
+    RateLimitWaiter.any_instance.expects(:wait).with(expected_sleep_duration)
     session.send(:rate_limit_sleep, rate_limit_reset, rate_limit_remaining)
   end
 end

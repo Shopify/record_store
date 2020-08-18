@@ -1,4 +1,4 @@
-require_relative '../provider_utils/rate_limit'
+require_relative '../provider_utils/waiter'
 
 # Patch Dnsimple client method which retrieves headers for API rate limit dynamically
 module Dnsimple
@@ -26,8 +26,8 @@ module Dnsimple
       rate_limit_periods = rate_limit_remaining + 1
       sleep_time = rate_limit_reset_in / rate_limit_periods.to_f
 
-      rate_limit = RateLimit.new('DNSimple')
-      rate_limit.sleep_for(sleep_time)
+      rate_limit = RateLimitWaiter.new('DNSimple')
+      rate_limit.wait(sleep_time)
     end
   end
 end
