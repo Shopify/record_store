@@ -262,7 +262,7 @@ module RecordStore
     def validate_no_empty_non_terminal
       return unless config.empty_non_terminal_over_wildcard?
 
-      wildcards = records.select(&:is_wildcard?).map(&:fqdn).uniq
+      wildcards = records.select(&:wildcard?).map(&:fqdn).uniq
       wildcards.each do |wildcard|
         suffix = wildcard.delete_prefix('*')
 

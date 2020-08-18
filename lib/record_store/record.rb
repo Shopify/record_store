@@ -112,7 +112,7 @@ module RecordStore
       "[#{type}Record] #{fqdn} #{ttl} IN #{type} #{rdata_txt}"
     end
 
-    def is_wildcard?
+    def wildcard?
       fqdn.match?(/^\*\./)
     end
 
