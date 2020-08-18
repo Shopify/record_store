@@ -7,7 +7,8 @@ class NS1ConnectionErrorsTest < Minitest::Test
   end
 
   def test_retrieve_current_records_retries_on_network_errors
-    @ns1.expects(:backoff_sleep).times(5).returns(true)
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).times(5).returns(nil)
 
     stub_request(:get, "https://api.nsone.net/v1/zones/zone")
       .to_timeout.times(5)
@@ -18,7 +19,8 @@ class NS1ConnectionErrorsTest < Minitest::Test
   end
 
   def test_retrieve_current_records_eventually_raises_after_too_many_timeouts
-    @ns1.expects(:backoff_sleep).never
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).never
 
     stub_request(:get, "https://api.nsone.net/v1/zones/zone")
       .to_timeout.times(6)
@@ -29,7 +31,8 @@ class NS1ConnectionErrorsTest < Minitest::Test
   end
 
   def test_retrieve_current_records_raises_after_too_many_conn_resets
-    @ns1.expects(:backoff_sleep).times(5).returns(true)
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).times(5).returns(nil)
 
     stub_request(:get, "https://api.nsone.net/v1/zones/zone")
       .to_raise(Errno::ECONNRESET).times(6)
@@ -40,7 +43,8 @@ class NS1ConnectionErrorsTest < Minitest::Test
   end
 
   def test_zones_retries_on_network_errors
-    @ns1.expects(:backoff_sleep).times(5).returns(true)
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).times(5).returns(nil)
 
     stub_request(:get, "https://api.nsone.net/v1/zones")
       .to_timeout.times(5)
@@ -51,7 +55,8 @@ class NS1ConnectionErrorsTest < Minitest::Test
   end
 
   def test_zones_raises_after_too_many_timeouts
-    @ns1.expects(:backoff_sleep).never
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).never
 
     stub_request(:get, "https://api.nsone.net/v1/zones")
       .to_timeout.times(6)
@@ -62,7 +67,8 @@ class NS1ConnectionErrorsTest < Minitest::Test
   end
 
   def test_zones_raises_after_too_many_conn_resets
-    @ns1.expects(:backoff_sleep).times(5).returns(true)
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).times(5)
 
     stub_request(:get, "https://api.nsone.net/v1/zones")
       .to_raise(Errno::ECONNRESET).times(6)

@@ -1,5 +1,5 @@
 require 'net/http'
-require_relative '../provider_utils/rate_limit'
+require_relative '../provider_utils/waiter'
 
 # Patch the method which retrieves headers for API rate limit dynamically
 module NS1::Transport
@@ -14,8 +14,8 @@ module NS1::Transport
         sleep_time = response_hash[X_RATELIMIT_PERIOD].first.to_i /
                      [1, response_hash[X_RATELIMIT_REMAINING].first.to_i].max.to_f
 
-        rate_limit = RateLimit.new('NS1')
-        rate_limit.sleep_for(sleep_time)
+        rate_limit = RateLimitWaiter.new('NS1')
+        rate_limit.wait(sleep_time)
       end
 
       body = JSON.parse(response.body)
