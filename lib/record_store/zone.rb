@@ -264,7 +264,7 @@ module RecordStore
 
       wildcards = records.select(&:wildcard?).map(&:fqdn).uniq
       wildcards.each do |wildcard|
-        suffix = wildcard.delete_prefix('*')
+        suffix = wildcard[1..-1]
 
         terminal_records = records.map(&:fqdn)
           .select { |record| record.match?(/^([a-zA-Z0-9-_]+\.[a-zA-Z0-9-_])#{Regexp.escape(suffix)}$/) }
