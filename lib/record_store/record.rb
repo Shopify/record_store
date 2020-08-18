@@ -112,6 +112,10 @@ module RecordStore
       "[#{type}Record] #{fqdn} #{ttl} IN #{type} #{rdata_txt}"
     end
 
+    def wildcard?
+      fqdn.match?(/^\*\./)
+    end
+
     protected
 
     def validate_label_length
