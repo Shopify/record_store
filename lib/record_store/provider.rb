@@ -150,7 +150,7 @@ module RecordStore
         loop do
           begin
             return yield
-          rescue Net::OpenTimeout
+          rescue Net::OpenTimeout, Errno::ETIMEDOUT
             raise if max_timeouts <= 0
             max_timeouts -= 1
 
