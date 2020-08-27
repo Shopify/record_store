@@ -267,11 +267,11 @@ module RecordStore
         suffix = wildcard[1..-1]
 
         terminal_records = records.map(&:fqdn)
-          .select { |record| record.match?(/^([a-zA-Z0-9-_]+\.[a-zA-Z0-9-_])#{Regexp.escape(suffix)}$/) }
+          .select { |record| record.match?(/^([a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_])#{Regexp.escape(suffix)}$/) }
         next unless terminal_records.any?
 
         intermediate_records = records.map(&:fqdn)
-          .select { |record| record.match?(/^([a-zA-Z0-9-_]+)#{Regexp.escape(suffix)}$/) }
+          .select { |record| record.match?(/^([a-zA-Z0-9\-_]+)#{Regexp.escape(suffix)}$/) }
         terminal_records.each do |terminal_record|
           non_terminal = terminal_record.partition('.').last
           errors.add(:records, "found empty non-terminal #{non_terminal} "\
