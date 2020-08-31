@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 6.3.0
+- Support for configurable number of threads via environment variable [FEATURE]
+
+## 6.2.1
+- Improved error reporting after timeouts [FEATURE]
+
+## 6.2.0
+- Add validation for non-terminal conflict with wildcard [FEATURE]
+
+## 6.1.2
+- Retry on connection errors [FEATURE]
+
 ## 6.1.1
 - Emit messages when waiting for rate-limit to elapse for DNSimple and NS1 providers, so deployment does not timeout [BUGFIX]
 
