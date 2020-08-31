@@ -45,13 +45,18 @@ module RecordStore
         end
       end
 
-      MAX_PARALLEL_THREADS = 10
+      DEFAULT_MAX_PARALLEL_THREADS = 10
+
+      def max_parallel_threads
+        (ENV['RECORD_STORE_MAX_THREADS'] || DEFAULT_MAX_PARALLEL_THREADS).to_i
+      end
+
       def modified(verbose: false) # rubocop:disable Lint/UnusedMethodArgument
         modified_zones = []
         mutex = Mutex.new
         zones = all
 
-        (1..MAX_PARALLEL_THREADS).map do
+        (1..max_parallel_threads).map do
           Thread.new do
             current_zone = nil
             while zones.any?
