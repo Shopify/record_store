@@ -3,8 +3,6 @@ require_relative 'ns1/patch_api_header'
 
 module RecordStore
   class Provider::NS1 < Provider
-    # class Error < StandardError; end
-
     class ApiAnswer
       class << self
         def from_full_api_answer(type:, record_id:, answer:)

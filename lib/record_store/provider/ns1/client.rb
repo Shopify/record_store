@@ -1,6 +1,5 @@
 require 'net/http'
 require 'ns1'
-require 'logger'
 
 module RecordStore
   class Provider::NS1 < Provider
