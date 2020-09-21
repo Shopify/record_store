@@ -168,7 +168,7 @@ class NS1Test < Minitest::Test
 
       # Create a record
       record = Record::A.new(record_data)
-      assert_raises(RecordStore::Provider::ProviderUnavailableError) do
+      assert_raises(RecordStore::Provider::UnavailableError) do
         @ns1.apply_changeset(Changeset.new(
           current_records: [],
           desired_records: [record],

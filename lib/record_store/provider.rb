@@ -3,7 +3,7 @@ require 'resolv'
 module RecordStore
   class Provider
     class Error < StandardError; end
-    class ProviderUnavailableError < Error; end
+    class UnavailableError < Error; end
 
     class << self
       def provider_for(object)
@@ -154,7 +154,7 @@ module RecordStore
         loop do
           begin
             return yield
-          rescue ProviderUnavailableError
+          rescue UnavailableError
             raise if max_retries <= 0
             max_retries -= 1
 

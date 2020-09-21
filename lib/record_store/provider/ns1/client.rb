@@ -49,7 +49,7 @@ module RecordStore
 
       def raise_error(result)
         if Net::HTTPResponse::CODE_TO_OBJ[result.status.to_s] == Net::HTTPServiceUnavailable
-          raise RecordStore::Provider::ProviderUnavailableError, result.to_s
+          raise RecordStore::Provider::UnavailableError, result.to_s
         end
         raise RecordStore::Provider::Error, result.to_s
       end

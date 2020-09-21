@@ -112,7 +112,7 @@ class NS1ConnectionErrorsTest < Minitest::Test
       )
       .times(5)
 
-    assert_raises(RecordStore::Provider::ProviderUnavailableError) do
+    assert_raises(RecordStore::Provider::UnavailableError) do
       @ns1.zones
     end
   end
