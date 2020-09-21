@@ -3,7 +3,7 @@ require 'resolv'
 module RecordStore
   class Provider
     class Error < StandardError; end
-    class UnavailableError < Error; end
+    class UnparseableBodyError < Error; end
 
     class << self
       def provider_for(object)
@@ -154,10 +154,11 @@ module RecordStore
         loop do
           begin
             return yield
-          rescue UnavailableError
+          rescue UnparseableBodyError
             raise if max_retries <= 0
             max_retries -= 1
 
+            waiter.message = "Waiting to retry since provider is unavailable"
             waiter.wait
           rescue Net::OpenTimeout, Errno::ETIMEDOUT
             raise if max_timeouts <= 0

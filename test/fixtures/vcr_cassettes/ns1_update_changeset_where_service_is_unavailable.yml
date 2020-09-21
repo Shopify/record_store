@@ -123,10 +123,8 @@ http_interactions:
       Cf-Ray:
       - 539c569bbfb2ab9a-YYZ
     body:
-      encoding: ASCII-8BIT
-      string: '{"domain":"test_update_changeset_where_service_is_unavailable.test.recordstore.io","zone":"test.recordstore.io","use_client_subnet":true,"answers":[{"answer":["10.10.10.48"],"id":"5dd80f32c94a900001e474d4"}],"id":"5dd80f32c94a900001e474d5","regions":{},"meta":{},"link":null,"filters":[],"ttl":600,"tier":1,"type":"A","networks":[0]}
-
-        '
+      encoding: UTF-8
+      string: '<!DOCTYPE html> <title>Temporarily unavailable | api.nsone.net | Cloudflare</title>'
     http_version: 
   recorded_at: Fri, 22 Nov 2019 16:39:01 GMT
 recorded_with: VCR 4.0.0

@@ -48,8 +48,8 @@ module RecordStore
       private
 
       def raise_error(result)
-        if Net::HTTPResponse::CODE_TO_OBJ[result.status.to_s] == Net::HTTPServiceUnavailable
-          raise RecordStore::Provider::UnavailableError, result.to_s
+        if result.is_a?(NS1::Response::UnparsableBodyError)
+          raise RecordStore::Provider::UnparseableBodyError, result.to_s
         end
         raise RecordStore::Provider::Error, result.to_s
       end

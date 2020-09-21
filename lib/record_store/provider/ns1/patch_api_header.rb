@@ -1,6 +1,13 @@
 require 'net/http'
 require_relative '../provider_utils/waiter'
 
+class NS1::Response::UnparsableBodyError < NS1::Response::Error
+  def initialize(status)
+    @status = status
+    super({}, status)
+  end
+end
+
 # Patch the method which retrieves headers for API rate limit dynamically
 module NS1::Transport
   class NetHttp
@@ -18,19 +25,17 @@ module NS1::Transport
         rate_limit.wait(sleep_time)
       end
 
-      if Net::HTTPResponse::CODE_TO_OBJ[response.code] == Net::HTTPServiceUnavailable
-        return NS1::Response::Error.new({}, response.code.to_i)
+      begin
+        body = JSON.parse(response.body)
+        case response
+        when Net::HTTPOK
+          NS1::Response::Success.new(body, response.code.to_i)
+        else
+          NS1::Response::Error.new(body, response.code.to_i)
+        end
+      rescue JSON::ParserError
+        NS1::Response::UnparsableBodyError.new(response.code.to_i)
       end
-
-      body = JSON.parse(response.body)
-      case response
-      when Net::HTTPOK
-        NS1::Response::Success.new(body, response.code.to_i)
-      else
-        NS1::Response::Error.new(body, response.code.to_i)
-      end
-    rescue JSON::ParserError
-      raise NS1::Transport::ResponseParseError
     end
   end
 end
