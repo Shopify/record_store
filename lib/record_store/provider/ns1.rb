@@ -3,7 +3,7 @@ require_relative 'ns1/patch_api_header'
 
 module RecordStore
   class Provider::NS1 < Provider
-    class Error < StandardError; end
+    # class Error < StandardError; end
 
     class ApiAnswer
       class << self
@@ -180,7 +180,7 @@ module RecordStore
         unless updated
           error = +'while trying to update a record, could not find answer with fqdn: '
           error << "#{record.fqdn}, type; #{record.type}, id: #{id}"
-          raise Error, error
+          raise RecordStore::Provider::Error, error
         end
 
         client.modify_record(

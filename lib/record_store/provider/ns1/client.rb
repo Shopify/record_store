@@ -1,8 +1,11 @@
+require 'net/http'
 require 'ns1'
 
 module RecordStore
   class Provider::NS1 < Provider
-    class Error < StandardError; end
+    # REMOVE
+    # class Error < StandardError; end
+    # class ProviderUnavailableError < Error; end
 
     class Client < ::NS1::Client
       def initialize(api_key:)
@@ -19,27 +22,35 @@ module RecordStore
 
       def record(zone:, fqdn:, type:, must_exist: false)
         result = super(zone, fqdn, type)
-        raise(Error, result.to_s) if must_exist && result.is_a?(NS1::Response::Error)
+        raise_error(result) if must_exist && result.is_a?(NS1::Response::Error)
         return nil if result.is_a?(NS1::Response::Error)
         result
       end
 
       def create_record(zone:, fqdn:, type:, params:)
         result = super(zone, fqdn, type, params)
-        raise(Error, result.to_s) if result.is_a?(NS1::Response::Error)
+        raise_error(result) if result.is_a?(NS1::Response::Error)
         nil
       end
 
       def modify_record(zone:, fqdn:, type:, params:)
         result = super(zone, fqdn, type, params)
-        raise(Error, result.to_s) if result.is_a?(NS1::Response::Error)
+        raise_error(result) if result.is_a?(NS1::Response::Error)
         nil
       end
 
       def delete_record(zone:, fqdn:, type:)
         result = super(zone, fqdn, type)
-        raise(Error, result.to_s) if result.is_a?(NS1::Response::Error)
+        raise_error(result) if result.is_a?(NS1::Response::Error)
         nil
+      end
+
+      private
+
+      def raise_error(result)
+        raise(ProviderUnavailableError, result.to_s) if
+          Net::HTTPResponse::CODE_TO_OBJ[result.status] == Net::HTTPServiceUnavailable
+        raise(RecordStore::Provider::Error, result.to_s)
       end
     end
   end

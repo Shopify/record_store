@@ -2,6 +2,9 @@ require 'resolv'
 
 module RecordStore
   class Provider
+    class Error < StandardError; end
+    class ProviderUnavailableError < Error; end
+
     class << self
       def provider_for(object)
         ns_server =
@@ -136,6 +139,7 @@ module RecordStore
       def retry_on_connection_errors(
         max_timeouts: 5,
         max_conn_resets: 5,
+        max_retries: 5,
         delay: 1,
         backoff_multiplier: 2,
         max_backoff: 10
@@ -150,6 +154,11 @@ module RecordStore
         loop do
           begin
             return yield
+          rescue ProviderUnavailableError
+            raise if max_retries <= 0
+            max_retries -= 1
+
+            waiter.wait
           rescue Net::OpenTimeout, Errno::ETIMEDOUT
             raise if max_timeouts <= 0
             max_timeouts -= 1

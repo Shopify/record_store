@@ -18,6 +18,10 @@ module NS1::Transport
         rate_limit.wait(sleep_time)
       end
 
+      if Net::HTTPResponse::CODE_TO_OBJ[response.code] == Net::HTTPServiceUnavailable
+        return NS1::Response::Error.new({}, response.code.to_i)
+      end
+
       body = JSON.parse(response.body)
       case response
       when Net::HTTPOK
