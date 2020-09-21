@@ -1,23 +1,24 @@
 require 'net/http'
 require 'ns1'
+require 'logger'
 
 module RecordStore
   class Provider::NS1 < Provider
-    # REMOVE
-    # class Error < StandardError; end
-    # class ProviderUnavailableError < Error; end
-
     class Client < ::NS1::Client
       def initialize(api_key:)
         super(api_key)
       end
 
       def zones
-        super
+        zones = super
+        raise_error(zones) if zones.is_a?(NS1::Response::Error)
+        zones
       end
 
       def zone(name)
-        super(name)
+        zone = super(name)
+        raise_error(zone) if zone.is_a?(NS1::Response::Error)
+        zone
       end
 
       def record(zone:, fqdn:, type:, must_exist: false)
@@ -48,9 +49,10 @@ module RecordStore
       private
 
       def raise_error(result)
-        raise(ProviderUnavailableError, result.to_s) if
-          Net::HTTPResponse::CODE_TO_OBJ[result.status] == Net::HTTPServiceUnavailable
-        raise(RecordStore::Provider::Error, result.to_s)
+        if Net::HTTPResponse::CODE_TO_OBJ[result.status.to_s] == Net::HTTPServiceUnavailable
+          raise RecordStore::Provider::ProviderUnavailableError, result.to_s
+        end
+        raise RecordStore::Provider::Error, result.to_s
       end
     end
   end

@@ -158,6 +158,27 @@ class NS1Test < Minitest::Test
     end
   end
 
+  def test_apply_changeset_where_service_is_unavailable
+    VCR.use_cassette('ns1_update_changeset_where_service_is_unavailable') do
+      record_data = {
+        address: '10.10.10.48',
+        fqdn: 'test_update_changeset_where_service_is_unavailable.test.recordstore.io',
+        ttl: 600,
+      }
+
+      # Create a record
+      record = Record::A.new(record_data)
+      assert_raises(RecordStore::Provider::ProviderUnavailableError) do
+        @ns1.apply_changeset(Changeset.new(
+          current_records: [],
+          desired_records: [record],
+          provider: @ns1,
+          zone: @zone_name
+        ))
+      end
+    end
+  end
+
   def test_update_changeset_for_fqdn_with_multiple_answers
     VCR.use_cassette('ns1_update_changeset_for_fqdn_with_multiple_answers') do
       base_record_data = {
