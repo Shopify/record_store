@@ -22,8 +22,10 @@ module RecordStore
 
       def record(zone:, fqdn:, type:, must_exist: false)
         result = super(zone, fqdn, type)
-        raise_error(result) if must_exist && result.is_a?(NS1::Response::Error)
-        return nil if result.is_a?(NS1::Response::Error)
+        if result.is_a?(NS1::Response::Error)
+          raise_error(result) if must_exist
+          return nil
+        end
         result
       end
 
