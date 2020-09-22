@@ -10,44 +10,44 @@ module RecordStore
 
       def zones
         zones = super
-        raise_on_error(zones)
+        raise_if_error!(zones)
         zones
       end
 
       def zone(name)
         zone = super(name)
-        raise_on_error(zone)
+        raise_if_error!(zone)
         zone
       end
 
       def record(zone:, fqdn:, type:, must_exist: false)
         result = super(zone, fqdn, type)
-        raise_on_error(result) if must_exist
+        raise_if_error!(result) if must_exist
         return nil if result.is_a?(NS1::Response::Error)
         result
       end
 
       def create_record(zone:, fqdn:, type:, params:)
         result = super(zone, fqdn, type, params)
-        raise_on_error(result)
+        raise_if_error!(result)
         nil
       end
 
       def modify_record(zone:, fqdn:, type:, params:)
         result = super(zone, fqdn, type, params)
-        raise_on_error(result)
+        raise_if_error!(result)
         nil
       end
 
       def delete_record(zone:, fqdn:, type:)
         result = super(zone, fqdn, type)
-        raise_on_error(result)
+        raise_if_error!(result)
         nil
       end
 
       private
 
-      def raise_on_error(result)
+      def raise_if_error!(result)
         return nil unless result.is_a?(NS1::Response::Error)
         if result.is_a?(NS1::Response::UnparsableBodyError)
           raise RecordStore::Provider::UnparseableBodyError, result.to_s
