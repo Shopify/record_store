@@ -101,7 +101,7 @@ class NS1ConnectionErrorsTest < Minitest::Test
     end
   end
 
-  def test_zones_raises_after_too_many_retries
+  def test_zones_raises_after_too_many_unparseable_responses
     BackoffWaiter.any_instance.stubs(:wait)
     BackoffWaiter.any_instance.expects(:wait).times(5)
 

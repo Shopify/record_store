@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_update_changeset_where_service_is_unavailable.test.recordstore.io/A
+    uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_apply_changeset_where_response_is_unparseable.test.recordstore.io/A
     body:
       encoding: US-ASCII
       string: ''
@@ -60,10 +60,10 @@ http_interactions:
   recorded_at: Fri, 22 Nov 2019 16:39:00 GMT
 - request:
     method: put
-    uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_update_changeset_where_service_is_unavailable.test.recordstore.io/A
+    uri: https://api.nsone.net/v1/zones/test.recordstore.io/test_apply_changeset_where_response_is_unparseable.test.recordstore.io/A
     body:
       encoding: UTF-8
-      string: '{"answers":[{"answer":["10.10.10.48"]}],"ttl":600,"zone":"test.recordstore.io","domain":"test_update_changeset_where_service_is_unavailable.test.recordstore.io","type":"A"}'
+      string: '{"answers":[{"answer":["10.10.10.48"]}],"ttl":600,"zone":"test.recordstore.io","domain":"test_apply_changeset_where_response_is_unparseable.test.recordstore.io","type":"A"}'
     headers:
       X-Nsone-Key:
       - "<NS1_API_KEY>"

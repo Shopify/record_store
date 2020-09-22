@@ -158,11 +158,11 @@ class NS1Test < Minitest::Test
     end
   end
 
-  def test_apply_changeset_where_service_is_unavailable
-    VCR.use_cassette('ns1_update_changeset_where_service_is_unavailable') do
+  def test_apply_changeset_where_response_is_unparseable
+    VCR.use_cassette('ns1_update_changeset_where_response_is_unparseable') do
       record_data = {
         address: '10.10.10.48',
-        fqdn: 'test_update_changeset_where_service_is_unavailable.test.recordstore.io',
+        fqdn: 'test_apply_changeset_where_response_is_unparseable.test.recordstore.io',
         ttl: 600,
       }
 
