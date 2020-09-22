@@ -158,8 +158,7 @@ module RecordStore
             raise if max_retries <= 0
             max_retries -= 1
 
-            waiter.message = "Waiting to retry after receiving an unparseable response"
-            waiter.wait
+            waiter.wait("Waiting to retry after receiving an unparseable response")
           rescue Net::OpenTimeout, Errno::ETIMEDOUT
             raise if max_timeouts <= 0
             max_timeouts -= 1
