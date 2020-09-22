@@ -145,7 +145,7 @@ module RecordStore
         max_backoff: 10
       )
         waiter = BackoffWaiter.new(
-          "Waiting to retry after a connection reset",
+          'Waiting to retry after a connection reset',
           initial_delay: delay,
           multiplier: backoff_multiplier,
           max_delay: max_backoff,
@@ -158,12 +158,12 @@ module RecordStore
             raise if max_retries <= 0
             max_retries -= 1
 
-            waiter.wait("Waiting to retry after receiving an unparseable response")
+            waiter.wait(message: 'Waiting to retry after receiving an unparseable response')
           rescue Net::OpenTimeout, Errno::ETIMEDOUT
             raise if max_timeouts <= 0
             max_timeouts -= 1
 
-            $stderr.puts("Retrying after a connection timeout")
+            $stderr.puts('Retrying after a connection timeout')
           rescue Errno::ECONNRESET
             raise if max_conn_resets <= 0
             max_conn_resets -= 1

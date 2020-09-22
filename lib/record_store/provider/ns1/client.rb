@@ -48,7 +48,7 @@ module RecordStore
       private
 
       def raise_if_error!(result)
-        return nil unless result.is_a?(NS1::Response::Error)
+        return unless result.is_a?(NS1::Response::Error)
         if result.is_a?(NS1::Response::UnparsableBodyError)
           raise RecordStore::Provider::UnparseableBodyError, result.to_s
         end

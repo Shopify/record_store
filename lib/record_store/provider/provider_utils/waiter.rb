@@ -5,7 +5,7 @@ class Waiter
 
   attr_accessor :message
 
-  def wait(sleep_time, message = @message)
+  def wait(sleep_time, message: @message)
     while sleep_time > 0
       wait_time = [10, sleep_time].min
       puts "#{message} (#{sleep_time}s left)" if wait_time > 1
@@ -34,8 +34,8 @@ class BackoffWaiter < Waiter
     @current_delay = @initial_delay
   end
 
-  def wait(message = @message)
-    super(@current_delay, message)
+  def wait(message: @message)
+    super(@current_delay, message: message)
     @current_delay = [@current_delay * @multiplier, @max_delay].compact.min
   end
 end
