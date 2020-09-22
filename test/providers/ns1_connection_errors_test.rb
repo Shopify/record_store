@@ -100,4 +100,20 @@ class NS1ConnectionErrorsTest < Minitest::Test
       @ns1.zones
     end
   end
+
+  def test_zones_raises_after_too_many_unparseable_responses
+    BackoffWaiter.any_instance.stubs(:wait)
+    BackoffWaiter.any_instance.expects(:wait).times(5)
+
+    stub_request(:get, "https://api.nsone.net/v1/zones")
+      .to_return(
+        body: '<!DOCTYPE html> <title>Temporarily unavailable | api.nsone.net | Cloudflare</title>',
+        status: 503
+      )
+      .times(5)
+
+    assert_raises(RecordStore::Provider::UnparseableBodyError) do
+      @ns1.zones
+    end
+  end
 end

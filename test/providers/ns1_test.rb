@@ -158,6 +158,27 @@ class NS1Test < Minitest::Test
     end
   end
 
+  def test_apply_changeset_where_response_is_unparseable
+    VCR.use_cassette('ns1_update_changeset_where_response_is_unparseable') do
+      record_data = {
+        address: '10.10.10.48',
+        fqdn: 'test_apply_changeset_where_response_is_unparseable.test.recordstore.io',
+        ttl: 600,
+      }
+
+      # Create a record
+      record = Record::A.new(record_data)
+      assert_raises(RecordStore::Provider::UnparseableBodyError) do
+        @ns1.apply_changeset(Changeset.new(
+          current_records: [],
+          desired_records: [record],
+          provider: @ns1,
+          zone: @zone_name
+        ))
+      end
+    end
+  end
+
   def test_update_changeset_for_fqdn_with_multiple_answers
     VCR.use_cassette('ns1_update_changeset_for_fqdn_with_multiple_answers') do
       base_record_data = {
