@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.3.1
+- Improve resiliency in the face of temporary provider outages [BUGFIX]
+
 ## 6.3.0
 - Support for configurable number of threads via environment variable [FEATURE]
 
