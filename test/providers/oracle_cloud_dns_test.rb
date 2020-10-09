@@ -63,7 +63,7 @@ class OracleCloudDNSTest < Minitest::Test
           records[0].ttl == current_record.ttl &&
           records[0].txtdata == current_record.txtdata
       end
-      assert contains_desired_record.length == 1
+      assert(contains_desired_record.length == 1)
     end
   end
 
@@ -75,7 +75,7 @@ class OracleCloudDNSTest < Minitest::Test
     )
 
     VCR.use_cassette('oracle_add_changeset_nil_zone') do
-      assert_raises RuntimeError do
+      assert_raises(RuntimeError) do
         @oracle_cloud_dns.apply_changeset(Changeset.new(
           current_records: [],
           desired_records: [record],
@@ -130,7 +130,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.ttl == current_record.ttl &&
           record.address == current_record.address
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -156,7 +156,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.ttl == current_record.ttl &&
           record.address == current_record.address
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -196,7 +196,7 @@ class OracleCloudDNSTest < Minitest::Test
           records[1].ttl == current_record.ttl &&
           records[1].address == current_record.address
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -236,7 +236,7 @@ class OracleCloudDNSTest < Minitest::Test
           records[1].ttl == current_record.ttl &&
           records[1].txtdata == current_record.txtdata
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -276,7 +276,7 @@ class OracleCloudDNSTest < Minitest::Test
           records[0].ttl == current_record.ttl &&
           records[0].txtdata == current_record.txtdata
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -299,7 +299,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.address == current_record.address
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -322,7 +322,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.alias == current_record.alias
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -351,7 +351,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.value == current_record.value
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -374,7 +374,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.cname == current_record.cname
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -403,7 +403,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.exchange == current_record.exchange
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -429,7 +429,7 @@ class OracleCloudDNSTest < Minitest::Test
         record.nsdname == current_record.nsdname
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -452,7 +452,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.ttl == current_record.ttl &&
           record.txtdata == current_record.txtdata
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -474,7 +474,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.ttl == current_record.ttl &&
           record.txtdata == current_record.txtdata
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -506,7 +506,7 @@ class OracleCloudDNSTest < Minitest::Test
           record.port == current_record.port &&
           record.target == current_record.target
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -530,7 +530,7 @@ class OracleCloudDNSTest < Minitest::Test
 
       # Retrieve it
       record = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
-      assert !record.nil?
+      assert(!record.nil?)
 
       updated_record = Record::A.new(record_data)
       updated_record.address = "10.10.10.49"
@@ -550,8 +550,8 @@ class OracleCloudDNSTest < Minitest::Test
         zone: @zone_name
       ).none? { |r| r == record }
 
-      assert updated_record_exists
-      assert old_record_does_not_exist
+      assert(updated_record_exists)
+      assert(old_record_does_not_exist)
     end
   end
 
@@ -581,7 +581,7 @@ class OracleCloudDNSTest < Minitest::Test
 
       contains_updated_record = current_records.any? { |r| r == record_with_updated_ttl }
 
-      assert contains_updated_record
+      assert(contains_updated_record)
     end
   end
 
@@ -605,7 +605,7 @@ class OracleCloudDNSTest < Minitest::Test
 
       # Retrieve it
       record = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
-      assert !record.nil?
+      assert(!record.nil?)
 
       updated_record = Record::A.new(record_data)
       updated_record.address = "10.10.10.49"
@@ -686,10 +686,10 @@ class OracleCloudDNSTest < Minitest::Test
         zone: @zone_name
       ).any? { |r| r == original_records[2] }
 
-      assert updated_record_exists
-      assert first_record_does_not_exist
-      assert second_record_exists
-      assert third_record_exists
+      assert(updated_record_exists)
+      assert(first_record_does_not_exist)
+      assert(second_record_exists)
+      assert(third_record_exists)
     end
   end
 
@@ -726,8 +726,8 @@ class OracleCloudDNSTest < Minitest::Test
           record_1.address == current_record.address
       end
 
-      assert record_2_missing, "expected deleted record to be absent in Oracle"
-      assert record_1_found, "expected record that was not removed to be present in Oracle"
+      assert(record_2_missing, "expected deleted record to be absent in Oracle")
+      assert(record_1_found, "expected record that was not removed to be present in Oracle")
     end
   end
 end

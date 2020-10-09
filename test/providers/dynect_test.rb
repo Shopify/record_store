@@ -309,7 +309,7 @@ class DynECTTest < Minitest::Test
 
     VCR.use_cassette('dynect_retrieve_current_records') do
       records = Provider::DynECT.retrieve_current_records(zone: @zone_name)
-      assert_equal records_arr, records
+      assert_equal(records_arr, records)
     end
   end
 
@@ -330,7 +330,7 @@ class DynECTTest < Minitest::Test
 
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette('dynect_zones') do
-      assert_equal Provider::DynECT.zones, [@zone_name]
+      assert_equal(Provider::DynECT.zones, [@zone_name])
     end
   end
 

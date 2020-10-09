@@ -371,8 +371,8 @@ class DNSimpleTest < Minitest::Test
       ))
 
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
-      refute_includes records.map(&:type), 'TXT'
-      assert_includes records.map(&:type), 'ALIAS'
+      refute_includes(records.map(&:type), 'TXT')
+      assert_includes(records.map(&:type), 'ALIAS')
     end
   end
 
@@ -424,7 +424,7 @@ class DNSimpleTest < Minitest::Test
 
     VCR.use_cassette('dnsimple_retrieve_current_records') do
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
-      assert_equal records_arr.sort_by(&:to_s), records.sort_by(&:to_s)
+      assert_equal(records_arr.sort_by(&:to_s), records.sort_by(&:to_s))
     end
   end
 
@@ -479,7 +479,7 @@ class DNSimpleTest < Minitest::Test
 
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette('dnsimple_zones') do
-      assert_equal @dnsimple.zones, [@zone_name]
+      assert_equal(@dnsimple.zones, [@zone_name])
     end
   end
 
@@ -499,7 +499,7 @@ class DNSimpleTest < Minitest::Test
     session.expects(:rate_limit_sleep).with(rate_limit_reset, rate_limit_remaining)
 
     VCR.use_cassette('dnsimple_zones') do
-      assert_equal @dnsimple.zones, [@zone_name]
+      assert_equal(@dnsimple.zones, [@zone_name])
     end
   end
 

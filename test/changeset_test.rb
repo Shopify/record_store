@@ -177,10 +177,10 @@ class ChangesetTest < Minitest::Test
     VCR.use_cassette('dynect_retrieve_current_records') do
       changeset = Changeset.build_from(provider: zone.providers[0], zone: zone)
 
-      assert_equal 1, changeset.removals.length
-      assert_kind_of Record::ALIAS, changeset.removals[0].record
-      assert_predicate changeset.additions, :empty?
-      refute_predicate changeset.unchanged, :empty?
+      assert_equal(1, changeset.removals.length)
+      assert_kind_of(Record::ALIAS, changeset.removals[0].record)
+      assert_predicate(changeset.additions, :empty?)
+      refute_predicate(changeset.unchanged, :empty?)
     end
   end
 
@@ -223,9 +223,9 @@ class ChangesetTest < Minitest::Test
     VCR.use_cassette('dynect_retrieve_current_records') do
       changeset = Changeset.build_from(provider: zone.providers[0], zone: zone)
 
-      assert_predicate changeset.removals, :empty?
-      assert_predicate changeset.additions, :empty?
-      refute_predicate changeset.unchanged, :empty?
+      assert_predicate(changeset.removals, :empty?)
+      assert_predicate(changeset.additions, :empty?)
+      refute_predicate(changeset.unchanged, :empty?)
     end
   end
 
@@ -268,10 +268,10 @@ class ChangesetTest < Minitest::Test
     VCR.use_cassette('dynect_retrieve_current_records') do
       changeset = Changeset.build_from(provider: zone.providers[0], zone: zone, all: true)
 
-      assert_equal 1, changeset.removals.length
-      assert_kind_of Record::NS, changeset.removals[0].record
-      assert_predicate changeset.additions, :empty?
-      refute_predicate changeset.unchanged, :empty?
+      assert_equal(1, changeset.removals.length)
+      assert_kind_of(Record::NS, changeset.removals[0].record)
+      assert_predicate(changeset.additions, :empty?)
+      refute_predicate(changeset.unchanged, :empty?)
     end
   end
 
