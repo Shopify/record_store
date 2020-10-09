@@ -290,13 +290,13 @@ class GoogleCloudDNSTest < Minitest::Test
 
     VCR.use_cassette('gcloud_dns_retrieve_current_records') do
       records = Provider::GoogleCloudDNS.retrieve_current_records(zone: 'dns-scratch.me').sort_by(&:to_s)
-      assert_equal records_arr, records
+      assert_equal(records_arr, records)
     end
   end
 
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette('gcloud_dns_zones') do
-      assert_equal Provider::GoogleCloudDNS.zones, ['dns-scratch.me.']
+      assert_equal(Provider::GoogleCloudDNS.zones, ['dns-scratch.me.'])
     end
   end
 

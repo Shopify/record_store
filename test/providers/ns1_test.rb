@@ -69,7 +69,7 @@ class NS1Test < Minitest::Test
           record.address == current_record.address
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -93,7 +93,7 @@ class NS1Test < Minitest::Test
 
       # Retrieve it
       record = @ns1.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
-      assert !record.nil?
+      assert(!record.nil?)
 
       updated_record = Record::A.new(record_data)
       updated_record.address = "10.10.10.49"
@@ -109,8 +109,8 @@ class NS1Test < Minitest::Test
       updated_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == updated_record }
       old_record_does_not_exist = @ns1.retrieve_current_records(zone: @zone_name).none? { |r| r == record }
 
-      assert updated_record_exists
-      assert old_record_does_not_exist
+      assert(updated_record_exists)
+      assert(old_record_does_not_exist)
     end
   end
 
@@ -134,7 +134,7 @@ class NS1Test < Minitest::Test
 
       # Retrieve it
       record = @ns1.retrieve_current_records(zone: @zone_name).select { |r| r == record }.first
-      assert !record.nil?
+      assert(!record.nil?)
 
       updated_record = Record::A.new(record_data)
       updated_record.address = "10.10.10.49"
@@ -233,10 +233,10 @@ class NS1Test < Minitest::Test
       second_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == original_records[1] }
       third_record_exists = @ns1.retrieve_current_records(zone: @zone_name).any? { |r| r == original_records[2] }
 
-      assert updated_record_exists
-      assert first_record_does_not_exist
-      assert second_record_exists
-      assert third_record_exists
+      assert(updated_record_exists)
+      assert(first_record_does_not_exist)
+      assert(second_record_exists)
+      assert(third_record_exists)
     end
   end
 
@@ -248,7 +248,7 @@ class NS1Test < Minitest::Test
     )
 
     VCR.use_cassette('ns1_add_changeset_nil_zone') do
-      assert_raises NS1::MissingParameter do
+      assert_raises(NS1::MissingParameter) do
         @ns1.apply_changeset(Changeset.new(
           current_records: [],
           desired_records: [record],
@@ -294,7 +294,7 @@ class NS1Test < Minitest::Test
           record.address == current_record.address
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -324,7 +324,7 @@ class NS1Test < Minitest::Test
 
       contains_updated_record = current_records.any? { |r| r == record_with_updated_ttl }
 
-      assert contains_updated_record
+      assert(contains_updated_record)
     end
   end
 
@@ -347,7 +347,7 @@ class NS1Test < Minitest::Test
           record.alias == current_record.alias
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -376,7 +376,7 @@ class NS1Test < Minitest::Test
           record.value == current_record.value
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -399,7 +399,7 @@ class NS1Test < Minitest::Test
           record.cname == current_record.cname
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -428,7 +428,7 @@ class NS1Test < Minitest::Test
           record.exchange == current_record.exchange
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -451,7 +451,7 @@ class NS1Test < Minitest::Test
         record.nsdname == current_record.nsdname
       end
 
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -473,7 +473,7 @@ class NS1Test < Minitest::Test
           record.ttl == current_record.ttl &&
           record.txtdata == current_record.txtdata
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -495,7 +495,7 @@ class NS1Test < Minitest::Test
           record.ttl == current_record.ttl &&
           record.txtdata == current_record.txtdata
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -527,7 +527,7 @@ class NS1Test < Minitest::Test
           record.port == current_record.port &&
           record.target == current_record.target
       end
-      assert contains_desired_record
+      assert(contains_desired_record)
     end
   end
 
@@ -564,8 +564,8 @@ class NS1Test < Minitest::Test
           record_1.address == current_record.address
       end
 
-      assert record_2_missing, "expected deleted record to be absent in NS1"
-      assert record_1_found, "expected record that was not removed to be present in NS1"
+      assert(record_2_missing, "expected deleted record to be absent in NS1")
+      assert(record_1_found, "expected record that was not removed to be present in NS1")
     end
   end
 
@@ -590,8 +590,8 @@ class NS1Test < Minitest::Test
         record.fqdn == imported_txt_record.fqdn
       end
 
-      assert_equal 1, matching_records.size, "could not find the record that was just imported"
-      assert_equal imported_txt_record.txtdata, matching_records.first.txtdata
+      assert_equal(1, matching_records.size, "could not find the record that was just imported")
+      assert_equal(imported_txt_record.txtdata, matching_records.first.txtdata)
     end
   end
 
@@ -616,8 +616,8 @@ class NS1Test < Minitest::Test
         record.fqdn == imported_txt_record.fqdn
       end
 
-      assert_equal 1, matching_records.size, 'could not find the record that was just imported'
-      assert_equal matching_records.first.txtdata, 'v=DKIM\; k=rsa\;'
+      assert_equal(1, matching_records.size, 'could not find the record that was just imported')
+      assert_equal(matching_records.first.txtdata, 'v=DKIM\; k=rsa\;')
     end
   end
 
@@ -646,8 +646,8 @@ class NS1Test < Minitest::Test
         record.fqdn == imported_txt_record.fqdn
       end
 
-      assert_equal 1, matching_records.size, 'could not find the record that was just imported'
-      assert_equal matching_records.first.txtdata, txtdata
+      assert_equal(1, matching_records.size, 'could not find the record that was just imported')
+      assert_equal(matching_records.first.txtdata, txtdata)
     end
   end
 

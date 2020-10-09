@@ -210,11 +210,11 @@ class ZoneTest < Minitest::Test
       name = 'dns-test.shopify.io'
       VCR.use_cassette('dynect_retrieve_current_records') do
         Zone.download(name, 'DynECT')
-        assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
+        assert(File.exist?("#{RecordStore.zones_path}/#{name}.yml"))
 
         zone = Zone.find(name)
-        assert_equal [{ type: 'NS', fqdn: "#{name}." }], zone.config.ignore_patterns.map(&:to_hash)
-        assert_equal [
+        assert_equal([{ type: 'NS', fqdn: "#{name}." }], zone.config.ignore_patterns.map(&:to_hash))
+        assert_equal([
           Record::ALIAS.new(
             zone: 'dns-test.shopify.io',
             ttl: 60,
@@ -229,7 +229,7 @@ class ZoneTest < Minitest::Test
             address: '10.10.10.10',
             record_id: 189358987
           ),
-        ], zone.records
+        ], zone.records)
       end
     end
   end
@@ -240,9 +240,9 @@ class ZoneTest < Minitest::Test
       VCR.use_cassette('dnsimple_retrieve_current_records_no_alias') do
         Zone.download(name, 'DNSimple')
       end
-      assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
+      assert(File.exist?("#{RecordStore.zones_path}/#{name}.yml"))
       zone = Zone.find(name)
-      assert_predicate zone.config, :supports_alias?
+      assert_predicate(zone.config, :supports_alias?)
     end
   end
 
@@ -252,9 +252,9 @@ class ZoneTest < Minitest::Test
       VCR.use_cassette('dynect_retrieve_current_records_no_alias') do
         Zone.download(name, 'DynECT')
       end
-      assert File.exist?("#{RecordStore.zones_path}/#{name}.yml")
+      assert(File.exist?("#{RecordStore.zones_path}/#{name}.yml"))
       zone = Zone.find(name)
-      refute_predicate zone.config, :supports_alias?
+      refute_predicate(zone.config, :supports_alias?)
     end
   end
 
@@ -265,7 +265,7 @@ class ZoneTest < Minitest::Test
         Zone.download(name, 'DynECT')
       end
       zone = Zone.find(name)
-      assert_predicate zone.config, :supports_alias?
+      assert_predicate(zone.config, :supports_alias?)
     end
   end
 
@@ -346,8 +346,8 @@ class ZoneTest < Minitest::Test
 
       zone.write(format: :directory)
 
-      assert Dir.exist?("#{RecordStore.zones_path}/wildcard.com")
-      assert File.exist?("#{RecordStore.zones_path}/wildcard.com/CNAME__*.yml")
+      assert(Dir.exist?("#{RecordStore.zones_path}/wildcard.com"))
+      assert(File.exist?("#{RecordStore.zones_path}/wildcard.com/CNAME__*.yml"))
     end
   end
 
@@ -360,8 +360,8 @@ class ZoneTest < Minitest::Test
 
       zone.write(format: :directory)
 
-      assert Dir.exist?("#{RecordStore.zones_path}/two-records.com")
-      assert File.exist?("#{RecordStore.zones_path}/two-records.com/A__a-records.yml")
+      assert(Dir.exist?("#{RecordStore.zones_path}/two-records.com"))
+      assert(File.exist?("#{RecordStore.zones_path}/two-records.com/A__a-records.yml"))
     end
   end
 

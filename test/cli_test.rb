@@ -26,7 +26,7 @@ class CLITest < Minitest::Test
 
       RecordStore::CLI.start("secrets -c #{config_path}".split(' '))
 
-      assert_equal secrets_ejson, File.read(RecordStore.secrets_path)
+      assert_equal(secrets_ejson, File.read(RecordStore.secrets_path))
     end
 
   ensure
