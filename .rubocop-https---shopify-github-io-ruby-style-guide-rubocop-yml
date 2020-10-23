@@ -195,6 +195,7 @@ Style/FrozenStringLiteralComment:
   SupportedStyles:
     - always
     - never
+  SafeAutoCorrect: true
 
 Style/GlobalVars:
   AllowedVariables: []
@@ -264,7 +265,7 @@ Style/MethodCallWithArgsParentheses:
   - raise
   - puts
   Exclude:
-  - Gemfile
+  - '**/Gemfile'
 
 Style/MethodDefParentheses:
   EnforcedStyle: require_parentheses
@@ -577,6 +578,7 @@ Layout/BlockEndNewline:
 
 Style/CaseEquality:
   Enabled: true
+  AllowOnConstant: true
 
 Style/CharacterLiteral:
   Enabled: true
@@ -657,6 +659,9 @@ Style/IfWithSemicolon:
   Enabled: true
 
 Style/IdenticalConditionalBranches:
+  Enabled: true
+
+Layout/IndentationStyle:
   Enabled: true
 
 Style/InfiniteLoop:
@@ -803,9 +808,6 @@ Layout/SpaceInsideRangeLiteral:
 Style/SymbolLiteral:
   Enabled: true
 
-Layout/IndentationStyle:
-  Enabled: true
-
 Layout/TrailingWhitespace:
   Enabled: true
 
@@ -834,7 +836,7 @@ Style/ZeroLengthPredicate:
   Enabled: true
 
 Layout/HeredocIndentation:
-  EnforcedStyle: squiggly
+  Enabled: true
 
 Lint/AmbiguousOperator:
   Enabled: true
@@ -1014,4 +1016,7 @@ Style/ModuleFunction:
   EnforcedStyle: extend_self
 
 Lint/OrderedMagicComments:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
   Enabled: true
