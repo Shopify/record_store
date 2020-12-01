@@ -6,6 +6,7 @@ require 'record_store'
 
 RecordStore.zones_path = File.expand_path('../../dev/zones', __FILE__)
 RecordStore.config_path = File.expand_path('../../dev/config.yml', __FILE__)
+RecordStore.implicit_records_templates_path = File.expand_path('../../dev/templates/implicit_records', __FILE__)
 
 require 'pry'
 binding.pry(RecordStore) # rubocop:disable Lint/Debugger
