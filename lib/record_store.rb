@@ -28,6 +28,7 @@ require 'record_store/zone/yaml_definitions'
 require 'record_store/zone'
 require 'record_store/zone/config'
 require 'record_store/zone/config/ignore_pattern'
+require 'record_store/zone/config/implicit_record_template'
 require 'record_store/changeset'
 require 'record_store/provider'
 require 'record_store/provider/dynect'
@@ -57,6 +58,13 @@ module RecordStore
 
     def config_path
       @config_path ||= File.expand_path('config.yml', Dir.pwd)
+    end
+
+    def implicit_records_templates_path
+      @implicit_records_templates_path ||= Pathname.new(
+        File.expand_path(config.fetch('implicit_records_templates_path'),
+        File.dirname(config_path)),
+      ).realpath.to_s
     end
 
     def config_path=(config_path)

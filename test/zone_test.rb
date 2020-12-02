@@ -519,6 +519,60 @@ class ZoneTest < Minitest::Test
     end
   end
 
+  def test_implicit_record_injection_only_injects_for_matching_records
+    zone = Zone.new(
+      name: 'zone-with-implicit-records.com',
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_record_templates: ['dummy-implicit.yml.erb'] },
+      records: [
+        { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
+        { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
+      ]
+    )
+    expected = [
+      Record::A.new(fqdn: 'a.test.com.', ttl: 86400, address: '10.10.10.10'),
+      Record::ALIAS.new(fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400),
+      Record::CNAME.new(fqdn: 'a.test.com.injected.com.', ttl: 3600, cname: 'a.test.com.injected.cname.com.'),
+    ]
+
+    assert_equal(expected, zone.records)
+  end
+
+  def implicit_record_injection_does_not_inject_template_records_if_they_conflict_with_existing_records
+    zone = Zone.new(
+      name: 'zone-with-implicit-records.com',
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_record_templates: ['dummy-implicit.yml.erb'] },
+      records: [
+        { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
+        { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
+        { type: 'TXT', fqdn: 'a.test.com.injected.com.', txtdata: 'abc123', ttl: 86400 },
+      ]
+    )
+    expected = [
+      Record::A.new(fqdn: 'a.test.com.', ttl: 86400, address: '10.10.10.10'),
+      Record::ALIAS.new(fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400),
+      Record::TXT.new(fqdn: 'a.test.com.injected.com.', txtdata: 'abc123', ttl: 86400),
+    ]
+
+    assert_equal(expected, zone.records)
+  end
+
+  def implicit_record_injection_does_not_occur_if_no_implicit_record_templates_are_provided
+    zone = Zone.new(
+      name: 'zone-with-implicit-records.com',
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_record_templates: [] },
+      records: [
+        { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
+        { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
+      ]
+    )
+    expected = [
+      Record::A.new(fqdn: 'a.test.com.', ttl: 86400, address: '10.10.10.10'),
+      Record::ALIAS.new(fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400),
+    ]
+
+    assert_equal(expected, zone.records)
+  end
+
   def test_fetch_authority
     zone = Zone.new(name: 'example.com')
     nameservers = zone.fetch_authority
@@ -604,6 +658,7 @@ class ZoneTest < Minitest::Test
     default_args = {
       providers: ['DynECT'],
       ignore_patterns: [],
+      implicit_record_templates: [],
     }
 
     Zone::Config.new(default_args.merge(args))

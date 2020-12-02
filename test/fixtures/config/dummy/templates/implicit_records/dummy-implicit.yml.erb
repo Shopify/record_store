@@ -1,0 +1,10 @@
+each_record:
+- type: A
+conflict_with:
+- type: TXT
+  fqdn: <%= record.fqdn %>.injected.com.
+injected_records:
+- type: CNAME
+  ttl: 3600
+  fqdn: <%= record.fqdn %>injected.com.
+  cname: <%= record.fqdn %>injected.cname.com.

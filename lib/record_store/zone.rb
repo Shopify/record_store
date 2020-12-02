@@ -189,7 +189,13 @@ module RecordStore
     end
 
     def build_records(records)
-      records.map { |record| Record.build_from_yaml_definition(record) }
+      all_records = records.map { |record| Record.build_from_yaml_definition(record) }
+
+      config.implicit_record_templates.each do |template|
+        all_records.push(*template.generate_records_to_inject(current_records: all_records))
+      end
+
+      all_records
     end
 
     def validate_records
