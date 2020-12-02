@@ -3,15 +3,15 @@ module RecordStore
     class Config
       include ActiveModel::Validations
 
-      attr_reader :ignore_patterns, :providers, :supports_alias, :implicit_record_templates
+      attr_reader :ignore_patterns, :providers, :supports_alias, :implicit_records_templates
 
       validate :validate_zone_config
 
-      def initialize(ignore_patterns: [], providers: nil, supports_alias: nil, implicit_record_templates: [])
+      def initialize(ignore_patterns: [], providers: nil, supports_alias: nil, implicit_records_templates: [])
         @ignore_patterns = ignore_patterns.map do |ignore_pattern|
           Zone::Config::IgnorePattern.new(ignore_pattern)
         end
-        @implicit_record_templates = implicit_record_templates.map do |filename|
+        @implicit_records_templates = implicit_records_templates.map do |filename|
           Zone::Config::ImplicitRecordTemplate.from_file(filename: filename)
         end
         @providers = providers
