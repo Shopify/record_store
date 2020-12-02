@@ -522,7 +522,7 @@ class ZoneTest < Minitest::Test
   def test_implicit_record_injection_only_injects_for_matching_records
     zone = Zone.new(
       name: 'zone-with-implicit-records.com',
-      config: { providers: ['DynECT'], ignore_patterns: [], implicit_record_templates: ['dummy-implicit.yml.erb'] },
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_records_templates: ['dummy-implicit.yml.erb'] },
       records: [
         { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
@@ -540,7 +540,7 @@ class ZoneTest < Minitest::Test
   def implicit_record_injection_does_not_inject_template_records_if_they_conflict_with_existing_records
     zone = Zone.new(
       name: 'zone-with-implicit-records.com',
-      config: { providers: ['DynECT'], ignore_patterns: [], implicit_record_templates: ['dummy-implicit.yml.erb'] },
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_records_templates: ['dummy-implicit.yml.erb'] },
       records: [
         { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
@@ -556,10 +556,10 @@ class ZoneTest < Minitest::Test
     assert_equal(expected, zone.records)
   end
 
-  def implicit_record_injection_does_not_occur_if_no_implicit_record_templates_are_provided
+  def implicit_record_injection_does_not_occur_if_no_implicit_records_templates_are_provided
     zone = Zone.new(
       name: 'zone-with-implicit-records.com',
-      config: { providers: ['DynECT'], ignore_patterns: [], implicit_record_templates: [] },
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_records_templates: [] },
       records: [
         { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
@@ -658,7 +658,7 @@ class ZoneTest < Minitest::Test
     default_args = {
       providers: ['DynECT'],
       ignore_patterns: [],
-      implicit_record_templates: [],
+      implicit_records_templates: [],
     }
 
     Zone::Config.new(default_args.merge(args))
