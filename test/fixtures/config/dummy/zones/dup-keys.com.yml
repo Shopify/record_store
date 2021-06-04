@@ -1,0 +1,13 @@
+dup-keys.com:
+  config:
+    providers:
+      - DNSimple
+  records:
+    - type: CNAME
+      fqdn: www.dup-keys.com.
+      ttl: 60
+      cname: dup-keys.com.
+      type: CNAME
+      fqdn: other.dup-keys.com.
+      ttl: 60
+      cname: dup-keys.com.
