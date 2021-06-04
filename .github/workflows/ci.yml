@@ -22,5 +22,7 @@ jobs:
           bundler-cache: true
       - name: rubocop
         run: bin/rubocop --version && bin/rubocop
-      - name: test
+      - name: setup
         run: bin/setup
+      - name: test
+        run: bundle exec rake test
