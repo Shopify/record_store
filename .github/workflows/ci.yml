@@ -20,5 +20,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Lint Ruby files
-        run: echo "Hello world"
+      - name: rubocop
+        run: bin/rubocop --version && bin/rubocop
+      - name: test
+        run: bin/setup
