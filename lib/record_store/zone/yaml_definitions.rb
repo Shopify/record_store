@@ -66,10 +66,7 @@ module RecordStore
         Dir["#{dir}/#{name}/*__*.yml"].each do |record_file|
           definition['records'] += load_yml_record_definitions(name, record_file)
         end
-
-        asts = { filename => Psych.parse_file(filename) }
-
-        Zone.new(name: name, records: definition['records'], config: definition['config'], abstract_syntax_trees: asts)
+        Zone.new(name: name, records: definition['records'], config: definition['config'])
       end
 
       def load_yml_record_definitions(name, record_file)

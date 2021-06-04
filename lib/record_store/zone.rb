@@ -20,7 +20,6 @@ module RecordStore
     validate :validate_provider_can_handle_zone_records
     validate :validate_no_empty_non_terminal
     validate :validate_can_handle_alias_records
-    validate :validate_no_duplicate_keys
 
     class << self
       def download(name, provider_name, **write_options)
@@ -71,11 +70,10 @@ module RecordStore
       end
     end
 
-    def initialize(name:, records: [], config: {}, abstract_syntax_trees: {})
+    def initialize(name:, records: [], config: {})
       @name = Record.ensure_ends_with_dot(name)
       @config = RecordStore::Zone::Config.new(config.deep_symbolize_keys)
       @records = build_records(records)
-      @abstract_syntax_trees = abstract_syntax_trees
     end
 
     def build_changesets(all: false)
@@ -308,35 +306,6 @@ module RecordStore
       return unless alias_record
 
       errors.add(:records, "ALIAS record should be defined on the root of the zone: #{alias_record}")
-    end
-
-    def validate_no_duplicate_keys
-      @abstract_syntax_trees.each do |filename, ast|
-        validate_no_duplicate_keys_in_node(filename, ast)
-      end
-    end
-
-    def validate_no_duplicate_keys_in_node(filename, node)
-      if node.mapping?
-        keys = node
-          .children
-          .each_slice(2)
-          .map(&:first)
-          .map(&:value)
-          .sort
-        dup_keys = keys
-          .find_all { |k| keys.count(k) > 1 }
-          .uniq
-        unless dup_keys.empty?
-          location = "#{File.basename(filename)}:#{node.start_line}"
-          description = "multiple definitions for keys #{dup_keys}"
-          errors.add(:records, "#{location}: #{description}")
-        end
-      end
-
-      node.children&.each do |child|
-        validate_no_duplicate_keys_in_node(filename, child)
-      end
     end
   end
 end
