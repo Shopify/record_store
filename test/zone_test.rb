@@ -519,6 +519,15 @@ class ZoneTest < Minitest::Test
     end
   end
 
+  def test_zone_validates_no_duplicate_keys
+    zone = Zone.find('dup-keys.com')
+    assert(!zone.valid?)
+    assert_equal(zone.errors.size, 1)
+    err = zone.errors.first
+    assert_equal(err.attribute, :records)
+    assert(err.message.match(/multiple definitions for keys \["cname", "fqdn", "ttl", "type"\]/))
+  end
+
   def test_implicit_record_injection_only_injects_for_matching_records
     zone = Zone.new(
       name: 'zone-with-implicit-records.com',
