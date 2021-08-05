@@ -565,6 +565,23 @@ class ZoneTest < Minitest::Test
     assert_equal(expected, zone.records)
   end
 
+  def implicit_record_injection_does_not_inject_template_records_if_they_match_except
+    zone = Zone.new(
+      name: 'zone-with-implicit-records.com',
+      config: { providers: ['DynECT'], ignore_patterns: [], implicit_records_templates: ['dummy-implicit.yml.erb'] },
+      records: [
+        { type: 'A', fqdn: '_a.test.com.', address: '10.10.10.10', ttl: 86400 },
+        { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: '_a.test.com.', ttl: 86400 },
+      ]
+    )
+    expected = [
+      Record::A.new(fqdn: '_a.test.com.', ttl: 86400, address: '10.10.10.10'),
+      Record::ALIAS.new(fqdn: 'a.test.alias.com.', alias: '_a.test.com.', ttl: 86400),
+    ]
+
+    assert_equal(expected, zone.records)
+  end
+
   def implicit_record_injection_does_not_occur_if_no_implicit_records_templates_are_provided
     zone = Zone.new(
       name: 'zone-with-implicit-records.com',
