@@ -1,5 +1,7 @@
 each_record:
 - type: A
+except_record:
+- fqdn: !ruby/regexp /^_/
 conflict_with:
 - type: TXT
   fqdn: <%= record.fqdn %>.injected.com.

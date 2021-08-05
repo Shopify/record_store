@@ -26,9 +26,14 @@ module RecordStore
           def from_file(filename:)
             filepath = template_filepath_for(filename: filename)
             template_file = File.read(filepath)
-            filters_for_records_to_template = YAML.load(template_file).deep_symbolize_keys[:each_record]
 
-            new(template: ERB.new(template_file), filters_for_records_to_template: filters_for_records_to_template)
+            template_file_yaml = YAML.load(template_file).deep_symbolize_keys
+            filters_for_records_to_template = template_file_yaml[:each_record]
+            filters_for_records_to_exclude = template_file_yaml[:except_record]
+
+            new(template: ERB.new(template_file),
+                filters_for_records_to_template: filters_for_records_to_template,
+                filters_for_records_to_exclude: filters_for_records_to_exclude)
           end
 
           private
@@ -38,9 +43,10 @@ module RecordStore
           end
         end
 
-        def initialize(template:, filters_for_records_to_template:)
+        def initialize(template:, filters_for_records_to_template:, filters_for_records_to_exclude:)
           @template = template
           @filters_for_records_to_template = filters_for_records_to_template
+          @filters_for_records_to_exclude = filters_for_records_to_exclude
         end
 
         def generate_records_to_inject(current_records:)
@@ -61,7 +67,7 @@ module RecordStore
 
         private
 
-        attr_reader :template, :filters_for_records_to_template
+        attr_reader :template, :filters_for_records_to_template, :filters_for_records_to_exclude
 
         def should_inject?(template_records:, current_records:)
           current_records.none? do |record|
@@ -72,12 +78,17 @@ module RecordStore
         end
 
         def should_template?(record:)
-          filters_for_records_to_template.any? { |filter| record_match?(record: record, filter: filter) }
+          filters_for_records_to_template.any? { |filter| record_match?(record: record, filter: filter) } && \
+            filters_for_records_to_exclude.none? { |filter| record_match?(record: record, filter: filter) }
         end
 
         def record_match?(record:, filter:)
           filter.all? do |key, value|
-            record.public_send(key) == value
+            if value.is_a?(Regexp)
+              value.match(record.public_send(key))
+            else
+              record.public_send(key) == value
+            end
           end
         end
 
