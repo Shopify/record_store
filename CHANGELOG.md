@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 6.5.1
+
+Add support for a new parameter in the implicit records templates:
+
+- `except_record`: the template will *NOT* generate the `injected_records` for records matching `except_record`, even if they matched `each_record`.
+
+Also added support for regular expressions in the matching, using the already available `!ruby/regexp` text in a YAML value. The object loaded from the YAML
+will be of `Regexp` type, and will thus be used to _match_ the value, instead of being identical only. This is supported in both `except_record` and
+`each_record` fields.
+
+## 6.5.0
+
+...
+
 ## 6.4.0
 
 Add support for injecting implicit records into a zone based on a pre-configured template. Brief overview of template keys:
