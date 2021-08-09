@@ -28,7 +28,7 @@ module RecordStore
             template_file = File.read(filepath)
 
             template_file_yaml = YAML.load(template_file).deep_symbolize_keys
-            filters_for_records_to_template = template_file_yaml[:each_record] || []
+            filters_for_records_to_template = template_file_yaml[:each_record]
             filters_for_records_to_exclude = template_file_yaml[:except_record] || []
 
             new(template: ERB.new(template_file),
