@@ -29,7 +29,7 @@ module RecordStore
 
             template_file_yaml = YAML.load(template_file).deep_symbolize_keys
             filters_for_records_to_template = template_file_yaml[:each_record]
-            filters_for_records_to_exclude = template_file_yaml[:except_record]
+            filters_for_records_to_exclude = template_file_yaml[:except_record] || []
 
             new(template: ERB.new(template_file),
                 filters_for_records_to_template: filters_for_records_to_template,
@@ -70,8 +70,9 @@ module RecordStore
         attr_reader :template, :filters_for_records_to_template, :filters_for_records_to_exclude
 
         def should_inject?(template_records:, current_records:)
+          conflict_with = template_records[:conflict_with] || []
           current_records.none? do |record|
-            template_records[:conflict_with].any? do |filter|
+            conflict_with.any? do |filter|
               record_match?(record: record, filter: filter)
             end
           end

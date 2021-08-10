@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.2
+- Ensure filters for implicit_records, `except_record` and `conflict_with`, are truly optional [BUGFIX]
+
 ## 6.5.1
 
 Add support for a new parameter in the implicit records templates:
