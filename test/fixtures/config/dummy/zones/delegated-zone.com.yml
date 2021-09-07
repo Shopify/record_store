@@ -1,0 +1,29 @@
+delegated-zone.com:
+  config:
+    providers:
+      - DNSimple
+  records:
+    - type: CNAME
+      fqdn: delegated-zone.com.
+      ttl: 60
+      cname: delegated-zone.com.
+    - type: NS
+      ttl: 30
+      fqdn: subzone.delegated-zone.com.
+      nsdname: ns2.fakeprovider.net.
+    - type: CNAME
+      fqdn: subzone.delegated-zone.com.
+      ttl: 60
+      cname: subzone.delegated-zone.com.
+    - type: A
+      fqdn: subzone.delegated-zone.com.
+      address: 10.10.5.5
+      ttl: 60
+    - type: CNAME
+      fqdn: sub.subzone.delegated-zone.com.
+      ttl: 60
+      cname: sub.subzone.delegated-zone.com.
+    - type: CNAME
+      fqdn: a.subzone.delegated-zone.com.
+      ttl: 60
+      cname: a.subzone.delegated-zone.com.

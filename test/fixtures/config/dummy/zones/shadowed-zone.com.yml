@@ -1,0 +1,25 @@
+shadowed-zone.com:
+  config:
+    providers:
+      - DNSimple
+  records:
+    - type: NS
+      fqdn: shadowed-zone.com.
+      ttl: 3600
+      nsdname: ns1.dnsimple.com.
+    - type: NS
+      fqdn: shadowed-zone.com.
+      ttl: 3600
+      nsdname: ns2.dnsimple.com.
+    - type: NS
+      fqdn: ns.shadowed-zone.com.
+      ttl: 3600
+      nsdname: ns1.somethingelse.com.
+    - type: CNAME
+      fqdn: a.shadowed-zone.com.
+      ttl: 3600
+      cname: cname2.shadowed-zone.com.
+    - type: CNAME
+      fqdn: b.a.shadowed-zone.com.
+      ttl: 3600
+      cname: cname3.shadowed-zone.com.

@@ -291,6 +291,25 @@ class ZoneTest < Minitest::Test
     refute_predicate(zone, :unchanged?)
   end
 
+  def test_zone_record_not_added_if_subzone_is_delegated
+    delegated_zone = Zone.find('delegated-zone.com')
+    refute_predicate(delegated_zone, :valid?)
+    warning_msg = "invalid record: [CNAMERecord] delegated-zone.com. 60 IN CNAME delegated-zone.com."
+    assert_equal(warning_msg, delegated_zone.errors[:records].first)
+  end
+
+  def test_zone_record_added_if_subzone_not_delegated
+    undelegated_zone = Zone.find('undelegated-zone.com')
+    assert_predicate(undelegated_zone, :valid?)
+  end
+
+  def test_zone_not_defining_shadowed_records
+    shadowed_zone = Zone.find('shadowed-zone.com')
+    refute_predicate(shadowed_zone, :valid?)
+    warning_msg = "invalid record: [CNAMERecord] shadowed-zone.com. 60 IN CNAME shadowed-zone.com."
+    assert_equal(warning_msg, shadowed_zone.errors[:records].first)
+  end
+
   def test_zone_unchanged_describes_if_zone_matches_multiple_provider_empty_changeset
     zone = Zone.find('two-providers.com')
 

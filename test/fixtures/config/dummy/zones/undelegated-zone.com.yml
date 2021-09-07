@@ -1,0 +1,17 @@
+undelegated-zone.com:
+  config:
+    providers:
+      - DNSimple
+  records:
+    - type: NS
+      ttl: 30
+      fqdn: undelegated-zone.com.
+      nsdname: ns2.properprovider.net.
+    - type: CNAME
+      fqdn: www.undelegated-zone.com.
+      ttl: 60
+      cname: subzone.undelegated-zone.com.
+    - type: CNAME
+      fqdn: additional.undelegated-zone.com.
+      ttl: 60
+      cname: subzone.undelegated-zone.com.
