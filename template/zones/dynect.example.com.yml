@@ -5,7 +5,7 @@ dynect.example.com:
     ignore_patterns:
     - type: NS
       fqdn: dynect.example.com.
-    implicit_record_templates:
+    implicit_records_templates:
     - implicit_example.yml.erb
   records:
   - type: A
