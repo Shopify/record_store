@@ -44,6 +44,7 @@ module RecordStore
   class << self
     attr_writer :secrets_path
     attr_writer :zones_path
+    attr_writer :implicit_records_templates_path
 
     def secrets_path
       @secrets_path ||= File.expand_path(config.fetch('secrets_path'), File.dirname(config_path))
