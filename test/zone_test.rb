@@ -291,23 +291,21 @@ class ZoneTest < Minitest::Test
     refute_predicate(zone, :unchanged?)
   end
 
-  def test_zone_record_not_added_if_subzone_is_delegated
-    delegated_zone = Zone.find('delegated-zone.com')
-    refute_predicate(delegated_zone, :valid?)
-    warning_msg = "invalid record: [CNAMERecord] delegated-zone.com. 60 IN CNAME delegated-zone.com."
-    assert_equal(warning_msg, delegated_zone.errors[:records].first)
-  end
-
-  def test_zone_record_added_if_subzone_not_delegated
-    undelegated_zone = Zone.find('undelegated-zone.com')
-    assert_predicate(undelegated_zone, :valid?)
-  end
-
-  def test_zone_not_defining_shadowed_records
+  def test_detects_shadowed_records_present_in_zone
     shadowed_zone = Zone.find('shadowed-zone.com')
-    refute_predicate(shadowed_zone, :valid?)
-    warning_msg = "invalid record: [CNAMERecord] shadowed-zone.com. 60 IN CNAME shadowed-zone.com."
+    refute_predicate(shadowed_zone, :valid?, "This record was shadowed, but testing showed it as valid")
+    warning_msg = "Warning, this subdomain is shadowed, this record will have no effect"
     assert_equal(warning_msg, shadowed_zone.errors[:records].first)
+  end
+
+  def test_ensures_zone_is_valid_without_shadowed_records_but_contains_similar_subdomains
+    unshadowed_zone = Zone.find('unshadowed-zone.com')
+    assert_predicate(unshadowed_zone, :valid?, "This record was not shadowed")
+  end
+
+  def test_ns_record_is_not_shadowing_another_ns_record
+    shadowed_ns_zone = Zone.find('shadowed-ns-zone.com')
+    refute_predicate(shadowed_ns_zone, :valid?, "This zone contains a shadowed NS record")
   end
 
   def test_zone_unchanged_describes_if_zone_matches_multiple_provider_empty_changeset

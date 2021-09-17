@@ -15,10 +15,10 @@ shadowed-zone.com:
       fqdn: ns.shadowed-zone.com.
       ttl: 3600
       nsdname: ns1.somethingelse.com.
-    - type: CNAME
+    - type: NS
       fqdn: a.shadowed-zone.com.
       ttl: 3600
-      cname: cname2.shadowed-zone.com.
+      nsdname: ns2.shadowed-zone.com.
     - type: CNAME
       fqdn: b.a.shadowed-zone.com.
       ttl: 3600

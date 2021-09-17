@@ -1,0 +1,17 @@
+shadowed-ns-zone.com:
+  config:
+    providers:
+      - DNSimple
+  records:
+    - type: NS
+      fqdn: shadowed-ns-zone.com.
+      ttl: 3600
+      nsdname: ns1.dnsimple.com.
+    - type: NS
+      fqdn: a.shadowed-ns-zone.com.
+      ttl: 3600
+      nsdname: ns2.something.com.
+    - type: NS
+      fqdn: b.a.shadowed-ns-zone.com.
+      ttl: 3600
+      nsdname: ns2.something.com.

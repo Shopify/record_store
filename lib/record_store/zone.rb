@@ -21,7 +21,7 @@ module RecordStore
     validate :validate_no_empty_non_terminal
     validate :validate_can_handle_alias_records
     validate :validate_no_duplicate_keys
-    validate :validate_zone_not_delegated_to_another_provider
+    validate :validate_zone_record_not_shadowed
 
     class << self
       def download(name, provider_name, **write_options)
@@ -273,34 +273,19 @@ module RecordStore
       end
     end
 
-    def validate_zone_not_delegated_to_another_provider
-      record_check = records.find_all
-      record_check.each do | record |
-        unless @current_zone == record.fqdn
-        extracted_subdomain = record.fqdn.to_s.chomp!(@current_zone)
-        next unless (/\./i).match?(extracted_subdomain)
-          errors.add(:records, "Warning, this subdomain is delegated, this record will have no effect")
-        end
-      end
-    end
-
     def validate_zone_record_not_shadowed
-      ns_check = records.find_all # get all the records
-      nameserver_records = [] # to hold the NS records for zone for check
+      nameserver_records = records.select { |record| record.is_a?(Record::NS) && name != record.fqdn }
 
-      ns_check.each do | record | # get all the nameservers for the zone
-        if record.is_a(Record::NS)
-          unless record.fqdn == @current_zone
-            nameserver_records.push(record)
-          end
+      is_record_shadowed = records.any? do |record|
+        next if record.fqdn == name
+        nameserver_records.any? do |ns_record|
+          next if record.is_a?(Record::NS) && \
+            record.fqdn.delete_suffix(".") == ns_record.fqdn.delete_suffix(".")
+          record.fqdn.delete_suffix(".").end_with?(ns_record.fqdn.delete_suffix("."))
         end
       end
 
-      ns_check.each do | record | # check each record in the zone
-        if record.any?{|check_match| nameserver_records.include?(record)}
-          errors.add(:records, "Warning, this subdomain is shadowed, this record will have no effect")
-        end
-      end
+      errors.add(:records, "Warning, this subdomain is shadowed, this record will have no effect") if is_record_shadowed
     end
 
     def validate_no_empty_non_terminal

@@ -1,0 +1,21 @@
+unshadowed-zone.com:
+  config:
+    providers:
+      - DNSimple
+  records:
+    - type: NS
+      fqdn: unshadowed-zone.com.
+      ttl: 3600
+      nsdname: ns1.dnsimple.com.
+    - type: NS
+      fqdn: unshadowed-zone.com.
+      ttl: 3600
+      nsdname: ns2.dnsimple.com.
+    - type: NS
+      fqdn: c.a.unshadowed-zone.com.
+      ttl: 3600
+      nsdname: ns1.phony.net.
+    - type: CNAME
+      fqdn: b.a.unshadowed-zone.com.
+      ttl: 3600
+      cname: cname3.unshadowed-zone.com.
