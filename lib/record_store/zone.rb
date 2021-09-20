@@ -61,8 +61,11 @@ module RecordStore
           Thread.new do
             current_zone = nil
             while zones.any?
-              mutex.synchronize { current_zone = zones.shift }
-              mutex.synchronize { modified_zones << current_zone } unless current_zone.unchanged?
+              mutex.synchronize do
+                next unless zones.any? # recheck zones since there's a race in the while
+                current_zone = zones.shift
+                modified_zones << current_zone unless current_zone.unchanged?
+              end
             end
           end
         end.each(&:join)
