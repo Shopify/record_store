@@ -276,16 +276,18 @@ module RecordStore
     def validate_zone_record_not_shadowed
       nameserver_records = records.select { |record| record.is_a?(Record::NS) && name != record.fqdn }
 
-      is_record_shadowed = records.reject { |rec| rec.fqdn == name }.any? do |record|
+      shadowed_record = records.reject { |rec| rec.fqdn == name }.any? do |record|
         nameserver_records.any? do |ns_record|
-          records.reject { |recrd| recrd.is_a?(Record::NS) && \
-            recrd.fqdn.delete_suffix(".") == ns_record.fqdn.delete_suffix(".") }
+          # records.reject { |recrd| recrd.is_a?(Record::NS) && \
+          #   recrd.fqdn.delete_suffix(".") == ns_record.fqdn.delete_suffix(".") }
+          records.reject { |recrd| recrd.fqdn.delete_suffix(".") == ns_record.fqdn.delete_suffix(".") }.any? do | recs |
           
-          record.fqdn.delete_suffix(".").end_with?(".#{ns_record.fqdn}".delete_suffix("."))
+            recs.fqdn.delete_suffix(".").end_with?(".#{ns_record.fqdn}".delete_suffix("."))
+          end
         end
       end
 
-      errors.add(:records, "Warning, a shadowed record was detected in this zone, a record may have no effect") if is_record_shadowed
+      errors.add(:records, "Warning: Shadowed record detected in zone, record may have no effect") if shadowed_record
     end
 
     def validate_no_empty_non_terminal

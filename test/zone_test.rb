@@ -294,7 +294,7 @@ class ZoneTest < Minitest::Test
   def test_detects_shadowed_records_present_in_zone
     shadowed_zone = Zone.find('shadowed-zone.com')
     refute_predicate(shadowed_zone, :valid?, "This record was shadowed, but testing showed it as valid")
-    warning_msg = "Warning, a shadowed record was detected in this zone, a record may have no effect"
+    warning_msg = "Warning: Shadowed record detected in zone, record may have no effect"
     assert_equal(warning_msg, shadowed_zone.errors[:records].first)
   end
 
@@ -309,13 +309,13 @@ class ZoneTest < Minitest::Test
   end
 
   def test_shadowed_fqdn_record_overlaps_shadowed_ns_record
-    shadowed_ns_zone = Zone.find('shadowed-a-zone.com')
-    refute_predicate(shadowed_ns_zone, :valid?, "This zone contains a shadowed FQDN record")
+    shadowed_a_zone = Zone.find('shadowed-a-zone.com')
+    refute_predicate(shadowed_a_zone, :valid?, "This zone contains a shadowed FQDN record")
   end
 
   def test_a_record_not_detected_as_shadowing_an_ns_record
-    shadowed_ns_zone = Zone.find('shadowed-b-zone.com')
-    assert_predicate(shadowed_ns_zone, :valid?, "This zone contains a shadowed NS record")
+    shadowed_b_zone = Zone.find('shadowed-b-zone.com')
+    assert_predicate(shadowed_b_zone, :valid?, "This zone contains a shadowed NS record")
   end
 
   def test_zone_unchanged_describes_if_zone_matches_multiple_provider_empty_changeset
