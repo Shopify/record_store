@@ -294,7 +294,7 @@ class ZoneTest < Minitest::Test
   def test_detects_shadowed_records_present_in_zone
     shadowed_zone = Zone.find('shadowed-zone.com')
     refute_predicate(shadowed_zone, :valid?, "This record was shadowed, but testing showed it as valid")
-    warning_msg = "Record b.a.shadowed-zone.com. CNAME in Zone shadowed-zone.com. " +
+    warning_msg = "Record b.a.shadowed-zone.com. CNAME in Zone shadowed-zone.com. " \
       "is shadowed by a.shadowed-zone.com and will be ignored"
     assert_equal(warning_msg, shadowed_zone.errors[:records].first)
   end
