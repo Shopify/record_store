@@ -1,0 +1,21 @@
+shadowed-a-zone.com: 
+  config: 
+    providers: 
+      - DNSimple 
+  records: 
+    - type: NS 
+      fqdn: shadowed-a-zone.com. 
+      ttl: 3600 
+      nsdname: ns1.dnsimple.com. 
+    - type: NS 
+      fqdn: shadowed-a-zone.com. 
+      ttl: 3600 
+      nsdname: ns2.dnsimple.com. 
+    - type: NS 
+      fqdn: sub.shadowed-a-zone.com. 
+      ttl: 3600 
+      nsdname: ns1.phony.net.
+    - type: A 
+      fqdn: sub.shadowed-a-zone.com. 
+      ttl: 3600 
+      address: 10.0.0.1

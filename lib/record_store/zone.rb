@@ -21,6 +21,7 @@ module RecordStore
     validate :validate_no_empty_non_terminal
     validate :validate_can_handle_alias_records
     validate :validate_no_duplicate_keys
+    validate :validate_zone_record_not_shadowed
 
     class << self
       def download(name, provider_name, **write_options)
@@ -273,6 +274,26 @@ module RecordStore
       providers.each do |provider|
         (record_types - provider.record_types).each do |record_type|
           errors.add(:records, "#{record_type} is not a supported record type in #{provider}")
+        end
+      end
+    end
+
+    def validate_zone_record_not_shadowed
+      nameserver_fqdns = records
+        .select { |record| record.is_a?(Record::NS) && name != record.fqdn }
+        .map { |record| record.fqdn.delete_suffix(".") }
+        .uniq
+
+      nameserver_fqdns.each do |ns_record|
+        selected_records = records.reject do |record|
+          record.is_a?(Record::NS) && \
+            record.fqdn.delete_suffix(".") == ns_record
+        end
+        selected_records.each do |record|
+          normalized_record = record.fqdn.delete_suffix(".")
+          next unless normalized_record.end_with?(".#{ns_record}") || normalized_record == ns_record
+          errors.add(:records, "Record #{record.fqdn} #{record.type} in Zone #{name} " \
+            "is shadowed by #{ns_record} and will be ignored")
         end
       end
     end
