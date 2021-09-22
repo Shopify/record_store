@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## 6.5.3
-- Adds check to detect shadowed records, for when a record being added to a zone in record-store will have no effect because it is shadowed by another record.
+- Adds check for detecting shadowed records, used when a record being added to a zone in record-store will have no effect because it is shadowed by another record.
 
 ## 6.5.2
 - Ensure filters for implicit_records, `except_record` and `conflict_with`, are truly optional [BUGFIX]
