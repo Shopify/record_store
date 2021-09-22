@@ -274,20 +274,23 @@ module RecordStore
     end
 
     def validate_zone_record_not_shadowed
-      nameserver_records = records.select { |record| record.is_a?(Record::NS) && name != record.fqdn }
+      nameserver_records = records
+        .select { |record| record.is_a?(Record::NS) && name != record.fqdn }
+        .map { |record| record.fqdn.delete_suffix(".") }
+        .uniq
 
-      shadowed_record = records.reject { |rec| rec.fqdn == name }.any? do |record|
-        nameserver_records.any? do |ns_record|
-          # records.reject { |recrd| recrd.is_a?(Record::NS) && \
-          #   recrd.fqdn.delete_suffix(".") == ns_record.fqdn.delete_suffix(".") }
-          records.reject { |recrd| recrd.fqdn.delete_suffix(".") == ns_record.fqdn.delete_suffix(".") }.any? do | recs |
-          
-            recs.fqdn.delete_suffix(".").end_with?(".#{ns_record.fqdn}".delete_suffix("."))
-          end
+      nameserver_records.each do |ns_record|
+        selected_records = records.reject do |record|
+          record.is_a?(Record::NS) && \
+            record.fqdn.delete_suffix(".") == ns_record
+        end
+        selected_records.each do |record|
+          normalized_record = record.fqdn.delete_suffix(".")
+          next unless normalized_record.end_with?(".#{ns_record}") || normalized_record == ns_record
+          errors.add(:records, "Record #{record.fqdn} #{record.type} in Zone #{name} " \
+            "is shadowed by #{ns_record} and will be ignored")
         end
       end
-
-      errors.add(:records, "Warning: Shadowed record detected in zone, record may have no effect") if shadowed_record
     end
 
     def validate_no_empty_non_terminal
