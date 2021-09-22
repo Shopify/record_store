@@ -280,10 +280,11 @@ module RecordStore
         .uniq
 
       nameserver_fqdns.each do |ns_record|
-        records.reject do |record|
+        selected_records = records.reject do |record|
           record.is_a?(Record::NS) && \
             record.fqdn.delete_suffix(".") == ns_record
-        end.each do |record|
+        end
+        selected_records.each do |record|
           normalized_record = record.fqdn.delete_suffix(".")
           next unless normalized_record.end_with?(".#{ns_record}") || normalized_record == ns_record
           errors.add(:records, "Record #{record.fqdn} #{record.type} in Zone #{name} " \
