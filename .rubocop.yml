@@ -8,12 +8,33 @@ AllCops:
   UseCache: true
   CacheRootDirectory: tmp/rubocop
 
+Naming/InclusiveLanguage:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/QuotedSymbols:
   Enabled: false
 
 Style/MethodCallWithArgsParentheses:
   Include:
     - '**/*.rb'
 
-Style/ClassAndModuleChildren:
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/WordArray:
   Enabled: false
