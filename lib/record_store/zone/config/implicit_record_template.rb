@@ -32,8 +32,8 @@ module RecordStore
             filters_for_records_to_exclude = template_file_yaml[:except_record] || []
 
             new(template: ERB.new(template_file),
-                filters_for_records_to_template: filters_for_records_to_template,
-                filters_for_records_to_exclude: filters_for_records_to_exclude)
+              filters_for_records_to_template: filters_for_records_to_template,
+              filters_for_records_to_exclude: filters_for_records_to_exclude)
           end
 
           private

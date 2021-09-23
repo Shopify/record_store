@@ -31,7 +31,7 @@ module RecordStore
       end
 
       def write(name, config:, records:, format: :file)
-        raise ArgumentError, "format must be :directory or :file" unless %i(file directory).include?(format)
+        raise ArgumentError, "format must be :directory or :file" unless [:file, :directory].include?(format)
         name = name.chomp('.')
         zone_file = "#{RecordStore.zones_path}/#{name}.yml"
         zone = { name => { config: config.to_hash } }

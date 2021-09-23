@@ -22,13 +22,11 @@ module RecordStore
 
           # Unroll each record set into multiple records
           record_set.data.map do |record|
-            begin
-              record_set_member = record_set.dup
-              record_set_member.data = [record]
-              build_from_api(record_set_member)
-            rescue StandardError
-              stdout.puts "Cannot build record: #{record}"
-            end
+            record_set_member = record_set.dup
+            record_set_member.data = [record]
+            build_from_api(record_set_member)
+          rescue StandardError
+            stdout.puts "Cannot build record: #{record}"
           end
         end
 
@@ -44,12 +42,10 @@ module RecordStore
       private
 
       def session
-        @dns ||= begin
-          Google::Cloud::Dns.new(
-            project_id: secrets.fetch('project_id'),
-            credentials: Google::Cloud::Dns::Credentials.new(secrets),
-          )
-        end
+        @dns ||= Google::Cloud::Dns.new(
+          project_id: secrets.fetch('project_id'),
+          credentials: Google::Cloud::Dns::Credentials.new(secrets),
+        )
       end
 
       def secrets
