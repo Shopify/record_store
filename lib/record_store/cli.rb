@@ -7,7 +7,7 @@ module RecordStore
 
     def initialize(*args)
       super
-      RecordStore.config_path = options.fetch('config', "#{Dir.pwd}/template/config.yml")
+      RecordStore.config_path = options.fetch('config', "#{Dir.pwd}/config.yml")
     end
 
     def self.exit_on_failure?
