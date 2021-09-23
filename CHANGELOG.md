@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.4
+- Updates config path structure for build pipeline
+
 ## 6.5.3
 - Adds check for detecting shadowed records, used when a record being added to a zone in record-store will have no effect because it is shadowed by another record.
 
