@@ -36,11 +36,9 @@ module RecordStore
       def retrieve_current_records(zone:, stdout: $stdout)
         session.get_all_records(zone).body.fetch('data').flat_map do |_type, records|
           records.map do |record_body|
-            begin
-              build_from_api(record_body)
-            rescue StandardError
-              stdout.puts "Cannot build record: #{record_body}"
-            end
+            build_from_api(record_body)
+          rescue StandardError
+            stdout.puts "Cannot build record: #{record_body}"
           end
         end.compact
       end

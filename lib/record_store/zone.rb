@@ -53,7 +53,7 @@ module RecordStore
         (ENV['RECORD_STORE_MAX_THREADS'] || DEFAULT_MAX_PARALLEL_THREADS).to_i
       end
 
-      def modified(verbose: false) # rubocop:disable Lint/UnusedMethodArgument
+      def modified(verbose: false)
         modified_zones = []
         mutex = Mutex.new
         zones = all
@@ -85,10 +85,8 @@ module RecordStore
     end
 
     def build_changesets(all: false)
-      @changesets ||= begin
-        providers.map do |provider|
-          Changeset.build_from(provider: provider, zone: self, all: all)
-        end
+      @changesets ||= providers.map do |provider|
+        Changeset.build_from(provider: provider, zone: self, all: all)
       end
     end
 

@@ -193,14 +193,12 @@ module RecordStore
 
     desc 'secrets', 'Decrypts DynECT credentials'
     def secrets
-      environment = begin
-        if ENV['PRODUCTION']
-          'production'
-        elsif ENV['CI']
-          'ci'
-        else
-          'dev'
-        end
+      environment = if ENV['PRODUCTION']
+        'production'
+      elsif ENV['CI']
+        'ci'
+      else
+        'dev'
       end
 
       secrets = %x(ejson decrypt #{RecordStore.secrets_path.sub(/\.json\z/, ".#{environment}.ejson")})

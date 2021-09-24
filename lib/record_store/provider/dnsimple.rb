@@ -20,12 +20,10 @@ module RecordStore
       def retrieve_current_records(zone:, stdout: $stdout)
         retry_on_connection_errors do
           session.zones.all_records(account_id, zone).data.map do |record|
-            begin
-              build_from_api(record, zone)
-            rescue StandardError
-              stdout.puts "Cannot build record: #{record}"
-              raise
-            end
+            build_from_api(record, zone)
+          rescue StandardError
+            stdout.puts "Cannot build record: #{record}"
+            raise
           end.compact
         end
       end
