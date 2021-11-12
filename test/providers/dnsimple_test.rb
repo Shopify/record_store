@@ -492,14 +492,14 @@ class DNSimpleTest < Minitest::Test
 
     inconsistent_records = [
       Record::TXT.new(
-        fqdn:fqdn,
-        ttl:60,
+        fqdn: fqdn,
+        ttl: 60,
         txtdata: 'a',
         zone: @zone_name,
       ),
       Record::CNAME.new(
-        fqdn:fqdn,
-        ttl:60,
+        fqdn: fqdn,
+        ttl: 60,
         cname: 'shopify.com.',
         zone: @zone_name,
       )
@@ -518,7 +518,7 @@ class DNSimpleTest < Minitest::Test
       ))
 
       error = assert_raises(Dnsimple::RequestError) do
-          @dnsimple.apply_changeset(Changeset.new(
+        @dnsimple.apply_changeset(Changeset.new(
           current_records: [],
           desired_records: inconsistent_records,
           provider: RecordStore::Provider::DNSimple,
@@ -526,7 +526,10 @@ class DNSimpleTest < Minitest::Test
         ))
       end
 
-      assert_equal "Validation failed: A CNAME record exists for inconsistent-records.dns-scratch.me, cannot add another record", error.message
+      assert_equal(
+        "Validation failed: A CNAME record exists for inconsistent-records.dns-scratch.me, cannot add another record",
+        error.message
+      )
     end
   end
 
