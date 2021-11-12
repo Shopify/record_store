@@ -1,5 +1,6 @@
 require 'dnsimple'
 require_relative 'dnsimple/patch_api_header'
+require_relative 'dnsimple/patch_request_error_to_include_errors'
 
 module RecordStore
   class Provider::DNSimple < Provider
