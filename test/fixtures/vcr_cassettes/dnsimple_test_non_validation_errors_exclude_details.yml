@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: "<DNSIMPLE_BASE_URL>/v2/<DNSIMPLE_ACCOUNT_ID>/zones/does_not_exist/records?page=1&per_page=100"
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - dnsimple-ruby/4.4.0
+      Authorization:
+      - Bearer <DNSIMPLE_API_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 12 Nov 2021 21:25:06 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit:
+      - '2400'
+      X-Ratelimit-Remaining:
+      - '2399'
+      X-Ratelimit-Reset:
+      - '1636755906'
+      X-Work-With-Us:
+      - Love automation? So do we! https://dnsimple.com/jobs
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 3d127050-ff60-4172-a3a2-5e6ffc4eeb7a
+      X-Runtime:
+      - '0.018946'
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Content-Security-Policy:
+      - frame-ancestors 'none'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Zone `does_not_exist` not found"}'
+    http_version:
+  recorded_at: Fri, 12 Nov 2021 21:25:06 GMT
+recorded_with: VCR 5.0.0

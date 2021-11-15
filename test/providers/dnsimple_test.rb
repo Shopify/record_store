@@ -477,6 +477,62 @@ class DNSimpleTest < Minitest::Test
     end
   end
 
+  def test_non_validation_errors_exclude_details
+    VCR.use_cassette('dnsimple_test_non_validation_errors_exclude_details') do
+      error = assert_raises(Dnsimple::NotFoundError) do
+        @dnsimple.retrieve_current_records(zone: "does_not_exist")
+      end
+
+      assert_equal("Zone `does_not_exist` not found", error.message)
+    end
+  end
+
+  def test_validation_errors_include_details
+    fqdn = ['inconsistent-records', @zone_name].join('.') + '.'
+
+    inconsistent_records = [
+      Record::TXT.new(
+        fqdn: fqdn,
+        ttl: 60,
+        txtdata: 'a',
+        zone: @zone_name,
+      ),
+      Record::CNAME.new(
+        fqdn: fqdn,
+        ttl: 60,
+        cname: 'shopify.com.',
+        zone: @zone_name,
+      )
+    ]
+
+    VCR.use_cassette('dnsimple_test_validation_errors_include_details') do
+      existing_records = @dnsimple.retrieve_current_records(zone: @zone_name).select do |record|
+        record.fqdn == fqdn
+      end
+
+      @dnsimple.apply_changeset(Changeset.new(
+        current_records: existing_records,
+        desired_records: [],
+        provider: RecordStore::Provider::DNSimple,
+        zone: @zone_name,
+      ))
+
+      error = assert_raises(Dnsimple::RequestError) do
+        @dnsimple.apply_changeset(Changeset.new(
+          current_records: [],
+          desired_records: inconsistent_records,
+          provider: RecordStore::Provider::DNSimple,
+          zone: @zone_name,
+        ))
+      end
+
+      assert_equal(
+        "Validation failed: A CNAME record exists for inconsistent-records.dns-scratch.me, cannot add another record",
+        error.message
+      )
+    end
+  end
+
   def test_zones_returns_list_of_zones_managed_by_provider
     VCR.use_cassette('dnsimple_zones') do
       assert_equal(@dnsimple.zones, [@zone_name])
