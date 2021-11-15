@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.5
+- Include DNSimple validation error details in exceptions
+
 ## 6.5.4
 - Updates config path structure for build pipeline
 
