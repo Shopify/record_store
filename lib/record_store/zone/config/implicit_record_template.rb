@@ -27,7 +27,7 @@ module RecordStore
             filepath = template_filepath_for(filename: filename)
             template_file = File.read(filepath)
 
-            template_file_yaml = YAML.load(template_file).deep_symbolize_keys
+            template_file_yaml = YAML.safe_load(template_file, permitted_classes: [Regexp]).deep_symbolize_keys
             filters_for_records_to_template = template_file_yaml[:each_record]
             filters_for_records_to_exclude = template_file_yaml[:except_record] || []
 
@@ -96,8 +96,9 @@ module RecordStore
         def template_record_for(record:, current_records:)
           context = TemplateContext.build(record: record, current_records: current_records)
 
-          YAML.load(
-            template.result(context.fetch_binding)
+          YAML.safe_load(
+            template.result(context.fetch_binding),
+            permitted_classes: [Regexp],
           ).deep_symbolize_keys
         end
       end
