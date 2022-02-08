@@ -79,7 +79,7 @@ module RecordStore
 
     def initialize(name:, records: [], config: {}, abstract_syntax_trees: {})
       @name = Record.ensure_ends_with_dot(name)
-      @config = RecordStore::Zone::Config.new(config.deep_symbolize_keys)
+      @config = RecordStore::Zone::Config.new(**config.deep_symbolize_keys)
       @records = build_records(records)
       @abstract_syntax_trees = abstract_syntax_trees
     end
