@@ -715,7 +715,7 @@ class ZoneTest < Minitest::Test
       implicit_records_templates: [],
     }
 
-    Zone::Config.new(default_args.merge(args))
+    Zone::Config.new(**default_args.merge(args))
   end
 
   def with_zones_tmpdir
