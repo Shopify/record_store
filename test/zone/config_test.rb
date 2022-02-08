@@ -31,7 +31,7 @@ example.com:
     tmp_config.close
 
     zone_name, definition = YAML.load_file(tmp_config.path).first
-    zone = Zone.new(definition.deep_symbolize_keys.merge(name: zone_name))
+    zone = Zone.new(**definition.deep_symbolize_keys.merge(name: zone_name))
 
     assert_equal([{ type: 'NS' }, { type: 'A', fqdn: 'a.example.com.' }],
       zone.config.ignore_patterns.map(&:to_hash))
