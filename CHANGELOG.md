@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.9
+- Relax version requirements for the google-cloud-dns gem
+
 ## 6.5.5
 - Include DNSimple validation error details in exceptions
 

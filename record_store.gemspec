@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'fog-xml'
   spec.add_runtime_dependency 'fog-dynect', '~> 0.4.0'
   spec.add_runtime_dependency 'dnsimple', '~> 4.4.0'
-  spec.add_runtime_dependency 'google-cloud-dns', '~> 0.31.0'
+  spec.add_runtime_dependency 'google-cloud-dns', '~> 0.31'
   spec.add_runtime_dependency 'ruby-limiter', '~> 1.0', '>= 1.0.1'
   spec.add_runtime_dependency 'ns1'
   spec.add_runtime_dependency 'oci', '~> 2.14.0'
