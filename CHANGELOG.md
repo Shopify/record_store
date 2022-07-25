@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.10
+- print the full error for ActiveModel::Error errors
+
 ## 6.5.9
 - Relax version requirements for the google-cloud-dns gem
 

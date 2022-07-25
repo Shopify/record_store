@@ -279,9 +279,7 @@ module RecordStore
         invalid_zones << zone.unrooted_name
 
         puts "#{zone.unrooted_name} definition is not valid:"
-        zone.errors.each do |field, msg|
-          puts " - #{field}: #{msg}"
-        end
+        puts zone.errors.full_messages.map { |msg| " - #{msg}" }
 
         invalid_records = zone.records.reject(&:valid?)
         puts '  Invalid records' unless invalid_records.empty?
