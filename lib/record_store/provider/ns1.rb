@@ -14,8 +14,8 @@ module RecordStore
           when 'SPF', 'TXT'
             [answer]
           when 'SRV'
-            rdata = answer.split
-            [rdata[0].to_i, rdata[1].to_i, rdata[2].to_i, rdata[3]]
+            priority, weight, port, host = answer.split
+            [priority.to_i, weight.to_i, port.to_i, Record.ensure_ends_with_dot(host)]
           else
             answer.split
           end
