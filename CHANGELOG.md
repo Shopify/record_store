@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.5.11
+- Fix updates of SRV records in using the NS1 provider
+
 ## 6.5.10
 - print the full error for ActiveModel::Error errors
 
