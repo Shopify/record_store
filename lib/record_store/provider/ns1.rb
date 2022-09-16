@@ -13,6 +13,9 @@ module RecordStore
           rrdata_fields = case type
           when 'SPF', 'TXT'
             [answer]
+          when 'SRV'
+            rdata = answer.split
+            [rdata[0].to_i, rdata[1].to_i, rdata[2].to_i, rdata[3]]
           else
             answer.split
           end
