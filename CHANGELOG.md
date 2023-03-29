@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.6.0
+- Update ruby version
+
 ## 6.5.11
 - Fix updates of SRV records in using the NS1 provider
 
