@@ -31,7 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activemodel', '>= 4.2'
   spec.add_runtime_dependency 'ejson'
 
-  spec.add_runtime_dependency 'fog', '>= 1.33.0'
   spec.add_runtime_dependency 'fog-json'
   spec.add_runtime_dependency 'fog-xml'
   spec.add_runtime_dependency 'fog-dynect', '~> 0.4.0'
