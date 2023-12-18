@@ -1,0 +1,31 @@
+# Configuration for stale action https://github.com/actions/stale
+name: 'Close stale issues and PRs'
+on:
+  schedule:
+    - cron: '0 14 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/stale@v9
+        with:
+          ascending: true
+          operations-per-run: 100
+          stale-pr-message: 'As of today this PR is stale. If you want to keep it apply an update otherwise it will be closed in 7 days.'
+          close-pr-message: 'PR was closed because of missing activity.'
+          days-before-pr-stale: 90
+          days-before-pr-close: 7
+          stale-issue-message: >
+            This issue is stale because it has been open for 90 days with no activity. It will be closed if no further action occurs in 7 days.
+          close-issue-message: |
+            We are closing this issue because it has been inactive for a few months.
+            This probably means that it is not reproducible or it has been fixed in a newer version.
+            If it's an enhancement and hasn't been taken on since it was submitted, then it seems other issues have taken priority.
+          days-before-issue-stale: 90
+          days-before-issue-close: 7
