@@ -50,6 +50,7 @@ VCR.configure do |config|
 
   config.filter_sensitive_data('<NS1_API_KEY>') do |interaction|
     next unless interaction.request.uri =~ /nsone/
+
     if (auth_token = interaction.request.headers['NS1_API_KEY']).present?
       auth_token.first
     end
@@ -78,6 +79,7 @@ VCR.configure do |config|
 
   config.filter_sensitive_data('<GOOGLE_CLOUD_DNS_AUTH_TOKEN>') do |interaction|
     next unless interaction.request.uri =~ /<GOOGLE_CLOUD_DNS_TOKEN_URI>/
+
     if (auth_token = interaction.request.headers['Authorization']).present?
       auth_token.first
     end
@@ -91,6 +93,7 @@ VCR.configure do |config|
 
   config.filter_sensitive_data('<ORACLE_CLOUD_DNS_COMPARTMENT_ID>') do |interaction|
     next unless interaction.request.uri =~ /oraclecloud/
+
     if (auth_token = interaction.request.headers['ORACLE_CLOUD_DNS_COMPARTMENT_ID']).present?
       auth_token.first
     end

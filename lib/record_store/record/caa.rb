@@ -7,7 +7,8 @@ module RecordStore
 
     validates :flags, presence: true, numericality:
       {
-        only_integer: true, greater_than_or_equal_to: 0,
+        only_integer: true,
+        greater_than_or_equal_to: 0,
         less_than_or_equal_to: 255
       }
     validates :tag, inclusion: { in: %w(issue issuewild iodef) }, presence: true
@@ -42,6 +43,7 @@ module RecordStore
     def validate_uri_value
       uri = URI(value)
       return if uri.is_a?(URI::MailTo) || uri.is_a?(URI::HTTP)
+
       errors.add(:value, "URL scheme should be mailto, http, or https")
     rescue URI::Error
       errors.add(:value, "Value should be a valid URI")

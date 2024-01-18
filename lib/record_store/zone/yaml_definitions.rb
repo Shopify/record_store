@@ -32,6 +32,7 @@ module RecordStore
 
       def write(name, config:, records:, format: :file)
         raise ArgumentError, "format must be :directory or :file" unless [:file, :directory].include?(format)
+
         name = name.chomp('.')
         zone_file = "#{RecordStore.zones_path}/#{name}.yml"
         zone = { name => { config: config.to_hash } }
@@ -60,6 +61,7 @@ module RecordStore
         dir = File.dirname(filename)
         data = YAML.load_file(filename)
         raise 'more than one zone in file' if data.size > 1
+
         name, definition = data.first
         definition['records'] ||= []
         definition['records'] = definition['records'].map(&:deep_symbolize_keys)

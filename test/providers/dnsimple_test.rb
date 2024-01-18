@@ -23,7 +23,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "A",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:17.380Z",
-      "updated_at" => "2015-12-11T16:30:17.380Z"
+      "updated_at" => "2015-12-11T16:30:17.380Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -46,7 +46,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "AAAA",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:29.630Z",
-      "updated_at" => "2015-12-11T16:30:29.630Z"
+      "updated_at" => "2015-12-11T16:30:29.630Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -69,7 +69,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "ALIAS",
       "system_record" => false,
       "created_at" => "2015-12-10T19:56:21.366Z",
-      "updated_at" => "2015-12-10T19:56:21.366Z"
+      "updated_at" => "2015-12-10T19:56:21.366Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -92,7 +92,7 @@ class DNSimpleTest < Minitest::Test
       "type": "CAA",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:41.284Z",
-      "updated_at" => "2015-12-11T16:30:41.284Z"
+      "updated_at" => "2015-12-11T16:30:41.284Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -117,7 +117,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "CNAME",
       "system_record" => false,
       "created_at" => "2015-12-11T16:30:41.284Z",
-      "updated_at" => "2015-12-11T16:30:41.284Z"
+      "updated_at" => "2015-12-11T16:30:41.284Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -140,7 +140,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "MX",
       "system_record" => false,
       "created_at" => "2015-12-10T19:58:20.474Z",
-      "updated_at" => "2015-12-11T16:31:06.956Z"
+      "updated_at" => "2015-12-11T16:31:06.956Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -164,7 +164,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "NS",
       "system_record" => true,
       "created_at" => "2015-12-09T01:55:04.792Z",
-      "updated_at" => "2015-12-09T01:55:04.792Z"
+      "updated_at" => "2015-12-09T01:55:04.792Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -187,7 +187,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "SRV",
       "system_record" => false,
       "created_at" => "2015-12-11T16:33:10.947Z",
-      "updated_at" => "2015-12-11T16:33:10.947Z"
+      "updated_at" => "2015-12-11T16:33:10.947Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -213,7 +213,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "SOA",
       "system_record" => true,
       "created_at" => "2013-02-19T22:58:25.148Z",
-      "updated_at" => "2013-02-19T22:58:38.751Z"
+      "updated_at" => "2013-02-19T22:58:38.751Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -233,7 +233,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "TXT",
       "system_record" => false,
       "created_at" => "2015-12-11T16:36:26.504Z",
-      "updated_at" => "2015-12-11T16:36:26.504Z"
+      "updated_at" => "2015-12-11T16:36:26.504Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -256,7 +256,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "TXT",
       "system_record" => false,
       "created_at" => "2015-12-11T16:36:26.504Z",
-      "updated_at" => "2015-12-11T16:36:26.504Z"
+      "updated_at" => "2015-12-11T16:36:26.504Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -279,7 +279,7 @@ class DNSimpleTest < Minitest::Test
       "type" => "TXT",
       "system_record" => false,
       "created_at" => "2015-12-11T16:36:26.504Z",
-      "updated_at" => "2015-12-11T16:36:26.504Z"
+      "updated_at" => "2015-12-11T16:36:26.504Z",
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -326,7 +326,7 @@ class DNSimpleTest < Minitest::Test
         current_records: [],
         desired_records: [sshfp_record],
         provider: RecordStore::Provider::DNSimple,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
@@ -341,7 +341,7 @@ class DNSimpleTest < Minitest::Test
       assert_equal(Record::SSHFP::FingerprintTypes::SHA_256, matching_records.first.fptype)
       assert_equal(
         '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
-        matching_records.first.fingerprint
+        matching_records.first.fingerprint,
       )
     end
   end
@@ -354,7 +354,7 @@ class DNSimpleTest < Minitest::Test
         current_records: [],
         desired_records: [a_record],
         provider: RecordStore::Provider::DNSimple,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -367,7 +367,7 @@ class DNSimpleTest < Minitest::Test
         current_records: [],
         desired_records: [alias_record],
         provider: RecordStore::Provider::DNSimple,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       records = @dnsimple.retrieve_current_records(zone: @zone_name)
@@ -383,42 +383,42 @@ class DNSimpleTest < Minitest::Test
         ttl: 86400,
         fqdn: 'test-record.dns-scratch.me',
         address: '10.10.10.42',
-        record_id: 347572
+        record_id: 347572,
       ),
       Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns4.dnsimple.com.',
-        record_id: 347565
+        record_id: 347565,
       ),
       Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns3.dnsimple.com.',
-        record_id: 347566
+        record_id: 347566,
       ),
       Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns2.dnsimple.com.',
-        record_id: 347567
+        record_id: 347567,
       ),
       Record::NS.new(
         zone: 'dns-scratch.me',
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns1.dnsimple.com.',
-        record_id: 347568
+        record_id: 347568,
       ),
       Record::ALIAS.new(
         zone: 'dns-scratch.me',
         ttl: 86400,
         fqdn: 'dns-scratch.me',
         alias: 'dns-scratch.herokuapp.com',
-        record_id: 347573
+        record_id: 347573,
       ),
     ]
 
@@ -441,7 +441,7 @@ class DNSimpleTest < Minitest::Test
       'regions' => ['global'],
       'system_record' => false,
       'created_at' => '2020-04-15T23:26:19Z',
-      'updated_at' => '2020-04-15T23:26:19Z'
+      'updated_at' => '2020-04-15T23:26:19Z',
     )
 
     record = @dnsimple.send(:build_from_api, api_record, @zone_name)
@@ -454,7 +454,7 @@ class DNSimpleTest < Minitest::Test
     ptr_record = Record::PTR.new(
       fqdn: '1.0.0.127.in-addr.arpa',
       ttl: 60,
-      ptrdname: 'example.com.'
+      ptrdname: 'example.com.',
     )
 
     VCR.use_cassette('dnsimple_apply_ptr_changeset') do
@@ -462,7 +462,7 @@ class DNSimpleTest < Minitest::Test
         current_records: [],
         desired_records: [ptr_record],
         provider: RecordStore::Provider::DNSimple,
-        zone: '1.0.0.127.in-addr.arpa'
+        zone: '1.0.0.127.in-addr.arpa',
       ))
 
       records = @dnsimple.retrieve_current_records(zone: '1.0.0.127.in-addr.arpa')
@@ -528,7 +528,7 @@ class DNSimpleTest < Minitest::Test
 
       assert_equal(
         "Validation failed: A CNAME record exists for inconsistent-records.dns-scratch.me, cannot add another record",
-        error.message
+        error.message,
       )
     end
   end

@@ -145,32 +145,38 @@ class ChangesetTest < Minitest::Test
     zone = Zone.new(
       name: 'dns-test.shopify.io',
       config: { providers: ['DynECT'] },
-      records: [{
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns1.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns2.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns3.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns4.p19.dynect.net.',
-      }, {
-        type: 'A',
-        ttl: 86400,
-        fqdn: 'test-record.dns-test.shopify.io',
-        address: '10.10.10.10',
-      }]
+      records: [
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns1.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns2.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns3.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns4.p19.dynect.net.',
+        },
+        {
+          type: 'A',
+          ttl: 86400,
+          fqdn: 'test-record.dns-test.shopify.io',
+          address: '10.10.10.10',
+        }
+      ],
     )
 
     # Cassette matches zone's records except with an additional ALIAS record
@@ -191,32 +197,38 @@ class ChangesetTest < Minitest::Test
         providers: ['DynECT'],
         ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.' }],
       },
-      records: [{
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns1.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns2.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns3.p19.dynect.net.',
-      }, {
-        type: 'A',
-        ttl: 86400,
-        fqdn: 'test-record.dns-test.shopify.io',
-        address: '10.10.10.10',
-      }, {
-        type: 'ALIAS',
-        ttl: 60,
-        fqdn: 'dns-test.shopify.io',
-        alias: 'dns-test.herokuapp.com.',
-      }]
+      records: [
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns1.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns2.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns3.p19.dynect.net.',
+        },
+        {
+          type: 'A',
+          ttl: 86400,
+          fqdn: 'test-record.dns-test.shopify.io',
+          address: '10.10.10.10',
+        },
+        {
+          type: 'ALIAS',
+          ttl: 60,
+          fqdn: 'dns-test.shopify.io',
+          alias: 'dns-test.herokuapp.com.',
+        }
+      ],
     )
 
     # Cassette matches zone's records except with an additional NS record
@@ -236,32 +248,38 @@ class ChangesetTest < Minitest::Test
         providers: ['DynECT'],
         ignore_patterns: [{ type: 'NS', fqdn: 'dns-test.shopify.io.' }],
       },
-      records: [{
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns1.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns2.p19.dynect.net.',
-      }, {
-        type: 'NS',
-        ttl: 86400,
-        fqdn: 'dns-test.shopify.io',
-        nsdname: 'ns3.p19.dynect.net.',
-      }, {
-        type: 'A',
-        ttl: 86400,
-        fqdn: 'test-record.dns-test.shopify.io',
-        address: '10.10.10.10',
-      }, {
-        type: 'ALIAS',
-        ttl: 60,
-        fqdn: 'dns-test.shopify.io',
-        alias: 'dns-test.herokuapp.com.',
-      }]
+      records: [
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns1.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns2.p19.dynect.net.',
+        },
+        {
+          type: 'NS',
+          ttl: 86400,
+          fqdn: 'dns-test.shopify.io',
+          nsdname: 'ns3.p19.dynect.net.',
+        },
+        {
+          type: 'A',
+          ttl: 86400,
+          fqdn: 'test-record.dns-test.shopify.io',
+          address: '10.10.10.10',
+        },
+        {
+          type: 'ALIAS',
+          ttl: 60,
+          fqdn: 'dns-test.shopify.io',
+          alias: 'dns-test.herokuapp.com.',
+        }
+      ],
     )
 
     # Cassette matches zone's records except with an additional NS record
@@ -281,25 +299,25 @@ class ChangesetTest < Minitest::Test
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns4.dnsimple.com.',
-        record_id: 1
+        record_id: 1,
       ),
       Record::NS.new(
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns3.dnsimple.com.',
-        record_id: 2
+        record_id: 2,
       ),
       Record::NS.new(
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns2.dnsimple.com.',
-        record_id: 3
+        record_id: 3,
       ),
       Record::NS.new(
         ttl: 3600,
         fqdn: 'dns-scratch.me',
         nsdname: 'ns1.dnsimple.com.',
-        record_id: 4
+        record_id: 4,
       ),
     ]
     desired_records = current_records.map(&:dup)
@@ -309,13 +327,13 @@ class ChangesetTest < Minitest::Test
         ttl: 3600,
         fqdn: 'ns-test.dns-scratch.me',
         nsdname: 'ns1.dnsimple.com.',
-        record_id: 5
+        record_id: 5,
       ),
       Record::NS.new(
         ttl: 3600,
         fqdn: 'ns-test.dns-scratch.me',
         nsdname: 'ns2.dnsimple.com.',
-        record_id: 6
+        record_id: 6,
       ),
     ]
 
@@ -337,7 +355,7 @@ class ChangesetTest < Minitest::Test
       current_records: current_records,
       desired_records: desired_records,
       provider: nil,
-      zone: 'dns-scratch.me'
+      zone: 'dns-scratch.me',
     )
 
     changes = changeset.updates.group_by(&:id)
