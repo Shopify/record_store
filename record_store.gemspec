@@ -26,19 +26,19 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.0'
 
-  spec.add_runtime_dependency 'thor', '>= 0.20.3', '< 1.4.0'
-  spec.add_runtime_dependency 'activesupport', '>= 4.2'
   spec.add_runtime_dependency 'activemodel', '>= 4.2'
+  spec.add_runtime_dependency 'activesupport', '>= 4.2'
   spec.add_runtime_dependency 'ejson'
+  spec.add_runtime_dependency 'thor', '>= 0.20.3', '< 1.4.0'
 
   spec.add_runtime_dependency 'dnsimple', '~> 4.4.0'
   spec.add_runtime_dependency 'fog-dynect', '~> 0.4.0'
   spec.add_runtime_dependency 'fog-json'
   spec.add_runtime_dependency 'fog-xml'
   spec.add_runtime_dependency 'google-cloud-dns', '~> 0.31'
-  spec.add_runtime_dependency 'ruby-limiter', '>= 1.0.1', '< 3'
   spec.add_runtime_dependency 'ns1'
   spec.add_runtime_dependency 'oci', '~> 2.14.0'
+  spec.add_runtime_dependency 'ruby-limiter', '>= 1.0.1', '< 3'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'byebug'
