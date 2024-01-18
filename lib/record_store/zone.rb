@@ -33,7 +33,7 @@ module RecordStore
         zone.config = Zone::Config.new(
           providers: [provider_name],
           ignore_patterns: [{ type: "NS", fqdn: "#{name}." }],
-          supports_alias: (zone.records.map(&:type).include?('ALIAS') || nil)
+          supports_alias: zone.records.map(&:type).include?('ALIAS') || nil,
         )
 
         zone.write(**write_options)
@@ -144,24 +144,22 @@ module RecordStore
       authority = fetch_soa(nameserver) do |reply, _name|
         break if reply.answer.any?
 
-        raise "No authority found (#{name})" unless reply.authority.any?
+        raise "No authority found (#{name})" if reply.authority.none?
 
         break extract_authority(reply.authority)
       end
 
       # candidate DNS name is returned instead when NXDomain or other error
-      return nil if unrooted_name.casecmp?(Array(authority).first.to_s)
+      return if unrooted_name.casecmp?(Array(authority).first.to_s)
 
       authority
     end
 
     private
 
-    def fetch_soa(nameserver)
+    def fetch_soa(nameserver, &block)
       Resolv::DNS.open(nameserver: nameserver) do |resolv|
-        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA) do |reply, name|
-          yield reply, name
-        end
+        resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA, &block)
       end
     end
 
@@ -174,6 +172,7 @@ module RecordStore
       rescue Errno::EHOSTUNREACH => e
         $stderr.puts "Warning: #{e} [host=#{nameserver}]"
         raise if nameservers.empty?
+
         retry
       end
     end
@@ -244,6 +243,7 @@ module RecordStore
       cname_records.each do |cname_record|
         records.each do |record|
           next unless record.fqdn == cname_record.fqdn && record != cname_record
+
           case record.type
           when 'SIG', 'NXT', 'KEY'
             # this is fine
@@ -284,12 +284,13 @@ module RecordStore
 
       nameserver_fqdns.each do |ns_record|
         selected_records = records.reject do |record|
-          record.is_a?(Record::NS) && \
+          record.is_a?(Record::NS) &&
             record.fqdn.delete_suffix(".") == ns_record
         end
         selected_records.each do |record|
           normalized_record = record.fqdn.delete_suffix(".")
           next unless normalized_record.end_with?(".#{ns_record}") || normalized_record == ns_record
+
           errors.add(:records, "Record #{record.fqdn} #{record.type} in Zone #{name} " \
             "is shadowed by #{ns_record} and will be ignored")
         end
@@ -305,14 +306,14 @@ module RecordStore
 
         terminal_records = records.map(&:fqdn)
           .select { |record| record.match?(/^([a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_])#{Regexp.escape(suffix)}$/) }
-        next unless terminal_records.any?
+        next if terminal_records.none?
 
         intermediate_records = records.map(&:fqdn)
           .select { |record| record.match?(/^([a-zA-Z0-9\-_]+)#{Regexp.escape(suffix)}$/) }
         terminal_records.each do |terminal_record|
           non_terminal = terminal_record.partition('.').last
           errors.add(:records, "found empty non-terminal #{non_terminal} "\
-                     "(caused by existing records #{wildcard} and #{terminal_record})")\
+            "(caused by existing records #{wildcard} and #{terminal_record})")\
             unless intermediate_records.include?(non_terminal)
         end
       end

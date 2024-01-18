@@ -87,7 +87,7 @@ module RecordStore
         existing_record = client.record(
           zone: zone,
           fqdn: record_fqdn,
-          type: record.type
+          type: record.type,
         )
 
         if existing_record.nil?
@@ -99,7 +99,7 @@ module RecordStore
               answers: new_answers,
               ttl: record.ttl,
               use_client_subnet: false, # only required for filter chains that are not supported by record_store
-            }
+            },
           )
           return
         end
@@ -109,7 +109,7 @@ module RecordStore
           zone: zone,
           fqdn: record_fqdn,
           type: record.type,
-          params: { answers: existing_answers + new_answers, ttl: record.ttl }
+          params: { answers: existing_answers + new_answers, ttl: record.ttl },
         )
       end
 
@@ -123,7 +123,7 @@ module RecordStore
         existing_record = client.record(
           zone: zone,
           fqdn: record_fqdn,
-          type: record.type
+          type: record.type,
         )
         return if existing_record.nil?
 
@@ -135,7 +135,7 @@ module RecordStore
           client.delete_record(
             zone: zone,
             fqdn: record_fqdn,
-            type: record.type
+            type: record.type,
           )
           return
         end
@@ -144,7 +144,7 @@ module RecordStore
           zone: zone,
           fqdn: record_fqdn,
           type: record.type,
-          params: { answers: pruned_answers }
+          params: { answers: pruned_answers },
         )
       end
 
@@ -188,7 +188,7 @@ module RecordStore
           zone: zone,
           fqdn: record_fqdn,
           type: record.type,
-          params: { answers: existing_record['answers'], ttl: record.ttl }
+          params: { answers: existing_record['answers'], ttl: record.ttl },
         )
       end
 

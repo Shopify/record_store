@@ -22,7 +22,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -38,7 +38,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: records,
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -54,7 +54,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: records,
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
       contains_desired_record = [] << current_records.any? do |current_record|
@@ -71,7 +71,7 @@ class OracleCloudDNSTest < Minitest::Test
     record = Record::A.new(
       fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io',
       ttl: 600,
-      address: '10.10.10.42'
+      address: '10.10.10.42',
     )
 
     VCR.use_cassette('oracle_add_changeset_nil_zone') do
@@ -80,7 +80,7 @@ class OracleCloudDNSTest < Minitest::Test
           current_records: [],
           desired_records: [record],
           provider: @oracle_cloud_dns,
-          zone: nil
+          zone: nil,
         ))
       end
     end
@@ -89,7 +89,8 @@ class OracleCloudDNSTest < Minitest::Test
   def test_add_changset_missing_zone
     record = Record::A.new(
       fqdn: 'test_add_changset_missing_zone.test.recordstore.io',
-      ttl: 2400, address: '10.10.10.80'
+      ttl: 2400,
+      address: '10.10.10.80',
     )
 
     VCR.use_cassette('oracle_add_changeset_missing_zone') do
@@ -99,7 +100,7 @@ class OracleCloudDNSTest < Minitest::Test
           desired_records: [record],
           provider: @oracle_cloud_dns,
           # Maintainers Note: Ensure that the `recordstore.io` zone does not exist
-          zone: 'test_add_changset_missing_zone.recordstore.io'
+          zone: 'test_add_changset_missing_zone.recordstore.io',
         ))
       end
     end
@@ -113,14 +114,14 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       @oracle_cloud_dns.apply_changeset(Changeset.new(
         current_records: [record],
         desired_records: [],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -138,7 +139,7 @@ class OracleCloudDNSTest < Minitest::Test
     record = Record::A.new(
       fqdn: 'test_remove_does_not_exist_changeset.test.recordstore.io',
       ttl: 600,
-      address: '10.10.10.99'
+      address: '10.10.10.99',
     )
 
     VCR.use_cassette('oracle_remove_does_not_exist_changesets') do
@@ -146,7 +147,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [record],
         desired_records: [],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -165,12 +166,12 @@ class OracleCloudDNSTest < Minitest::Test
       Record::A.new(
         fqdn: 'test_remove_first_from_two_a_records_changeset.test.recordstore.io',
         ttl: 600,
-        address: '60.60.60.66'
+        address: '60.60.60.66',
       ),
       Record::A.new(
         fqdn: 'test_remove_first_from_two_a_records_changeset.test.recordstore.io',
         ttl: 600,
-        address: '70.70.70.77'
+        address: '70.70.70.77',
       ),
     ]
 
@@ -179,14 +180,14 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: records,
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       @oracle_cloud_dns.apply_changeset(Changeset.new(
         current_records: records,
         desired_records: [records[1]],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -205,12 +206,12 @@ class OracleCloudDNSTest < Minitest::Test
       Record::TXT.new(
         fqdn: 'test_remove_first_from_two_txt_records_changeset.test.recordstore.io',
         ttl: 600,
-        txtdata: 'text 1'
+        txtdata: 'text 1',
       ),
       Record::TXT.new(
         fqdn: 'test_remove_first_from_two_txt_records_changeset.test.recordstore.io',
         ttl: 600,
-        txtdata: 'text 2'
+        txtdata: 'text 2',
       ),
     ]
 
@@ -219,14 +220,14 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: records,
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       @oracle_cloud_dns.apply_changeset(Changeset.new(
         current_records: records,
         desired_records: [records[1]],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -245,12 +246,12 @@ class OracleCloudDNSTest < Minitest::Test
       Record::TXT.new(
         fqdn: 'test_remove_second_from_two_txt_records_changeset.test.recordstore.io',
         ttl: 1200,
-        txtdata: 'text 1'
+        txtdata: 'text 1',
       ),
       Record::TXT.new(
         fqdn: 'test_remove_second_from_two_txt_records_changeset.test.recordstore.io',
         ttl: 1200,
-        txtdata: 'text 2'
+        txtdata: 'text 2',
       ),
     ]
 
@@ -259,14 +260,14 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: records,
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       @oracle_cloud_dns.apply_changeset(Changeset.new(
         current_records: records,
         desired_records: [records[0]],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -288,7 +289,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -311,7 +312,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -332,7 +333,7 @@ class OracleCloudDNSTest < Minitest::Test
       ttl: 600,
       flags: 0,
       tag: 'issue',
-      value: 'shopify.com'
+      value: 'shopify.com',
     )
 
     VCR.use_cassette('oracle_add_caa_changeset') do
@@ -340,7 +341,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -363,7 +364,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -383,7 +384,7 @@ class OracleCloudDNSTest < Minitest::Test
       fqdn: 'test_add_mx.test.recordstore.io',
       ttl: 600,
       preference: 10,
-      exchange: 'mxa.mailgun.org'
+      exchange: 'mxa.mailgun.org',
     )
 
     VCR.use_cassette('oracle_add_mx_changeset') do
@@ -391,7 +392,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -411,22 +412,22 @@ class OracleCloudDNSTest < Minitest::Test
     record = Record::NS.new(
       fqdn: 'test_add_ns.test.recordstore.io.',
       ttl: 600,
-      nsdname: 'ns_test.p68.dns.oraclecloud.net.'
+      nsdname: 'ns_test.p68.dns.oraclecloud.net.',
     )
     VCR.use_cassette('oracle_add_ns_changeset') do
       @oracle_cloud_dns.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
       contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::NS) &&
-        record.fqdn == current_record.fqdn &&
-        record.ttl == current_record.ttl &&
-        record.nsdname == current_record.nsdname
+          record.fqdn == current_record.fqdn &&
+          record.ttl == current_record.ttl &&
+          record.nsdname == current_record.nsdname
       end
 
       assert(contains_desired_record)
@@ -442,7 +443,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -464,7 +465,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -485,7 +486,7 @@ class OracleCloudDNSTest < Minitest::Test
       priority: 1,
       weight: 2,
       port: 3,
-      target: 'spf.shopify.com.'
+      target: 'spf.shopify.com.',
     )
 
     VCR.use_cassette('oracle_add_srv_changeset') do
@@ -493,7 +494,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 
@@ -525,7 +526,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       # Retrieve it
@@ -544,10 +545,10 @@ class OracleCloudDNSTest < Minitest::Test
       ))
 
       updated_record_exists = @oracle_cloud_dns.retrieve_current_records(
-        zone: @zone_name
+        zone: @zone_name,
       ).any? { |r| r == updated_record }
       old_record_does_not_exist = @oracle_cloud_dns.retrieve_current_records(
-        zone: @zone_name
+        zone: @zone_name,
       ).none? { |r| r == record }
 
       assert(updated_record_exists)
@@ -564,7 +565,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       record_with_updated_ttl = Record::A.new(record_data.merge(ttl: 10))
@@ -574,7 +575,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [record],
         desired_records: [record_with_updated_ttl],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       current_records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
@@ -600,7 +601,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       # Retrieve it
@@ -614,7 +615,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [record],
         desired_records: [],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       @oracle_cloud_dns.apply_changeset(Changeset.new(
@@ -648,7 +649,7 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: original_records,
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       # Retrieve them
@@ -675,15 +676,15 @@ class OracleCloudDNSTest < Minitest::Test
 
       # Check
       updated_record_exists = @oracle_cloud_dns.retrieve_current_records(
-        zone: @zone_name
+        zone: @zone_name,
       ).any? { |r| r == updated_record }
       first_record_does_not_exist = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
         .none? { |r| r == original_records[0] }
       second_record_exists = @oracle_cloud_dns.retrieve_current_records(
-        zone: @zone_name
+        zone: @zone_name,
       ).any? { |r| r == original_records[1] }
       third_record_exists = @oracle_cloud_dns.retrieve_current_records(
-        zone: @zone_name
+        zone: @zone_name,
       ).any? { |r| r == original_records[2] }
 
       assert(updated_record_exists)
@@ -702,13 +703,13 @@ class OracleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [record_1, record_2],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       @oracle_cloud_dns.apply_changeset(Changeset.new(
         current_records: [record_1, record_2],
         desired_records: [record_1],
         provider: @oracle_cloud_dns,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       records = @oracle_cloud_dns.retrieve_current_records(zone: @zone_name)
 

@@ -162,10 +162,16 @@ class ZoneTest < Minitest::Test
     ])
     refute_predicate(zone, :valid?)
     assert_equal(2, zone.errors[:records].length)
-    assert_equal("Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
-                 "600 IN CNAME alternative.example.com.", zone.errors[:records][0])
-    assert_equal("Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
-                 "600 IN CNAME real.example.com.", zone.errors[:records][1])
+    assert_equal(
+      "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
+        "600 IN CNAME alternative.example.com.",
+      zone.errors[:records][0],
+    )
+    assert_equal(
+      "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
+        "600 IN CNAME real.example.com.",
+      zone.errors[:records][1],
+    )
 
     zone = valid_zone_from_records("example.com", records: [
       { type: 'CNAME', fqdn: 'www.example.com.', ttl: 600, cname: 'real.example.com.' },
@@ -173,16 +179,22 @@ class ZoneTest < Minitest::Test
     ])
     refute_predicate(zone, :valid?)
     assert_equal(1, zone.errors[:records].length)
-    assert_equal("A CNAME record is defined for www.example.com., so this record is not allowed: "\
-                 "[ARecord] www.example.com. 600 IN A 1.2.3.4", zone.errors[:records].first)
+    assert_equal(
+      "A CNAME record is defined for www.example.com., so this record is not allowed: "\
+        "[ARecord] www.example.com. 600 IN A 1.2.3.4",
+      zone.errors[:records].first,
+    )
 
     zone = valid_zone_from_records("example.com", records: [
       { type: 'CNAME', fqdn: 'example.com.', ttl: 600, cname: 'www.example.com.' },
     ])
     refute_predicate(zone, :valid?)
     assert_equal(1, zone.errors[:records].length)
-    assert_equal('A CNAME record cannot be defined on the root of the zone: [CNAMERecord] example.com. '\
-                 '600 IN CNAME www.example.com.', zone.errors[:records][0])
+    assert_equal(
+      'A CNAME record cannot be defined on the root of the zone: [CNAMERecord] example.com. '\
+        '600 IN CNAME www.example.com.',
+      zone.errors[:records][0],
+    )
   end
 
   def test_filter_records
@@ -214,22 +226,25 @@ class ZoneTest < Minitest::Test
 
         zone = Zone.find(name)
         assert_equal([{ type: 'NS', fqdn: "#{name}." }], zone.config.ignore_patterns.map(&:to_hash))
-        assert_equal([
-          Record::ALIAS.new(
-            zone: 'dns-test.shopify.io',
-            ttl: 60,
-            fqdn: 'dns-test.shopify.io',
-            alias: 'dns-test.herokuapp.com.',
-            record_id: 164537809
-          ),
-          Record::A.new(
-            zone: 'dns-test.shopify.io',
-            ttl: 86400,
-            fqdn: 'test-record.dns-test.shopify.io',
-            address: '10.10.10.10',
-            record_id: 189358987
-          ),
-        ], zone.records)
+        assert_equal(
+          [
+            Record::ALIAS.new(
+              zone: 'dns-test.shopify.io',
+              ttl: 60,
+              fqdn: 'dns-test.shopify.io',
+              alias: 'dns-test.herokuapp.com.',
+              record_id: 164537809,
+            ),
+            Record::A.new(
+              zone: 'dns-test.shopify.io',
+              ttl: 86400,
+              fqdn: 'test-record.dns-test.shopify.io',
+              address: '10.10.10.10',
+              record_id: 189358987,
+            ),
+          ],
+          zone.records,
+        )
       end
     end
   end
@@ -407,8 +422,11 @@ class ZoneTest < Minitest::Test
     ])
 
     refute_predicate(invalid_zone, :valid?)
-    assert_equal("All TXT records for matching-records.com. "\
-                 "should have the same TTL", invalid_zone.errors[:records].first)
+    assert_equal(
+      "All TXT records for matching-records.com. "\
+        "should have the same TTL",
+      invalid_zone.errors[:records].first,
+    )
   end
 
   def test_zone_validates_no_empty_non_terminal
@@ -419,7 +437,7 @@ class ZoneTest < Minitest::Test
         { type: 'CNAME', fqdn: '*.domain.example.com', cname: 'target1.example.com', ttl: 60 },
         { type: 'CNAME', fqdn: 'b.domain.example.com', cname: 'target2.example.com', ttl: 60 },
         { type: 'CNAME', fqdn: 'a.b.domain.example.com', cname: 'target3.example.com', ttl: 60 },
-      ]
+      ],
     )
     assert_predicate(valid_zone, :valid?)
 
@@ -429,7 +447,7 @@ class ZoneTest < Minitest::Test
       records: [
         { type: 'CNAME', fqdn: '*.domain.example.com', cname: 'target1.example.com', ttl: 60 },
         { type: 'CNAME', fqdn: 'a.b.domain.example.com', cname: 'target3.example.com', ttl: 60 },
-      ]
+      ],
     )
     assert_predicate(valid_zone, :valid?)
 
@@ -439,7 +457,7 @@ class ZoneTest < Minitest::Test
       records: [
         { type: 'CNAME', fqdn: '*.domain.example.com', cname: 'target1.example.com', ttl: 60 },
         { type: 'CNAME', fqdn: 'a.b.domain.example.com', cname: 'target3.example.com', ttl: 60 },
-      ]
+      ],
     )
     refute_predicate(invalid_zone, :valid?)
     assert_match(/found empty non-terminal/, invalid_zone.errors[:records].first)
@@ -449,7 +467,7 @@ class ZoneTest < Minitest::Test
     valid_zone = Zone.new(
       name: 'matching-records.com',
       config: { providers: ['DynECT'], supports_alias: true },
-      records: [{ type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 }]
+      records: [{ type: 'ALIAS', fqdn: 'matching-records.com', alias: 'matching-records.herokuapp.com', ttl: 60 }],
     )
     assert_predicate(valid_zone, :valid?)
 
@@ -563,7 +581,7 @@ class ZoneTest < Minitest::Test
       records: [
         { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
-      ]
+      ],
     )
     expected = [
       Record::A.new(fqdn: 'a.test.com.', ttl: 86400, address: '10.10.10.10'),
@@ -582,7 +600,7 @@ class ZoneTest < Minitest::Test
         { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
         { type: 'TXT', fqdn: 'a.test.com.injected.com.', txtdata: 'abc123', ttl: 86400 },
-      ]
+      ],
     )
     expected = [
       Record::A.new(fqdn: 'a.test.com.', ttl: 86400, address: '10.10.10.10'),
@@ -600,7 +618,7 @@ class ZoneTest < Minitest::Test
       records: [
         { type: 'A', fqdn: '_a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: '_a.test.com.', ttl: 86400 },
-      ]
+      ],
     )
     expected = [
       Record::A.new(fqdn: '_a.test.com.', ttl: 86400, address: '10.10.10.10'),
@@ -617,7 +635,7 @@ class ZoneTest < Minitest::Test
       records: [
         { type: 'A', fqdn: 'a.test.com.', address: '10.10.10.10', ttl: 86400 },
         { type: 'ALIAS', fqdn: 'a.test.alias.com.', alias: 'a.test.com.', ttl: 86400 },
-      ]
+      ],
     )
     expected = [
       Record::A.new(fqdn: 'a.test.com.', ttl: 86400, address: '10.10.10.10'),
@@ -653,7 +671,7 @@ class ZoneTest < Minitest::Test
           Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns2.dnsimple.com.'),
           Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns3.dnsimple.com.'),
           Record::NS.new(fqdn: 'shopify.ph', ttl: 86_400, nsdname: 'ns4.dnsimple.com.'),
-        ]
+        ],
       )
 
     nameservers = zone.fetch_authority('b.root-servers.net')

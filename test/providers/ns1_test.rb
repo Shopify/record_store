@@ -22,7 +22,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -38,7 +38,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: records,
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -51,14 +51,14 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       @ns1.apply_changeset(Changeset.new(
         current_records: [record],
         desired_records: [],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -88,7 +88,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       # Retrieve it
@@ -129,7 +129,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       # Retrieve it
@@ -143,7 +143,7 @@ class NS1Test < Minitest::Test
         current_records: [record],
         desired_records: [],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       assert_raises(RecordStore::Provider::NS1::Error) do
@@ -173,7 +173,7 @@ class NS1Test < Minitest::Test
           current_records: [],
           desired_records: [record],
           provider: @ns1,
-          zone: @zone_name
+          zone: @zone_name,
         ))
       end
     end
@@ -201,7 +201,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: original_records,
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       # Retrieve them
@@ -244,7 +244,7 @@ class NS1Test < Minitest::Test
     record = Record::A.new(
       fqdn: 'test_add_changeset_with_nil_zone.test.recordstore.io',
       ttl: 600,
-      address: '10.10.10.42'
+      address: '10.10.10.42',
     )
 
     VCR.use_cassette('ns1_add_changeset_nil_zone') do
@@ -253,7 +253,7 @@ class NS1Test < Minitest::Test
           current_records: [],
           desired_records: [record],
           provider: @ns1,
-          zone: nil
+          zone: nil,
         ))
       end
     end
@@ -269,7 +269,7 @@ class NS1Test < Minitest::Test
           desired_records: [record],
           provider: @ns1,
           # Maintainers Note: Ensure that the `recordstore.io` zone does not exist
-          zone: 'test_add_changset_missing_zone.recordstore.io'
+          zone: 'test_add_changset_missing_zone.recordstore.io',
         ))
       end
     end
@@ -283,7 +283,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -307,7 +307,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       record_with_updated_ttl = Record::A.new(record_data.merge(ttl: 10))
@@ -317,7 +317,7 @@ class NS1Test < Minitest::Test
         current_records: [record],
         desired_records: [record_with_updated_ttl],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
@@ -336,7 +336,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -357,7 +357,7 @@ class NS1Test < Minitest::Test
       ttl: 600,
       flags: 0,
       tag: 'issue',
-      value: 'shopify.com'
+      value: 'shopify.com',
     )
 
     VCR.use_cassette('ns1_add_caa_changeset') do
@@ -365,7 +365,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -388,7 +388,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -408,7 +408,7 @@ class NS1Test < Minitest::Test
       fqdn: 'test_add_mx.test.recordstore.io',
       ttl: 600,
       preference: 10,
-      exchange: 'mxa.mailgun.org'
+      exchange: 'mxa.mailgun.org',
     )
 
     VCR.use_cassette('ns1_add_mx_changeset') do
@@ -416,7 +416,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -440,15 +440,15 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
       contains_desired_record = current_records.any? do |current_record|
         current_record.is_a?(Record::NS) &&
-        record.fqdn == current_record.fqdn &&
-        record.ttl == current_record.ttl &&
-        record.nsdname == current_record.nsdname
+          record.fqdn == current_record.fqdn &&
+          record.ttl == current_record.ttl &&
+          record.nsdname == current_record.nsdname
       end
 
       assert(contains_desired_record)
@@ -463,7 +463,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -485,7 +485,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -506,7 +506,7 @@ class NS1Test < Minitest::Test
       priority: 1,
       weight: 2,
       port: 3,
-      target: 'spf.shopify.com.'
+      target: 'spf.shopify.com.',
     )
 
     VCR.use_cassette('ns1_add_srv_changeset') do
@@ -514,7 +514,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       current_records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -540,13 +540,13 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [record_1, record_2],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       @ns1.apply_changeset(Changeset.new(
         current_records: [record_1, record_2],
         desired_records: [record_1],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
       records = @ns1.retrieve_current_records(zone: @zone_name)
 
@@ -573,7 +573,7 @@ class NS1Test < Minitest::Test
     imported_txt_record = Record::TXT.new(
       fqdn: 'test_escaped_colons_maintained_when_exported.test.recordstore.io.',
       ttl: 60,
-      txtdata: 'v=DKIM\; k=rsa\;'
+      txtdata: 'v=DKIM\; k=rsa\;',
     )
 
     VCR.use_cassette('ns1_escaped_colons_maintained_when_exported_from_ns1') do
@@ -581,7 +581,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [imported_txt_record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       records = @ns1.retrieve_current_records(zone: @zone_name)
@@ -599,7 +599,7 @@ class NS1Test < Minitest::Test
     imported_txt_record = Record::TXT.new(
       fqdn: 'test_colons_always_escaped_when_exported.test.recordstore.io.',
       ttl: 60,
-      txtdata: 'v=DKIM; k=rsa;'
+      txtdata: 'v=DKIM; k=rsa;',
     )
 
     VCR.use_cassette('ns1_colons_always_escaped_when_exported_from_ns1') do
@@ -607,7 +607,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [imported_txt_record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       records = @ns1.retrieve_current_records(zone: @zone_name)
@@ -637,7 +637,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [imported_txt_record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
 
       records = @ns1.retrieve_current_records(zone: @zone_name)
@@ -655,7 +655,7 @@ class NS1Test < Minitest::Test
     new_record = Record::TXT.new(
       fqdn: 'test_new_records_have_edns_client_subnet_disabled.test.recordstore.io',
       ttl: 3600,
-      txtdata: 'Some answer'
+      txtdata: 'Some answer',
     )
 
     json_request_body_matcher = lambda do |request_1, request_2|
@@ -670,13 +670,13 @@ class NS1Test < Minitest::Test
     # Cassette request body will assert that `use_client_subnet` is set to false in the request
     VCR.use_cassette(
       'ns1_test_new_records_have_edns_client_subnet_disabled',
-      match_requests_on: [json_request_body_matcher]
+      match_requests_on: [json_request_body_matcher],
     ) do
       @ns1.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [new_record],
         provider: @ns1,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -696,7 +696,7 @@ class NS1Test < Minitest::Test
           current_records: [],
           desired_records: [sshfp_record],
           provider: @ns1,
-          zone: @zone_name
+          zone: @zone_name,
         ))
       end
       assert_match(/SSHFP/, err.message)
@@ -725,7 +725,7 @@ class NS1Test < Minitest::Test
           current_records: [old_sshfp_record],
           desired_records: [new_sshfp_record],
           provider: @ns1,
-          zone: @zone_name
+          zone: @zone_name,
         ))
       end
       assert_match(/SSHFP/, err.message)
@@ -736,7 +736,7 @@ class NS1Test < Minitest::Test
     ptr_record = Record::PTR.new(
       fqdn: '4.3.2.1.in-addr.arpa',
       ttl: 60,
-      ptrdname: 'example.com.'
+      ptrdname: 'example.com.',
     )
 
     VCR.use_cassette('test_creates_ptr_records') do
@@ -744,7 +744,7 @@ class NS1Test < Minitest::Test
         current_records: [],
         desired_records: [ptr_record],
         provider: @ns1,
-        zone: '4.3.2.1.in-addr.arpa'
+        zone: '4.3.2.1.in-addr.arpa',
       ))
 
       records = @ns1.retrieve_current_records(zone: '4.3.2.1.in-addr.arpa')
