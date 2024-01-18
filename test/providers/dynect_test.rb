@@ -19,7 +19,7 @@ class DynECTTest < Minitest::Test
       'ttl' => 600,
       'rdata' => {
         'address' => '10.11.12.13',
-      }
+      },
     )
 
     assert_kind_of(Record::A, record)
@@ -37,7 +37,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "AAAA",
       "rdata" => {
         "address" => "2001:0db8:85a3:0000:0000:EA75:1337:BEEF",
-      }
+      },
     )
 
     assert_kind_of(Record::AAAA, record)
@@ -75,7 +75,7 @@ class DynECTTest < Minitest::Test
         "tag": "issue",
         "flags": 0,
         "value": "digicert.com",
-      }
+      },
     )
 
     assert_kind_of(Record::CAA, record)
@@ -95,7 +95,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "CNAME",
       "rdata" => {
         "cname" => "dns-test.shopify.io.",
-      }
+      },
     )
 
     assert_kind_of(Record::CNAME, record)
@@ -114,7 +114,7 @@ class DynECTTest < Minitest::Test
       "rdata" => {
         "exchange" => "mail-server.example.com.",
         "preference" => 10,
-      }
+      },
     )
 
     assert_kind_of(Record::MX, record)
@@ -133,7 +133,7 @@ class DynECTTest < Minitest::Test
       "record_type" => "NS",
       "rdata" => {
         "nsdname" => "ns1.dynect.net",
-      }
+      },
     )
 
     assert_kind_of(Record::NS, record)
@@ -154,7 +154,7 @@ class DynECTTest < Minitest::Test
         "priority" => 10,
         "target" => "target-srv.dns-test.shopify.io.",
         "weight" => 47,
-      }
+      },
     )
 
     assert_kind_of(Record::SRV, record)
@@ -182,7 +182,7 @@ class DynECTTest < Minitest::Test
         "refresh" => 3600,
         "expire" => 604800,
         "serial" => 1241,
-      }
+      },
     )
 
     assert_nil(record)
@@ -256,7 +256,7 @@ class DynECTTest < Minitest::Test
         current_records: [],
         desired_records: [a_record],
         provider: RecordStore::Provider::DynECT,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -268,42 +268,42 @@ class DynECTTest < Minitest::Test
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns1.p19.dynect.net.',
-        record_id: 164537804
+        record_id: 164537804,
       ),
       Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns2.p19.dynect.net.',
-        record_id: 164537805
+        record_id: 164537805,
       ),
       Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns3.p19.dynect.net.',
-        record_id: 164537806
+        record_id: 164537806,
       ),
       Record::NS.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'dns-test.shopify.io',
         nsdname: 'ns4.p19.dynect.net.',
-        record_id: 164537807
+        record_id: 164537807,
       ),
       Record::A.new(
         zone: 'dns-test.shopify.io',
         ttl: 86400,
         fqdn: 'test-record.dns-test.shopify.io',
         address: '10.10.10.10',
-        record_id: 189358987
+        record_id: 189358987,
       ),
       Record::ALIAS.new(
         zone: 'dns-test.shopify.io',
         ttl: 60,
         fqdn: 'dns-test.shopify.io',
         alias: 'dns-test.herokuapp.com.',
-        record_id: 164537809
+        record_id: 164537809,
       ),
     ]
 
@@ -323,7 +323,7 @@ class DynECTTest < Minitest::Test
         current_records: [txt_1, txt_2],
         desired_records: [txt_update, txt_2],
         provider: RecordStore::Provider::DynECT,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end

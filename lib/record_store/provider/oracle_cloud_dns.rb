@@ -55,7 +55,7 @@ module RecordStore
 
         client.patch_zone_records(
           zone,
-          OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_add_record)
+          OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_add_record),
         )
       end
 
@@ -72,6 +72,7 @@ module RecordStore
         ).data.items.select { |r| r.rdata == record.rdata_txt }
 
         return unless found_record
+
         begin
           record_hash = found_record.first.record_hash if found_record.length == 1
         rescue NoMethodError
@@ -90,7 +91,7 @@ module RecordStore
 
           client.patch_zone_records(
             zone,
-            OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_remove_record)
+            OCI::Dns::Models::PatchZoneRecordsDetails.new(items: patch_remove_record),
           )
         end
       end
@@ -122,7 +123,7 @@ module RecordStore
           domain: record_fqdn,
           ttl: record.ttl,
           rtype: record.type,
-          rdata: record.rdata_txt
+          rdata: record.rdata_txt,
         )
         update_zone_record_items.delete_if { |r| id == r.record_hash }
 

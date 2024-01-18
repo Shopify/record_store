@@ -46,7 +46,7 @@ module RecordStore
         current_records: current_records,
         desired_records: desired_records,
         provider: provider,
-        zone: zone.unrooted_name
+        zone: zone.unrooted_name,
       )
     end
 

@@ -5,7 +5,7 @@ module CLI
     def setup
       super
       Zone.expects(:defined).returns(
-        'example.com' => Zone.new(name: 'example.com', config: { providers: %w(DNSimple NS1) })
+        'example.com' => Zone.new(name: 'example.com', config: { providers: %w(DNSimple NS1) }),
       )
     end
 

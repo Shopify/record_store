@@ -28,7 +28,6 @@ class CLITest < Minitest::Test
 
       assert_equal(secrets_ejson, File.read(RecordStore.secrets_path))
     end
-
   ensure
     ENV['EJSON_KEYDIR'] = ejson_keydir
   end

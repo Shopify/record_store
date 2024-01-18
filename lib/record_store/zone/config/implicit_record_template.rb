@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module RecordStore
   class Zone
     class Config
@@ -31,9 +32,11 @@ module RecordStore
             filters_for_records_to_template = template_file_yaml[:each_record]
             filters_for_records_to_exclude = template_file_yaml[:except_record] || []
 
-            new(template: ERB.new(template_file),
+            new(
+              template: ERB.new(template_file),
               filters_for_records_to_template: filters_for_records_to_template,
-              filters_for_records_to_exclude: filters_for_records_to_exclude)
+              filters_for_records_to_exclude: filters_for_records_to_exclude,
+            )
           end
 
           private
@@ -56,11 +59,11 @@ module RecordStore
             .each_with_object([]) do |template_records, records_to_inject|
               next unless should_inject?(
                 template_records: template_records,
-                current_records: current_records + records_to_inject
+                current_records: current_records + records_to_inject,
               )
 
               records_to_inject.push(
-                *template_records.fetch(:injected_records, []).map { |r_yml| Record.build_from_yaml_definition(r_yml) }
+                *template_records.fetch(:injected_records, []).map { |r_yml| Record.build_from_yaml_definition(r_yml) },
               )
             end
         end
@@ -79,7 +82,7 @@ module RecordStore
         end
 
         def should_template?(record:)
-          filters_for_records_to_template.any? { |filter| record_match?(record: record, filter: filter) } && \
+          filters_for_records_to_template.any? { |filter| record_match?(record: record, filter: filter) } &&
             filters_for_records_to_exclude.none? { |filter| record_match?(record: record, filter: filter) }
         end
 

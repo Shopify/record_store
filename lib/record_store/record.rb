@@ -66,7 +66,7 @@ module RecordStore
       Record.const_get(record_type).new(yaml_definition)
     end
 
-    def log!(logger = STDOUT)
+    def log!(logger = $stdout)
       logger.puts to_s
     end
 

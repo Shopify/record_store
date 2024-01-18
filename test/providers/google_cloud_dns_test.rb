@@ -17,8 +17,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'a.dns-test.shopify.io.',
         'A',
         600,
-        '10.11.12.13'
-      )
+        '10.11.12.13',
+      ),
     )
 
     assert_kind_of(Record::A, record)
@@ -34,8 +34,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'aaaa.dns-test.shopify.io.',
         'AAAA',
         600,
-        '2001:0db8:85a3:0000:0000:EA75:1337:BEEF'
-      )
+        '2001:0db8:85a3:0000:0000:EA75:1337:BEEF',
+      ),
     )
 
     assert_kind_of(Record::AAAA, record)
@@ -51,8 +51,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'cname.dns-test.shopify.io.',
         'CAA',
         1800,
-        ['0 issue "digicert.com"']
-      )
+        ['0 issue "digicert.com"'],
+      ),
     )
 
     assert_kind_of(Record::CAA, record)
@@ -70,8 +70,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'cname.dns-test.shopify.io.',
         'CNAME',
         600,
-        'dns-test.shopify.io.'
-      )
+        'dns-test.shopify.io.',
+      ),
     )
 
     assert_kind_of(Record::CNAME, record)
@@ -88,7 +88,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'MX',
         60,
         ['10 mail-server.example.com.'],
-      )
+      ),
     )
 
     assert_kind_of(Record::MX, record)
@@ -106,7 +106,7 @@ class GoogleCloudDNSTest < Minitest::Test
         'NS',
         3600,
         ['ns-cloud-d4.googledomains.com.'],
-      )
+      ),
     )
 
     assert_kind_of(Record::NS, record)
@@ -122,8 +122,8 @@ class GoogleCloudDNSTest < Minitest::Test
         '_service._TCP.srv.dns-test.shopify.io.',
         'SRV',
         60,
-        ['10 47 80 target-srv.dns-test.shopify.io.']
-      )
+        ['10 47 80 target-srv.dns-test.shopify.io.'],
+      ),
     )
 
     assert_kind_of(Record::SRV, record)
@@ -142,8 +142,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'txt.dns-test.shopify.io.',
         'TXT',
         60,
-        ['"Hello, world!"']
-      )
+        ['"Hello, world!"'],
+      ),
     )
 
     assert_kind_of(Record::TXT, record)
@@ -159,8 +159,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'txt.dns-test.shopify.io.',
         'TXT',
         60,
-        ['"' + "a" * 255 + '" "' + "a" * 45 + '"']
-      )
+        ['"' + "a" * 255 + '" "' + "a" * 45 + '"'],
+      ),
     )
 
     assert_kind_of(Record::TXT, record)
@@ -176,8 +176,8 @@ class GoogleCloudDNSTest < Minitest::Test
         'dns-test.shopify.io.',
         'SOA',
         60,
-        'ns-cloud-d1.googledomains.com. cloud-dns-hostmaster.google.com. 3 21600 3600 259200 300'
-      )
+        'ns-cloud-d1.googledomains.com. cloud-dns-hostmaster.google.com. 3 21600 3600 259200 300',
+      ),
     )
 
     assert_nil(record)
@@ -191,7 +191,7 @@ class GoogleCloudDNSTest < Minitest::Test
         current_records: [],
         desired_records: [a_record],
         provider: RecordStore::Provider::GoogleCloudDNS,
-        zone: @zone_name
+        zone: @zone_name,
       ))
     end
   end
@@ -234,13 +234,13 @@ class GoogleCloudDNSTest < Minitest::Test
         ttl: 300,
         fqdn: 'dns-scratch.me',
         exchange: 'mail.example.com.',
-        preference: 123
+        preference: 123,
       ),
       Record::AAAA.new(
         zone: 'dns-scratch.me',
         ttl: 300,
         fqdn: 'aaaa.dns-scratch.me',
-        address: '2001:db8:85a3::ea75:1337:beef'
+        address: '2001:db8:85a3::ea75:1337:beef',
       ),
       Record::CAA.new(
         zone: 'dns-scratch.me',
@@ -254,13 +254,13 @@ class GoogleCloudDNSTest < Minitest::Test
         zone: 'dns-scratch.me',
         ttl: 300,
         fqdn: 'cname.dns-scratch.me',
-        cname: 'example.com'
+        cname: 'example.com',
       ),
       Record::CNAME.new(
         zone: 'dns-scratch.me',
         ttl: 300,
         fqdn: 'cname-api.dns-scratch.me',
-        cname: 'example.com'
+        cname: 'example.com',
       ),
       Record::A.new(
         zone: 'dns-scratch.me',
@@ -272,13 +272,13 @@ class GoogleCloudDNSTest < Minitest::Test
         fqdn: 'txt.dns-scratch.me',
         zone: 'dns-scratch.me',
         ttl: 300,
-        txtdata: 'test'
+        txtdata: 'test',
       ),
       Record::TXT.new(
         fqdn: 'txt.dns-scratch.me',
         zone: 'dns-scratch.me',
         ttl: 300,
-        txtdata: 'asdf'
+        txtdata: 'asdf',
       ),
       Record::A.new(
         zone: 'dns-scratch.me',

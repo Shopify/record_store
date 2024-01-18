@@ -23,7 +23,7 @@ module RecordStore
     end
 
     def validate_circular_reference
-      errors.add(:fqdn, 'An ALIAS should not point to itself') unless fqdn != @alias
+      errors.add(:fqdn, 'An ALIAS should not point to itself') if fqdn == @alias
     end
   end
 end
