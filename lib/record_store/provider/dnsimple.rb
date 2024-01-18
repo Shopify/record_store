@@ -53,7 +53,7 @@ module RecordStore
       end
 
       def remove(record, zone)
-        session.zones.delete_record(account_id, zone, record.id)
+        session.zones.delete_zone_record(account_id, zone, record.id)
       end
 
       def update(id, record, zone)
