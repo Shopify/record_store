@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 6.6.1
+## 6.7.0
 - Update dependencies like dnsimple, thor, ruby-limiter
 
 ## 6.6.0
