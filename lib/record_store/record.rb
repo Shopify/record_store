@@ -61,9 +61,11 @@ module RecordStore
       @id   = record.fetch(:record_id, nil)
     end
 
-    def self.build_from_yaml_definition(yaml_definition)
-      record_type = yaml_definition.fetch(:type)
-      Record.const_get(record_type).new(yaml_definition)
+    class << self
+      def build_from_yaml_definition(yaml_definition)
+        record_type = yaml_definition.fetch(:type)
+        Record.const_get(record_type).new(yaml_definition)
+      end
     end
 
     def log!(logger = $stdout)

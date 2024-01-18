@@ -9,16 +9,18 @@ module RecordStore
         @id = id
       end
 
-      def self.addition(record)
-        new(type: :addition, record: record)
-      end
+      class << self
+        def addition(record)
+          new(type: :addition, record: record)
+        end
 
-      def self.removal(record)
-        new(type: :removal, record: record)
-      end
+        def removal(record)
+          new(type: :removal, record: record)
+        end
 
-      def self.update(id, record)
-        new(type: :update, record: record, id: id)
+        def update(id, record)
+          new(type: :update, record: record, id: id)
+        end
       end
 
       def removal?
@@ -36,18 +38,20 @@ module RecordStore
 
     attr_reader :current_records, :desired_records, :removals, :additions, :updates, :provider, :zone
 
-    def self.build_from(provider:, zone:, all: false)
-      current_zone = provider.build_zone(zone_name: zone.unrooted_name, config: zone.config)
+    class << self
+      def build_from(provider:, zone:, all: false)
+        current_zone = provider.build_zone(zone_name: zone.unrooted_name, config: zone.config)
 
-      current_records = all ? current_zone.all : current_zone.records
-      desired_records = all ? zone.all : zone.records
+        current_records = all ? current_zone.all : current_zone.records
+        desired_records = all ? zone.all : zone.records
 
-      new(
-        current_records: current_records,
-        desired_records: desired_records,
-        provider: provider,
-        zone: zone.unrooted_name,
-      )
+        new(
+          current_records: current_records,
+          desired_records: desired_records,
+          provider: provider,
+          zone: zone.unrooted_name,
+        )
+      end
     end
 
     def initialize(current_records: [], desired_records: [], provider:, zone:)

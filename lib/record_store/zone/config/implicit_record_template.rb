@@ -4,8 +4,10 @@ module RecordStore
   class Zone
     class Config
       class TemplateContext
-        def self.build(record:, current_records:)
-          new(record: record, current_records: current_records)
+        class << self
+          def build(record:, current_records:)
+            new(record: record, current_records: current_records)
+          end
         end
 
         def initialize(record:, current_records:)

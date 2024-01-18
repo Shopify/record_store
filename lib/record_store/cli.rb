@@ -10,8 +10,10 @@ module RecordStore
       RecordStore.config_path = options.fetch('config', "#{Dir.pwd}/config.yml")
     end
 
-    def self.exit_on_failure?
-      true
+    class << self
+      def exit_on_failure?
+        true
+      end
     end
 
     desc 'thaw', 'Thaws all zones under management to allow manual edits'

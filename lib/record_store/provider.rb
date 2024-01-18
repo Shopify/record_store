@@ -8,6 +8,7 @@ module RecordStore
 
     class << self
       def provider_for(object)
+        lookup_error = false
         ns_server =
           case object
           when Record::NS
@@ -17,9 +18,10 @@ module RecordStore
               master_nameserver_for(object)
             rescue Resolv::ResolvError
               $stderr.puts "Domain doesn't exist (#{object})"
-              return
+              lookup_error = true
             end
           end
+        return if lookup_error
 
         case ns_server
         when /\.dnsimple\.com\z/
