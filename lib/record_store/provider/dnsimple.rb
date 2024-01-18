@@ -20,7 +20,7 @@ module RecordStore
       # returns an array of Record objects that match the records which exist in the provider
       def retrieve_current_records(zone:, stdout: $stdout)
         retry_on_connection_errors do
-          session.zones.all_records(account_id, zone).data.map do |record|
+          session.zones.all_zone_records(account_id, zone).data.map do |record|
             build_from_api(record, zone)
           rescue StandardError
             stdout.puts "Cannot build record: #{record}"
@@ -40,7 +40,7 @@ module RecordStore
 
       def add(record, zone)
         record_hash = api_hash(record, zone)
-        res = session.zones.create_record(account_id, zone, record_hash)
+        res = session.zones.create_zone_record(account_id, zone, record_hash)
 
         if record.type == 'ALIAS'
           txt_alias = retrieve_current_records(zone: zone).detect do |rr|
