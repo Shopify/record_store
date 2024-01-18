@@ -20,6 +20,12 @@ record-store validate_initial_state    # Validates state hasn't diverged since t
 record-store validate_records          # Validates that all DNS records have valid definitions
 ```
 
+## Releasing a new version
+* Bump the version [here](https://github.com/Shopify/record_store/blob/main/lib/record_store/version.rb).
+* Add to CHANGELOG [here](https://github.com/Shopify/record_store/blob/main/CHANGELOG.md).
+* PR, merge and shipit [here](https://shipit.shopify.io/shopify/record_store/production).
+
+
 ## Providers
 
 Below is the list of DNS providers supported by Record Store. PRs [adding more](#adding-new-providers) are welcome.
