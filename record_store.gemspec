@@ -48,6 +48,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'rubocop', '~> 1.59.0'
-  spec.add_development_dependency 'rubocop-shopify', '~> 2.2.0'
+  spec.add_development_dependency 'rubocop-shopify', '~> 2.14.0'
   spec.add_development_dependency 'minitest-focus'
 end
