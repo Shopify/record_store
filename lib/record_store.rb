@@ -52,8 +52,10 @@ module RecordStore
 
     def zones_path
       @zones_path ||= Pathname.new(
-        File.expand_path(config.fetch('zones_path'),
-          File.dirname(config_path)),
+        File.expand_path(
+          config.fetch('zones_path'),
+          File.dirname(config_path),
+        ),
       ).realpath.to_s
     end
 
@@ -63,8 +65,10 @@ module RecordStore
 
     def implicit_records_templates_path
       @implicit_records_templates_path ||= Pathname.new(
-        File.expand_path(config.fetch('implicit_records_templates_path'),
-          File.dirname(config_path)),
+        File.expand_path(
+          config.fetch('implicit_records_templates_path'),
+          File.dirname(config_path),
+        ),
       ).realpath.to_s
     end
 

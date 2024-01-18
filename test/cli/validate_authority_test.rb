@@ -10,7 +10,7 @@ module CLI
     def test_prints_zones
       mock_defined_zones(
         'business.new' => { authority: ns_unknown('new') },
-        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') },
       )
 
       RecordStore::CLI.start(%w(validate_authority))
@@ -22,7 +22,7 @@ module CLI
     def test_includes_specified_zones
       mock_defined_zones(
         'business.new' => { authority: ns_unknown('new') },
-        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') },
       )
 
       RecordStore::CLI.start(%w(validate_authority business.new))
@@ -33,7 +33,7 @@ module CLI
     def test_excludes_unspecified_zones
       mock_defined_zones(
         'business.new' => { authority: ns_unknown('new') },
-        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') }
+        'myshopify.cloud' => { authority: ns_dnsimple('myshopify.cloud') },
       )
 
       RecordStore::CLI.start(%w(validate_authority business.new))
@@ -44,7 +44,7 @@ module CLI
     def test_excludes_valid_zone
       mock_defined_zones(
         'business.new' => { authority: ns_unknown('new') },
-        'shopify.com' => {}
+        'shopify.com' => {},
       )
 
       RecordStore::CLI.start(%w(validate_authority))
@@ -55,7 +55,7 @@ module CLI
     def test_verbose_option_includes_valid_zones
       mock_defined_zones(
         'business.new' => { authority: ns_unknown('new') },
-        'shopify.com' => {}
+        'shopify.com' => {},
       )
 
       RecordStore::CLI.start(%w(validate_authority --verbose))

@@ -23,7 +23,7 @@ module RecordStore
     end
 
     def validate_circular_reference
-      errors.add(:fqdn, 'A CNAME should not point to itself') unless fqdn != cname
+      errors.add(:fqdn, 'A CNAME should not point to itself') if fqdn == cname
     end
   end
 end

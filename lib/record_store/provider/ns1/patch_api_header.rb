@@ -19,7 +19,7 @@ module NS1::Transport
 
       if response_hash.key?(X_RATELIMIT_PERIOD) && response_hash.key?(X_RATELIMIT_REMAINING)
         sleep_time = response_hash[X_RATELIMIT_PERIOD].first.to_i /
-                     [1, response_hash[X_RATELIMIT_REMAINING].first.to_i].max.to_f
+          [1, response_hash[X_RATELIMIT_REMAINING].first.to_i].max.to_f
 
         rate_limit = RateLimitWaiter.new('NS1')
         rate_limit.wait(sleep_time)

@@ -10,8 +10,10 @@ module RecordStore
       RecordStore.config_path = options.fetch('config', "#{Dir.pwd}/config.yml")
     end
 
-    def self.exit_on_failure?
-      true
+    class << self
+      def exit_on_failure?
+        true
+      end
     end
 
     desc 'thaw', 'Thaws all zones under management to allow manual edits'
@@ -108,6 +110,7 @@ module RecordStore
           end
 
           next unless options.fetch('verbose')
+
           puts "Unchanged:"
           changeset.unchanged.each do |record|
             puts " - #{record}"
@@ -147,7 +150,7 @@ module RecordStore
     option :name, desc: 'Zone to download', aliases: '-n', type: :string, required: true
     option :provider, desc: 'Provider in which this zone exists', aliases: '-p', type: :string
     desc 'download', 'Downloads all records from zone and creates YAML zone definition in zones/ '\
-                     'e.g. record-store download --name=shopify.io'
+      'e.g. record-store download --name=shopify.io'
     def download
       name = options.fetch('name')
       abort('Please omit the period at the end of the zone') if name.ends_with?('.')

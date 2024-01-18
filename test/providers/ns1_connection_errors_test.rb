@@ -108,7 +108,7 @@ class NS1ConnectionErrorsTest < Minitest::Test
     stub_request(:get, "https://api.nsone.net/v1/zones")
       .to_return(
         body: '<!DOCTYPE html> <title>Temporarily unavailable | api.nsone.net | Cloudflare</title>',
-        status: 503
+        status: 503,
       )
       .times(5)
 

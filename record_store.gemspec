@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary     = 'Manage DNS using git'
   spec.description = "Manage DNS through a git-based workflow. If you're looking for the original 'record_store',"\
-                     " that has been renamed to 'sequel_record_store'."
+    " that has been renamed to 'sequel_record_store'."
   spec.homepage    = 'https://github.com/Shopify/record_store'
   spec.license     = 'MIT'
 
@@ -26,28 +26,28 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.0'
 
-  spec.add_runtime_dependency 'thor', '~> 0.20.3'
-  spec.add_runtime_dependency 'activesupport', '>= 4.2'
   spec.add_runtime_dependency 'activemodel', '>= 4.2'
+  spec.add_runtime_dependency 'activesupport', '>= 4.2'
   spec.add_runtime_dependency 'ejson'
+  spec.add_runtime_dependency 'thor', '>= 0.20.3', '< 1.4.0'
 
+  spec.add_runtime_dependency 'dnsimple', '>= 4.4', '< 8.8'
+  spec.add_runtime_dependency 'fog-dynect', '>= 0.4', '< 0.6'
   spec.add_runtime_dependency 'fog-json'
   spec.add_runtime_dependency 'fog-xml'
-  spec.add_runtime_dependency 'fog-dynect', '~> 0.4.0'
-  spec.add_runtime_dependency 'dnsimple', '>= 4.4', '< 8.8'
   spec.add_runtime_dependency 'google-cloud-dns', '~> 0.31'
-  spec.add_runtime_dependency 'ruby-limiter', '~> 1.0', '>= 1.0.1'
   spec.add_runtime_dependency 'ns1'
   spec.add_runtime_dependency 'oci', '~> 2.14.0'
+  spec.add_runtime_dependency 'ruby-limiter', '>= 1.0.1', '< 3'
 
-  spec.add_development_dependency 'byebug'
-  spec.add_development_dependency 'rake'
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'mocha'
-  spec.add_development_dependency 'vcr'
-  spec.add_development_dependency 'pry'
-  spec.add_development_dependency 'webmock'
-  spec.add_development_dependency 'rubocop', '~> 1.18.0'
-  spec.add_development_dependency 'rubocop-shopify', '~> 2.2.0'
+  spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'minitest-focus'
+  spec.add_development_dependency 'mocha'
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rubocop', '~> 1.59.0'
+  spec.add_development_dependency 'rubocop-shopify', '~> 2.14.0'
+  spec.add_development_dependency 'vcr'
+  spec.add_development_dependency 'webmock'
 end

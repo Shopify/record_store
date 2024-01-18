@@ -63,7 +63,7 @@ module RecordStore
       def session
         @dns ||= Dnsimple::Client.new(
           base_url: secrets.fetch('base_url'),
-          access_token: secrets.fetch('api_token')
+          access_token: secrets.fetch('api_token'),
         )
       end
 
