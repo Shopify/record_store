@@ -60,8 +60,55 @@ class CLITest < Minitest::Test
     # pass: CLI is expected to `abort`. Prevent the Minitest reporter from dying.
   end
 
+  def test_validate_records_reports_record_errors
+    with_configuration(zones: ["invalid.com"]) do |config_path, zones_path|
+      zone_path = File.join(zones_path, "invalid.com.yml")
+      zone_yaml = <<~YAML
+        invalid.com:
+          config:
+            providers:
+              - DNSimple
+          records:
+            - type: TXT
+              fqdn: invalid.com.
+              ttl: 3600
+              txtdata: "asdf;asdf"
+      YAML
+
+      File.write(zone_path, zone_yaml)
+
+      RecordStore::CLI.start(["validate_records", "--config", config_path])
+    end
+
+    assert_equal("The following zones were invalid: invalid.com\n", $stderr.string)
+
+    assert_equal(<<~ERROR, $stdout.string)
+      invalid.com definition is not valid:
+       - Records invalid record: [TXTRecord] invalid.com. 3600 IN TXT "asdf;asdf"
+        Invalid records
+          [TXTRecord] invalid.com. 3600 IN TXT "asdf;asdf"
+            - txtdata: has unescaped semicolons (See RFC 1035).
+    ERROR
+  end
+
   def test_returns_nonzero_exit_status
     Thor.expects(:exit).with(false)
     RecordStore::CLI.start(%w(does not exist))
+  end
+
+  private
+
+  def with_configuration(zones: [])
+    Dir.mktmpdir do |dir|
+      config_path = File.join(dir, "config.yml")
+      zones_path = File.join(dir, "zones")
+
+      Dir.mkdir(zones_path)
+      File.write(config_path, build_record_store_config(zones_path: zones_path, zones: zones))
+
+      yield config_path, zones_path
+    end
+  rescue SystemExit
+    # pass: CLI is expected to `abort`. Prevent the Minitest reporter from dying.
   end
 end
