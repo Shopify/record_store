@@ -289,8 +289,10 @@ module RecordStore
 
         invalid_records.each do |record|
           puts "    #{record}"
-          record.errors.each do |field, msg|
-            puts "      - #{field}: #{msg}"
+          record.errors.messages.each do |field, errors|
+            errors.each do |msg|
+              puts "      - #{field}: #{msg}"
+            end
           end
         end
       end

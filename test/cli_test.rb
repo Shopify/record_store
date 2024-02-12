@@ -71,7 +71,7 @@ class CLITest < Minitest::Test
           records:
             - type: TXT
               fqdn: invalid.com.
-              ttl: "3600"
+              ttl: 3600
               txtdata: "asdf;asdf"
       YAML
 
