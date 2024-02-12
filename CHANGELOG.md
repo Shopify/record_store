@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.7.2
+- Fix ActiveModel::Error usage for validate_records (behaviour change in ActiveModel 7)
+
 # 6.7.1
 - Change update_record to update_zone_record for DNSimple
 
