@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# 6.7.1
+- Change update_record to update_zone_record for DNSimple
+
 ## 6.7.0
 - Update dependencies like dnsimple, thor, ruby-limiter
 
