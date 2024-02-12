@@ -57,7 +57,7 @@ module RecordStore
       end
 
       def update(id, record, zone)
-        session.zones.update_record(account_id, zone, id, api_hash(record, zone))
+        session.zones.update_zone_record(account_id, zone, id, api_hash(record, zone))
       end
 
       def session
