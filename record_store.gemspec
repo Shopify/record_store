@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'ejson'
   spec.add_runtime_dependency 'thor', '>= 0.20.3', '< 1.4.0'
 
-  spec.add_runtime_dependency 'dnsimple', '>= 4.4', '< 8.8'
+  spec.add_runtime_dependency 'dnsimple', '>= 4.4', '< 8.9'
   spec.add_runtime_dependency 'fog-dynect', '>= 0.4', '< 0.6'
   spec.add_runtime_dependency 'fog-json'
   spec.add_runtime_dependency 'fog-xml'
