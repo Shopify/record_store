@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones?compartmentId=<ORACLE_CLOUD_DNS_COMPARTMENT_ID>
+    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones?compartmentId=<ORACLE_CLOUD_DNS_COMPARTMENT_ID>
     body:
       encoding: US-ASCII
       string: ''
@@ -42,9 +42,9 @@ http_interactions:
       - Accept-Encoding
     body:
       encoding: ASCII-8BIT
-      string: '[{"zoneType":"PRIMARY","name":"test.terraform.chrome","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.terraform.chrome","timeCreated":"2019-10-17T20:16:45Z","version":"5","serial":5,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..a3b7caf52d624797b5c2ed7dffb55216","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.io","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io","timeCreated":"2019-10-10T17:24:05Z","version":"799","serial":799,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.chrome","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.chrome","timeCreated":"2019-10-07T15:33:43Z","version":"7","serial":7,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..45a5e96b9bf7434e8b441d6b6208681c","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"shopify-test.com","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/shopify-test.com","timeCreated":"2019-09-25T20:22:20Z","version":"1","serial":1,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..3d13ad9087ba46bda815695da88a4482","lifecycleState":"ACTIVE"}]
+      string: '[{"zoneType":"PRIMARY","name":"test.terraform.chrome","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones/test.terraform.chrome","timeCreated":"2019-10-17T20:16:45Z","version":"5","serial":5,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..a3b7caf52d624797b5c2ed7dffb55216","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.io","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones/test.recordstore.io","timeCreated":"2019-10-10T17:24:05Z","version":"799","serial":799,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..ebe870ae24e5440ca314fba2383551cf","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"test.recordstore.chrome","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones/test.recordstore.chrome","timeCreated":"2019-10-07T15:33:43Z","version":"7","serial":7,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..45a5e96b9bf7434e8b441d6b6208681c","lifecycleState":"ACTIVE"},{"zoneType":"PRIMARY","name":"shopify-test.com","self":"https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones/shopify-test.com","timeCreated":"2019-09-25T20:22:20Z","version":"1","serial":1,"compartmentId":"<ORACLE_CLOUD_DNS_COMPARTMENT_ID>","id":"ocid1.dns-zone.oc1..3d13ad9087ba46bda815695da88a4482","lifecycleState":"ACTIVE"}]
 
         '
-    http_version: 
+    http_version:
   recorded_at: Sun, 20 Oct 2019 01:57:51 GMT
 recorded_with: VCR 5.0.0

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: patch
-    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io/records
+    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones/test.recordstore.io/records
     body:
       encoding: UTF-8
       string: '{"items":[{"domain":"test_add_caa.test.recordstore.io.","rdata":"0
@@ -54,11 +54,11 @@ http_interactions:
         2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"4956667caf7bb85c691e5c5237be57e5","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"809","rtype":"A","ttl":10}]}
 
         '
-    http_version: 
+    http_version:
   recorded_at: Sun, 20 Oct 2019 01:59:29 GMT
 - request:
     method: get
-    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oraclecloud.com/20180115/zones/test.recordstore.io/records
+    uri: https://dns.<ORACLE_CLOUD_DNS_REGION>.oci.oraclecloud.com/20180115/zones/test.recordstore.io/records
     body:
       encoding: US-ASCII
       string: ''
@@ -106,6 +106,6 @@ http_interactions:
         2\"","rrsetVersion":"807","rtype":"TXT","ttl":600},{"domain":"test_updating_ttl.test.recordstore.io","recordHash":"4956667caf7bb85c691e5c5237be57e5","isProtected":false,"rdata":"10.10.10.1","rrsetVersion":"809","rtype":"A","ttl":10}]}
 
         '
-    http_version: 
+    http_version:
   recorded_at: Sun, 20 Oct 2019 01:59:30 GMT
 recorded_with: VCR 5.0.0
