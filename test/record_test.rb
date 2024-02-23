@@ -294,36 +294,36 @@ class RecordTest < Minitest::Test
   def test_consistent_print_formatting
     assert_equal('[ARecord] test.dns-test.shopify.io. 600 IN A 10.11.12.13', RECORD_FIXTURES[:a].to_s)
     assert_equal(
-      '[AAAARecord] aaaa.dns-test.shopify.io. 60 IN AAAA '\
+      '[AAAARecord] aaaa.dns-test.shopify.io. 60 IN AAAA ' \
         '2001:0db8:85a3:0000:0000:EA75:1337:BEEF',
       RECORD_FIXTURES[:aaaa].to_s,
     )
     assert_equal(
-      '[ALIASRecord] dns-test.shopify.io. 60 IN ALIAS '\
+      '[ALIASRecord] dns-test.shopify.io. 60 IN ALIAS ' \
         'dns-test.herokuapp.com.',
       RECORD_FIXTURES[:alias_rr].to_s,
     )
     assert_equal(
-      '[CAARecord] cname.dns-test.shopify.io. 1800 IN CAA 0 issue '\
+      '[CAARecord] cname.dns-test.shopify.io. 1800 IN CAA 0 issue ' \
         '"digicert.com"',
       RECORD_FIXTURES[:caa].to_s,
     )
     assert_equal(
-      '[CNAMERecord] cname.dns-test.shopify.io. 60 IN CNAME '\
+      '[CNAMERecord] cname.dns-test.shopify.io. 60 IN CNAME ' \
         'dns-test.shopify.io.',
       RECORD_FIXTURES[:cname].to_s,
     )
     assert_equal('[MXRecord] mx.dns-test.shopify.io. 60 IN MX 10 mail-server.example.com.', RECORD_FIXTURES[:mx].to_s)
     assert_equal('[NSRecord] dns-test.shopify.io. 3600 IN NS ns1.dynect.net.', RECORD_FIXTURES[:ns].to_s)
     assert_equal(
-      '[SRVRecord] _service._tcp.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 '\
+      '[SRVRecord] _service._tcp.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 ' \
         'target-srv.dns-test.shopify.io.',
       RECORD_FIXTURES[:srv].to_s,
     )
     assert_equal('[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s)
     assert_equal('[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s)
     assert_equal(
-      '[SSHFPRecord] dns-test.shopify.io. 3600 IN SSHFP 4 2 '\
+      '[SSHFPRecord] dns-test.shopify.io. 3600 IN SSHFP 4 2 ' \
         '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
       RECORD_FIXTURES[:sshfp].to_s,
     )

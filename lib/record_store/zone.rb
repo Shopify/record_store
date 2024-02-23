@@ -312,8 +312,8 @@ module RecordStore
           .select { |record| record.match?(/^([a-zA-Z0-9\-_]+)#{Regexp.escape(suffix)}$/) }
         terminal_records.each do |terminal_record|
           non_terminal = terminal_record.partition('.').last
-          errors.add(:records, "found empty non-terminal #{non_terminal} "\
-            "(caused by existing records #{wildcard} and #{terminal_record})")\
+          errors.add(:records, "found empty non-terminal #{non_terminal} " \
+            "(caused by existing records #{wildcard} and #{terminal_record})") \
             unless intermediate_records.include?(non_terminal)
         end
       end
