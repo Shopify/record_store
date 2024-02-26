@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.email       = ['willem@railsdoctors.com', 'emil@shopify.com']
 
   spec.summary     = 'Manage DNS using git'
-  spec.description = "Manage DNS through a git-based workflow. If you're looking for the original 'record_store',"\
-    " that has been renamed to 'sequel_record_store'."
+  spec.description = "Manage DNS through a git-based workflow. If you're looking for the original 'record_store', " \
+    "that has been renamed to 'sequel_record_store'."
   spec.homepage    = 'https://github.com/Shopify/record_store'
   spec.license     = 'MIT'
 
@@ -47,7 +47,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rubocop', '~> 1.60.2'
-  spec.add_development_dependency 'rubocop-shopify', '~> 2.14.0'
+  spec.add_development_dependency 'rubocop-shopify', '~> 2.15.1'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
 end

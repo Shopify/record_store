@@ -163,12 +163,12 @@ class ZoneTest < Minitest::Test
     refute_predicate(zone, :valid?)
     assert_equal(2, zone.errors[:records].length)
     assert_equal(
-      "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
+      "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. " \
         "600 IN CNAME alternative.example.com.",
       zone.errors[:records][0],
     )
     assert_equal(
-      "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. "\
+      "Multiple CNAME records are defined for www.example.com.: [CNAMERecord] www.example.com. " \
         "600 IN CNAME real.example.com.",
       zone.errors[:records][1],
     )
@@ -180,7 +180,7 @@ class ZoneTest < Minitest::Test
     refute_predicate(zone, :valid?)
     assert_equal(1, zone.errors[:records].length)
     assert_equal(
-      "A CNAME record is defined for www.example.com., so this record is not allowed: "\
+      "A CNAME record is defined for www.example.com., so this record is not allowed: " \
         "[ARecord] www.example.com. 600 IN A 1.2.3.4",
       zone.errors[:records].first,
     )
@@ -191,7 +191,7 @@ class ZoneTest < Minitest::Test
     refute_predicate(zone, :valid?)
     assert_equal(1, zone.errors[:records].length)
     assert_equal(
-      'A CNAME record cannot be defined on the root of the zone: [CNAMERecord] example.com. '\
+      'A CNAME record cannot be defined on the root of the zone: [CNAMERecord] example.com. ' \
         '600 IN CNAME www.example.com.',
       zone.errors[:records][0],
     )
@@ -423,7 +423,7 @@ class ZoneTest < Minitest::Test
 
     refute_predicate(invalid_zone, :valid?)
     assert_equal(
-      "All TXT records for matching-records.com. "\
+      "All TXT records for matching-records.com. " \
         "should have the same TTL",
       invalid_zone.errors[:records].first,
     )
