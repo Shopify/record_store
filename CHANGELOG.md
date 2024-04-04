@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 6.8.0
+- Validate that there are no A/AAAA record conflicts with ALIAS records
+
 ## 6.7.2
 - Fix ActiveModel::Error usage for validate_records (behaviour change in ActiveModel 7)
 
