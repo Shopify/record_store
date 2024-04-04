@@ -22,6 +22,7 @@ module RecordStore
     validate :validate_can_handle_alias_records
     validate :validate_no_duplicate_keys
     validate :validate_zone_record_not_shadowed
+    validate :validate_alias_has_no_conflicts
 
     class << self
       def download(name, provider_name, **write_options)
@@ -262,6 +263,27 @@ module RecordStore
 
       unless cname_record.nil?
         errors.add(:records, "A CNAME record cannot be defined on the root of the zone: #{cname_record}")
+      end
+    end
+
+    # CNAME conflict is handled by validate_cname_records_for_same_fqdn
+    ALIAS_CONFLICTS = [
+      "A",
+      "AAAA",
+    ]
+
+    def validate_alias_has_no_conflicts
+      alias_records = records.select { |record| record.is_a?(Record::ALIAS) }
+
+      alias_records.each do |alias_record|
+        records.each do |record|
+          next unless ALIAS_CONFLICTS.include?(record.type)
+          next unless record.fqdn == alias_record.fqdn
+
+          errors.add(:records, "#{record.type} record conflicts with ALIAS:\n" \
+            "- #{alias_record}\n" \
+            "- #{record}")
+        end
       end
     end
 
