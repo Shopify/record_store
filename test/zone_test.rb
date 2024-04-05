@@ -197,6 +197,36 @@ class ZoneTest < Minitest::Test
     )
   end
 
+  def test_zone_with_alias_conflicts
+    zone = Zone.new(
+      name: 'example.com',
+      config: { providers: ['DynECT'], supports_alias: true },
+    )
+
+    zone.records = [
+      Record::ALIAS.new(fqdn: 'www.example.com.', ttl: 600, alias: 'other.example.com.'),
+      Record::TXT.new(fqdn: 'www.example.com.', ttl: 600, txtdata: 'example'),
+    ]
+
+    assert_predicate(zone, :valid?)
+
+    zone.records = [
+      Record::ALIAS.new(fqdn: 'www.example.com.', ttl: 600, alias: 'other.example.com.'),
+      Record::A.new(fqdn: 'www.example.com.', ttl: 600, address: '1.2.3.4'),
+    ]
+
+    refute_predicate(zone, :valid?)
+    assert_match(/A record conflicts with ALIAS/, zone.errors[:records].first)
+
+    zone.records = [
+      Record::ALIAS.new(fqdn: 'www.example.com.', ttl: 600, alias: 'other.example.com.'),
+      Record::AAAA.new(fqdn: 'www.example.com.', ttl: 600, address: '2001:db8:85a3::ea75:1337:beef'),
+    ]
+
+    refute_predicate(zone, :valid?)
+    assert_match(/AAAA record conflicts with ALIAS/, zone.errors[:records].first)
+  end
+
   def test_filter_records
     records = [
       Record::CNAME.new(fqdn: 'www.example.com.', ttl: 600, cname: 'real.example.com.'),
