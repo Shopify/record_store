@@ -197,7 +197,6 @@ class ZoneTest < Minitest::Test
     )
   end
 
-  focus
   def test_zone_with_alias_conflicts
     zone = Zone.new(
       name: 'example.com',
