@@ -6,7 +6,7 @@ module RecordStore
   class Provider::DNSimple < Provider
     class << self
       def record_types
-        super | Set.new(%w(PTR SSHFP))
+        super | Set.new(%w(PTR SSHFP URL))
       end
 
       def supports_alias?
@@ -127,6 +127,8 @@ module RecordStore
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
           )
+        when 'URL'
+          record.merge!(content: api_record.content)
         end
 
         Record.const_get(record_type).new(record)
@@ -162,6 +164,8 @@ module RecordStore
         when 'SRV'
           record_hash[:content] = "#{record.weight} #{record.port} #{record.target.chomp('.')}"
           record_hash[:priority] = record.priority
+        when 'URL'
+          record_hash[:content] = record.content
         end
         record_hash
       end

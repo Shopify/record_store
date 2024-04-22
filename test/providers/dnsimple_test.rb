@@ -128,6 +128,29 @@ class DNSimpleTest < Minitest::Test
     assert_equal(60, record.ttl)
   end
 
+  def test_build_url_from_api
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 5199675,
+      "domain_id" => 222002,
+      "parent_id" => nil,
+      "name" => "www",
+      "content" => "http://example.com",
+      "ttl" => 60,
+      "priority" => nil,
+      "type" => "URL",
+      "system_record" => false,
+      "created_at" => "2015-12-11T16:30:41.284Z",
+      "updated_at" => "2015-12-11T16:30:41.284Z",
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of(Record::URL, record)
+    assert_equal('www.dns-scratch.me.', record.fqdn)
+    assert_equal('http://example.com', record.content)
+    assert_equal(60, record.ttl)
+  end
+
   def test_build_mx_from_api
     api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 5196959,
