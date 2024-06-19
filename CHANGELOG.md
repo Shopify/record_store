@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.0.1
+- Allow an underscore in the middle of a CNAME record
+
 ## 7.0.0
 - Validate that there are no A/AAAA record conflicts with ALIAS records
 

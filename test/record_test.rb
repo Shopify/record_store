@@ -58,6 +58,21 @@ class RecordTest < Minitest::Test
     assert_equal(5, record.ttl)
   end
 
+  def test_build_cname_from_yaml_definition
+    yaml_snippet = <<-YAML
+      type: CNAME
+      fqdn: _acme-challenge_accepted.somewhere.example.com.
+      cname: challenge.dns-test.shopify.io.
+      ttl: 5 # TTL times are in seconds
+    YAML
+
+    record = Record.build_from_yaml_definition(YAML.load(yaml_snippet).symbolize_keys)
+
+    assert_kind_of(Record::CNAME, record)
+    assert_equal("_acme-challenge_accepted.somewhere.example.com.", record.fqdn)
+    assert(record.valid?)
+  end
+
   def test_downcases_fqdn
     yaml_snippet = <<-YAML
       type: TXT
