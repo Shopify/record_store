@@ -340,7 +340,7 @@ class CloudflareTest < Minitest::Test
     end
   end
 
-  def test_add_changset_missing_zone
+  def test_add_changeset_missing_zone
     record = Record::A.new(fqdn: 'missingzone.example.com', ttl: 600, address: '192.0.2.1')
     assert_raises(RecordStore::Provider::Cloudflare::ZoneNotFound) do
       @cloudflare.apply_changeset(Changeset.new(
