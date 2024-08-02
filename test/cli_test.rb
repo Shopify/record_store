@@ -15,12 +15,13 @@ class CLITest < Minitest::Test
     Dir.mktmpdir do |dir|
       File.write(config_path = "#{dir}/config.yml", build_record_store_config)
       File.write("#{dir}/#{EJSON_PUBLIC_KEY}", EJSON_PRIVATE_KEY)
-      File.write(secrets_ejson_path = "#{dir}/secrets.#{ENV['CI'] ? 'ci' : 'dev'}.ejson", secrets_ejson = """
-{
-  \"_public_key\": \"#{EJSON_PUBLIC_KEY}\",
-  \"secret\": \"password\"
-}
-""")
+      File.write(secrets_ejson_path = "#{dir}/secrets.#{ENV['CI'] ? 'ci' : 'dev'}.ejson", secrets_ejson = <<~EJSON
+        {
+          "_public_key": "#{EJSON_PUBLIC_KEY}",
+          "secret": "password"
+        }
+      EJSON
+      )
       ENV['EJSON_KEYDIR'] = dir
       %x(ejson encrypt #{secrets_ejson_path})
 
