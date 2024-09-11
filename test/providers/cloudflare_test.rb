@@ -4,12 +4,12 @@ class CloudflareTest < Minitest::Test
   def setup
     super
     # TODO: Remove this skip line
-    skip("Implementation pending")
     @zone_name = 'example.com'
     @cloudflare = Provider::Cloudflare
   end
 
   def test_build_aaaa_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123457",
       "type" => "AAAA",
@@ -28,6 +28,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_caa_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123458",
       "type" => "CAA",
@@ -47,6 +48,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_cname_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123459",
       "type" => "CNAME",
@@ -65,6 +67,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_mx_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123460",
       "type" => "MX",
@@ -83,6 +86,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_ns_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123461",
       "type" => "NS",
@@ -100,6 +104,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_ptr_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123462",
       "type" => "PTR",
@@ -116,6 +121,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_sshfp_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123463",
       "type" => "SSHFP",
@@ -134,6 +140,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_spf_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123464",
       "type" => "SPF",
@@ -151,6 +158,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_txt_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123465",
       "type" => "TXT",
@@ -168,6 +176,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_srv_from_api
+    skip("Implementation pending")
     api_record = {
       "id" => "123466",
       "type" => "SRV",
@@ -189,6 +198,7 @@ class CloudflareTest < Minitest::Test
 
   # Tests for applying changesets and retrieving records
   def test_apply_changeset
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'apply.example.com', ttl: 600, address: '192.0.2.1')
     changeset = Changeset.new(current_records: [], desired_records: [record], provider: @cloudflare, zone: @zone_name)
 
@@ -197,6 +207,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_retrieve_current_records_returns_array_of_records
+    skip("Implementation pending")
     records = @cloudflare.retrieve_current_records(zone: @zone_name)
     assert_kind_of(Array, records)
     records.each do |record|
@@ -205,11 +216,13 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_zones
+    skip("Implementation pending")
     zones = @cloudflare.zones
     assert_includes(zones, @zone_name)
   end
 
   def test_add_changeset
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'add.example.com', ttl: 600, address: '192.0.2.1')
     changeset = Changeset.new(current_records: [], desired_records: [record], provider: @cloudflare, zone: @zone_name)
 
@@ -218,6 +231,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_add_multiple_changesets
+    skip("Implementation pending")
     records = [
       Record::A.new(fqdn: 'multi1.example.com', ttl: 600, address: '192.0.2.1'),
       Record::A.new(fqdn: 'multi2.example.com', ttl: 600, address: '192.0.2.2')
@@ -232,6 +246,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_remove_changeset
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'remove.example.com', ttl: 600, address: '192.0.2.1')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -251,6 +266,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_update_changeset
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'update.example.com', ttl: 600, address: '192.0.2.1')
     updated_record = record.dup
     updated_record.address = '192.0.2.2'
@@ -274,6 +290,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_update_changeset_where_domain_doesnt_exist
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'nonexistent.example.com', ttl: 600, address: '192.0.2.1')
     updated_record = record.dup
     updated_record.address = '192.0.2.2'
@@ -289,6 +306,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_apply_changeset_where_response_is_unparseable
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'unparseable.example.com', ttl: 600, address: '192.0.2.1')
     @cloudflare.stub(:parse_response, nil) do
       assert_raises(RecordStore::Provider::UnparseableBodyError) do
@@ -303,6 +321,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_update_changeset_for_fqdn_with_multiple_answers
+    skip("Implementation pending")
     records = [
       Record::A.new(fqdn: 'multi.example.com', ttl: 600, address: '192.0.2.1'),
       Record::A.new(fqdn: 'multi.example.com', ttl: 600, address: '192.0.2.2')
@@ -329,6 +348,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_add_changeset_with_nil_zone
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'nilzone.example.com', ttl: 600, address: '192.0.2.1')
     assert_raises(ArgumentError) do
       @cloudflare.apply_changeset(Changeset.new(
@@ -341,6 +361,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_add_changeset_missing_zone
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'missingzone.example.com', ttl: 600, address: '192.0.2.1')
     assert_raises(RecordStore::Provider::Cloudflare::ZoneNotFound) do
       @cloudflare.apply_changeset(Changeset.new(
@@ -353,6 +374,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'addedrecord.example.com', ttl: 600, address: '192.0.2.1')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -365,6 +387,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_updating_record_ttl
+    skip("Implementation pending")
     record = Record::A.new(fqdn: 'ttlupdate.example.com', ttl: 600, address: '192.0.2.1')
     updated_record = record.dup
     updated_record.ttl = 3600
@@ -388,6 +411,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_alias_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::ALIAS.new(fqdn: 'alias.example.com', ttl: 600, alias: 'target.example.com')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -400,6 +424,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_caa_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::CAA.new(fqdn: 'caa.example.com', ttl: 600, flags: 0, tag: 'issue', value: 'letsencrypt.org')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -412,6 +437,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_cname_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::CNAME.new(fqdn: 'cname.example.com', ttl: 600, cname: 'real.example.com')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -424,6 +450,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_mx_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::MX.new(fqdn: 'mx.example.com', ttl: 600, preference: 10, exchange: 'mail.example.com')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -436,6 +463,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_ns_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::NS.new(fqdn: 'ns.example.com', ttl: 600, nsdname: 'ns1.example.com')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -448,6 +476,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_txt_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::TXT.new(fqdn: 'txt.example.com', ttl: 600, txtdata: 'Hello World!')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -460,6 +489,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_spf_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::SPF.new(fqdn: 'spf.example.com', ttl: 600, txtdata: 'v=spf1 include:example.com ~all')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
@@ -472,6 +502,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_srv_record_retrieved_after_adding_record_changeset
+    skip("Implementation pending")
     record = Record::SRV.new(
       fqdn: '_sip._tcp.example.com',
       ttl: 600,
@@ -491,6 +522,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_remove_record_should_not_remove_all_records_for_fqdn
+    skip("Implementation pending")
     record1 = Record::A.new(fqdn: 'multi.example.com', ttl: 600, address: '192.0.2.1')
     record2 = Record::A.new(fqdn: 'multi.example.com', ttl: 600, address: '192.0.2.2')
     @cloudflare.apply_changeset(Changeset.new(
@@ -512,6 +544,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_creates_ptr_records
+    skip("Implementation pending")
     record = Record::PTR.new(fqdn: '4.3.2.1.in-addr.arpa', ttl: 600, ptrdname: 'host.example.com')
     @cloudflare.apply_changeset(Changeset.new(
       current_records: [],
