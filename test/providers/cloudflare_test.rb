@@ -3,41 +3,46 @@ require 'test_helper'
 class CloudflareTest < Minitest::Test
   def setup
     super
-    # TODO: Remove this skip line
-    @zone_name = 'example.com'
+    @zone_name = 'staging.shopitest.com'
     @cloudflare = Provider::Cloudflare
   end
 
-  def test_build_aaaa_from_api
-    skip("Implementation pending")
+  def test_zones
+    VCR.use_cassette('cloudflare_test_zones') do
+      zones = @cloudflare.zones
+      assert_includes(zones, @zone_name)
+    end
+  end
+
+  def test_build_a_from_api
     api_record = {
-      "id" => "123457",
-      "type" => "AAAA",
-      "name" => "aaaa",
-      "content" => "2606:2800:220:1:248:1893:25c8:1946",
-      "ttl" => 3600,
-      "proxied" => false
+      "id" => "e4b2b841a1126746d255275c2f1aa41",
+      "zone_id" => "1a234bc567dea8a9b01251e19abcde8a",
+      "zone_name" => "example.com",
+      "name" => "www.example.com",
+      "type" => "A",
+      "content" => "192.0.2.1",
+      "ttl" => 1,
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
-    assert_kind_of(Record::AAAA, record)
-    assert_equal('aaaa.example.com.', record.fqdn)
-    assert_equal('2606:2800:220:1:248:1893:25c8:1946', record.address)
-    assert_equal(3600, record.ttl)
+    assert_kind_of(Record::A, record)
+    assert_equal('www.example.com.', record.fqdn)
+    assert_equal('192.0.2.1', record.address)
+    assert_equal(1, record.ttl)
   end
 
   def test_build_caa_from_api
-    skip("Implementation pending")
     api_record = {
       "id" => "123458",
       "type" => "CAA",
-      "name" => "secure",
+      "name" => "secure.example.com",
       "content" => "0 issue \"letsencrypt.org\"",
       "ttl" => 3600
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::CAA, record)
     assert_equal('secure.example.com.', record.fqdn)
@@ -48,26 +53,25 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_cname_from_api
-    skip("Implementation pending")
     api_record = {
-      "id" => "123459",
+      "id" => "e4b2b841a1126746d255275c2f1aa41",
+      "zone_id" => "1a234bc567dea8a9b01251e19abcde8a",
+      "zone_name" => "example.com",
+      "name" => "shopify.example.com",
       "type" => "CNAME",
-      "name" => "www",
-      "content" => "example.com",
-      "ttl" => 3600,
-      "proxied" => true
+      "content" => "shopify.com",
+      "ttl" => 1,
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::CNAME, record)
-    assert_equal('www.example.com.', record.fqdn)
-    assert_equal('example.com.', record.cname)
-    assert_equal(3600, record.ttl)
+    assert_equal('shopify.example.com.', record.fqdn)
+    assert_equal('shopify.com.', record.cname)
+    assert_equal(1, record.ttl)
   end
 
   def test_build_mx_from_api
-    skip("Implementation pending")
     api_record = {
       "id" => "123460",
       "type" => "MX",
@@ -77,7 +81,7 @@ class CloudflareTest < Minitest::Test
       "priority" => 10
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::MX, record)
     assert_equal('mail.example.com.', record.exchange)
@@ -86,12 +90,12 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_ns_from_api
-    skip("Implementation pending")
+    skip("Is this needed in CF?")
     api_record = {
       "id" => "123461",
       "type" => "NS",
       "name" => "",
-      "content" => "ns1.cloudflare.com",
+      "content" => ".cloudflare.com",
       "ttl" => 3600
     }
 
@@ -104,7 +108,6 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_ptr_from_api
-    skip("Implementation pending")
     api_record = {
       "id" => "123462",
       "type" => "PTR",
@@ -113,7 +116,7 @@ class CloudflareTest < Minitest::Test
       "ttl" => 3600
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::PTR, record)
     assert_equal('host.example.com.', record.ptrdname)
@@ -121,7 +124,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_build_sshfp_from_api
-    skip("Implementation pending")
+    skip("Not supported by CF?")
     api_record = {
       "id" => "123463",
       "type" => "SSHFP",
@@ -139,53 +142,34 @@ class CloudflareTest < Minitest::Test
     assert_equal(3600, record.ttl)
   end
 
-  def test_build_spf_from_api
-    skip("Implementation pending")
-    api_record = {
-      "id" => "123464",
-      "type" => "SPF",
-      "name" => "spf",
-      "content" => "\"v=spf1 include:example.com ~all\"",
-      "ttl" => 3600
-    }
-
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
-
-    assert_kind_of(Record::SPF, record)
-    assert_equal('spf.example.com.', record.fqdn)
-    assert_equal("\"v=spf1 include:example.com ~all\"", record.txtdata)
-    assert_equal(3600, record.ttl)
-  end
-
   def test_build_txt_from_api
-    skip("Implementation pending")
     api_record = {
       "id" => "123465",
       "type" => "TXT",
-      "name" => "txt",
-      "content" => "\"Hello, world!\"",
+      "name" => "example.com",
+      "content" => "v=spf1 ip4:192.0.2.0; \"Hello, world!\"",
       "ttl" => 3600
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::TXT, record)
-    assert_equal('txt.example.com.', record.fqdn)
-    assert_equal("\"Hello, world!\"", record.txtdata)
+    assert_equal('example.com.', record.fqdn)
+    assert_equal("v=spf1 ip4:192.0.2.0\\; \"Hello, world!\"", record.txtdata)
     assert_equal(3600, record.ttl)
   end
 
   def test_build_srv_from_api
-    skip("Implementation pending")
     api_record = {
       "id" => "123466",
       "type" => "SRV",
-      "name" => "_sip._tcp",
-      "content" => "10 50 5060 sipserver.example.com",
+      "name" => "_sip._tcp.example.com",
+      "content" => "50 5060 sipserver.example.com",
+      "priority" => "10",
       "ttl" => 3600
     }
 
-    record = @cloudflare.send(:build_from_api, api_record, @zone_name)
+    record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::SRV, record)
     assert_equal('_sip._tcp.example.com.', record.fqdn)
@@ -213,12 +197,6 @@ class CloudflareTest < Minitest::Test
     records.each do |record|
       assert_kind_of(Record, record)
     end
-  end
-
-  def test_zones
-    skip("Implementation pending")
-    zones = @cloudflare.zones
-    assert_includes(zones, @zone_name)
   end
 
   def test_add_changeset
