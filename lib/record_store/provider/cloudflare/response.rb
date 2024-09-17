@@ -53,8 +53,8 @@ module Cloudflare
       return {} unless json_content?
 
       JSON.parse(@http_response.body)
-    rescue JSON::JSONError
-      {}
+    rescue JSON::ParserError => e
+      raise "JSON parsing error: #{e.message}"
     end
   end
 end
