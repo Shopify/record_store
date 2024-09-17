@@ -66,7 +66,12 @@ module Cloudflare
 
         cloudflare_headers.each { |k, v| request[k] = v }
 
-        conn.request(request)
+        begin
+          response = conn.request(request)
+        rescue StandardError => e
+          raise "HTTP error: #{e.message}"
+        end
+        response
       end
     end
 
