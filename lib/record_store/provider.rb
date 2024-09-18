@@ -121,15 +121,15 @@ module RecordStore
 
       private
 
-      def add(record)
+      def add(record, zone)
         raise NotImplementedError
       end
 
-      def remove(record)
+      def remove(record, zone)
         raise NotImplementedError
       end
 
-      def update(id, record)
+      def update(id, record, zone)
         raise NotImplementedError
       end
 
