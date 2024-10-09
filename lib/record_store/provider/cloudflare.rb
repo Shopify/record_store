@@ -18,29 +18,25 @@ module RecordStore
         false
       end
 
-      # Must implement for parent class
       # Returns: an array of `Record` for each record in the provider's zone
       def retrieve_current_records(zone:, stdout: $stdout)
-        # TODO: fake implementation
+        zone_id = zone_name_to_id(zone)
+
         retry_on_connection_errors do
-          session.zones.all_zone_records(account_id, zone).data.map do |record|
-            build_from_api(record, zone)
-          rescue StandardError
-            stdout.puts "Cannot build record: #{record}"
-            raise
-          end.compact
+          client.get("/client/v4/zones/#{zone_id}/dns_records").result_raw.map do |api_record|
+            build_from_api(api_record)
+          end
         end
       end
 
       # Returns an array of the zones managed by provider as strings
-      # Cloudflare returns zones across all accounts
+      # Cloudflare returns zones across all accounts accessible by the API token
+      # Can implement filtering in request if needed
       def zones
         retry_on_connection_errors do
           client.get('/client/v4/zones').result_raw.map { |zone| zone['name'] }
         end
       end
-
-      # there's no need to wrap `Provider#apply_changeset` unless it's necessary to do something before/after making changes to a zone._
 
       private
 
@@ -62,8 +58,23 @@ module RecordStore
         end
       end
 
-      def update(record, zone)
-        # Implementation for updating a record in the provider's zone
+      def update(id, record, zone)
+        zone_id = zone_name_to_id(zone)
+
+        current_records = retrieve_current_records(zone: zone)
+        existing_record = current_records.find { |r| r.id == id }
+
+        if existing_record.nil?
+          raise RecordStore::Provider::Error, "Record with id #{id} not found"
+        elsif existing_record.fqdn != record.fqdn
+          raise RecordStore::Provider::Error, "FQDN mismatch for record with id #{id}"
+        end
+
+        api_record = build_api_body(record)
+
+        retry_on_connection_errors do
+          client.put("/client/v4/zones/#{zone_id}/dns_records/#{id}", api_record)
+        end
       end
 
       def secrets
@@ -73,12 +84,12 @@ module RecordStore
       def build_api_body(record)
         api_record = {
           comment: '',
-          name: record[:fqdn],
+          name: record.fqdn,
           proxied: false,
           settings: {},
-          tags: record[:tags] || [],
-          ttl: record[:ttl] || 1,
-          type: record[:type],
+          tags: [],
+          ttl: record.ttl,
+          type: record.type,
         }
         case record
         when Record::A, Record::AAAA
@@ -101,7 +112,6 @@ module RecordStore
         api_record
       end
 
-      # Not required but used in proctical implementations of retrieve_current_records
       def build_from_api(api_record)
         fqdn = Record.ensure_ends_with_dot(api_record['name'])
 
@@ -141,6 +151,8 @@ module RecordStore
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
           )
+        when 'NS'
+          record.merge!(nsdname: api_record['content'])
           # TODO: How to build ALIAS?
         end
 
