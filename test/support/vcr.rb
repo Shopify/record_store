@@ -29,6 +29,9 @@ SECRET_KEYS = {
     tenancy
     region
   ),
+  'cloudflare' => %w(
+    api_token
+  ),
 }
 
 VCR.configure do |config|

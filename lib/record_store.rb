@@ -36,6 +36,7 @@ require 'record_store/provider/dnsimple'
 require 'record_store/provider/google_cloud_dns'
 require 'record_store/provider/ns1'
 require 'record_store/provider/oracle_cloud_dns'
+require 'record_store/provider/cloudflare'
 require 'record_store/cli'
 
 module RecordStore

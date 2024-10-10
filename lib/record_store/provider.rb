@@ -36,6 +36,7 @@ module RecordStore
           'NS1'
         when /\.oraclecloud\.net\z/
           'OracleCloudDNS'
+          # TODO: add when /\.cloudflare\.com\z/
         end
       end
 
@@ -121,15 +122,15 @@ module RecordStore
 
       private
 
-      def add(record)
+      def add(record, zone)
         raise NotImplementedError
       end
 
-      def remove(record)
+      def remove(record, zone)
         raise NotImplementedError
       end
 
-      def update(id, record)
+      def update(id, record, zone)
         raise NotImplementedError
       end
 

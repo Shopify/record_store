@@ -1,11 +1,11 @@
 require 'net/http'
+require_relative 'response'
 
 module Cloudflare
   class Client
-    attr_reader :config
-
-    def initialize(config = Cloudflare::Configuration.new)
-      @config = config
+    def initialize(api_fqdn, api_token)
+      @api_fqdn = api_fqdn
+      @api_token = api_token
     end
 
     def get(endpoint, params = {})
@@ -82,13 +82,13 @@ module Cloudflare
         'User-Agent' => "Ruby",
         'Accept' => 'application/json',
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{config.api_token}"
+        'Authorization' => "Bearer #{@api_token}"
       }
     end
 
     def build_uri(endpoint, params = {})
       URI::HTTPS.build(
-        host: config.api_host,
+        host: @api_fqdn,
         path: endpoint.chomp('/'),
         query: URI.encode_www_form(params),
       )
