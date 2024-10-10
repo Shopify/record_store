@@ -3,10 +3,9 @@ require_relative 'response'
 
 module Cloudflare
   class Client
-    def initialize(api_fqdn, api_token, account_id)
+    def initialize(api_fqdn, api_token)
       @api_fqdn = api_fqdn
       @api_token = api_token
-      @account_id = account_id
     end
 
     def get(endpoint, params = {})

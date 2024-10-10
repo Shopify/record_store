@@ -31,7 +31,6 @@ SECRET_KEYS = {
   ),
   'cloudflare' => %w(
     api_token
-    account_id
   ),
 }
 

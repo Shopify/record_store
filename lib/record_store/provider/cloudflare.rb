@@ -163,7 +163,6 @@ module RecordStore
         Cloudflare::Client.new(
           secrets['api_fqdn'],
           secrets['api_token'],
-          secrets['account_id'],
         )
       end
 
