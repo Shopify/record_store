@@ -73,7 +73,7 @@ module RecordStore
         api_record = build_api_body(record)
 
         retry_on_connection_errors do
-          client.put("/client/v4/zones/#{zone_id}/dns_records/#{id}", api_record)
+          client.patch("/client/v4/zones/#{zone_id}/dns_records/#{id}", api_record)
         end
       end
 
@@ -83,11 +83,7 @@ module RecordStore
 
       def build_api_body(record)
         api_record = {
-          comment: '',
           name: record.fqdn,
-          proxied: false,
-          settings: {},
-          tags: [],
           ttl: record.ttl,
           type: record.type,
         }
