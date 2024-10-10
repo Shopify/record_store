@@ -105,6 +105,8 @@ module RecordStore
           api_record[:type] = 'CNAME'
           api_record[:content] = record.rdata_txt
           api_record[:settings] = { flatten_cname: true }
+        when Record::NS
+          api_record[:content] = record.nsdname
         end
 
         api_record
