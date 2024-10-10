@@ -61,6 +61,7 @@ class CloudflareTest < Minitest::Test
       "type" => "CNAME",
       "content" => "shopify.com",
       "ttl" => 1,
+      "settings" => { "flatten_cname" => false }
     }
 
     record = @cloudflare.send(:build_from_api, api_record)
@@ -157,6 +158,24 @@ class CloudflareTest < Minitest::Test
     assert_equal(50, record.weight)
     assert_equal(5060, record.port)
     assert_equal('sipserver.record-store-dns-tests.shopitest.com.', record.target)
+    assert_equal(3600, record.ttl)
+  end
+
+  def test_build_alias_from_api
+    api_record = {
+      "id" => "123467",
+      "type" => "CNAME",
+      "name" => "alias.record-store-dns-tests.shopitest.com",
+      "content" => "target.record-store-dns-tests.shopitest.com",
+      "ttl" => 3600,
+      "settings" => { "flatten_cname" => true }
+    }
+
+    record = @cloudflare.send(:build_from_api, api_record)
+
+    assert_kind_of(Record::ALIAS, record)
+    assert_equal('alias.record-store-dns-tests.shopitest.com.', record.fqdn)
+    assert_equal('target.record-store-dns-tests.shopitest.com.', record.alias)
     assert_equal(3600, record.ttl)
   end
 
@@ -296,20 +315,21 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_alias_record_retrieved_after_adding_record_changeset
-    skip("Implementation pending")
-    record = Record::ALIAS.new(
-      fqdn: 'alias.record-store-dns-tests.shopitest.com',
-      ttl: 600,
-      alias: 'target.record-store-dns-tests.shopitest.com',
-    )
-    @cloudflare.apply_changeset(Changeset.new(
-      current_records: [],
-      desired_records: [record],
-      provider: @cloudflare,
-      zone: @zone_name,
-    ))
-    retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
-    assert_includes(retrieved_records, record)
+    VCR.use_cassette('cloudflare_test_alias_record_retrieved_after_adding_record_changeset') do
+      record = Record::ALIAS.new(
+        fqdn: 'alias.record-store-dns-tests.shopitest.com',
+        ttl: 600,
+        alias: 'target.record-store-dns-tests.shopitest.com',
+      )
+      @cloudflare.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [record],
+        provider: @cloudflare,
+        zone: @zone_name,
+      ))
+      retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
+      assert_includes(retrieved_records, record)
+    end
   end
 
   def test_remove_record_should_not_remove_all_records_for_fqdn

@@ -8,9 +8,7 @@ module RecordStore
       end
 
       def supports_alias?
-        # False in parent class already
-        # Investigate if must be true for our implementation
-        false
+        true
       end
 
       def supports_spf?
@@ -103,6 +101,10 @@ module RecordStore
           api_record[:data] = record.rdata
         when Record::SRV
           api_record[:data] = rdata
+        when Record::ALIAS
+          api_record[:type] = 'CNAME'
+          api_record[:content] = record.rdata_txt
+          api_record[:settings] = { flatten_cname: true }
         end
 
         api_record
@@ -123,7 +125,12 @@ module RecordStore
         when 'A', 'AAAA'
           record.merge!(address: api_record['content'])
         when 'CNAME'
-          record.merge!(cname: api_record['content'])
+          if api_record['settings']['flatten_cname'] == false
+            record.merge!(cname: api_record['content'])
+          elsif api_record['settings']['flatten_cname'] == true
+            record_type = 'ALIAS'
+            record.merge!(alias: api_record['content'])
+          end
         when 'TXT'
           record.merge!(txtdata: Record.unescape(api_record['content']).gsub(';', '\;'))
         when 'MX'
@@ -149,7 +156,6 @@ module RecordStore
           )
         when 'NS'
           record.merge!(nsdname: api_record['content'])
-          # TODO: How to build ALIAS?
         end
 
         Record.const_get(record_type).new(record)
