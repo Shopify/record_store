@@ -377,4 +377,18 @@ class CloudflareTest < Minitest::Test
       refute_includes(retrieved_records, record2)
     end
   end
+
+  def test_build_api_body_for_a_record
+    record = Record::A.new(fqdn: 'www.record-store-dns-tests.shopitest.com.', ttl: 3600, address: '192.0.2.1')
+    api_body = @cloudflare.send(:build_api_body, record)
+
+    expected_api_body = {
+      name: 'www.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      type: 'A',
+      content: '192.0.2.1'
+    }
+
+    assert_equal(expected_api_body, api_body)
+  end
 end
