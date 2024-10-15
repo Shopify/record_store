@@ -262,6 +262,15 @@ class CloudflareTest < Minitest::Test
       retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
       assert_includes(retrieved_records, updated_record)
       refute_includes(retrieved_records, record)
+
+      updated_record.id = matching_record.id
+
+      @cloudflare.apply_changeset(Changeset.new(
+        current_records: [updated_record],
+        desired_records: [],
+        provider: @cloudflare,
+        zone: @zone_name,
+      ))
     end
   end
 
