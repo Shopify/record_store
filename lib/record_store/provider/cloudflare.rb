@@ -127,11 +127,11 @@ module RecordStore
         when 'A', 'AAAA'
           record.merge!(address: api_response['content'])
         when 'CNAME'
-          if api_response['settings']['flatten_cname'] == false
-            record.merge!(cname: api_response['content'])
-          elsif api_response['settings']['flatten_cname'] == true
+          if api_response.dig('settings', 'flatten_cname')
             record_type = 'ALIAS'
             record.merge!(alias: api_response['content'])
+          else
+            record.merge!(cname: api_response['content'])
           end
         when 'TXT'
           record.merge!(txtdata: Record.unescape(api_response['content']).gsub(';', '\;'))
