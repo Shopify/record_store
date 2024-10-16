@@ -193,6 +193,7 @@ class CloudflareTest < Minitest::Test
     VCR.use_cassette('cloudflare_test_add__multiple_changesets') do
       records = [
         Record::A.new(fqdn: 'multi1.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.1'),
+        Record::A.new(fqdn: 'multi1.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.3'),
         Record::A.new(fqdn: 'multi2.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.2')
       ]
       changeset = Changeset.new(current_records: [], desired_records: records, provider: @cloudflare, zone: @zone_name)
