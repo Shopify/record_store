@@ -8,9 +8,7 @@ module RecordStore
       end
 
       def supports_alias?
-        # False in parent class already
-        # Investigate if must be true for our implementation
-        false
+        true
       end
 
       def supports_spf?
@@ -23,8 +21,8 @@ module RecordStore
         zone_id = zone_name_to_id(zone)
 
         retry_on_connection_errors do
-          client.get("/client/v4/zones/#{zone_id}/dns_records").result_raw.map do |api_record|
-            build_from_api(api_record)
+          client.get("/client/v4/zones/#{zone_id}/dns_records").result_raw.map do |api_body|
+            build_from_api(api_body)
           end
         end
       end
@@ -43,10 +41,10 @@ module RecordStore
       def add(record, zone)
         zone_id = zone_name_to_id(zone)
 
-        api_record = build_api_body(record)
+        api_body = build_api_body(record)
 
         retry_on_connection_errors do
-          client.post("/client/v4/zones/#{zone_id}/dns_records", api_record)
+          client.post("/client/v4/zones/#{zone_id}/dns_records", api_body)
         end
       end
 
@@ -70,10 +68,10 @@ module RecordStore
           raise RecordStore::Provider::Error, "FQDN mismatch for record with id #{id}"
         end
 
-        api_record = build_api_body(record)
+        api_body = build_api_body(record)
 
         retry_on_connection_errors do
-          client.patch("/client/v4/zones/#{zone_id}/dns_records/#{id}", api_record)
+          client.patch("/client/v4/zones/#{zone_id}/dns_records/#{id}", api_body)
         end
       end
 
@@ -82,56 +80,67 @@ module RecordStore
       end
 
       def build_api_body(record)
-        api_record = {
+        api_body = {
           name: record.fqdn,
           ttl: record.ttl,
           type: record.type,
         }
         case record
         when Record::A, Record::AAAA
-          api_record[:content] = record.rdata_txt
+          api_body[:content] = record.rdata_txt
         when Record::CNAME
-          api_record[:content] = record.rdata_txt
+          api_body[:content] = record.rdata_txt
         when Record::PTR
-          api_record[:content] = record.rdata_txt
+          api_body[:content] = record.rdata_txt
         when Record::MX
-          api_record[:content] = record.exchange
-          api_record[:priority] = record.preference
+          api_body[:content] = record.exchange
+          api_body[:priority] = record.preference
         when Record::TXT, Record::SPF
-          api_record[:content] = record.txtdata.gsub('\;', ';')
+          api_body[:content] = record.txtdata.gsub('\;', ';')
         when Record::CAA
-          api_record[:data] = record.rdata
+          api_body[:data] = record.rdata
         when Record::SRV
-          api_record[:data] = rdata
+          api_body[:data] = rdata
+        when Record::ALIAS
+          api_body[:type] = 'CNAME'
+          api_body[:content] = record.rdata_txt
+          api_body[:settings] = { flatten_cname: true }
+        when Record::NS
+          api_body[:content] = record.nsdname
         end
 
-        api_record
+        api_body
       end
 
-      def build_from_api(api_record)
-        fqdn = Record.ensure_ends_with_dot(api_record['name'])
+      def build_from_api(api_response)
+        fqdn = Record.ensure_ends_with_dot(api_response['name'])
 
-        record_type = api_record['type']
+        record_type = api_response['type']
 
         record = {
-          record_id: api_record['id'],
-          ttl: api_record['ttl'],
+          record_id: api_response['id'],
+          ttl: api_response['ttl'],
           fqdn: fqdn.downcase,
         }
 
         case record_type
         when 'A', 'AAAA'
-          record.merge!(address: api_record['content'])
+          record.merge!(address: api_response['content'])
         when 'CNAME'
-          record.merge!(cname: api_record['content'])
+          if api_response.dig('settings', 'flatten_cname')
+            record_type = 'ALIAS'
+            record.merge!(alias: api_response['content'])
+          else
+            record.merge!(cname: api_response['content'])
+          end
         when 'TXT'
-          record.merge!(txtdata: Record.unescape(api_record['content']).gsub(';', '\;'))
+          record.merge!(txtdata: Record.unescape(api_response['content']).gsub(';', '\;'))
         when 'MX'
-          record.merge!(preference: api_record['priority'], exchange: api_record['content'])
+          record.merge!(preference: api_response['priority'], exchange: api_response['content'])
         when 'PTR'
-          record.merge!(ptrdname: api_record['content'])
+          record.merge!(ptrdname: api_response['content'])
         when 'CAA'
-          flags, tag, value = api_record['content'].split(' ')
+          flags, tag, value = api_response['content'].split(' ')
 
           record.merge!(
             flags: flags.to_i,
@@ -139,17 +148,16 @@ module RecordStore
             value: Record.unquote(value),
           )
         when 'SRV'
-          weight, port, host = api_record['content'].split(' ')
+          weight, port, host = api_response['content'].split(' ')
 
           record.merge!(
-            priority: api_record['priority'].to_i,
+            priority: api_response['priority'].to_i,
             weight: weight.to_i,
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
           )
         when 'NS'
-          record.merge!(nsdname: api_record['content'])
-          # TODO: How to build ALIAS?
+          record.merge!(nsdname: api_response['content'])
         end
 
         Record.const_get(record_type).new(record)

@@ -61,6 +61,7 @@ class CloudflareTest < Minitest::Test
       "type" => "CNAME",
       "content" => "shopify.com",
       "ttl" => 1,
+      "settings" => { "flatten_cname" => false }
     }
 
     record = @cloudflare.send(:build_from_api, api_record)
@@ -160,6 +161,24 @@ class CloudflareTest < Minitest::Test
     assert_equal(3600, record.ttl)
   end
 
+  def test_build_alias_from_api
+    api_record = {
+      "id" => "123467",
+      "type" => "CNAME",
+      "name" => "alias.record-store-dns-tests.shopitest.com",
+      "content" => "target.record-store-dns-tests.shopitest.com",
+      "ttl" => 3600,
+      "settings" => { "flatten_cname" => true }
+    }
+
+    record = @cloudflare.send(:build_from_api, api_record)
+
+    assert_kind_of(Record::ALIAS, record)
+    assert_equal('alias.record-store-dns-tests.shopitest.com.', record.fqdn)
+    assert_equal('target.record-store-dns-tests.shopitest.com.', record.alias)
+    assert_equal(3600, record.ttl)
+  end
+
   def test_add_changeset
     VCR.use_cassette('cloudflare_test_add_changeset') do
       record = Record::A.new(fqdn: 'add.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.1')
@@ -243,6 +262,15 @@ class CloudflareTest < Minitest::Test
       retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
       assert_includes(retrieved_records, updated_record)
       refute_includes(retrieved_records, record)
+
+      updated_record.id = matching_record.id
+
+      @cloudflare.apply_changeset(Changeset.new(
+        current_records: [updated_record],
+        desired_records: [],
+        provider: @cloudflare,
+        zone: @zone_name,
+      ))
     end
   end
 
@@ -296,20 +324,21 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_alias_record_retrieved_after_adding_record_changeset
-    skip("Implementation pending")
-    record = Record::ALIAS.new(
-      fqdn: 'alias.record-store-dns-tests.shopitest.com',
-      ttl: 600,
-      alias: 'target.record-store-dns-tests.shopitest.com',
-    )
-    @cloudflare.apply_changeset(Changeset.new(
-      current_records: [],
-      desired_records: [record],
-      provider: @cloudflare,
-      zone: @zone_name,
-    ))
-    retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
-    assert_includes(retrieved_records, record)
+    VCR.use_cassette('cloudflare_test_alias_record_retrieved_after_adding_record_changeset') do
+      record = Record::ALIAS.new(
+        fqdn: 'alias.record-store-dns-tests.shopitest.com',
+        ttl: 600,
+        alias: 'target.record-store-dns-tests.shopitest.com',
+      )
+      @cloudflare.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [record],
+        provider: @cloudflare,
+        zone: @zone_name,
+      ))
+      retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
+      assert_includes(retrieved_records, record)
+    end
   end
 
   def test_remove_record_should_not_remove_all_records_for_fqdn
@@ -347,5 +376,19 @@ class CloudflareTest < Minitest::Test
       assert_includes(retrieved_records, record1)
       refute_includes(retrieved_records, record2)
     end
+  end
+
+  def test_build_api_body_for_a_record
+    record = Record::A.new(fqdn: 'www.record-store-dns-tests.shopitest.com.', ttl: 3600, address: '192.0.2.1')
+    api_body = @cloudflare.send(:build_api_body, record)
+
+    expected_api_body = {
+      name: 'www.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      type: 'A',
+      content: '192.0.2.1'
+    }
+
+    assert_equal(expected_api_body, api_body)
   end
 end
