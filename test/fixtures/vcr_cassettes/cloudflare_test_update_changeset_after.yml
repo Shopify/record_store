@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: put
-    uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones
     body:
-      encoding: UTF-8
-      string: '{"comment":"","name":"nonexistent.record-store-dns-tests.shopitest.com.","proxied":false,"settings":{},"tags":[],"ttl":600,"type":"A","content":"192.0.2.2"}'
+      encoding: US-ASCII
+      string: ''
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -19,11 +19,11 @@ http_interactions:
       - Bearer <CLOUDFLARE_API_TOKEN>
   response:
     status:
-      code: 405
-      message: Not Allowed
+      code: 200
+      message: OK
     headers:
       Date:
-      - Mon, 07 Oct 2024 16:29:49 GMT
+      - Thu, 17 Oct 2024 16:43:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -31,32 +31,75 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8cef45af4e7cac45-YYZ
+      - 8d41bfbbaa1faae6-YYZ
       Cf-Cache-Status:
       - DYNAMIC
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Expires:
+      - Sun, 25 Jan 1981 05:00:00 GMT
       Set-Cookie:
-      - __cf_bm=muYERtFnsVco.NpN9lAbJh6eWvdVRDsFS7a8ENMzZQQ-1728318589-1.0.1.1-nuZ3BM1aC1zjpc3XNRDurMwa2wX81Xl1nrSNkV_ma4dbxH_HauGWCEJZkabMf.KLrGpSYCj_qmNGnyd6rVAwMg;
-        path=/; expires=Mon, 07-Oct-24 16:59:49 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=IBEDyhzdf04ngQNcJAJJZTsQ5CEK..gsC5SD3MBtH8I-1729183421-1.0.1.1-uFvkX9aFwODT.8k_4TEx_OmSESW_ZvpJm9aJ2liLUZLKpSvgVeQUY5eCE9UBOcBCKOkSUCcxzrHIW9uofGVYjg;
+        path=/; expires=Thu, 17-Oct-24 17:13:41 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpqTmy25mcoo; SameSite=Lax; path=/;
-        expires=Mon, 07-Oct-24 18:59:50 GMT; HttpOnly
-      - __cfruid=b0cd666ad51c8f9febdcf856d5615c1f89998ef4-1728318589; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1Mb4nGSpLMB; SameSite=Lax; path=/;
+        expires=Thu, 17-Oct-24 19:13:42 GMT; HttpOnly
+      - __cfruid=09c1bf430dc450b3b1ddb0c7f518be8b47d50272-1729183421; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000
+      Pragma:
+      - no-cache
       Cf-Auditlog-Id:
-      - '019267d0-c9a1-74b0-b668-fd39960a6848'
+      - '01929b5d-1152-76ac-824f-bba3d32679df'
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
       Vary:
       - Accept-Encoding
       Server:
       - cloudflare
-      X-Ratelimit-Period:
-      - 0
     body:
-      encoding: UTF-8
-      string: '{"success":false,"errors":[{"code":10000,"message":"PUT method not
-        allowed for the api_token authentication scheme"}]}
-
-        '
-  recorded_at: Mon, 07 Oct 2024 16:29:49 GMT
+      encoding: ASCII-8BIT
+      string: '{"result":[{"id":"c2777ebe2e47b52ad23fc163e086200b","name":"aaliam_test.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-10T02:19:22.929713Z","created_on":"2024-10-08T17:37:55.390740Z","activated_on":"2024-10-08T18:29:40.926483Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":4,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"ddc84d78b64e3e18bc53591abe8c5fe5","name":"chopify.app","status":"active","paused":false,"type":"partial","development_mode":-95511497,"verification_key":"963442547-421852129","cname_suffix":"cdn.cloudflare.net","original_name_servers":["ns1.markmonitor.com","ns2.markmonitor.com","ns3.markmonitor.com","ns4.markmonitor.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:08.437065Z","created_on":"2021-04-16T16:27:00.175539Z","activated_on":"2021-04-16T16:31:23.579534Z","meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"0b70d4909fffd5d96a58b69ddd80041a","name":"chopifycdn.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":null,"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T15:54:28.806071Z","created_on":"2024-02-16T19:02:20.663788Z","activated_on":"2024-02-16T19:03:29.013184Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"2418cfe449965306a5fed516634402b6","name":"cloudflarerules.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:58:58.544682Z","created_on":"2024-01-14T19:33:33.278245Z","activated_on":"2024-01-15T18:56:54.326446Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"d784b5e63d9a657cc18e13ab92be75e1","name":"matt-metzger.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-7501121,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:02:42.970212Z","created_on":"2024-07-08T17:23:32.708443Z","activated_on":"2024-07-08T17:49:44.693606Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"94c68d31ae14ff097b47f536bd9144c4","name":"production.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-11T20:16:55.669928Z","created_on":"2023-08-24T19:47:26.027094Z","activated_on":"2023-08-24T20:18:34.979036Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"7ed83734c471bd155e2fe23234c5c936","name":"record-store-dns-tests.shopitest.com","status":"pending","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-19T15:28:23.108643Z","created_on":"2024-09-19T15:28:12.917187Z","activated_on":null,"vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"275f58b23ae2db285e82a019923547ea","name":"staging.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-33165263,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:04.207870Z","created_on":"2023-08-24T19:47:56.839647Z","activated_on":"2023-08-24T20:19:02.990798Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"8e91b5276612ee2c63ebdca335add608","name":"tunnel.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:43:17.116649Z","created_on":"2024-03-25T16:28:05.401795Z","activated_on":"2024-03-25T16:49:26.377278Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":9,"total_count":9},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Thu, 17 Oct 2024 16:43:41 GMT
 - request:
     method: get
     uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records
@@ -80,7 +123,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 15 Oct 2024 15:36:50 GMT
+      - Thu, 17 Oct 2024 16:43:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -88,29 +131,27 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8d30e313cfe738e4-YYZ
+      - 8d41bfbe0c15aae6-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=4x26Isp41oI.PR5SZ6d8ulCR6.vf2KTQMgQwggLWHa4-1729006610-1.0.1.1-NvrwR3O_1Mg_mDAkPordiIU6kktou2ghAz2pwjRnZxmIQSu2nfw6p6aPxdyLIs_FobJ0CWaBB7R2PEJNWmRH6A;
-        path=/; expires=Tue, 15-Oct-24 16:06:50 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=vm0GYHzcm1M9cGPOT7bL8pyM0UKhw1N127vRVe._5y4-1729183421-1.0.1.1-5Sfz_.nkkX2S6VQFQC40hyQ5g.X8nvrM94sJE0iRQS5Zoq_dPZlcdMmzjrw1J_jQbM7YBIj33qbci2oMOFCDvg;
+        path=/; expires=Thu, 17-Oct-24 17:13:41 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUtMA4hA6Z8Sq; SameSite=Lax; path=/;
-        expires=Tue, 15-Oct-24 18:06:51 GMT; HttpOnly
-      - __cfruid=9fc1b189892ed4c9dd4a7acec0bb26c52ce2a18a-1729006610; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1XHjo5GJwch; SameSite=Lax; path=/;
+        expires=Thu, 17-Oct-24 19:13:42 GMT; HttpOnly
+      - __cfruid=09c1bf430dc450b3b1ddb0c7f518be8b47d50272-1729183421; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Vary:
       - Accept-Encoding
       Cf-Auditlog-Id:
-      - '019290d3-286b-70f1-8c28-419971b9838c'
+      - '01929b5d-12d2-738a-980b-78eee5b32978'
       Server:
       - cloudflare
-      X-Ratelimit-Period:
-      - 0
     body:
       encoding: ASCII-8BIT
-      string: '{"result":[{"id":"4b646438877a22663096992c656070cb","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"add.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-01T15:49:24.799965Z","modified_on":"2024-10-01T15:49:24.799965Z"},{"id":"f4926d7e7941ae89ea222a8a7e44b5a4","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"multi1.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-01T16:14:54.373462Z","modified_on":"2024-10-01T16:14:54.373462Z"},{"id":"e62a19c69d0c1533cbbdaf3fec5d737c","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"multi2.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.2","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-01T16:14:54.87328Z","modified_on":"2024-10-01T16:14:54.87328Z"},{"id":"764faac5de163980adc8e05f54c3d8c6","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"multi.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-09T14:07:16.213361Z","modified_on":"2024-10-09T14:07:16.213361Z"},{"id":"e00683b575579f94a9942b6cc4cb2b2c","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"ttlupdate.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":3600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-09T13:47:09.026219Z","modified_on":"2024-10-09T13:47:10.415352Z"},{"id":"2947befe002ca40dc7d8ce509d88a2fd","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"alias.record-store-dns-tests.shopitest.com","type":"CNAME","content":"target.record-store-dns-tests.shopitest.com","proxiable":true,"proxied":false,"ttl":600,"settings":{"flatten_cname":true},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-10T18:56:11.041955Z","modified_on":"2024-10-10T18:56:11.041955Z"},{"id":"9881a825592473ef844f7809f40fbb1e","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"flatten.record-store-dns-tests.shopitest.com","type":"CNAME","content":"example.com","proxiable":true,"proxied":true,"ttl":1,"settings":{"flatten_cname":false},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-10T15:48:39.164833Z","modified_on":"2024-10-10T15:48:39.164833Z"},{"id":"d256309eb12835d40b334ccd13c10976","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"mx.record-store-dns-tests.shopitest.com","type":"MX","content":"mail.record-store-dns-tests.shopitest.com","priority":10,"proxiable":false,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-01T16:17:15.897349Z","modified_on":"2024-10-01T16:17:15.897349Z"}],"success":true,"errors":[],"messages":[],"result_info":{"page":1,"per_page":100,"count":8,"total_count":8,"total_pages":1}}'
-  recorded_at: Tue, 15 Oct 2024 15:36:50 GMT
+      string: '{"result":[{"id":"6e96a3dea3c8652a7d3eb85b23e5cc00","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-17T16:43:40.62948Z","modified_on":"2024-10-17T16:43:40.62948Z"},{"id":"d256309eb12835d40b334ccd13c10976","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"mx.record-store-dns-tests.shopitest.com","type":"MX","content":"mail.record-store-dns-tests.shopitest.com","priority":10,"proxiable":false,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-01T16:17:15.897349Z","modified_on":"2024-10-01T16:17:15.897349Z"}],"success":true,"errors":[],"messages":[],"result_info":{"page":1,"per_page":100,"count":2,"total_count":2,"total_pages":1}}'
+  recorded_at: Thu, 17 Oct 2024 16:43:41 GMT
 - request:
     method: get
     uri: https://api.cloudflare.com/client/v4/zones
@@ -134,7 +175,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2024 16:20:56 GMT
+      - Thu, 17 Oct 2024 16:43:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -142,7 +183,7 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8d419e678b78aae6-YYZ
+      - 8d41bfc01e88aae6-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Cache-Control:
@@ -150,121 +191,19 @@ http_interactions:
       Expires:
       - Sun, 25 Jan 1981 05:00:00 GMT
       Set-Cookie:
-      - __cf_bm=pI1vmgvoh2HixQLEEjI8QdEmvOdvY7eKJONeiWOeqZI-1729182056-1.0.1.1-yTyMtX1JhatNm46YjaWcoykqX.LKyfeSVIX2g7D4ixpcoX219tdhITz5DsObIQdq_MPatVpxoRRY7P_u2EjMzg;
-        path=/; expires=Thu, 17-Oct-24 16:50:56 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=AI0ZuXA2D0XCqcIrGU5rRu2XTR.nWX4x1SacB3B9e0I-1729183421-1.0.1.1-0HfPmZToIunqLkG5daUpFjvgilMtwp5jzytTpkYRVjXiSghC6aOFsiXfBVnylvrFScMd4G5YfSrxYtqna4hVJA;
+        path=/; expires=Thu, 17-Oct-24 17:13:41 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUm8bunx3dV5F; SameSite=Lax; path=/;
-        expires=Thu, 17-Oct-24 18:50:56 GMT; HttpOnly
-      - __cfruid=885474be4598cd4915d3c993866049e2a6f1eb16-1729182056; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1XHjo5GJwch; SameSite=Lax; path=/;
+        expires=Thu, 17-Oct-24 19:13:42 GMT; HttpOnly
+      - __cfruid=09c1bf430dc450b3b1ddb0c7f518be8b47d50272-1729183421; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000
       Pragma:
       - no-cache
       Cf-Auditlog-Id:
-      - '01929b48-3cbf-76aa-9cdc-4dbb83e94dfb'
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - SAMEORIGIN
-      Vary:
-      - Accept-Encoding
-      Server:
-      - cloudflare
-      X-Ratelimit-Period:
-      - 0
-    body:
-      encoding: ASCII-8BIT
-      string: '{"result":[{"id":"c2777ebe2e47b52ad23fc163e086200b","name":"aaliam_test.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-10T02:19:22.929713Z","created_on":"2024-10-08T17:37:55.390740Z","activated_on":"2024-10-08T18:29:40.926483Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":4,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"ddc84d78b64e3e18bc53591abe8c5fe5","name":"chopify.app","status":"active","paused":false,"type":"partial","development_mode":-95510131,"verification_key":"963442547-421852129","cname_suffix":"cdn.cloudflare.net","original_name_servers":["ns1.markmonitor.com","ns2.markmonitor.com","ns3.markmonitor.com","ns4.markmonitor.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:08.437065Z","created_on":"2021-04-16T16:27:00.175539Z","activated_on":"2021-04-16T16:31:23.579534Z","meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"0b70d4909fffd5d96a58b69ddd80041a","name":"chopifycdn.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":null,"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T15:54:28.806071Z","created_on":"2024-02-16T19:02:20.663788Z","activated_on":"2024-02-16T19:03:29.013184Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"2418cfe449965306a5fed516634402b6","name":"cloudflarerules.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:58:58.544682Z","created_on":"2024-01-14T19:33:33.278245Z","activated_on":"2024-01-15T18:56:54.326446Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"d784b5e63d9a657cc18e13ab92be75e1","name":"matt-metzger.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-7499755,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:02:42.970212Z","created_on":"2024-07-08T17:23:32.708443Z","activated_on":"2024-07-08T17:49:44.693606Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"94c68d31ae14ff097b47f536bd9144c4","name":"production.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-11T20:16:55.669928Z","created_on":"2023-08-24T19:47:26.027094Z","activated_on":"2023-08-24T20:18:34.979036Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"7ed83734c471bd155e2fe23234c5c936","name":"record-store-dns-tests.shopitest.com","status":"pending","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-19T15:28:23.108643Z","created_on":"2024-09-19T15:28:12.917187Z","activated_on":null,"vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"275f58b23ae2db285e82a019923547ea","name":"staging.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-33163897,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:04.207870Z","created_on":"2023-08-24T19:47:56.839647Z","activated_on":"2023-08-24T20:19:02.990798Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"8e91b5276612ee2c63ebdca335add608","name":"tunnel.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
-        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:43:17.116649Z","created_on":"2024-03-25T16:28:05.401795Z","activated_on":"2024-03-25T16:49:26.377278Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
-        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
-        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":9,"total_count":9},"success":true,"errors":[],"messages":[]}'
-  recorded_at: Thu, 17 Oct 2024 16:20:56 GMT
-- request:
-    method: get
-    uri: https://api.cloudflare.com/client/v4/zones
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - application/json
-      User-Agent:
-      - Ruby
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <CLOUDFLARE_API_TOKEN>
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 17 Oct 2024 16:23:47 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Cf-Ray:
-      - 8d41a298fe05aae6-YYZ
-      Cf-Cache-Status:
-      - DYNAMIC
-      Cache-Control:
-      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
-      Expires:
-      - Sun, 25 Jan 1981 05:00:00 GMT
-      Set-Cookie:
-      - __cf_bm=FYsIiNdD8vSPm2CuIsrZ2ueWXGNWHx8yAvUGeYlavRA-1729182227-1.0.1.1-DLVqibGAEjbXRjOdbiw1dHfozJgsj6z24EO_y.YBZARIjf6kIPtm5G3j3nSNCsee0MSv53BDJJJu4jhHpunakg;
-        path=/; expires=Thu, 17-Oct-24 16:53:47 GMT; domain=.api.cloudflare.com; HttpOnly;
-        Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUtVVhtLZA9zu; SameSite=Lax; path=/;
-        expires=Thu, 17-Oct-24 18:53:48 GMT; HttpOnly
-      - __cfruid=2eeb3d95f67ce036c394aceb33988db5249d7be4-1729182227; path=/; domain=.api.cloudflare.com;
-        HttpOnly; Secure; SameSite=None
-      Strict-Transport-Security:
-      - max-age=31536000
-      Pragma:
-      - no-cache
-      Cf-Auditlog-Id:
-      - '01929b4a-dba8-7609-8493-ad369dd01b23'
+      - '01929b5d-141d-7f71-af89-81535203c4a3'
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -279,7 +218,7 @@ http_interactions:
         inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-10T02:19:22.929713Z","created_on":"2024-10-08T17:37:55.390740Z","activated_on":"2024-10-08T18:29:40.926483Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":4,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"ddc84d78b64e3e18bc53591abe8c5fe5","name":"chopify.app","status":"active","paused":false,"type":"partial","development_mode":-95510303,"verification_key":"963442547-421852129","cname_suffix":"cdn.cloudflare.net","original_name_servers":["ns1.markmonitor.com","ns2.markmonitor.com","ns3.markmonitor.com","ns4.markmonitor.com"],"original_registrar":"markmonitor
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"ddc84d78b64e3e18bc53591abe8c5fe5","name":"chopify.app","status":"active","paused":false,"type":"partial","development_mode":-95511497,"verification_key":"963442547-421852129","cname_suffix":"cdn.cloudflare.net","original_name_servers":["ns1.markmonitor.com","ns2.markmonitor.com","ns3.markmonitor.com","ns4.markmonitor.com"],"original_registrar":"markmonitor
         inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:08.437065Z","created_on":"2021-04-16T16:27:00.175539Z","activated_on":"2021-04-16T16:31:23.579534Z","meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
@@ -291,7 +230,7 @@ http_interactions:
         inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:58:58.544682Z","created_on":"2024-01-14T19:33:33.278245Z","activated_on":"2024-01-15T18:56:54.326446Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"d784b5e63d9a657cc18e13ab92be75e1","name":"matt-metzger.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-7499927,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"d784b5e63d9a657cc18e13ab92be75e1","name":"matt-metzger.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-7501121,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
         inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:02:42.970212Z","created_on":"2024-07-08T17:23:32.708443Z","activated_on":"2024-07-08T17:49:44.693606Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
@@ -303,7 +242,7 @@ http_interactions:
         inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-19T15:28:23.108643Z","created_on":"2024-09-19T15:28:12.917187Z","activated_on":null,"vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
-        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"275f58b23ae2db285e82a019923547ea","name":"staging.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-33164069,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"275f58b23ae2db285e82a019923547ea","name":"staging.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-33165263,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
         inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:04.207870Z","created_on":"2023-08-24T19:47:56.839647Z","activated_on":"2023-08-24T20:19:02.990798Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
@@ -312,13 +251,13 @@ http_interactions:
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
         Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":9,"total_count":9},"success":true,"errors":[],"messages":[]}'
-  recorded_at: Thu, 17 Oct 2024 16:23:47 GMT
+  recorded_at: Thu, 17 Oct 2024 16:43:41 GMT
 - request:
     method: post
     uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records/batch
     body:
       encoding: UTF-8
-      string: '{"deletes":[],"patches":[{"name":"nonexistent.record-store-dns-tests.shopitest.com.","ttl":600,"type":"A","content":"192.0.2.2","id":"<DNSIMPLE_ACCOUNT_ID>5"}],"posts":[],"puts":[]}'
+      string: '{"deletes":[],"patches":[{"name":"update.record-store-dns-tests.shopitest.com.","ttl":3600,"type":"A","content":"192.0.2.2","id":"6e96a3dea3c8652a7d3eb85b23e5cc00"}],"posts":[],"puts":[]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -332,11 +271,11 @@ http_interactions:
       - Bearer <CLOUDFLARE_API_TOKEN>
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2024 16:23:47 GMT
+      - Thu, 17 Oct 2024 16:43:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -344,26 +283,177 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8d41a29abfd3aae6-YYZ
+      - 8d41bfc1dfecaae6-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=BDsLYjVnhQSCmw_ukwSoeiWbOYmTM_QW5c62KFcIcoQ-1729182227-1.0.1.1-kcYI4MpCeND2hPKGjf029C7hs1LOmF8V9RMrr7RGr0eSoiXVrelT6uZZl1gLaNYhT1kbhD6RjinTw4x7jCYquQ;
-        path=/; expires=Thu, 17-Oct-24 16:53:47 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=Nm2Z9T1bLS6JMygzB6G0Ay4z0DrHtA7izPHzd61prm4-1729183421-1.0.1.1-hjzpxcMeUJ6pYP0mFHUQ4ywIHOq.TCFK.X6lNbwT2QxZ9nAn7qXGArvO7fsl.4Jl_1fGFwyXxvSPuUx8OpDRkg;
+        path=/; expires=Thu, 17-Oct-24 17:13:41 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUtVVhtLZA9zu; SameSite=Lax; path=/;
-        expires=Thu, 17-Oct-24 18:53:48 GMT; HttpOnly
-      - __cfruid=2eeb3d95f67ce036c394aceb33988db5249d7be4-1729182227; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1XHjo5GJwch; SameSite=Lax; path=/;
+        expires=Thu, 17-Oct-24 19:13:42 GMT; HttpOnly
+      - __cfruid=09c1bf430dc450b3b1ddb0c7f518be8b47d50272-1729183421; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Vary:
       - Accept-Encoding
       Cf-Auditlog-Id:
-      - '01929b4a-dcbf-72b2-913f-fe7bc3ff544a'
+      - '01929b5d-1532-7cca-8af0-ded5d406605b'
       Server:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"result":null,"success":false,"errors":[{"code":81044,"message":"Record
-        ID <DNSIMPLE_ACCOUNT_ID>5 does not exist."}],"messages":[]}'
-  recorded_at: Thu, 17 Oct 2024 16:23:47 GMT
+      string: '{"result":{"deletes":null,"patches":[{"id":"6e96a3dea3c8652a7d3eb85b23e5cc00","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.2","proxiable":true,"proxied":false,"ttl":3600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-17T16:43:40.62948Z","modified_on":"2024-10-17T16:43:41.858116Z"}],"puts":null,"posts":null},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Thu, 17 Oct 2024 16:43:41 GMT
+- request:
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 17 Oct 2024 16:43:42 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8d41bfc3390daae6-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Expires:
+      - Sun, 25 Jan 1981 05:00:00 GMT
+      Set-Cookie:
+      - __cf_bm=_33Hv3CBYL4CTDuIzumtya1QOuHY9dQQxKHFnZDxq5U-1729183422-1.0.1.1-h4KWCMwRg4TrHwxt22H15_eGnVLNy4poBTSMl5NU0xJCF4bjSTXcFSce0cKDlndpTMZjobLf6Xej.vdRjfGh5w;
+        path=/; expires=Thu, 17-Oct-24 17:13:42 GMT; domain=.api.cloudflare.com; HttpOnly;
+        Secure; SameSite=None
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1XHjo5GJwch; SameSite=Lax; path=/;
+        expires=Thu, 17-Oct-24 19:13:43 GMT; HttpOnly
+      - __cfruid=fe593112723fe28c8ea6b1e9876ce6bad19068d0-1729183422; path=/; domain=.api.cloudflare.com;
+        HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000
+      Pragma:
+      - no-cache
+      Cf-Auditlog-Id:
+      - '01929b5d-160c-787f-b59b-6edba0c5aba7'
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"result":[{"id":"c2777ebe2e47b52ad23fc163e086200b","name":"aaliam_test.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-10T02:19:22.929713Z","created_on":"2024-10-08T17:37:55.390740Z","activated_on":"2024-10-08T18:29:40.926483Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":4,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"ddc84d78b64e3e18bc53591abe8c5fe5","name":"chopify.app","status":"active","paused":false,"type":"partial","development_mode":-95511498,"verification_key":"963442547-421852129","cname_suffix":"cdn.cloudflare.net","original_name_servers":["ns1.markmonitor.com","ns2.markmonitor.com","ns3.markmonitor.com","ns4.markmonitor.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:08.437065Z","created_on":"2021-04-16T16:27:00.175539Z","activated_on":"2021-04-16T16:31:23.579534Z","meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"0b70d4909fffd5d96a58b69ddd80041a","name":"chopifycdn.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":null,"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T15:54:28.806071Z","created_on":"2024-02-16T19:02:20.663788Z","activated_on":"2024-02-16T19:03:29.013184Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"2418cfe449965306a5fed516634402b6","name":"cloudflarerules.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:58:58.544682Z","created_on":"2024-01-14T19:33:33.278245Z","activated_on":"2024-01-15T18:56:54.326446Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"d784b5e63d9a657cc18e13ab92be75e1","name":"matt-metzger.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-7501122,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:02:42.970212Z","created_on":"2024-07-08T17:23:32.708443Z","activated_on":"2024-07-08T17:49:44.693606Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"94c68d31ae14ff097b47f536bd9144c4","name":"production.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-11T20:16:55.669928Z","created_on":"2023-08-24T19:47:26.027094Z","activated_on":"2023-08-24T20:18:34.979036Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"7ed83734c471bd155e2fe23234c5c936","name":"record-store-dns-tests.shopitest.com","status":"pending","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-19T15:28:23.108643Z","created_on":"2024-09-19T15:28:12.917187Z","activated_on":null,"vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"275f58b23ae2db285e82a019923547ea","name":"staging.shopitest.com","status":"active","paused":false,"type":"full","development_mode":-33165264,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-10-01T19:28:04.207870Z","created_on":"2023-08-24T19:47:56.839647Z","activated_on":"2023-08-24T20:19:02.990798Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}},{"id":"8e91b5276612ee2c63ebdca335add608","name":"tunnel.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-08-20T16:43:17.116649Z","created_on":"2024-03-25T16:28:05.401795Z","activated_on":"2024-03-25T16:49:26.377278Z","vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":9,"total_count":9},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Thu, 17 Oct 2024 16:43:42 GMT
+- request:
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 17 Oct 2024 16:43:42 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8d41bfc58b0caae6-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=gzVCm2a9g61plTEDzTSF5ge03DJNXmiXit976GHOF0c-1729183422-1.0.1.1-ZsX9FIv.95ZTeRRyr1xw5KdSCdJmd3gaZwlubPMssHDHHA78J5wJjZ8MU5qc75tSOsVOyy2GKJD3m2ePj_LTCA;
+        path=/; expires=Thu, 17-Oct-24 17:13:42 GMT; domain=.api.cloudflare.com; HttpOnly;
+        Secure; SameSite=None
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1gzQot5oYtD; SameSite=Lax; path=/;
+        expires=Thu, 17-Oct-24 19:13:43 GMT; HttpOnly
+      - __cfruid=fe593112723fe28c8ea6b1e9876ce6bad19068d0-1729183422; path=/; domain=.api.cloudflare.com;
+        HttpOnly; Secure; SameSite=None
+      Vary:
+      - Accept-Encoding
+      Cf-Auditlog-Id:
+      - '01929b5d-1781-7acc-bfb8-5ec7ce6be401'
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"result":[{"id":"6e96a3dea3c8652a7d3eb85b23e5cc00","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.2","proxiable":true,"proxied":false,"ttl":3600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-17T16:43:40.62948Z","modified_on":"2024-10-17T16:43:41.858116Z"},{"id":"d256309eb12835d40b334ccd13c10976","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"mx.record-store-dns-tests.shopitest.com","type":"MX","content":"mail.record-store-dns-tests.shopitest.com","priority":10,"proxiable":false,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-01T16:17:15.897349Z","modified_on":"2024-10-01T16:17:15.897349Z"}],"success":true,"errors":[],"messages":[],"result_info":{"page":1,"per_page":100,"count":2,"total_count":2,"total_pages":1}}'
+  recorded_at: Thu, 17 Oct 2024 16:43:42 GMT
 recorded_with: VCR 6.2.0
