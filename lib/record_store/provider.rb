@@ -36,7 +36,8 @@ module RecordStore
           'NS1'
         when /\.oraclecloud\.net\z/
           'OracleCloudDNS'
-          # TODO: add when /\.cloudflare\.com\z/
+        when /\.cloudflare\.com\z/
+          'Cloudflare'
         end
       end
 

@@ -3,8 +3,6 @@ require 'test_helper'
 class CloudflareConnectionErrorsTest < Minitest::Test
   def setup
     super
-    # TODO: Remove this skip line
-    skip("Implementation pending")
     @cloudflare = Provider::Cloudflare
   end
 
