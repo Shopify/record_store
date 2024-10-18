@@ -193,6 +193,7 @@ class CloudflareTest < Minitest::Test
     VCR.use_cassette('cloudflare_test_add__multiple_changesets') do
       records = [
         Record::A.new(fqdn: 'multi1.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.1'),
+        Record::A.new(fqdn: 'multi1.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.3'),
         Record::A.new(fqdn: 'multi2.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.2')
       ]
       changeset = Changeset.new(current_records: [], desired_records: records, provider: @cloudflare, zone: @zone_name)
@@ -235,19 +236,22 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_update_changeset
-    VCR.use_cassette('cloudflare_test_update_changeset') do
-      target_fqdn = 'update.record-store-dns-tests.shopitest.com'
-      record = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
-      updated_record = record.dup
-      updated_record.address = '192.0.2.2'
+    target_fqdn = 'update.record-store-dns-tests.shopitest.com'
+    record = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
+    updated_record = record.dup
+    updated_record.address = '192.0.2.2'
+    updated_record.ttl = 3600
 
+    VCR.use_cassette('cloudflare_test_update_changeset_before') do
       @cloudflare.apply_changeset(Changeset.new(
         current_records: [],
         desired_records: [record],
         provider: @cloudflare,
         zone: @zone_name,
       ))
+    end
 
+    VCR.use_cassette('cloudflare_test_update_changeset_after') do
       retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
       matching_record = retrieved_records.find { |record| record.fqdn == "#{target_fqdn}." }
       record.id = matching_record.id
@@ -265,12 +269,12 @@ class CloudflareTest < Minitest::Test
 
       updated_record.id = matching_record.id
 
-      @cloudflare.apply_changeset(Changeset.new(
-        current_records: [updated_record],
-        desired_records: [],
-        provider: @cloudflare,
-        zone: @zone_name,
-      ))
+      # @cloudflare.apply_changeset(Changeset.new(
+      #   current_records: [updated_record],
+      #   desired_records: [],
+      #   provider: @cloudflare,
+      #   zone: @zone_name,
+      # ))
     end
   end
 
@@ -289,37 +293,6 @@ class CloudflareTest < Minitest::Test
           zone: @zone_name,
         ))
       end
-    end
-  end
-
-  def test_updating_record_ttl
-    VCR.use_cassette('cloudflare_test_updating_record_ttl') do
-      target_fqdn = 'ttlupdate.record-store-dns-tests.shopitest.com'
-      record = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
-      updated_record = record.dup
-      updated_record.ttl = 3600
-
-      @cloudflare.apply_changeset(Changeset.new(
-        current_records: [],
-        desired_records: [record],
-        provider: @cloudflare,
-        zone: @zone_name,
-      ))
-
-      retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
-      matching_record = retrieved_records.find { |record| record.fqdn == "#{target_fqdn}." }
-      record.id = matching_record.id
-
-      @cloudflare.apply_changeset(Changeset.new(
-        current_records: [record],
-        desired_records: [updated_record],
-        provider: @cloudflare,
-        zone: @zone_name,
-      ))
-
-      retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
-      updated_retrieved_record = retrieved_records.find { |r| r.fqdn == record.fqdn }
-      assert_equal(3600, updated_retrieved_record.ttl)
     end
   end
 

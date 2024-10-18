@@ -36,44 +36,46 @@ module RecordStore
         end
       end
 
+      def apply_changeset(changeset, stdout = $stdout)
+        deletes = []
+        patches = []
+        posts = []
+        puts = []
+
+        changeset.changes.each do |change|
+          case change.type
+          when :removal
+            stdout.puts "Removing #{change.record}..."
+            deletes << { id: change.record.id }
+          when :addition
+            stdout.puts "Creating #{change.record}..."
+            posts << build_api_body(change.record)
+          when :update
+            stdout.puts "Updating record with ID #{change.id} to #{change.record}..."
+            patches << build_api_body(change.record).merge(id: change.id)
+          else
+            raise ArgumentError, "Unknown change type #{change.type.inspect}"
+          end
+        end
+
+        zone_id = zone_name_to_id(changeset.zone)
+        api_body = {
+          deletes: deletes,
+          patches: patches,
+          posts: posts,
+          puts: puts
+        }
+
+        retry_on_connection_errors do
+          response = client.post("/client/v4/zones/#{zone_id}/dns_records/batch", api_body)
+          unless response.success
+            error_message = response.errors.map { |error| error['message'] }.join(', ')
+            raise RecordStore::Provider::Error, "Cloudflare API error: #{error_message}"
+          end
+        end
+      end
+
       private
-
-      def add(record, zone)
-        zone_id = zone_name_to_id(zone)
-
-        api_body = build_api_body(record)
-
-        retry_on_connection_errors do
-          client.post("/client/v4/zones/#{zone_id}/dns_records", api_body)
-        end
-      end
-
-      def remove(record, zone)
-        zone_id = zone_name_to_id(zone)
-
-        retry_on_connection_errors do
-          client.delete("/client/v4/zones/#{zone_id}/dns_records/#{record.id}")
-        end
-      end
-
-      def update(id, record, zone)
-        zone_id = zone_name_to_id(zone)
-
-        current_records = retrieve_current_records(zone: zone)
-        existing_record = current_records.find { |r| r.id == id }
-
-        if existing_record.nil?
-          raise RecordStore::Provider::Error, "Record with id #{id} not found"
-        elsif existing_record.fqdn != record.fqdn
-          raise RecordStore::Provider::Error, "FQDN mismatch for record with id #{id}"
-        end
-
-        api_body = build_api_body(record)
-
-        retry_on_connection_errors do
-          client.patch("/client/v4/zones/#{zone_id}/dns_records/#{id}", api_body)
-        end
-      end
 
       def secrets
         super.fetch('cloudflare')
