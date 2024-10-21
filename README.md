@@ -95,6 +95,12 @@ Regarding the `fingerprint` and `key_content`, you'll need to generate an API Si
 
 The `tenancy` and `region` are in the `Profile` menu. The `tenancy` starts with `ocid1.tenancy.oc1..`.
 
+### Cloudflare
+
+Record_store and the Cloudflare provider do not have any concept of a zone id or account. Zone names must be unique within all accounts the API key has access to, otherwise Cloudflare provider will error.
+
+`ALIAS` records in zone files are supported and created in Cloudflare as [per-record flattened](https://developers.cloudflare.com/dns/cname-flattening/set-up-cname-flattening/#per-record) CNAME records.
+
 ----
 
 # Architecture

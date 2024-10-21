@@ -174,13 +174,17 @@ module RecordStore
 
       def zone_name_to_id(zone_name)
         retry_on_connection_errors do
-          zone_id = nil
-          client.get('/client/v4/zones').result_raw.each do |zone|
-            zone_id = zone['id'] if zone['name'] == zone_name
-          end
-          raise "Zone not found: #{zone_name}" unless zone_id
+          matching_zones = client.get('/client/v4/zones').result_raw.select { |zone| zone['name'] == zone_name }
 
-          zone_id
+          case matching_zones.size
+          when 0
+            raise "Zone not found for #{zone_name}"
+          when 1
+            matching_zones.first['id']
+          else
+            raise "Multiple zones found for #{zone_name}. " \
+              "API key must only return the zone on which records are to be managed."
+          end
         end
       end
     end

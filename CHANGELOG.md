@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.1.0
+- Add Cloudflare as a supported DNS provider
+
 ## 7.0.1
 - Allow an underscore in the middle of a CNAME record
 
