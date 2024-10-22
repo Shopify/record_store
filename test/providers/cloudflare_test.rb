@@ -364,4 +364,64 @@ class CloudflareTest < Minitest::Test
 
     assert_equal(expected_api_body, api_body)
   end
+
+  def test_zones_returns_empty_array_when_api_response_is_empty
+    empty_api_response = {
+      "result" => [],
+      "success" => true,
+      "errors" => [],
+      "messages" => [],
+      "result_info" => {
+        "page" => 1,
+        "per_page" => 100,
+        "count" => 0,
+        "total_count" => 0,
+        "total_pages" => 1
+      }
+    }
+
+    http_response_stub = stub(
+      body: empty_api_response.to_json,
+      code: '200',
+      :[] => 'application/json',
+    )
+
+    Cloudflare::Client.any_instance.stubs(:get).with('/client/v4/zones').returns(
+      Cloudflare::Response.new(http_response_stub),
+    )
+
+    zones = @cloudflare.zones
+    assert_equal([], zones)
+  end
+
+  def test_retrieve_current_records_returns_empty_array_when_api_response_is_empty
+    empty_api_response = {
+      "result" => [],
+      "success" => true,
+      "errors" => [],
+      "messages" => [],
+      "result_info" => {
+        "page" => 1,
+        "per_page" => 100,
+        "count" => 0,
+        "total_count" => 0,
+        "total_pages" => 1
+      }
+    }
+
+    http_response_stub = stub(
+      body: empty_api_response.to_json,
+      code: '200',
+      :[] => 'application/json',
+    )
+
+    @cloudflare.stubs(:zone_name_to_id).with(@zone_name).returns(@zone_id)
+
+    Cloudflare::Client.any_instance.stubs(:get).with("/client/v4/zones/#{@zone_id}/dns_records").returns(
+      Cloudflare::Response.new(http_response_stub),
+    )
+
+    records = @cloudflare.retrieve_current_records(zone: @zone_name)
+    assert_equal([], records)
+  end
 end

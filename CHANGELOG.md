@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 7.1.1
+- Bugfix: Cloudflare provider now handles empty record sets properly
+
 ## 7.1.0
 - Add Cloudflare as a supported DNS provider
 
