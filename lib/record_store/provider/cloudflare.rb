@@ -21,8 +21,9 @@ module RecordStore
         zone_id = zone_name_to_id(zone)
 
         retry_on_connection_errors do
-          records = client.get("/client/v4/zones/#{zone_id}/dns_records").result_raw || []
-          records.map { |api_body| build_from_api(api_body) }
+          client.get("/client/v4/zones/#{zone_id}/dns_records").result_raw.map do |api_body|
+            build_from_api(api_body)
+          end
         end
       end
 
@@ -31,8 +32,7 @@ module RecordStore
       # Can implement filtering in request if needed
       def zones
         retry_on_connection_errors do
-          zones = client.get('/client/v4/zones').result_raw || []
-          zones.map { |zone| zone['name'] }
+          client.get('/client/v4/zones').result_raw.map { |zone| zone['name'] }
         end
       end
 
