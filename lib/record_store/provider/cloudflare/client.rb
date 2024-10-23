@@ -3,8 +3,9 @@ require_relative 'response'
 
 module Cloudflare
   class Client
-    def initialize(api_fqdn, api_token)
-      @api_fqdn = api_fqdn
+    API_FQDN = 'api.cloudflare.com'.freeze
+
+    def initialize(api_token)
       @api_token = api_token
     end
 
@@ -88,7 +89,7 @@ module Cloudflare
 
     def build_uri(endpoint, params = {})
       URI::HTTPS.build(
-        host: @api_fqdn,
+        host: API_FQDN,
         path: endpoint.chomp('/'),
         query: URI.encode_www_form(params),
       )

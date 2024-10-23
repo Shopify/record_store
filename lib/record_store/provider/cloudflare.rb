@@ -167,7 +167,6 @@ module RecordStore
 
       def client
         Cloudflare::Client.new(
-          secrets['api_fqdn'],
           secrets['api_token'],
         )
       end

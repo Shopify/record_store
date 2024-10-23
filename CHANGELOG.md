@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.0
+- Remove api_fqdn from Cloudflare provider config
+
 ## 7.1.1
 - Bugfix: Cloudflare provider now handles empty record sets properly
 
