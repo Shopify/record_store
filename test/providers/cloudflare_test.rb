@@ -190,7 +190,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_add_multiple_changesets
-    VCR.use_cassette('cloudflare_test_add__multiple_changesets') do
+    VCR.use_cassette('cloudflare_test_add_multiple_changesets') do
       records = [
         Record::A.new(fqdn: 'multi1.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.1'),
         Record::A.new(fqdn: 'multi1.record-store-dns-tests.shopitest.com', ttl: 600, address: '192.0.2.3'),
@@ -315,7 +315,7 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_remove_record_should_not_remove_all_records_for_fqdn
-    VCR.use_cassette('cloudflaretest_remove_record_should_not_remove_all_records_for_fqdn') do
+    VCR.use_cassette('cloudflare_test_remove_record_should_not_remove_all_records_for_fqdn') do
       target_fqdn = 'multi.record-store-dns-tests.shopitest.com'
       record1 = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
       record2 = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.2')
@@ -366,6 +366,9 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_zones_returns_empty_array_when_api_response_is_empty
+    page = 1
+    per_page = 50
+    
     empty_api_response = {
       "result" => [],
       "success" => true,
@@ -373,7 +376,7 @@ class CloudflareTest < Minitest::Test
       "messages" => [],
       "result_info" => {
         "page" => 1,
-        "per_page" => 100,
+        "per_page" => 50,
         "count" => 0,
         "total_count" => 0,
         "total_pages" => 1
@@ -386,7 +389,7 @@ class CloudflareTest < Minitest::Test
       :[] => 'application/json',
     )
 
-    Cloudflare::Client.any_instance.stubs(:get).with('/client/v4/zones').returns(
+    Cloudflare::Client.any_instance.stubs(:get).with('/client/v4/zones', page: page, per_page: per_page).returns(
       Cloudflare::Response.new(http_response_stub),
     )
 
@@ -395,6 +398,9 @@ class CloudflareTest < Minitest::Test
   end
 
   def test_retrieve_current_records_returns_empty_array_when_api_response_is_empty
+    page = 1
+    per_page = 1000
+
     empty_api_response = {
       "result" => [],
       "success" => true,
@@ -402,7 +408,7 @@ class CloudflareTest < Minitest::Test
       "messages" => [],
       "result_info" => {
         "page" => 1,
-        "per_page" => 100,
+        "per_page" => 1000,
         "count" => 0,
         "total_count" => 0,
         "total_pages" => 1
@@ -417,7 +423,7 @@ class CloudflareTest < Minitest::Test
 
     @cloudflare.stubs(:zone_name_to_id).with(@zone_name).returns(@zone_id)
 
-    Cloudflare::Client.any_instance.stubs(:get).with("/client/v4/zones/#{@zone_id}/dns_records").returns(
+    Cloudflare::Client.any_instance.stubs(:get).with("/client/v4/zones/#{@zone_id}/dns_records", page: page, per_page: per_page).returns(
       Cloudflare::Response.new(http_response_stub),
     )
 

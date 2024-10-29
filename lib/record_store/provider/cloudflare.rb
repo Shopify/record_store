@@ -22,17 +22,16 @@ module RecordStore
 
         all_records = []
         page = 1
-        per_page = 50
+        per_page = 1000
         
         loop do
           response = nil
           retry_on_connection_errors do
             response = client.get("/client/v4/zones/#{zone_id}/dns_records", page: page, per_page: per_page)
-            puts response.result_raw
           end
           
           records = response.result_raw || []
-          all_records.concat(zones)
+          all_records.concat(records)
 
           result_info = response.result_info_raw
           break if page * per_page >= response.result_info_raw['total_count']
