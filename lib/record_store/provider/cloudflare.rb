@@ -23,18 +23,18 @@ module RecordStore
         all_records = []
         page = 1
         per_page = 1000
-        
+
         loop do
           response = nil
           retry_on_connection_errors do
             response = client.get("/client/v4/zones/#{zone_id}/dns_records", page: page, per_page: per_page)
           end
-          
+
           records = response.result_raw || []
           all_records.concat(records)
 
-          result_info = response.result_info_raw
           break if page * per_page >= response.result_info_raw['total_count']
+
           page += 1
         end
 
@@ -48,18 +48,18 @@ module RecordStore
         all_zones = []
         page = 1
         per_page = 50
-        
+
         loop do
           response = nil
           retry_on_connection_errors do
             response = client.get('/client/v4/zones', page: page, per_page: per_page)
           end
-          
+
           zones = response.result_raw || []
           all_zones.concat(zones)
 
-          result_info = response.result_info_raw
           break if page * per_page >= response.result_info_raw['total_count']
+
           page += 1
         end
 
@@ -205,7 +205,7 @@ module RecordStore
         retry_on_connection_errors do
           params = { name: zone_name }
           matching_zones = client.get("/client/v4/zones", params).result_raw
-          
+
           case matching_zones.size
           when 0
             raise "Zone not found for #{zone_name}"

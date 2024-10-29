@@ -368,7 +368,7 @@ class CloudflareTest < Minitest::Test
   def test_zones_returns_empty_array_when_api_response_is_empty
     page = 1
     per_page = 50
-    
+
     empty_api_response = {
       "result" => [],
       "success" => true,
@@ -423,7 +423,9 @@ class CloudflareTest < Minitest::Test
 
     @cloudflare.stubs(:zone_name_to_id).with(@zone_name).returns(@zone_id)
 
-    Cloudflare::Client.any_instance.stubs(:get).with("/client/v4/zones/#{@zone_id}/dns_records", page: page, per_page: per_page).returns(
+    Cloudflare::Client.any_instance.stubs(:get).with(
+      "/client/v4/zones/#{@zone_id}/dns_records", page: page, per_page: per_page
+    ).returns(
       Cloudflare::Response.new(http_response_stub),
     )
 
