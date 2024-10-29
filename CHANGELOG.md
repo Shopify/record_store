@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.1
+- Fix Cloudflare provider to handle paginated returns from API
+
 ## 8.0.0
 - Remove api_fqdn from Cloudflare provider config
 
