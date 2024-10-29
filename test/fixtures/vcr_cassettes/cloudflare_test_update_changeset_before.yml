@@ -60,6 +60,8 @@ http_interactions:
       - Accept-Encoding
       Server:
       - cloudflare
+      X-Ratelimit-Period:
+      - 0
     body:
       encoding: ASCII-8BIT
       string: '{"result":[{"id":"c2777ebe2e47b52ad23fc163e086200b","name":"aaliam_test.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
@@ -101,6 +103,74 @@ http_interactions:
         Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":9,"total_count":9},"success":true,"errors":[],"messages":[]}'
   recorded_at: Thu, 17 Oct 2024 16:43:40 GMT
 - request:
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones?name=record-store-dns-tests.shopitest.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 29 Oct 2024 18:46:20 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8da553e888bbac57-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Expires:
+      - Sun, 25 Jan 1981 05:00:00 GMT
+      Set-Cookie:
+      - __cf_bm=pabBqs5JQoisoZTdr.ARideFmMQuo47ch9x1KJQlaB8-1730227580-1.0.1.1-BSFHCkhTSZCCgmRkbBBGr_UkK.HQBC4ESVXZZJpgXVD0T56zaXZ0uzfBAVMJzRBG.eqLypIpACBkMnUmOnuIfQ;
+        path=/; expires=Tue, 29-Oct-24 19:16:20 GMT; domain=.api.cloudflare.com; HttpOnly;
+        Secure; SameSite=None
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpdQjgf9jcN9; SameSite=Lax; path=/;
+        expires=Tue, 29-Oct-24 21:16:21 GMT; HttpOnly
+      - __cfruid=a474f162ebd867979568aba85c77a574f08557f9-1730227580; path=/; domain=.api.cloudflare.com;
+        HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000
+      Pragma:
+      - no-cache
+      Cf-Auditlog-Id:
+      - '0192d999-ad63-70ce-8127-cd0a9cd72c65'
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"result":[{"id":"7ed83734c471bd155e2fe23234c5c936","name":"record-store-dns-tests.shopitest.com","status":"pending","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-19T15:28:23.108643Z","created_on":"2024-09-19T15:28:12.917187Z","activated_on":null,"vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":1,"total_count":1},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Tue, 29 Oct 2024 18:46:20 GMT
+- request:
     method: post
     uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records/batch
     body:
@@ -123,7 +193,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 Oct 2024 16:43:40 GMT
+      - Tue, 29 Oct 2024 18:46:20 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -131,25 +201,25 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8d41bfb9b800aae6-YYZ
+      - 8da553e9fa6eac57-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=yFOl7nYYSOaqsBjVW7dzFRrPI3.OFBs.SH6WJ0_GpwA-1729183420-1.0.1.1-n2a9sYK7QSFhRjRVeVrihhGIzNf1V_FB.nBDR0H6Rjdt2AmF1azrsj5GFpVfGXbrmhRjPnUieb6wbMT2IEf85g;
-        path=/; expires=Thu, 17-Oct-24 17:13:40 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=mc_ID9gwCzf.AjM9DrGXNAWceN0oCyiGXndygOhwsbg-1730227580-1.0.1.1-mqboFxE2vIbS3MSxH.6ah8_ghTzJP0AcC9FtFOOAFeX8jom9NTjKTS._HsOYYxTA9i4kwIgf9wjB3SyzzmGYZw;
+        path=/; expires=Tue, 29-Oct-24 19:16:20 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnV1Mb4nGSpLMB; SameSite=Lax; path=/;
-        expires=Thu, 17-Oct-24 19:13:41 GMT; HttpOnly
-      - __cfruid=dd56d0ac4698105abf50f86dd7d06de788f96fac-1729183420; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpdQjgf9jcN9; SameSite=Lax; path=/;
+        expires=Tue, 29-Oct-24 21:16:21 GMT; HttpOnly
+      - __cfruid=a474f162ebd867979568aba85c77a574f08557f9-1730227580; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Vary:
       - Accept-Encoding
       Cf-Auditlog-Id:
-      - '01929b5d-1024-73c7-804a-1618f2a1e645'
+      - '0192d999-ae4a-7c67-a5f4-c9d4d74cf897'
       Server:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"result":{"deletes":null,"patches":null,"puts":null,"posts":[{"id":"6e96a3dea3c8652a7d3eb85b23e5cc00","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-17T16:43:40.62948Z","modified_on":"2024-10-17T16:43:40.62948Z"}]},"success":true,"errors":[],"messages":[]}'
-  recorded_at: Thu, 17 Oct 2024 16:43:40 GMT
-recorded_with: VCR 6.2.0
+      string: '{"result":{"deletes":null,"patches":null,"puts":null,"posts":[{"id":"cf75f417abfc2339846d284112c160ba","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-29T18:46:20.623112Z","modified_on":"2024-10-29T18:46:20.623112Z"}]},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Tue, 29 Oct 2024 18:46:20 GMT
+recorded_with: VCR 6.3.1

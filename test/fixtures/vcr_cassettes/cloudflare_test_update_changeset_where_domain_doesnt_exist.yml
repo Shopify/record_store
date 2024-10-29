@@ -273,6 +273,8 @@ http_interactions:
       - Accept-Encoding
       Server:
       - cloudflare
+      X-Ratelimit-Period:
+      - 0
     body:
       encoding: ASCII-8BIT
       string: '{"result":[{"id":"c2777ebe2e47b52ad23fc163e086200b","name":"aaliam_test.shopitest.com","status":"active","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
@@ -314,6 +316,74 @@ http_interactions:
         Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":9,"total_count":9},"success":true,"errors":[],"messages":[]}'
   recorded_at: Thu, 17 Oct 2024 16:23:47 GMT
 - request:
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones?name=record-store-dns-tests.shopitest.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 29 Oct 2024 18:46:19 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8da553e4bbd0ac57-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Expires:
+      - Sun, 25 Jan 1981 05:00:00 GMT
+      Set-Cookie:
+      - __cf_bm=KhzRf.KrA.LbGV1yKtlNKwPjMgsUcHdz7SslvFCPrx8-1730227579-1.0.1.1-UjybvXNpsRPCnISaLo4swsCn8OcrU2ouVZeyM_4LJSTYPCj6kGUCp321hzN9vNMiq_KWLiRDGPEh3No25go2lQ;
+        path=/; expires=Tue, 29-Oct-24 19:16:19 GMT; domain=.api.cloudflare.com; HttpOnly;
+        Secure; SameSite=None
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpTi4frLF16d; SameSite=Lax; path=/;
+        expires=Tue, 29-Oct-24 21:16:20 GMT; HttpOnly
+      - __cfruid=8516fed5d795aceab3dff0cbaf26fe2cd70bb4e3-1730227579; path=/; domain=.api.cloudflare.com;
+        HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000
+      Pragma:
+      - no-cache
+      Cf-Auditlog-Id:
+      - '0192d999-aaff-7c57-8e81-b917d0ee98f9'
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"result":[{"id":"7ed83734c471bd155e2fe23234c5c936","name":"record-store-dns-tests.shopitest.com","status":"pending","paused":false,"type":"full","development_mode":0,"name_servers":["cory.ns.cloudflare.com","nora.ns.cloudflare.com"],"original_name_servers":["dns1.p06.nsone.net","dns2.p06.nsone.net","dns3.p06.nsone.net","dns4.p06.nsone.net","ns1.dnsimple.com","ns2.dnsimple.com","ns3.dnsimple.com","ns4.dnsimple.com"],"original_registrar":"markmonitor
+        inc. (id: 292)","original_dnshost":null,"modified_on":"2024-09-19T15:28:23.108643Z","created_on":"2024-09-19T15:28:12.917187Z","activated_on":null,"vanity_name_servers":[],"vanity_name_servers_ips":null,"meta":{"step":2,"custom_certificate_quota":1,"page_rule_quota":100,"phishing_detected":false},"owner":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","type":"organization","name":"Shopify
+        Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
+        Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
+        Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":1,"total_count":1},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Tue, 29 Oct 2024 18:46:19 GMT
+- request:
     method: post
     uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records/batch
     body:
@@ -336,7 +406,7 @@ http_interactions:
       message: Not Found
     headers:
       Date:
-      - Thu, 17 Oct 2024 16:23:47 GMT
+      - Tue, 29 Oct 2024 18:46:20 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -344,26 +414,26 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8d41a29abfd3aae6-YYZ
+      - 8da553e6de67ac57-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=BDsLYjVnhQSCmw_ukwSoeiWbOYmTM_QW5c62KFcIcoQ-1729182227-1.0.1.1-kcYI4MpCeND2hPKGjf029C7hs1LOmF8V9RMrr7RGr0eSoiXVrelT6uZZl1gLaNYhT1kbhD6RjinTw4x7jCYquQ;
-        path=/; expires=Thu, 17-Oct-24 16:53:47 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=7vKZtMTM7E97PVKxH.HOs2fNfdcViOyf..fHvPVLKLM-1730227580-1.0.1.1-SJJLYykUSLUSqlzjLNmfREXAGMvUnEHcmoGzMfc8.uHadTMzA4.vBv5tloP5RAesY6bTki5egQay5C23dW3GRg;
+        path=/; expires=Tue, 29-Oct-24 19:16:20 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUtVVhtLZA9zu; SameSite=Lax; path=/;
-        expires=Thu, 17-Oct-24 18:53:48 GMT; HttpOnly
-      - __cfruid=2eeb3d95f67ce036c394aceb33988db5249d7be4-1729182227; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpdQjgf9jcN9; SameSite=Lax; path=/;
+        expires=Tue, 29-Oct-24 21:16:21 GMT; HttpOnly
+      - __cfruid=a474f162ebd867979568aba85c77a574f08557f9-1730227580; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Vary:
       - Accept-Encoding
       Cf-Auditlog-Id:
-      - '01929b4a-dcbf-72b2-913f-fe7bc3ff544a'
+      - '0192d999-ac5c-7210-afe4-17c18d6cd2a0'
       Server:
       - cloudflare
     body:
       encoding: ASCII-8BIT
       string: '{"result":null,"success":false,"errors":[{"code":81044,"message":"Record
         ID <DNSIMPLE_ACCOUNT_ID>5 does not exist."}],"messages":[]}'
-  recorded_at: Thu, 17 Oct 2024 16:23:47 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Tue, 29 Oct 2024 18:46:20 GMT
+recorded_with: VCR 6.3.1
