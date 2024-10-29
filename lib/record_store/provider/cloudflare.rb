@@ -20,20 +20,51 @@ module RecordStore
       def retrieve_current_records(zone:, stdout: $stdout)
         zone_id = zone_name_to_id(zone)
 
-        retry_on_connection_errors do
-          records = client.get("/client/v4/zones/#{zone_id}/dns_records").result_raw || []
-          records.map { |api_body| build_from_api(api_body) }
+        all_records = []
+        page = 1
+        per_page = 50
+        
+        loop do
+          response = nil
+          retry_on_connection_errors do
+            response = client.get("/client/v4/zones/#{zone_id}/dns_records", page: page, per_page: per_page)
+            puts response.result_raw
+          end
+          
+          records = response.result_raw || []
+          all_records.concat(zones)
+
+          result_info = response.result_info_raw
+          break if page * per_page >= response.result_info_raw['total_count']
+          page += 1
         end
+
+        all_records.map { |api_body| build_from_api(api_body) }
       end
 
       # Returns an array of the zones managed by provider as strings
       # Cloudflare returns zones across all accounts accessible by the API token
       # Can implement filtering in request if needed
       def zones
-        retry_on_connection_errors do
-          zones = client.get('/client/v4/zones').result_raw || []
-          zones.map { |zone| zone['name'] }
+        all_zones = []
+        page = 1
+        per_page = 50
+        
+        loop do
+          response = nil
+          retry_on_connection_errors do
+            response = client.get('/client/v4/zones', page: page, per_page: per_page)
+          end
+          
+          zones = response.result_raw || []
+          all_zones.concat(zones)
+
+          result_info = response.result_info_raw
+          break if page * per_page >= response.result_info_raw['total_count']
+          page += 1
         end
+
+        all_zones.map { |zone| zone['name'] }
       end
 
       def apply_changeset(changeset, stdout = $stdout)
@@ -173,8 +204,9 @@ module RecordStore
 
       def zone_name_to_id(zone_name)
         retry_on_connection_errors do
-          matching_zones = client.get('/client/v4/zones').result_raw.select { |zone| zone['name'] == zone_name }
-
+          params = { name: zone_name }
+          matching_zones = client.get("/client/v4/zones", params).result_raw
+          
           case matching_zones.size
           when 0
             raise "Zone not found for #{zone_name}"

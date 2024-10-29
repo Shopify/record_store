@@ -27,6 +27,14 @@ module Cloudflare
       result
     end
 
+    def result_info_raw
+      result_info_raw = json['result_info']
+
+      return if result_info_raw.nil? || result_info_raw.empty? || !success
+
+      result_info_raw
+    end
+
     def success
       json['success']
     end
