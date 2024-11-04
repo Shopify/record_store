@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.2
+- Fix Changesets to be case-insensitive
+
 ## 8.0.1
 - Fix Cloudflare provider to handle paginated returns from API
 
