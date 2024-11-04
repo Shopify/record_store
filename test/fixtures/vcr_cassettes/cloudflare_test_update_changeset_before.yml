@@ -125,7 +125,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 29 Oct 2024 18:46:20 GMT
+      - Mon, 04 Nov 2024 19:33:48 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -133,7 +133,7 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8da553e888bbac57-YYZ
+      - 8dd709b2abc6aab0-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Cache-Control:
@@ -141,19 +141,19 @@ http_interactions:
       Expires:
       - Sun, 25 Jan 1981 05:00:00 GMT
       Set-Cookie:
-      - __cf_bm=pabBqs5JQoisoZTdr.ARideFmMQuo47ch9x1KJQlaB8-1730227580-1.0.1.1-BSFHCkhTSZCCgmRkbBBGr_UkK.HQBC4ESVXZZJpgXVD0T56zaXZ0uzfBAVMJzRBG.eqLypIpACBkMnUmOnuIfQ;
-        path=/; expires=Tue, 29-Oct-24 19:16:20 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=7vydwYs9knbfZe0VygTs.WQAvH7rkLLO6TZAIPqDscs-1730748828-1.0.1.1-q2t08F14czbkxML2DIEZYR5qsTyi_8ULNt8nMr6AGTJx2B0_SGGYBxB0TtgSrYMXNkbTFY80eqvXaWM6b7urnQ;
+        path=/; expires=Mon, 04-Nov-24 20:03:48 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpdQjgf9jcN9; SameSite=Lax; path=/;
-        expires=Tue, 29-Oct-24 21:16:21 GMT; HttpOnly
-      - __cfruid=a474f162ebd867979568aba85c77a574f08557f9-1730227580; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUuxwnXqQAp93; SameSite=Lax; path=/;
+        expires=Mon, 04-Nov-24 22:03:49 GMT; HttpOnly
+      - __cfruid=b9d4911ca71a170970568efd144bd05ab35640b1-1730748828; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000
       Pragma:
       - no-cache
       Cf-Auditlog-Id:
-      - '0192d999-ad63-70ce-8127-cd0a9cd72c65'
+      - '0192f8ab-4bc1-7665-bf48-30c89a74a049'
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -169,13 +169,13 @@ http_interactions:
         Playground"},"account":{"id":"8378b3b7c26e4b6205f5b0d0c8c4f063","name":"Shopify
         Playground"},"tenant":{"id":null,"name":null},"tenant_unit":{"id":null},"permissions":["#dns_records:edit","#dns_records:read","#zone:read"],"plan":{"id":"94f3b7b768b0458b56d2cac4fe5ec0f9","name":"Enterprise
         Website","price":0,"currency":"USD","frequency":"","is_subscribed":true,"can_subscribe":true,"legacy_id":"enterprise","legacy_discount":false,"externally_managed":true}}],"result_info":{"page":1,"per_page":20,"total_pages":1,"count":1,"total_count":1},"success":true,"errors":[],"messages":[]}'
-  recorded_at: Tue, 29 Oct 2024 18:46:20 GMT
+  recorded_at: Mon, 04 Nov 2024 19:33:48 GMT
 - request:
     method: post
     uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records/batch
     body:
       encoding: UTF-8
-      string: '{"deletes":[],"patches":[],"posts":[{"name":"update.record-store-dns-tests.shopitest.com.","ttl":600,"type":"A","content":"192.0.2.1"}],"puts":[]}'
+      string: '{"deletes":[],"patches":[],"posts":[{"name":"update.record-store-dns-tests.shopitest.com.","ttl":600,"type":"CNAME","content":"example.com."}],"puts":[]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -193,7 +193,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 29 Oct 2024 18:46:20 GMT
+      - Mon, 04 Nov 2024 19:33:49 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -201,25 +201,25 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8da553e9fa6eac57-YYZ
+      - 8dd709b46da3aab0-YYZ
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=mc_ID9gwCzf.AjM9DrGXNAWceN0oCyiGXndygOhwsbg-1730227580-1.0.1.1-mqboFxE2vIbS3MSxH.6ah8_ghTzJP0AcC9FtFOOAFeX8jom9NTjKTS._HsOYYxTA9i4kwIgf9wjB3SyzzmGYZw;
-        path=/; expires=Tue, 29-Oct-24 19:16:20 GMT; domain=.api.cloudflare.com; HttpOnly;
+      - __cf_bm=CsZlW_euNFjDlUWYkAxPXY8_.GjlN_MkGHXSP2wjxno-1730748829-1.0.1.1-RzucAIRme4utNbeCxZN2MPJEz5XyKYWUcx5wKh.T_NsE9YneHAzA0OAoAl.C4M_jdZjy_mDyA7.QxiQqn1bTgQ;
+        path=/; expires=Mon, 04-Nov-24 20:03:49 GMT; domain=.api.cloudflare.com; HttpOnly;
         Secure; SameSite=None
-      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUpdQjgf9jcN9; SameSite=Lax; path=/;
-        expires=Tue, 29-Oct-24 21:16:21 GMT; HttpOnly
-      - __cfruid=a474f162ebd867979568aba85c77a574f08557f9-1730227580; path=/; domain=.api.cloudflare.com;
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUuxwnXqQAp93; SameSite=Lax; path=/;
+        expires=Mon, 04-Nov-24 22:03:50 GMT; HttpOnly
+      - __cfruid=fbc554ede9eb3ac2d2d7800999a32d9f1a20d06c-1730748829; path=/; domain=.api.cloudflare.com;
         HttpOnly; Secure; SameSite=None
       Vary:
       - Accept-Encoding
       Cf-Auditlog-Id:
-      - '0192d999-ae4a-7c67-a5f4-c9d4d74cf897'
+      - '0192f8ab-4cd7-7b9f-a865-b7b1cf5b5f04'
       Server:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"result":{"deletes":null,"patches":null,"puts":null,"posts":[{"id":"cf75f417abfc2339846d284112c160ba","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"A","content":"192.0.2.1","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-10-29T18:46:20.623112Z","modified_on":"2024-10-29T18:46:20.623112Z"}]},"success":true,"errors":[],"messages":[]}'
-  recorded_at: Tue, 29 Oct 2024 18:46:20 GMT
-recorded_with: VCR 6.3.1
+      string: '{"result":{"deletes":null,"patches":null,"puts":null,"posts":[{"id":"24f2d8827e91daba2263fde10f7cbf2c","zone_id":"7ed83734c471bd155e2fe23234c5c936","zone_name":"record-store-dns-tests.shopitest.com","name":"update.record-store-dns-tests.shopitest.com","type":"CNAME","content":"example.com","proxiable":true,"proxied":false,"ttl":600,"settings":{},"meta":{"auto_added":false,"managed_by_apps":false,"managed_by_argo_tunnel":false},"comment":null,"tags":[],"created_on":"2024-11-04T19:33:49.036464Z","modified_on":"2024-11-04T19:33:49.036464Z"}]},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Mon, 04 Nov 2024 19:33:49 GMT
+recorded_with: VCR 6.2.0

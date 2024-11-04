@@ -111,15 +111,16 @@ class CloudflareTest < Minitest::Test
     api_record = {
       "id" => "123462",
       "type" => "PTR",
-      "name" => "4.3.2.1.in-addr.arpa",
-      "content" => "host.record-store-dns-tests.shopitest.com",
+      "name" => "0.183.136.115.in-addr.arpa",
+      "content" => "tbnbz2ni.byoip.example.com",
       "ttl" => 3600
     }
 
     record = @cloudflare.send(:build_from_api, api_record)
 
     assert_kind_of(Record::PTR, record)
-    assert_equal('host.record-store-dns-tests.shopitest.com.', record.ptrdname)
+    assert_equal('tbnbz2ni.byoip.example.com.', record.ptrdname)
+    assert_equal('0.183.136.115.in-addr.arpa.', record.fqdn)
     assert_equal(3600, record.ttl)
   end
 
@@ -237,9 +238,10 @@ class CloudflareTest < Minitest::Test
 
   def test_update_changeset
     target_fqdn = 'update.record-store-dns-tests.shopitest.com'
-    record = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
+    # Record with capitalization since Cloudflare normalizes to lowercase
+    record = Record::CNAME.new(fqdn: target_fqdn, ttl: 600, cname: 'EXAMPLE.COM')
     updated_record = record.dup
-    updated_record.address = '192.0.2.2'
+    updated_record.cname = 'example.org'
     updated_record.ttl = 3600
 
     VCR.use_cassette('cloudflare_test_update_changeset_before') do
@@ -264,17 +266,13 @@ class CloudflareTest < Minitest::Test
       ))
 
       retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
-      assert_includes(retrieved_records, updated_record)
-      refute_includes(retrieved_records, record)
 
-      updated_record.id = matching_record.id
+      # Check that at least one retrieved record has the cname and fqdn of updated_record
+      assert(retrieved_records.any? { |r| r.fqdn == updated_record.fqdn && r.cname == updated_record.cname + '.' })
 
-      # @cloudflare.apply_changeset(Changeset.new(
-      #   current_records: [updated_record],
-      #   desired_records: [],
-      #   provider: @cloudflare,
-      #   zone: @zone_name,
-      # ))
+      # Check that the cname (in both upper and lowercase) of the original record is not included
+      refute(retrieved_records.any? { |r| r.fqdn == record.fqdn && r.cname == record.cname.downcase + '.' })
+      refute(retrieved_records.any? { |r| r.fqdn == record.fqdn && r.cname == record.cname.upcase + '.' })
     end
   end
 

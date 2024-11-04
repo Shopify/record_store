@@ -55,8 +55,8 @@ module RecordStore
     end
 
     def initialize(current_records: [], desired_records: [], provider:, zone:)
-      @current_records = Set.new(current_records)
-      @desired_records = Set.new(desired_records)
+      @current_records = Set.new(normalize_records(current_records))
+      @desired_records = Set.new(normalize_records(desired_records))
       @provider = provider
       @zone = zone
 
@@ -111,6 +111,19 @@ module RecordStore
           @removals << Change.removal(before_rr)
         else
           @updates << Change.update(before_rr.id, after_rr)
+        end
+      end
+    end
+
+    def normalize_records(records)
+      records.map do |record|
+        record.dup.tap do |r|
+          r.fqdn = r.fqdn.downcase
+          r.rdata.each do |key, value|
+            next if key == :txtdata
+
+            r.send("#{key}=", value.downcase) if value.is_a?(String)
+          end
         end
       end
     end
