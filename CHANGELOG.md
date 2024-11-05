@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.3
+- Fix SRV records in Cloudflare
+
 ## 8.0.2
 - Fix Changesets to be case-insensitive
 

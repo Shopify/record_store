@@ -132,7 +132,7 @@ module RecordStore
         when Record::CAA
           api_body[:data] = record.rdata
         when Record::SRV
-          api_body[:data] = rdata
+          api_body[:data] = record.rdata
         when Record::ALIAS
           api_body[:type] = 'CNAME'
           api_body[:content] = record.rdata_txt
