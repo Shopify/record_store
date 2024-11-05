@@ -363,6 +363,32 @@ class CloudflareTest < Minitest::Test
     assert_equal(expected_api_body, api_body)
   end
 
+  def test_build_api_body_for_srv_record
+    record = Record::SRV.new(
+      fqdn: '_sip._tcp.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      priority: 10,
+      weight: 20,
+      port: 5060,
+      target: 'sip.record-store-dns-tests.shopitest.com.',
+    )
+    api_body = @cloudflare.send(:build_api_body, record)
+
+    expected_api_body = {
+      name: '_sip._tcp.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      type: 'SRV',
+      data: {
+        priority: 10,
+        weight: 20,
+        port: 5060,
+        target: 'sip.record-store-dns-tests.shopitest.com.'
+      }
+    }
+
+    assert_equal(expected_api_body, api_body)
+  end
+
   def test_zones_returns_empty_array_when_api_response_is_empty
     page = 1
     per_page = 50
