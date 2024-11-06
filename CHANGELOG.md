@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.4
+- Normalize (compress) addresses in A and AAAA records
+
 ## 8.0.3
 - Fix SRV records in Cloudflare
 
