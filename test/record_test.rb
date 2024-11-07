@@ -289,8 +289,8 @@ class RecordTest < Minitest::Test
   end
 
   def test_rdata_txt_returns_zonefile_compliant_formatting
-    assert_equal('10.11.12.13', RECORD_FIXTURES[:a].rdata_txt)
-    assert_equal('2001:0db8:85a3:0000:0000:EA75:1337:BEEF', RECORD_FIXTURES[:aaaa].rdata_txt)
+    assert_equal(IPAddr.new('10.11.12.13').to_s, RECORD_FIXTURES[:a].rdata_txt)
+    assert_equal(IPAddr.new('2001:0db8:85a3:0000:0000:EA75:1337:BEEF').to_s, RECORD_FIXTURES[:aaaa].rdata_txt)
     assert_equal('dns-test.herokuapp.com.', RECORD_FIXTURES[:alias_rr].rdata_txt)
     assert_equal('0 issue "digicert.com"', RECORD_FIXTURES[:caa].rdata_txt)
     assert_equal('dns-test.shopify.io.', RECORD_FIXTURES[:cname].rdata_txt)
@@ -310,7 +310,7 @@ class RecordTest < Minitest::Test
     assert_equal('[ARecord] test.dns-test.shopify.io. 600 IN A 10.11.12.13', RECORD_FIXTURES[:a].to_s)
     assert_equal(
       '[AAAARecord] aaaa.dns-test.shopify.io. 60 IN AAAA ' \
-        '2001:0db8:85a3:0000:0000:EA75:1337:BEEF',
+        '2001:db8:85a3::ea75:1337:beef',
       RECORD_FIXTURES[:aaaa].to_s,
     )
     assert_equal(

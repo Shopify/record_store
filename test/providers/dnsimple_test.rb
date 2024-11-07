@@ -53,7 +53,7 @@ class DNSimpleTest < Minitest::Test
 
     assert_kind_of(Record::AAAA, record)
     assert_equal('aaaa.dns-scratch.me.', record.fqdn)
-    assert_equal('2001:0db8:85a3:0000:0000:EA75:1337:BEEF', record.address)
+    assert_equal(IPAddr.new('2001:0db8:85a3:0000:0000:EA75:1337:BEEF').to_s, record.address)
     assert_equal(60, record.ttl)
   end
 
