@@ -11,35 +11,30 @@ module Cloudflare
 
     def get(endpoint, params = {})
       uri = build_uri(endpoint, params)
-
       response = request(:get, uri)
       Cloudflare::Response.new(response)
     end
 
     def post(endpoint, body = nil)
       uri = build_uri(endpoint)
-
       response = request(:post, uri, body: body)
       Cloudflare::Response.new(response)
     end
 
     def put(endpoint, body = nil)
       uri = build_uri(endpoint)
-
       response = request(:put, uri, body: body)
       Cloudflare::Response.new(response)
     end
 
     def patch(endpoint, body = nil)
       uri = build_uri(endpoint)
-
       response = request(:patch, uri, body: body)
       Cloudflare::Response.new(response)
     end
 
     def delete(endpoint)
       uri = build_uri(endpoint)
-
       response = request(:delete, uri)
       Cloudflare::Response.new(response)
     end
@@ -72,6 +67,12 @@ module Cloudflare
         rescue StandardError => e
           raise "HTTP error: #{e.message}"
         end
+
+        if response.code.to_i >= 300
+          raise RecordStore::Provider::Error,
+            "HTTP response code: #{response.code} - #{response.message}; #{response.body}"
+        end
+
         response
       end
     end

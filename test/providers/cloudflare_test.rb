@@ -456,4 +456,30 @@ class CloudflareTest < Minitest::Test
     records = @cloudflare.retrieve_current_records(zone: @zone_name)
     assert_equal([], records)
   end
+
+  def test_apply_changeset_with_server_error
+    target_fqdn = 'error.example.com'
+    record = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
+
+    stub_request(:post, "https://api.cloudflare.com/client/v4/zones/#{@zone_name}/dns_records")
+      .with(body: hash_including("name" => target_fqdn))
+      .to_return(status: 500, body: '{"success":false,"errors":[{"code":10000,"message":"Internal server error"}]}')
+
+    changeset = Changeset.new(
+      current_records: [],
+      desired_records: [record],
+      provider: @cloudflare,
+      zone: @zone_name,
+    )
+
+    VCR.use_cassette('cloudflare_test_apply_changeset_with_server_error') do
+      assert_raises(
+        RecordStore::Provider::Error,
+        "Response code: 500 - Internal Server Error; " \
+          "{\"success\":false,\"errors\":[{\"code\":10000,\"message\":\"Internal server error\"}]}",
+      ) do
+        @cloudflare.apply_changeset(changeset)
+      end
+    end
+  end
 end
