@@ -2,11 +2,19 @@ module RecordStore
   class Record::PTR < Record
     attr_accessor :ptrdname
 
-    OCTET_LABEL_SEQUENCE_REGEX = /\A(?:([0-9]|[1-9][0-9]|[1-9][0-9][0-9])\.){1,4}/
-    IN_ADDR_ARPA_SUFFIX_REGEX = /in-addr\.arpa\.\z/
-    FQDN_FORMAT_REGEX = Regexp.new(OCTET_LABEL_SEQUENCE_REGEX.source + IN_ADDR_ARPA_SUFFIX_REGEX.source)
+    # IPv4: 1-3 digits (0-255) followed by dots, 1-4 times
+    IPV4_LABEL_SEQUENCE_REGEX = /\A(?:([0-9]|[1-9][0-9]|[1-9][0-9][0-9])\.){1,4}/
 
-    validates_format_of :fqdn, with: FQDN_FORMAT_REGEX
+    # IPv6: single hex digit followed by dots, exactly 32 times
+    IPV6_LABEL_SEQUENCE_REGEX = /\A(?:[0-9a-f]\.){32}/i
+
+    IN_ADDR_ARPA_SUFFIX_REGEX = /(in-addr|ip6)\.arpa\.\z/
+
+    # Combine with suffix for full validation
+    IPV4_FORMAT_REGEX = Regexp.new(IPV4_LABEL_SEQUENCE_REGEX.source + 'in-addr\.arpa\.\z')
+    IPV6_FORMAT_REGEX = Regexp.new(IPV6_LABEL_SEQUENCE_REGEX.source + 'ip6\.arpa\.\z')
+
+    validates_format_of :fqdn, with: Regexp.union(IPV4_FORMAT_REGEX, IPV6_FORMAT_REGEX)
 
     validate :validate_fqdn_octets_in_range
     validate :validate_fqdn_is_in_addr_arpa_subzone
@@ -26,9 +34,20 @@ module RecordStore
     end
 
     def validate_fqdn_octets_in_range
-      OCTET_LABEL_SEQUENCE_REGEX.match(fqdn) do |m|
-        unless m.captures.all? { |o| o.to_d.between?(0, 255) }
-          errors.add(:fqdn, 'octet labels must be within the range 0-255')
+      if fqdn.end_with?('in-addr.arpa.')
+        # IPv4 validation: each octet must be 0-255
+        IPV4_LABEL_SEQUENCE_REGEX.match(fqdn) do |m|
+          unless m.captures.all? { |o| o.to_i.between?(0, 255) }
+            errors.add(:fqdn, 'IPv4 octet labels must be within the range 0-255')
+          end
+        end
+      elsif fqdn.end_with?('ip6.arpa.')
+        # IPv6 validation: each nibble must be a valid hex digit
+        IPV6_LABEL_SEQUENCE_REGEX.match(fqdn) do |m|
+          nibbles = m[0].split('.').reject(&:empty?)
+          unless nibbles.all? { |n| n.match?(/\A[0-9a-f]\z/i) }
+            errors.add(:fqdn, 'IPv6 labels must be single hexadecimal digits (0-9, a-f)')
+          end
         end
       end
     end

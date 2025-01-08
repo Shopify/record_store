@@ -517,3 +517,60 @@ class RecordTest < Minitest::Test
     )
   end
 end
+
+# IPv6
+
+def test_valid_ptr_record_ipv6
+  assert_predicate(
+    Record::PTR.new(
+      fqdn: '0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.f.7.2.0.0.2.ip6.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.',
+    ),
+    :valid?,
+  )
+end
+
+def test_invalid_when_no_octets_ipv6
+  refute_predicate(
+    Record::PTR.new(
+      fqdn: 'ip6.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.',
+    ),
+    :valid?,
+  )
+end
+
+def test_invalid_when_between_one_to_32_octets_ipv6
+  refute_predicate(
+    Record::PTR.new(
+      fqdn: '1.2.3.4.5.6.7.8.9.ip6.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.',
+    ),
+    :valid?,
+  )
+end
+
+def test_invalid_when_multi_hex_digits_ipv6
+  refute_predicate(
+    Record::PTR.new(
+      fqdn: '1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.17.18.19.20.21.22.23.24.25.26.27.28.29.30.31.32.ip6.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.',
+    ),
+    :valid?,
+  )
+end
+
+def test_invalid_when_over_32_octets_ipv6
+  refute_predicate(
+    Record::PTR.new(
+      fqdn: '0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0.0.0.f.7.2.0.0.2.0.ip6.arpa',
+      ttl: 3600,
+      ptrdname: 'a.root-servers.net.',
+    ),
+    :valid?,
+  )
+end

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.5
+- Add IPv6 PTR record validation
+
 ## 8.0.4
 - Normalize (compress) addresses in A and AAAA records
 
