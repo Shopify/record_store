@@ -124,12 +124,12 @@ class CloudflareTest < Minitest::Test
     assert_equal(3600, record.ttl)
   end
 
-  def test_build_txt_from_api
+  def test_build_txt_from_api_quote
     api_record = {
       "id" => "123465",
       "type" => "TXT",
       "name" => "record-store-dns-tests.shopitest.com",
-      "content" => "v=spf1 ip4:192.0.2.0; \"Hello, world!\"",
+      "content" => 'v=spf1 ip4:192.0.2.0; \"Hello, world!\"',
       "ttl" => 3600
     }
 
@@ -137,7 +137,7 @@ class CloudflareTest < Minitest::Test
 
     assert_kind_of(Record::TXT, record)
     assert_equal('record-store-dns-tests.shopitest.com.', record.fqdn)
-    assert_equal("v=spf1 ip4:192.0.2.0\\; \"Hello, world!\"", record.txtdata)
+    assert_equal('v=spf1 ip4:192.0.2.0\\; "Hello, world!"', record.txtdata)
     assert_equal(3600, record.ttl)
   end
 
@@ -146,7 +146,7 @@ class CloudflareTest < Minitest::Test
       "id" => "123465",
       "type" => "TXT",
       "name" => "record-store-dns-tests.shopitest.com",
-      "content" => "\"some text with \\\" quote\"",
+      "content" => '"some text with \" quote"',
       "ttl" => 3600
     }
 
@@ -500,21 +500,23 @@ class CloudflareTest < Minitest::Test
     end
   end
 
-  def test_build_api_body_for_txt_record_with_quotes
-    record = Record::TXT.new(
-      fqdn: 'test.record-store-dns-tests.shopitest.com.',
-      ttl: 3600,
-      txtdata: 'some text with " quote',
-    )
-    api_body = @cloudflare.send(:build_api_body, record)
+  def test_txt_record_with_quotes
+    VCR.use_cassette('cloudflare_test_txt_record_with_quotes') do
+      record = Record::TXT.new(
+        fqdn: 'quote.record-store-dns-tests.shopitest.com',
+        ttl: 3600,
+        txtdata: 'some text with " quote',
+      )
 
-    expected_api_body = {
-      name: 'test.record-store-dns-tests.shopitest.com.',
-      ttl: 3600,
-      type: 'TXT',
-      content: '"some text with \" quote"'
-    }
+      @cloudflare.apply_changeset(Changeset.new(
+        current_records: [],
+        desired_records: [record],
+        provider: @cloudflare,
+        zone: @zone_name,
+      ))
 
-    assert_equal(expected_api_body, api_body)
+      retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
+      assert_includes(retrieved_records, record)
+    end
   end
 end

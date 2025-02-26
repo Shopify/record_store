@@ -1,0 +1,71 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones?name=record-store-dns-tests.shopitest.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Wed, 26 Feb 2025 18:18:59 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 9181f0d6af1a36a5-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Expires:
+      - Sun, 25 Jan 1981 05:00:00 GMT
+      Set-Cookie:
+      - __cf_bm=nknhFFlXyiuHmqT6Gw72rxjr58aglxCyfYEjbt_XF4A-1740593939-1.0.1.1-pv6wzVcTasQr6qFXioute.WWI4Zpx0aIwdMNBHgai2uKU_aTR0LYiaGEP4nF6DE2tamhzBuPyePrRcoaQlPIIg;
+        path=/; expires=Wed, 26-Feb-25 18:48:59 GMT; domain=.api.cloudflare.com; HttpOnly;
+        Secure; SameSite=None
+      - __cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUtY1FVkfgLQD; SameSite=Lax; path=/;
+        expires=Wed, 26-Feb-25 20:49:00 GMT; HttpOnly
+      - __cfruid=5af2e22cfba40d0e03b306392ec8283f97242ab4-1740593939; path=/; domain=.api.cloudflare.com;
+        HttpOnly; Secure; SameSite=None
+      - _cfuvid=qPMTN5zo9r_TuIDSD5H8v.LArAg5yrMfWO94dtXcOoc-1740593939095-0.0.1.1-604800000;
+        path=/; domain=.api.cloudflare.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000
+      Pragma:
+      - no-cache
+      Cf-Auditlog-Id:
+      - '0195437b-c243-70c3-be1b-6901bfa3ec6c'
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"success":false,"errors":[{"code":6003,"message":"Invalid request
+        headers","error_chain":[{"code":6111,"message":"Invalid format for Authorization
+        header"}]}],"messages":[],"result":null}'
+  recorded_at: Wed, 26 Feb 2025 18:18:59 GMT
+recorded_with: VCR 6.2.0
