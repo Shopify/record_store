@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.6
+- Fix quotes around Cloudflare TXT records
+
 ## 8.0.5
 - Add IPv6 PTR record validation
 
