@@ -128,7 +128,7 @@ module RecordStore
           api_body[:content] = record.exchange
           api_body[:priority] = record.preference
         when Record::TXT, Record::SPF
-          api_body[:content] = record.txtdata.gsub('\;', ';')
+          api_body[:content] = Record.quote(record.txtdata.gsub('\;', ';'))
         when Record::CAA
           api_body[:data] = record.rdata
         when Record::SRV
@@ -166,7 +166,8 @@ module RecordStore
             record.merge!(cname: api_response['content'])
           end
         when 'TXT'
-          record.merge!(txtdata: Record.unescape(api_response['content']).gsub(';', '\;'))
+          content = Record.unquote(api_response['content'])
+          record.merge!(txtdata: content.gsub(';', '\;'))
         when 'MX'
           record.merge!(preference: api_response['priority'], exchange: api_response['content'])
         when 'PTR'

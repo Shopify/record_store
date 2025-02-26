@@ -141,6 +141,23 @@ class CloudflareTest < Minitest::Test
     assert_equal(3600, record.ttl)
   end
 
+  def test_build_txt_with_quotes_from_api
+    api_record = {
+      "id" => "123465",
+      "type" => "TXT",
+      "name" => "record-store-dns-tests.shopitest.com",
+      "content" => "\"some text with \\\" quote\"",
+      "ttl" => 3600
+    }
+
+    record = @cloudflare.send(:build_from_api, api_record)
+
+    assert_kind_of(Record::TXT, record)
+    assert_equal('record-store-dns-tests.shopitest.com.', record.fqdn)
+    assert_equal('some text with " quote', record.txtdata)
+    assert_equal(3600, record.ttl)
+  end
+
   def test_build_srv_from_api
     api_record = {
       "id" => "123466",
@@ -481,5 +498,23 @@ class CloudflareTest < Minitest::Test
         @cloudflare.apply_changeset(changeset)
       end
     end
+  end
+
+  def test_build_api_body_for_txt_record_with_quotes
+    record = Record::TXT.new(
+      fqdn: 'test.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      txtdata: 'some text with " quote',
+    )
+    api_body = @cloudflare.send(:build_api_body, record)
+
+    expected_api_body = {
+      name: 'test.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      type: 'TXT',
+      content: '"some text with \" quote"'
+    }
+
+    assert_equal(expected_api_body, api_body)
   end
 end
