@@ -87,7 +87,7 @@ class CLITest < Minitest::Test
        - Records invalid record: [TXTRecord] invalid.com. 3600 IN TXT "asdf;asdf"
         Invalid records
           [TXTRecord] invalid.com. 3600 IN TXT "asdf;asdf"
-            - txtdata: has unescaped semicolons (See RFC 1035).
+            - txtdata: has unescaped semicolons, which begins comment portion of record per RFC 1035.
     ERROR
   end
 

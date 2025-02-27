@@ -22,7 +22,7 @@ module RecordStore
 
     def escaped_semicolons
       if txtdata =~ /([^\\]|\A);/
-        errors.add(:txtdata, 'has unescaped semicolons (See RFC 1035).')
+        errors.add(:txtdata, 'has unescaped semicolons, which begins comment portion of record per RFC 1035.')
       end
     end
   end
