@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.7
+- Add retry logic for server errors from providers
+  
 ## 8.0.6
 - Fix quotes around Cloudflare TXT records
 
