@@ -6,6 +6,8 @@ module RecordStore
 
     class UnparseableBodyError < Error; end
 
+    class RetriableError < Error; end
+
     class << self
       def provider_for(object)
         lookup_error = false
@@ -145,6 +147,7 @@ module RecordStore
         max_timeouts: 5,
         max_conn_resets: 5,
         max_retries: 5,
+        max_server_errors: 3,
         delay: 1,
         backoff_multiplier: 2,
         max_backoff: 10
@@ -158,7 +161,7 @@ module RecordStore
 
         loop do
           return yield
-        rescue UnparseableBodyError
+        rescue RecordStore::Provider::UnparseableBodyError
           raise if max_retries <= 0
 
           max_retries -= 1
@@ -176,6 +179,12 @@ module RecordStore
           max_conn_resets -= 1
 
           waiter.wait
+        rescue RecordStore::Provider::RetriableError
+          raise if max_server_errors <= 0
+
+          max_server_errors -= 1
+
+          waiter.wait(message: 'Waiting to retry after server error')
         end
       end
     end

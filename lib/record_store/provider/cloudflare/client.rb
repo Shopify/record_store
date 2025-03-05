@@ -64,16 +64,15 @@ module Cloudflare
 
         begin
           response = conn.request(request)
-        rescue StandardError => e
-          raise "HTTP error: #{e.message}"
+          if response.is_a?(Net::HTTPRedirection) || response.is_a?(Net::HTTPServerError)
+            response.error!
+          end
+          response
+        rescue Net::HTTPRetriableError, Net::HTTPServerError => e
+          raise RecordStore::Provider::RetriableError, e.message
+        rescue Net::HTTPError => e
+          raise RecordStore::Provider::Error, e.message
         end
-
-        if response.code.to_i >= 300
-          raise RecordStore::Provider::Error,
-            "HTTP response code: #{response.code} - #{response.message}; #{response.body}"
-        end
-
-        response
       end
     end
 
