@@ -62,10 +62,64 @@ http_interactions:
       - Accept-Encoding
       Server:
       - cloudflare
+      X-Ratelimit-Period:
+      - 0
     body:
       encoding: UTF-8
       string: '{"success":false,"errors":[{"code":6003,"message":"Invalid request
         headers","error_chain":[{"code":6111,"message":"Invalid format for Authorization
         header"}]}],"messages":[],"result":null}'
   recorded_at: Wed, 26 Feb 2025 18:18:59 GMT
+- request:
+    method: post
+    uri: https://api.cloudflare.com/client/v4/zones/test-zone-id/dns_records/batch
+    body:
+      encoding: UTF-8
+      string: '{"deletes":[],"patches":[],"posts":[{"name":"error.example.com.","ttl":600,"type":"A","content":"192.0.2.1"}],"puts":[]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 404
+      message: Not found
+    headers:
+      Date:
+      - Wed, 26 Mar 2025 20:23:29 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Auditlog-Id:
+      - '0195d41f-d09a-75e0-bd7a-d57861b5bac6'
+      Set-Cookie:
+      - __cf_bm=9JVgPIfokiJB66oahgx2UWPQigLCaMhD20PG84cwNCQ-1743020609-1.0.1.1-_JlZ.zy._2PIC_B6V6hOoINsqTyLuHchw4t1o7BG2GxKdOjTWGltuqAFeHETLJSPc.1B354rrTMTh25CupwX6eTHOcFnckoffwcUhrSlp6E;
+        path=/; expires=Wed, 26-Mar-25 20:53:29 GMT; domain=.api.cloudflare.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=0099ec2d9524aa0534c7ece4e8818df4a18b628a-1743020609; path=/; domain=.api.cloudflare.com;
+        HttpOnly; Secure; SameSite=None
+      - _cfuvid=Jxmt3.6XOWkuUJlLpoC4CK.qebMepHGcoMAhk2hx6l0-1743020609694-0.0.1.1-604800000;
+        path=/; domain=.api.cloudflare.com; HttpOnly; Secure; SameSite=None
+      Vary:
+      - Accept-Encoding
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 92695dba7c2d36c1-YYZ
+    body:
+      encoding: ASCII-8BIT
+      string: '{"result":null,"success":false,"errors":[{"code":7003,"message":"Could
+        not route to /client/v4/zones/test-zone-id/dns_records/batch, perhaps your
+        object identifier is invalid?"}],"messages":[]}'
+  recorded_at: Wed, 26 Mar 2025 20:23:29 GMT
 recorded_with: VCR 6.2.0
