@@ -559,4 +559,23 @@ class CloudflareTest < Minitest::Test
       end
     end
   end
+
+  def test_5xx_response_raises_retriable_error
+    client = Cloudflare::Client.new("dummy_token")
+
+    # Create a server error typed response
+    server_error = Net::HTTPServerError.new("1.1", "500", "Internal Server Error")
+    server_error.instance_variable_set(
+      :@body,
+      '{"success":false,"errors":[{"code":1000,"message":"Internal server error"}]}',
+    )
+
+    http_connection = stub
+    http_connection.expects(:request).returns(server_error)
+    Net::HTTP.stubs(:start).yields(http_connection)
+
+    assert_raises(RecordStore::Provider::RetriableError) do
+      client.get("/test")
+    end
+  end
 end

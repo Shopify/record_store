@@ -68,7 +68,7 @@ module Cloudflare
             response.error!
           end
           response
-        rescue Net::HTTPRetriableError, Net::HTTPServerError => e
+        rescue Net::HTTPRetriableError, Net::HTTPFatalError => e
           raise RecordStore::Provider::RetriableError, e.message
         rescue Net::HTTPError => e
           raise RecordStore::Provider::Error, e.message
