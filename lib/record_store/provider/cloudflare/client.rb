@@ -64,13 +64,11 @@ module Cloudflare
 
         begin
           response = conn.request(request)
-          if response.is_a?(Net::HTTPRedirection) || response.is_a?(Net::HTTPServerError)
-            response.error!
-          end
+          response.value
           response
         rescue Net::HTTPRetriableError, Net::HTTPFatalError => e
           raise RecordStore::Provider::RetriableError, e.message
-        rescue Net::HTTPError => e
+        rescue Net::HTTPClientException, Net::HTTPError => e
           raise RecordStore::Provider::Error, e.message
         end
       end
