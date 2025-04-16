@@ -478,7 +478,9 @@ class CloudflareTest < Minitest::Test
     target_fqdn = 'error.example.com'
     record = Record::A.new(fqdn: target_fqdn, ttl: 600, address: '192.0.2.1')
 
-    stub_request(:post, "https://api.cloudflare.com/client/v4/zones/#{@zone_name}/dns_records")
+    @cloudflare.stubs(:zone_name_to_id).with(@zone_name).returns("test-zone-id")
+
+    stub_request(:post, "https://api.cloudflare.com/client/v4/zones/test-zone-id/dns_records")
       .with(body: hash_including("name" => target_fqdn))
       .to_return(status: 500, body: '{"success":false,"errors":[{"code":10000,"message":"Internal server error"}]}')
 
@@ -517,6 +519,63 @@ class CloudflareTest < Minitest::Test
 
       retrieved_records = @cloudflare.retrieve_current_records(zone: @zone_name)
       assert_includes(retrieved_records, record)
+    end
+  end
+
+  def test_retry_on_server_errors
+    client = Cloudflare::Client.new("dummy_token")
+
+    # Stub client to error twice then return success
+    Cloudflare::Client.any_instance.stubs(:request).raises(
+      RecordStore::Provider::RetriableError.new("Server error"),
+    ).then.raises(
+      RecordStore::Provider::RetriableError.new("Server error"),
+    ).then.returns(
+      stub(
+        body: '{"success":true,"result":"success"}',
+        code: '200',
+        :[] => 'application/json',
+      ),
+    )
+
+    result = Provider::Cloudflare.send(:retry_on_connection_errors) do
+      client.get("/test")
+    end
+
+    assert_equal("success", result.result)
+  end
+
+  def test_retry_on_server_errors_exhausts_retries
+    client = Cloudflare::Client.new("dummy_token")
+
+    # Always raise RetriableError
+    Cloudflare::Client.any_instance.stubs(:request).raises(
+      RecordStore::Provider::RetriableError.new("Server error"),
+    )
+
+    assert_raises(RecordStore::Provider::RetriableError) do
+      Provider::Cloudflare.send(:retry_on_connection_errors) do
+        client.get("/test")
+      end
+    end
+  end
+
+  def test_5xx_response_raises_retriable_error
+    client = Cloudflare::Client.new("dummy_token")
+
+    # Create a server error typed response
+    server_error = Net::HTTPServerError.new("1.1", "500", "Internal Server Error")
+    server_error.instance_variable_set(
+      :@body,
+      '{"success":false,"errors":[{"code":1000,"message":"Internal server error"}]}',
+    )
+
+    http_connection = stub
+    http_connection.expects(:request).returns(server_error)
+    Net::HTTP.stubs(:start).yields(http_connection)
+
+    assert_raises(RecordStore::Provider::RetriableError) do
+      client.get("/test")
     end
   end
 end
