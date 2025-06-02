@@ -380,11 +380,11 @@ class RecordTest < Minitest::Test
 
   def test_unlong_quote_value
     assert_equal('text with "quotes"', Record.unlong_quote('"text with \"quotes\""'))
-    assert_equal(("a" * 265), Record.unlong_quote('"' + ("a" * 255) + '" "' + ("a" * 10) + '"'))
-    assert_equal(("a" * 600), Record.unlong_quote('"' + ("a" * 255) + '" ' \
+    assert_equal("a" * 265, Record.unlong_quote('"' + ("a" * 255) + '" "' + ("a" * 10) + '"'))
+    assert_equal("a" * 600, Record.unlong_quote('"' + ("a" * 255) + '" ' \
                   + '"' + ("a" * 255) + '" ' + '"' + ("a" * 90)))
-    assert_equal(("a" * 600), Record.unlong_quote(Record.quote(("a" * 600))))
-    assert_equal(("a" * 600), Record.unlong_quote("a" * 600))
+    assert_equal("a" * 600, Record.unlong_quote(Record.quote("a" * 600)))
+    assert_equal("a" * 600, Record.unlong_quote("a" * 600))
   end
 
   def test_long_quote_value
