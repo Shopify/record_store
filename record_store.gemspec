@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activemodel', '>= 4.2'
   spec.add_runtime_dependency 'activesupport', '>= 4.2'
   spec.add_runtime_dependency 'ejson'
-  spec.add_runtime_dependency 'thor', '>= 0.20.3', '< 1.4.0'
+  spec.add_runtime_dependency 'thor', '>= 1.4.0'
 
   spec.add_runtime_dependency 'dnsimple', '>= 4.4', '< 10.1'
   spec.add_runtime_dependency 'fog-dynect', '>= 0.4', '< 0.6'
