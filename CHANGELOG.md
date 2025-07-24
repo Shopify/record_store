@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.8
+- Require Thor >= 1.4.0 to mitigate a CVE
+
 ## 8.0.7
 - Add retry logic for server errors from providers
   
