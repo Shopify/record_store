@@ -1,11 +1,15 @@
 # CHANGELOG
 
+## 8.0.9
+- Update dnsimple requirement from >= 4.4, < 11.1 to >= 4.4, < 11.2
+- Update rubocop requirement from ~> 1.80.2 to ~> 1.81.1
+
 ## 8.0.8
 - Require Thor >= 1.4.0 to mitigate a CVE
 
 ## 8.0.7
 - Add retry logic for server errors from providers
-  
+
 ## 8.0.6
 - Fix quotes around Cloudflare TXT records
 
