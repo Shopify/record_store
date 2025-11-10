@@ -75,6 +75,14 @@ module RecordStore
         super.fetch('dnsimple')
       end
 
+      def denormalize_txt(content)
+        if content.start_with?('"') && content.end_with?('"')
+          content[1..-2].gsub('\"', '"')
+        else
+          content
+        end
+      end
+
       def build_from_api(api_record, zone)
         fqdn = api_record.name.present? ? "#{api_record.name}.#{zone}" : zone
         fqdn = "#{fqdn}." unless fqdn.ends_with?('.')
@@ -117,7 +125,8 @@ module RecordStore
             fingerprint: fingerprint,
           )
         when 'SPF', 'TXT'
-          record.merge!(txtdata: Record.unescape(api_record.content).gsub(';', '\;'))
+          content = denormalize_txt(api_record.content)
+          record.merge!(txtdata: Record.unescape(content).gsub(';', '\;'))
         when 'SRV'
           weight, port, host = api_record.content.split(' ')
 
