@@ -88,6 +88,8 @@ module RecordStore
           end
         end
 
+        return if deletes.empty? && patches.empty? && posts.empty? && puts.empty?
+
         zone_id = zone_name_to_id(changeset.zone)
         api_body = {
           deletes: deletes,

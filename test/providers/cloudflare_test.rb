@@ -578,4 +578,26 @@ class CloudflareTest < Minitest::Test
       client.get("/test")
     end
   end
+
+  def test_apply_changeset_with_no_changes_skips_api_call
+    # Create a changeset with identical current and desired records (no actual changes)
+    record = Record::A.new(
+      fqdn: 'test.record-store-dns-tests.shopitest.com',
+      ttl: 600,
+      address: '192.0.2.1',
+      record_id: 123,
+    )
+    changeset = Changeset.new(
+      current_records: [record],
+      desired_records: [record],
+      provider: @cloudflare,
+      zone: @zone_name,
+    )
+
+    # Ensure no API calls are made - the method should return early
+    Cloudflare::Client.any_instance.expects(:request).never
+
+    # Apply the changeset - should return early without making any API calls
+    @cloudflare.apply_changeset(changeset)
+  end
 end
