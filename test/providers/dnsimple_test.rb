@@ -290,6 +290,36 @@ class DNSimpleTest < Minitest::Test
     assert_equal(60, record.ttl)
   end
 
+  def test_denormalize_txt
+    assert_equal('hello', @dnsimple.send(:denormalize_txt, 'hello'))
+    assert_equal('hello', @dnsimple.send(:denormalize_txt, '"hello"'))
+    assert_equal('a="hello"', @dnsimple.send(:denormalize_txt, 'a="hello"'))
+    assert_equal('a="hello"', @dnsimple.send(:denormalize_txt, '"a=\"hello\""'))
+  end
+
+  def test_build_txt_from_api_with_quotes_in_rdata
+    api_record = Dnsimple::Struct::ZoneRecord.new(
+      "id" => 111,
+      "domain_id" => 222002,
+      "parent_id" => nil,
+      "name" => "no-op",
+      "content" => '"example.com"',
+      "ttl" => 60,
+      "priority" => nil,
+      "type" => "TXT",
+      "system_record" => false,
+      "created_at" => "2015-12-11T16:36:26.504Z",
+      "updated_at" => "2015-12-11T16:36:26.504Z",
+    )
+
+    record = @dnsimple.send(:build_from_api, api_record, @zone_name)
+
+    assert_kind_of(Record::TXT, record)
+    assert_equal('no-op.dns-scratch.me.', record.fqdn)
+    assert_equal('example.com', record.txtdata)
+    assert_equal(60, record.ttl)
+  end
+
   def test_build_sshfp_from_api
     api_record = Dnsimple::Struct::ZoneRecord.new(
       "id" => 18003479,
