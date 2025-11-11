@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 8.0.10
+- Fix Cloudflare provider to skip empty changesets
+- Add TXT record denormalization for DNSimple provider
+
 ## 8.0.9
 - Update dnsimple requirement from >= 4.4, < 11.1 to >= 4.4, < 11.2
 - Update rubocop requirement from ~> 1.80.2 to ~> 1.81.1
