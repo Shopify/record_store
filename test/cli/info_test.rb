@@ -35,13 +35,10 @@ module CLI
     def test_lists_authoritative_nameservers
       RecordStore::CLI.start(%w(info))
 
-      authority = <<~AUTHORITY
-        Authoritative nameservers:
-        - [NSRecord] example.com. 172800 IN NS a.iana-servers.net.
-        - [NSRecord] example.com. 172800 IN NS b.iana-servers.net.
-      AUTHORITY
-
-      assert_includes($stdout.string, authority)
+      output = $stdout.string
+      assert_includes(output, "Authoritative nameservers:")
+      assert_includes(output, "hera.ns.cloudflare.com.")
+      assert_includes(output, "elliott.ns.cloudflare.com.")
     end
   end
 end

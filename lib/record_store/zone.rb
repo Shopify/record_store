@@ -143,6 +143,12 @@ module RecordStore
 
     def fetch_authority(nameserver = ROOT_SERVERS.sample)
       authority = fetch_soa(nameserver) do |reply, _name|
+        # If we get a valid SOA answer, the nameserver is authoritative, so fetch NS records directly
+        if reply.answer.any? && reply.answer.first[0].to_s == unrooted_name
+          break fetch_ns_records(nameserver)
+        end
+
+        # For NXDOMAIN or referral responses, continue with authority section
         break if reply.answer.any?
 
         raise "No authority found (#{name})" if reply.authority.none?
@@ -151,7 +157,14 @@ module RecordStore
       end
 
       # candidate DNS name is returned instead when NXDomain or other error
-      return if unrooted_name.casecmp?(Array(authority).first.to_s)
+      # In this case, query the parent domain's NS records
+      if authority.is_a?(Array) && authority.first.is_a?(Resolv::DNS::Name) && unrooted_name.casecmp?(authority.first.to_s)
+        # Extract parent domain from unrooted_name (e.g., "sub.example.com" -> "example.com")
+        parts = unrooted_name.split('.')
+        return nil if parts.length <= 1  # No parent domain available (TLD)
+        parent_domain = parts[1..-1].join('.') + '.'
+        return fetch_ns_records_for_domain(parent_domain, nameserver)
+      end
 
       authority
     end
@@ -161,6 +174,20 @@ module RecordStore
     def fetch_soa(nameserver, &block)
       Resolv::DNS.open(nameserver: nameserver) do |resolv|
         resolv.fetch_resource(name, Resolv::DNS::Resource::IN::SOA, &block)
+      end
+    end
+
+    def fetch_ns_records(nameserver)
+      fetch_ns_records_for_domain(name, nameserver)
+    end
+
+    def fetch_ns_records_for_domain(domain, nameserver)
+      Resolv::DNS.open(nameserver: nameserver) do |resolv|
+        resources = resolv.getresources(domain, Resolv::DNS::Resource::IN::NS)
+        return nil if resources.empty?
+        resources.map.with_index do |ns, index|
+          Record::NS.new(ttl: ns.ttl, fqdn: domain, nsdname: ns.name.to_s, record_id: index)
+        end
       end
     end
 

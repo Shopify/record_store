@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'activemodel', '>= 4.2'
   spec.add_runtime_dependency 'activesupport', '>= 4.2'
+  spec.add_runtime_dependency 'csv'
   spec.add_runtime_dependency 'ejson'
   spec.add_runtime_dependency 'thor', '>= 1.4.0'
 
