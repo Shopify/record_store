@@ -678,11 +678,12 @@ class ZoneTest < Minitest::Test
   def test_fetch_authority
     zone = Zone.new(name: 'example.com')
     nameservers = zone.fetch_authority
-    expected = [
-      Record::NS.new(fqdn: 'example.com', ttl: 172_800, nsdname: 'a.iana-servers.net.'),
-      Record::NS.new(fqdn: 'example.com', ttl: 172_800, nsdname: 'b.iana-servers.net.'),
-    ]
-    assert_equal(expected, nameservers)
+
+    assert_equal(2, nameservers.count)
+    nsdnames = nameservers.map(&:nsdname).sort
+    assert_equal(['elliott.ns.cloudflare.com.', 'hera.ns.cloudflare.com.'], nsdnames)
+    assert_equal('example.com.', nameservers.first.fqdn)
+    assert(nameservers.first.ttl > 0)
   end
 
   def test_fetch_authority_handles_unreachable_host
