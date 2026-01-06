@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.0.11
+- Modified Zone#fetch_authority to handle SOA answer sections from authoritative servers
+
 ## 8.0.10
 - Fix Cloudflare provider to skip empty changesets
 - Add TXT record denormalization for DNSimple provider
