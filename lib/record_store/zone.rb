@@ -158,10 +158,12 @@ module RecordStore
 
       # candidate DNS name is returned instead when NXDomain or other error
       # In this case, query the parent domain's NS records
-      if authority.is_a?(Array) && authority.first.is_a?(Resolv::DNS::Name) && unrooted_name.casecmp?(authority.first.to_s)
+      if authority.is_a?(Array) && authority.first.is_a?(Resolv::DNS::Name) &&
+          unrooted_name.casecmp?(authority.first.to_s)
         # Extract parent domain from unrooted_name (e.g., "sub.example.com" -> "example.com")
         parts = unrooted_name.split('.')
-        return nil if parts.length <= 1  # No parent domain available (TLD)
+        return if parts.length <= 1 # No parent domain available (TLD)
+
         parent_domain = parts[1..-1].join('.') + '.'
         return fetch_ns_records_for_domain(parent_domain, nameserver)
       end
@@ -185,6 +187,7 @@ module RecordStore
       Resolv::DNS.open(nameserver: nameserver) do |resolv|
         resources = resolv.getresources(domain, Resolv::DNS::Resource::IN::NS)
         return nil if resources.empty?
+
         resources.map.with_index do |ns, index|
           Record::NS.new(ttl: ns.ttl, fqdn: domain, nsdname: ns.name.to_s, record_id: index)
         end
