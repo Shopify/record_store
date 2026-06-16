@@ -40,6 +40,13 @@ class RecordTest < Minitest::Test
       fptype: Record::SSHFP::FingerprintTypes::SHA_256,
       fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
     ),
+    https: Record::HTTPS.new(
+      fqdn: 'svc.dns-test.shopify.io.',
+      ttl: 60,
+      svc_priority: 1,
+      target: '.',
+      params: 'alpn="h3,h2"',
+    ),
   }
 
   def test_build_from_yaml_definition
@@ -250,6 +257,66 @@ class RecordTest < Minitest::Test
     )
   end
 
+  def test_validates_https
+    base = { fqdn: 'svc.example.com.', ttl: 60 }
+
+    assert_predicate(
+      Record::HTTPS.new(base.merge(svc_priority: 1, target: '.', params: 'alpn="h3,h2"')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(svc_priority: 1, target: '.', params: 'alpn="h3,h2" ipv4hint=192.0.2.1')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(svc_priority: 1, target: '.', params: 'no-default-alpn alpn="h2"')),
+      :valid?,
+    )
+    # AliasMode (svc_priority 0): target points elsewhere, no SvcParams
+    assert_predicate(
+      Record::HTTPS.new(base.merge(svc_priority: 0, target: 'svc.example.net.', params: '')),
+      :valid?,
+    )
+    # ServiceMode targeting another host
+    assert_predicate(
+      Record::HTTPS.new(base.merge(svc_priority: 16, target: 'svc.example.net.', params: 'alpn="h3"')),
+      :valid?,
+    )
+    # params omitted entirely defaults to empty
+    assert_predicate(Record::HTTPS.new(base.merge(svc_priority: 0, target: 'svc.example.net.')), :valid?)
+
+    # svc_priority out of range
+    refute_predicate(Record::HTTPS.new(base.merge(svc_priority: -1, target: '.', params: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(svc_priority: 65536, target: '.', params: '')), :valid?)
+    # AliasMode must not carry SvcParams
+    refute_predicate(
+      Record::HTTPS.new(base.merge(svc_priority: 0, target: 'svc.example.net.', params: 'alpn="h3"')),
+      :valid?,
+    )
+    # target must be "." or an FQDN
+    refute_predicate(Record::HTTPS.new(base.merge(svc_priority: 1, target: 'not a domain', params: '')), :valid?)
+  end
+
+  def test_build_https_from_yaml_definition
+    yaml_snippet = <<-YAML
+      type: HTTPS
+      fqdn: svc.example.com.
+      ttl: 60
+      svc_priority: 1
+      target: "."
+      params: 'alpn="h3,h2"'
+    YAML
+
+    record = Record.build_from_yaml_definition(YAML.load(yaml_snippet).symbolize_keys)
+
+    assert_kind_of(Record::HTTPS, record)
+    assert_equal('svc.example.com.', record.fqdn)
+    assert_equal(1, record.svc_priority)
+    assert_equal('.', record.target)
+    assert_equal('alpn="h3,h2"', record.params)
+    assert(record.valid?)
+  end
+
   def test_validates_cname
     assert_predicate(Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com'), :valid?)
     assert_predicate(Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com'), :valid?)
@@ -304,6 +371,7 @@ class RecordTest < Minitest::Test
       RECORD_FIXTURES[:sshfp].rdata_txt,
     )
     assert_equal('a.root-servers.net.', RECORD_FIXTURES[:ptr].rdata_txt)
+    assert_equal('1 . alpn="h3,h2"', RECORD_FIXTURES[:https].rdata_txt)
   end
 
   def test_consistent_print_formatting
@@ -334,6 +402,10 @@ class RecordTest < Minitest::Test
       '[SRVRecord] _service._tcp.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 ' \
         'target-srv.dns-test.shopify.io.',
       RECORD_FIXTURES[:srv].to_s,
+    )
+    assert_equal(
+      '[HTTPSRecord] svc.dns-test.shopify.io. 60 IN HTTPS 1 . alpn="h3,h2"',
+      RECORD_FIXTURES[:https].to_s,
     )
     assert_equal('[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s)
     assert_equal('[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s)
