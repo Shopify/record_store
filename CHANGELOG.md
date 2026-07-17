@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 8.1.0
+- Add support for the `HTTPS` (RFC 9460, SVCB-family) record type, including serialization in the Cloudflare provider
+
 ## 8.0.11
 - Modified Zone#fetch_authority to handle SOA answer sections from authoritative servers
 

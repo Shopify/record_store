@@ -90,6 +90,25 @@ class CloudflareTest < Minitest::Test
     assert_equal(3600, record.ttl)
   end
 
+  def test_build_https_from_api
+    api_record = {
+      "id" => "123470",
+      "type" => "HTTPS",
+      "name" => "svc.record-store-dns-tests.shopitest.com",
+      "data" => { "priority" => 1, "target" => ".", "value" => "alpn=\"h3,h2\"" },
+      "ttl" => 3600
+    }
+
+    record = @cloudflare.send(:build_from_api, api_record)
+
+    assert_kind_of(Record::HTTPS, record)
+    assert_equal('svc.record-store-dns-tests.shopitest.com.', record.fqdn)
+    assert_equal(1, record.svc_priority)
+    assert_equal('.', record.target)
+    assert_equal('alpn="h3,h2"', record.params)
+    assert_equal(3600, record.ttl)
+  end
+
   def test_build_ns_from_api
     api_record = {
       "id" => "123461",
@@ -375,6 +394,30 @@ class CloudflareTest < Minitest::Test
       ttl: 3600,
       type: 'A',
       content: '192.0.2.1'
+    }
+
+    assert_equal(expected_api_body, api_body)
+  end
+
+  def test_build_api_body_for_https_record
+    record = Record::HTTPS.new(
+      fqdn: 'svc.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      svc_priority: 1,
+      target: '.',
+      params: 'alpn="h3,h2"',
+    )
+    api_body = @cloudflare.send(:build_api_body, record)
+
+    expected_api_body = {
+      name: 'svc.record-store-dns-tests.shopitest.com.',
+      ttl: 3600,
+      type: 'HTTPS',
+      data: {
+        priority: 1,
+        target: '.',
+        value: 'alpn="h3,h2"'
+      }
     }
 
     assert_equal(expected_api_body, api_body)
