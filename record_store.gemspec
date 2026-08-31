@@ -47,7 +47,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'mocha'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rubocop', '~> 1.88.0'
+  spec.add_development_dependency 'rubocop', '~> 1.90.0'
   spec.add_development_dependency 'rubocop-shopify', '~> 2.15.1'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
