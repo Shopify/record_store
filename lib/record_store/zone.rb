@@ -80,7 +80,7 @@ module RecordStore
 
     def initialize(name:, records: [], config: {}, abstract_syntax_trees: {})
       @name = Record.ensure_ends_with_dot(name)
-      @config = RecordStore::Zone::Config.new(**config.deep_symbolize_keys)
+      @config = build_config(config)
       @records = build_records(records)
       @abstract_syntax_trees = abstract_syntax_trees
     end
@@ -222,6 +222,12 @@ module RecordStore
       ns.map.with_index do |(name, ttl, data), index|
         Record::NS.new(ttl: ttl, fqdn: name.to_s, nsdname: data.name.to_s, record_id: index)
       end
+    end
+
+    def build_config(config)
+      RecordStore::Zone::Config.new(**config.deep_symbolize_keys)
+    rescue Config::ImplicitRecordTemplate::InvalidTemplateFilename => e
+      raise e.exception("zone #{unrooted_name}: #{e.message}")
     end
 
     def build_records(records)

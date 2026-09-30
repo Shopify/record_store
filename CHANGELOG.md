@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 9.0.0
+- Only load implicit record templates by plain file name from directly inside `implicit_records_templates_path`. Template names containing path separators, `.` or `..`, and symlinks that resolve outside that directory now raise an error. Zone definitions that referenced templates this way must move them into the templates directory and use the plain file name.
+
 ## 8.0.11
 - Modified Zone#fetch_authority to handle SOA answer sections from authoritative servers
 
