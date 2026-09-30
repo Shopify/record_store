@@ -135,6 +135,8 @@ Record Store supports injecting implicit records into a zone based on templates.
 
 Templates can help reduce zone file bloat where instead of defining many generic literals within the zone file for a given criteria zone record, these generic records can be implicitly injected into the `Zone` at the time of initialization based on information provided within the template.
 
+Zone definitions reference templates by plain file name (for example `implicit_records_templates: [acme-challenge.yml.erb]`), and only files directly inside `implicit_records_templates_path` can be loaded. Names containing path separators, `.` or `..`, and symlinks that resolve outside that directory are rejected. Templates are rendered as ERB, so treat the templates directory as code: restrict who can change it to people you would trust to change Record Store itself.
+
 ----
 
 # Development

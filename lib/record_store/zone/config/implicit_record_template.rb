@@ -25,6 +25,8 @@ module RecordStore
       end
 
       class ImplicitRecordTemplate
+        class InvalidTemplateFilename < ArgumentError; end
+
         class << self
           def from_file(filename:)
             filepath = template_filepath_for(filename: filename)
@@ -43,8 +45,26 @@ module RecordStore
 
           private
 
+          # Templates are rendered as ERB, so only files directly inside the
+          # configured templates directory may be loaded. Zone definitions name a
+          # template by its plain file name; anything that could resolve elsewhere
+          # (path separators, `.`/`..`, or a symlink out of the directory) is rejected.
           def template_filepath_for(filename:)
-            "#{RecordStore.implicit_records_templates_path}/#{filename}"
+            name = filename.to_s
+            base = Pathname.new(RecordStore.implicit_records_templates_path).realpath
+
+            if name.empty? || name == '.' || name == '..' || name != File.basename(name)
+              raise InvalidTemplateFilename,
+                "implicit record template #{filename.inspect} must be a plain file name in #{base}"
+            end
+
+            path = base.join(name).realpath
+            unless path.dirname == base
+              raise InvalidTemplateFilename,
+                "implicit record template #{filename.inspect} resolves outside #{base}"
+            end
+
+            path.to_s
           end
         end
 
