@@ -259,9 +259,9 @@ module RecordStore
     end
 
     def validate_all_records_are_unique
-      duplicates = records.select { |r| records.count(r) > 1 }
-      duplicates.uniq.each do |record|
-        errors.add(:records, "Duplicate record: #{record}")
+      # Hash keys keep first-seen order, so each duplicated record is reported once, in the order it first appears.
+      records.tally.each do |record, count|
+        errors.add(:records, "Duplicate record: #{record}") if count > 1
       end
     end
 

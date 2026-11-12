@@ -75,18 +75,26 @@ module RecordStore
         end
 
         def generate_records_to_inject(current_records:)
+          # Every [type, fqdn] pair currently in the zone, including what has been injected so far. Conflict filters
+          # that only name a type and an fqdn are answered from this set instead of scanning every record.
+          present = Set.new(current_records.map { |record| [record.type, record.fqdn] })
+
           current_records
             .select { |record| should_template?(record: record) }
             .map { |record| template_record_for(record: record, current_records: current_records) }
             .each_with_object([]) do |template_records, records_to_inject|
               next unless should_inject?(
                 template_records: template_records,
-                current_records: current_records + records_to_inject,
+                current_records: current_records,
+                records_to_inject: records_to_inject,
+                present: present,
               )
 
-              records_to_inject.push(
-                *template_records.fetch(:injected_records, []).map { |r_yml| Record.build_from_yaml_definition(r_yml) },
-              )
+              new_records = template_records.fetch(:injected_records, []).map do |r_yml|
+                Record.build_from_yaml_definition(r_yml)
+              end
+              new_records.each { |record| present << [record.type, record.fqdn] }
+              records_to_inject.push(*new_records)
             end
         end
 
@@ -94,13 +102,31 @@ module RecordStore
 
         attr_reader :template, :filters_for_records_to_template, :filters_for_records_to_exclude
 
-        def should_inject?(template_records:, current_records:)
+        def should_inject?(template_records:, current_records:, records_to_inject:, present:)
           conflict_with = template_records[:conflict_with] || []
-          current_records.none? do |record|
+
+          if conflict_with.all? { |filter| type_and_fqdn_filter?(filter) }
+            conflict_with.none? { |filter| present.include?([filter[:type], filter[:fqdn]]) }
+          else
+            !conflicts_with_any?(conflict_with: conflict_with, records: current_records + records_to_inject)
+          end
+        end
+
+        # The general check: any record matching any filter is a conflict. Used for filters that match on anything
+        # other than an exact type and fqdn (regexps, other attributes).
+        def conflicts_with_any?(conflict_with:, records:)
+          records.any? do |record|
             conflict_with.any? do |filter|
               record_match?(record: record, filter: filter)
             end
           end
+        end
+
+        def type_and_fqdn_filter?(filter)
+          filter.is_a?(Hash) &&
+            filter.keys.sort == [:fqdn, :type] &&
+            filter[:type].is_a?(String) &&
+            filter[:fqdn].is_a?(String)
         end
 
         def should_template?(record:)

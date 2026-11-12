@@ -133,6 +133,61 @@ class ZoneTest < Minitest::Test
     assert_equal("Duplicate record: [ARecord] www.example.com. 600 IN A 10.10.10.1", zone.errors[:records].first)
   end
 
+  def test_duplicate_records_are_reported_once_each_in_order_of_first_occurrence
+    zone = valid_zone_from_records("example.com", records: [
+      { type: 'A', fqdn: 'b.example.com.', ttl: 600, address: '10.10.10.2' },
+      { type: 'A', fqdn: 'a.example.com.', ttl: 600, address: '10.10.10.1' },
+      { type: 'A', fqdn: 'b.example.com.', ttl: 600, address: '10.10.10.2' },
+      { type: 'TXT', fqdn: 'c.example.com.', ttl: 600, txtdata: 'hello' },
+      { type: 'A', fqdn: 'b.example.com.', ttl: 600, address: '10.10.10.2' },
+      { type: 'A', fqdn: 'a.example.com.', ttl: 600, address: '10.10.10.1' },
+    ])
+
+    refute_predicate(zone, :valid?)
+    assert_equal(
+      [
+        "Duplicate record: [ARecord] b.example.com. 600 IN A 10.10.10.2",
+        "Duplicate record: [ARecord] a.example.com. 600 IN A 10.10.10.1",
+      ],
+      zone.errors[:records],
+    )
+  end
+
+  def test_records_that_differ_in_type_ttl_or_data_are_not_duplicates
+    zone = valid_zone_from_records("example.com", records: [
+      { type: 'A', fqdn: 'www.example.com.', ttl: 600, address: '10.10.10.1' },
+      { type: 'A', fqdn: 'www.example.com.', ttl: 600, address: '10.10.10.2' },
+      { type: 'A', fqdn: 'www.example.com.', ttl: 300, address: '10.10.10.1' },
+      { type: 'TXT', fqdn: 'www.example.com.', ttl: 600, txtdata: '10.10.10.1' },
+    ])
+    zone.valid?
+
+    assert_empty(zone.errors[:records].grep(/Duplicate/))
+  end
+
+  def test_records_that_differ_only_in_fqdn_case_are_duplicates
+    zone = valid_zone_from_records("example.com", records: [
+      { type: 'A', fqdn: 'www.example.com.', ttl: 600, address: '10.10.10.1' },
+      { type: 'A', fqdn: 'WWW.example.com.', ttl: 600, address: '10.10.10.1' },
+    ])
+    zone.valid?
+
+    assert_equal(["Duplicate record: [ARecord] www.example.com. 600 IN A 10.10.10.1"], zone.errors[:records])
+  end
+
+  def test_duplicate_records_hidden_by_ignore_patterns_are_not_reported
+    zone = Zone.new(
+      name: 'example.com',
+      config: { providers: ['DynECT'], ignore_patterns: [{ type: 'NS', fqdn: 'example.com.' }] },
+      records: [
+        { type: 'NS', fqdn: 'example.com.', ttl: 3600, nsdname: 'ns1.example.net.' },
+        { type: 'NS', fqdn: 'example.com.', ttl: 3600, nsdname: 'ns1.example.net.' },
+      ],
+    )
+
+    assert_predicate(zone, :valid?, zone.errors.full_messages.join("\n"))
+  end
+
   def test_zone_with_a_records_using_different_ttls_for_same_fqdn_is_invalid
     zone = valid_zone_from_records("example.com", records: [
       { type: 'A', fqdn: 'www.example.com.', ttl: 600, address: '10.10.10.1' },

@@ -42,6 +42,28 @@ class RecordTest < Minitest::Test
     ),
   }
 
+  def test_type_is_the_class_name_without_its_namespace
+    RECORD_FIXTURES.each_value do |record|
+      assert_equal(record.class.name.demodulize, record.type)
+    end
+    assert_equal('SRV', RECORD_FIXTURES[:srv].type)
+    assert_equal('ALIAS', RECORD_FIXTURES[:alias_rr].type)
+  end
+
+  def test_type_is_computed_once_per_class
+    first = RECORD_FIXTURES[:a].type
+    second = Record::A.new(fqdn: 'other.dns-test.shopify.io.', address: '10.11.12.14', ttl: 600).type
+
+    assert_same(first, second)
+    assert_equal('A', first)
+  end
+
+  def test_type_is_cached_per_class_not_shared_with_siblings
+    assert_equal('A', Record::A.new(fqdn: 'a.example.com.', address: '10.0.0.1', ttl: 60).type)
+    assert_equal('AAAA', Record::AAAA.new(fqdn: 'a.example.com.', address: '2001:db8::1', ttl: 60).type)
+    assert_equal('A', Record::A.new(fqdn: 'a.example.com.', address: '10.0.0.1', ttl: 60).type)
+  end
+
   def test_build_from_yaml_definition
     yaml_snippet = <<-YAML
       type: A
