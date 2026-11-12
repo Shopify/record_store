@@ -165,6 +165,33 @@ class ZoneTest < Minitest::Test
     assert_empty(zone.errors[:records].grep(/Duplicate/))
   end
 
+  def test_records_that_differ_only_in_a_numeric_type_are_still_duplicates
+    # Record#== treats 600 and 600.0 as equal, but their hashes differ, so the check must not rely on hashing.
+    ttl_zone = valid_zone_from_records("example.com", records: [
+      { type: 'A', fqdn: 'www.example.com.', ttl: 600, address: '10.10.10.1' },
+      { type: 'A', fqdn: 'www.example.com.', ttl: 600.0, address: '10.10.10.1' },
+    ])
+    sshfp_zone = valid_zone_from_records("example.com", records: [
+      { type: 'SSHFP', fqdn: 'example.com.', ttl: 3600, algorithm: 1, fptype: 2, fingerprint: 'ab' * 32 },
+      { type: 'SSHFP', fqdn: 'example.com.', ttl: 3600, algorithm: 1.0, fptype: 2, fingerprint: 'ab' * 32 },
+    ])
+
+    [ttl_zone, sshfp_zone].each do |zone|
+      zone.valid?
+      original = zone.records.select { |r| zone.records.count(r) > 1 }.uniq.map { |r| "Duplicate record: #{r}" }
+
+      refute_empty(original)
+      assert_equal(original, zone.errors[:records].grep(/Duplicate/))
+    end
+    assert_equal(
+      [
+        "Duplicate record: [ARecord] www.example.com. 600 IN A 10.10.10.1",
+        "Duplicate record: [ARecord] www.example.com. 600.0 IN A 10.10.10.1",
+      ],
+      ttl_zone.errors[:records].grep(/Duplicate/),
+    )
+  end
+
   def test_records_that_differ_only_in_fqdn_case_are_duplicates
     zone = valid_zone_from_records("example.com", records: [
       { type: 'A', fqdn: 'www.example.com.', ttl: 600, address: '10.10.10.1' },

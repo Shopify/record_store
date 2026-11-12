@@ -259,9 +259,24 @@ module RecordStore
     end
 
     def validate_all_records_are_unique
-      # Hash keys keep first-seen order, so each duplicated record is reported once, in the order it first appears.
-      records.tally.each do |record, count|
-        errors.add(:records, "Duplicate record: #{record}") if count > 1
+      if records.all? { |record| comparable_by_hash?(record) }
+        # Hash keys keep first-seen order, so each duplicated record is reported once, in the order it first appears.
+        records.tally.each do |record, count|
+          errors.add(:records, "Duplicate record: #{record}") if count > 1
+        end
+      else
+        duplicates = records.select { |r| records.count(r) > 1 }
+        duplicates.uniq.each do |record|
+          errors.add(:records, "Duplicate record: #{record}")
+        end
+      end
+    end
+
+    # Record#== compares to_hash with ==, but tally and uniq use Record#hash and eql?, which tell 1 from 1.0. The two
+    # agree when every value is a string, an Integer, a boolean or nil, so only then is tallying safe.
+    def comparable_by_hash?(record)
+      record.to_hash.each_value.all? do |value|
+        value.is_a?(String) || value.is_a?(Integer) || value == true || value == false || value.nil?
       end
     end
 
