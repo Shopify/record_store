@@ -5,6 +5,7 @@ class CloudflareTest < Minitest::Test
     super
     @zone_name = 'record-store-dns-tests.shopitest.com'
     @cloudflare = Provider::Cloudflare
+    @cloudflare.clear_zone_id_cache
   end
 
   def test_zones

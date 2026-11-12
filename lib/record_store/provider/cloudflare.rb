@@ -2,6 +2,12 @@ require_relative 'cloudflare/client'
 
 module RecordStore
   class Provider::Cloudflare < Provider
+    # Cloudflare returns at most 50 zones per page.
+    ZONE_LIST_PER_PAGE = 50
+
+    ZONE_IDS_MUTEX = Mutex.new
+    private_constant :ZONE_IDS_MUTEX
+
     class << self
       def record_types
         super | Set.new(%w(PTR))
@@ -45,25 +51,13 @@ module RecordStore
       # Cloudflare returns zones across all accounts accessible by the API token
       # Can implement filtering in request if needed
       def zones
-        all_zones = []
-        page = 1
-        per_page = 50
+        list_zones.map { |zone| zone['name'] }
+      end
 
-        loop do
-          response = nil
-          retry_on_connection_errors do
-            response = client.get('/client/v4/zones', page: page, per_page: per_page)
-          end
-
-          zones = response.result_raw || []
-          all_zones.concat(zones)
-
-          break if page * per_page >= response.result_info_raw['total_count']
-
-          page += 1
-        end
-
-        all_zones.map { |zone| zone['name'] }
+      # Forgets the zone name => id mapping, so the next lookup lists the zones again. The mapping is kept for the
+      # life of the process, which is a single record-store run.
+      def clear_zone_id_cache
+        ZONE_IDS_MUTEX.synchronize { @zone_ids = nil }
       end
 
       def apply_changeset(changeset, stdout = $stdout)
@@ -204,20 +198,75 @@ module RecordStore
         )
       end
 
-      def zone_name_to_id(zone_name)
-        retry_on_connection_errors do
-          params = { name: zone_name }
-          matching_zones = client.get("/client/v4/zones", params).result_raw
+      # Returns every zone the token can see, as the raw API hashes.
+      def list_zones
+        all_zones = []
+        page = 1
 
-          case matching_zones.size
-          when 0
-            raise "Zone not found for #{zone_name}"
-          when 1
-            matching_zones.first['id']
-          else
-            raise "Multiple zones found for #{zone_name}. " \
-              "API key must only return the zone on which records are to be managed."
+        loop do
+          response = nil
+          retry_on_connection_errors do
+            response = client.get('/client/v4/zones', page: page, per_page: ZONE_LIST_PER_PAGE)
           end
+
+          zones = response.result_raw || []
+          all_zones.concat(zones)
+
+          break if page * ZONE_LIST_PER_PAGE >= response.result_info_raw['total_count']
+
+          page += 1
+        end
+
+        all_zones
+      end
+
+      # Zone ids are looked up from one listing of all zones, which is fetched on first use and shared by every
+      # thread. A zone that is not in that listing (for example one created after it was fetched) is looked up on its
+      # own, and the answer is remembered.
+      def zone_name_to_id(zone_name)
+        key = zone_id_cache_key(zone_name)
+        ids = zone_ids_by_name[key]
+
+        if ids.nil?
+          ids = zone_ids_from_lookup(zone_name)
+          remember_zone_ids(key, ids) if ids.size == 1
+        end
+
+        case ids.size
+        when 0
+          raise "Zone not found for #{zone_name}"
+        when 1
+          ids.first
+        else
+          raise "Multiple zones found for #{zone_name}. " \
+            "API key must only return the zone on which records are to be managed."
+        end
+      end
+
+      def zone_id_cache_key(zone_name)
+        zone_name.to_s.chomp('.').downcase
+      end
+
+      # name => [id, ...] for every zone in the account(s). Several ids under one name means the name is ambiguous.
+      def zone_ids_by_name
+        @zone_ids || ZONE_IDS_MUTEX.synchronize do
+          @zone_ids ||= list_zones
+            .group_by { |zone| zone_id_cache_key(zone['name']) }
+            .transform_values { |zones| zones.map { |zone| zone['id'] } }
+            .freeze
+        end
+      end
+
+      def remember_zone_ids(key, ids)
+        ZONE_IDS_MUTEX.synchronize do
+          @zone_ids = @zone_ids.merge(key => ids.freeze).freeze if @zone_ids
+        end
+      end
+
+      def zone_ids_from_lookup(zone_name)
+        retry_on_connection_errors do
+          matching_zones = client.get("/client/v4/zones", name: zone_name).result_raw || []
+          matching_zones.map { |zone| zone['id'] }
         end
       end
     end

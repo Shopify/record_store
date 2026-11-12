@@ -1,5 +1,32 @@
 ---
 http_interactions:
+# Not recorded: the zone list that zone id lookups now start from. Same zone as the "?name=" lookups below.
+- request:
+    method: get
+    uri: https://api.cloudflare.com/client/v4/zones?page=1&per_page=50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <CLOUDFLARE_API_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"result":[{"id":"7ed83734c471bd155e2fe23234c5c936","name":"record-store-dns-tests.shopitest.com"}],"result_info":{"page":1,"per_page":50,"count":1,"total_count":1,"total_pages":1},"success":true,"errors":[],"messages":[]}'
+  recorded_at: Thu, 12 Nov 2026 12:00:00 GMT
 - request:
     method: delete
     uri: https://api.cloudflare.com/client/v4/zones/7ed83734c471bd155e2fe23234c5c936/dns_records
