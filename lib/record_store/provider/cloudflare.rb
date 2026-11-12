@@ -55,7 +55,7 @@ module RecordStore
       end
 
       # Forgets the zone name => id mapping, so the next lookup lists the zones again. The mapping is kept for the
-      # life of the process, which is a single record-store run.
+      # life of the process, which is a single run.
       def clear_zone_id_cache
         ZONE_IDS_MUTEX.synchronize { @zone_ids = nil }
       end
