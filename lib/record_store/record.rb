@@ -86,8 +86,9 @@ module RecordStore
       }.merge(rdata)
     end
 
+    # Returns a new string each time, as it always has: callers such as fog-dynect modify it in place.
     def type
-      self.class.type_name
+      self.class.type_name.dup
     end
 
     def ==(other)

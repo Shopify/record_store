@@ -50,12 +50,23 @@ class RecordTest < Minitest::Test
     assert_equal('ALIAS', RECORD_FIXTURES[:alias_rr].type)
   end
 
-  def test_type_is_computed_once_per_class
-    first = RECORD_FIXTURES[:a].type
-    second = Record::A.new(fqdn: 'other.dns-test.shopify.io.', address: '10.11.12.14', ttl: 600).type
+  def test_type_returns_a_new_string_that_callers_may_modify
+    record = RECORD_FIXTURES[:a]
+    first = record.type
 
-    assert_same(first, second)
-    assert_equal('A', first)
+    refute_predicate(first, :frozen?)
+    refute_same(first, record.type)
+
+    first.downcase!
+
+    assert_equal('a', first)
+    assert_equal('A', record.type)
+    assert_equal('A', Record::A.new(fqdn: 'other.dns-test.shopify.io.', address: '10.11.12.14', ttl: 600).type)
+  end
+
+  def test_type_name_is_computed_once_per_class
+    assert_equal('A', Record::A.type_name)
+    assert_same(Record::A.type_name, Record::A.type_name)
   end
 
   def test_type_is_cached_per_class_not_shared_with_siblings
