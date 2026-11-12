@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
-- Load zones faster. Implicit record templates no longer rescan every record for each templated record, the duplicate record check no longer compares every pair of records, and `Record#type` is computed once per class. Zones, records and validation errors are unchanged. For a zone of about 3,500 records, loading drops from about 11 s to under 1 s.
+- Load zones faster. Implicit record templates no longer rescan every record for each templated record, the duplicate record check no longer compares every pair of records, and `Record#type` is computed once per class. Zones, records and validation errors are unchanged. Loading and validating a repository with several hundred zones is several times faster.
 
 ## 9.0.0
 - Only load implicit record templates by plain file name from directly inside `implicit_records_templates_path`. Template names containing path separators, `.` or `..`, and symlinks that resolve outside that directory now raise an error. Zone definitions that referenced templates this way must move them into the templates directory and use the plain file name.

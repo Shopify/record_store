@@ -61,7 +61,7 @@ class RecordTest < Minitest::Test
 
     assert_equal('a', first)
     assert_equal('A', record.type)
-    assert_equal('A', Record::A.new(fqdn: 'other.dns-test.shopify.io.', address: '10.11.12.14', ttl: 600).type)
+    assert_equal('A', Record::A.new(fqdn: 'other.example.com.', address: '192.0.2.14', ttl: 600).type)
   end
 
   def test_type_name_is_computed_once_per_class

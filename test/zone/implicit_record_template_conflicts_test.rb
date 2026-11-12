@@ -5,7 +5,7 @@ require 'tmpdir'
 class ImplicitRecordTemplateConflictsTest < Minitest::Test
   def setup
     @original_templates_path = RecordStore.implicit_records_templates_path
-    @templates_dir = File.realpath(Dir.mktmpdir('record-store-conflict-templates'))
+    @templates_dir = File.realpath(Dir.mktmpdir('conflict-templates'))
     RecordStore.implicit_records_templates_path = @templates_dir
   end
 
