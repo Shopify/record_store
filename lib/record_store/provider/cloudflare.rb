@@ -248,11 +248,12 @@ module RecordStore
       end
 
       # name => [id, ...] for every zone in the account(s). Several ids under one name means the name is ambiguous.
+      # A zone created while the listing is being paged can show up on two pages, hence the uniq.
       def zone_ids_by_name
         @zone_ids || ZONE_IDS_MUTEX.synchronize do
           @zone_ids ||= list_zones
             .group_by { |zone| zone_id_cache_key(zone['name']) }
-            .transform_values { |zones| zones.map { |zone| zone['id'] } }
+            .transform_values { |zones| zones.map { |zone| zone['id'] }.uniq }
             .freeze
         end
       end

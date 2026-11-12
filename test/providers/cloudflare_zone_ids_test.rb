@@ -131,6 +131,20 @@ class CloudflareZoneIdsTest < Minitest::Test
     assert_equal(0, name_lookup_requests)
   end
 
+  def test_a_zone_repeated_across_overlapping_pages_is_not_ambiguous
+    # A zone inserted between page requests shifts rows, so page 2 starts with the last row of page 1.
+    zones = numbered_zones(75)
+    stub_request(:get, ZONES_URL).with(query: { page: '1', per_page: '50' })
+      .to_return(api_response(zones[0, 50], page: 1, total: 75))
+    stub_request(:get, ZONES_URL).with(query: { page: '2', per_page: '50' })
+      .to_return(api_response(zones[49, 25], page: 2, total: 75))
+
+    assert_equal('id-50', zone_id('zone-50.example'))
+    assert_equal('id-1', zone_id('zone-1.example'))
+    assert_equal('id-74', zone_id('zone-74.example'))
+    assert_equal(2, list_requests)
+  end
+
   def test_multiple_zones_with_the_same_name_in_a_single_lookup_raise
     stub_zone_list([])
     stub_name_lookup('twice.example', [zone('twice.example', 'id-1'), zone('twice.example', 'id-2')])
