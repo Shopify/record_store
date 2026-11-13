@@ -1,4 +1,5 @@
 require 'json'
+require 'set'
 require 'yaml'
 require 'active_support'
 require 'active_support/core_ext/array/wrap'

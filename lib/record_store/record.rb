@@ -42,6 +42,12 @@ module RecordStore
         unescape(value.sub(/\A"(.*)"\z/, '\1'))
       end
 
+      # The record type, e.g. "A" for Record::A. Called millions of times when loading zones, so it is computed once
+      # per class.
+      def type_name
+        @type_name ||= name.demodulize.freeze
+      end
+
       def ensure_ends_with_dot(fqdn)
         fqdn.end_with?(".") ? fqdn : "#{fqdn}."
       end
@@ -80,8 +86,9 @@ module RecordStore
       }.merge(rdata)
     end
 
+    # Returns a new string each time, as it always has: callers such as fog-dynect modify it in place.
     def type
-      self.class.name.demodulize
+      self.class.type_name.dup
     end
 
     def ==(other)

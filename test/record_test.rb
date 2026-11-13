@@ -42,6 +42,39 @@ class RecordTest < Minitest::Test
     ),
   }
 
+  def test_type_is_the_class_name_without_its_namespace
+    RECORD_FIXTURES.each_value do |record|
+      assert_equal(record.class.name.demodulize, record.type)
+    end
+    assert_equal('SRV', RECORD_FIXTURES[:srv].type)
+    assert_equal('ALIAS', RECORD_FIXTURES[:alias_rr].type)
+  end
+
+  def test_type_returns_a_new_string_that_callers_may_modify
+    record = RECORD_FIXTURES[:a]
+    first = record.type
+
+    refute_predicate(first, :frozen?)
+    refute_same(first, record.type)
+
+    first.downcase!
+
+    assert_equal('a', first)
+    assert_equal('A', record.type)
+    assert_equal('A', Record::A.new(fqdn: 'other.example.com.', address: '192.0.2.14', ttl: 600).type)
+  end
+
+  def test_type_name_is_computed_once_per_class
+    assert_equal('A', Record::A.type_name)
+    assert_same(Record::A.type_name, Record::A.type_name)
+  end
+
+  def test_type_is_cached_per_class_not_shared_with_siblings
+    assert_equal('A', Record::A.new(fqdn: 'a.example.com.', address: '10.0.0.1', ttl: 60).type)
+    assert_equal('AAAA', Record::AAAA.new(fqdn: 'a.example.com.', address: '2001:db8::1', ttl: 60).type)
+    assert_equal('A', Record::A.new(fqdn: 'a.example.com.', address: '10.0.0.1', ttl: 60).type)
+  end
+
   def test_build_from_yaml_definition
     yaml_snippet = <<-YAML
       type: A
