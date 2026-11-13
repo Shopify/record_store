@@ -2,6 +2,7 @@
 
 ## Unreleased
 - Load zones faster. Implicit record templates no longer rescan every record for each templated record, the duplicate record check no longer compares every pair of records, and `Record#type` is computed once per class. Zones, records and validation errors are unchanged. Loading and validating a repository with several hundred zones is several times faster.
+- Cloudflare: look up zone ids from one listing of all zones, fetched once per run and shared by all threads, instead of one request per zone each time a zone is read or written. A zone that is not in the listing is looked up on its own. A zone that does not exist now fails with `Zone not found for <name>`; before, it failed with `undefined method 'size' for nil`.
 
 ## 9.0.0
 - Only load implicit record templates by plain file name from directly inside `implicit_records_templates_path`. Template names containing path separators, `.` or `..`, and symlinks that resolve outside that directory now raise an error. Zone definitions that referenced templates this way must move them into the templates directory and use the plain file name.
