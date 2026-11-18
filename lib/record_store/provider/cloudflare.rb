@@ -198,7 +198,7 @@ module RecordStore
         )
       end
 
-      # Returns every zone the token can see, as the raw API hashes.
+      # Returns every public zone the token can see, as the raw API hashes.
       def list_zones
         all_zones = []
         page = 1
@@ -210,7 +210,7 @@ module RecordStore
           end
 
           zones = response.result_raw || []
-          all_zones.concat(zones)
+          all_zones.concat(without_internal_zones(zones))
 
           break if page * ZONE_LIST_PER_PAGE >= response.result_info_raw['total_count']
 
@@ -218,6 +218,12 @@ module RecordStore
         end
 
         all_zones
+      end
+
+      # Internal zones (type "internal") are private resolver views that can share a name with a public zone. Only
+      # public zones are managed, so they are ignored. A zone without a type is kept.
+      def without_internal_zones(zones)
+        zones.reject { |zone| zone['type'] == 'internal' }
       end
 
       # Zone ids are looked up from one listing of all zones, which is fetched on first use and shared by every
@@ -266,7 +272,7 @@ module RecordStore
 
       def zone_ids_from_lookup(zone_name)
         retry_on_connection_errors do
-          matching_zones = client.get("/client/v4/zones", name: zone_name).result_raw || []
+          matching_zones = without_internal_zones(client.get("/client/v4/zones", name: zone_name).result_raw || [])
           matching_zones.map { |zone| zone['id'] }
         end
       end

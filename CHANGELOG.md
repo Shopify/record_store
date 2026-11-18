@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+- Cloudflare: ignore internal zones (zone type `internal`) when looking up zone ids and listing zones. An internal zone with the same name as a public zone no longer fails with `Multiple zones found for <name>`; only public zones are managed.
+
 ## 9.1.0
 - Load zones faster. Implicit record templates no longer rescan every record for each templated record, the duplicate record check no longer compares every pair of records, and `Record#type` is computed once per class. Zones, records and validation errors are unchanged. Loading and validating a repository with several hundred zones is several times faster.
 - Cloudflare: look up zone ids from one listing of all zones, fetched once per run and shared by all threads, instead of one request per zone each time a zone is read or written. A zone that is not in the listing is looked up on its own. A zone that does not exist now fails with `Zone not found for <name>`; before, it failed with `undefined method 'size' for nil`.

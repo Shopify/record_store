@@ -202,14 +202,60 @@ class CloudflareZoneIdsTest < Minitest::Test
     assert_equal((1..75).map { |i| "zone-#{i}.example" }, @cloudflare.zones)
   end
 
+  def test_an_internal_zone_with_the_same_name_as_a_public_zone_is_ignored_in_the_listing
+    stub_zone_list([
+      zone('example.com', 'id-public', type: 'full'),
+      zone('example.com', 'id-internal', type: 'internal'),
+      zone('other.example', 'id-other', type: 'partial'),
+    ])
+
+    assert_equal('id-public', zone_id('example.com'))
+    assert_equal('id-other', zone_id('other.example'))
+    assert_equal(['example.com', 'other.example'], @cloudflare.zones)
+    assert_equal(0, name_lookup_requests)
+  end
+
+  def test_an_internal_zone_with_the_same_name_as_a_public_zone_is_ignored_in_a_lookup
+    stub_zone_list([])
+    stub_name_lookup('example.com', [
+      zone('example.com', 'id-internal', type: 'internal'),
+      zone('example.com', 'id-public', type: 'full'),
+    ])
+
+    assert_equal('id-public', zone_id('example.com'))
+    assert_equal('id-public', zone_id('example.com'))
+    assert_equal(1, name_lookup_requests('example.com'))
+  end
+
+  def test_a_name_held_only_by_an_internal_zone_is_not_found
+    stub_zone_list([zone('internal-only.example', 'id-internal', type: 'internal')])
+    stub_name_lookup('internal-only.example', [zone('internal-only.example', 'id-internal', type: 'internal')])
+    stub_name_lookup('lookup-only.example', [zone('lookup-only.example', 'id-internal', type: 'internal')])
+
+    error = assert_raises(RuntimeError) { zone_id('internal-only.example') }
+    assert_equal('Zone not found for internal-only.example', error.message)
+
+    error = assert_raises(RuntimeError) { zone_id('lookup-only.example') }
+    assert_equal('Zone not found for lookup-only.example', error.message)
+  end
+
+  def test_a_zone_without_a_type_is_kept
+    untyped = { 'id' => 'id-untyped', 'name' => 'untyped.example' }
+    stub_zone_list([untyped])
+    stub_name_lookup('later.example', [{ 'id' => 'id-later', 'name' => 'later.example' }])
+
+    assert_equal('id-untyped', zone_id('untyped.example'))
+    assert_equal('id-later', zone_id('later.example'))
+  end
+
   private
 
   def zone_id(name)
     @cloudflare.send(:zone_name_to_id, name)
   end
 
-  def zone(name, id)
-    { 'id' => id, 'name' => name, 'status' => 'active' }
+  def zone(name, id, type: nil)
+    { 'id' => id, 'name' => name, 'status' => 'active' }.tap { |zone| zone['type'] = type if type }
   end
 
   def numbered_zones(count)
