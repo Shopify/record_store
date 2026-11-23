@@ -85,7 +85,47 @@ module RecordStore
 
         str = str[0...-1]
       end
-      str
+      return str if str.empty? || !str.match?(SVC_PARAMS_REGEX)
+
+      canonicalize_svc_params(str)
+    end
+
+    def canonicalize_svc_params(str)
+      str.scan(SVC_PARAM_REGEX).map do |key, raw_val|
+        inner = raw_val ? unquote_param(raw_val) : ''
+        inner = canonicalize_param_value(key, inner)
+        %(#{key}="#{inner}")
+      end.join(' ')
+    end
+
+    def canonicalize_param_value(key, val)
+      case key
+      when 'port'
+        val.match?(/\A\d+\z/) ? val.to_i.to_s : val
+      when 'ipv4hint'
+        normalize_ip_list(val, :ipv4?)
+      when 'ipv6hint'
+        normalize_ip_list(val, :ipv6?)
+      else
+        val
+      end
+    end
+
+    def normalize_ip_list(list, predicate)
+      return list if list.empty?
+
+      ips = list.split(',', -1)
+      normalized = ips.map do |ip|
+        return list unless ip.match?(/\A[0-9a-fA-F.:]+\z/)
+
+        addr = IPAddr.new(ip)
+        return list unless addr.public_send(predicate)
+
+        addr.to_s
+      end
+      normalized.join(',')
+    rescue IPAddr::InvalidAddressError
+      list
     end
 
     def validate_target_label_length

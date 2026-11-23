@@ -462,6 +462,25 @@ class RecordTest < Minitest::Test
     assert_equal('.', root_record.target)
   end
 
+  def test_https_normalizes_svc_params_to_canonical_quoted_form
+    base = { fqdn: 'svc.example.com.', ttl: 60, priority: 1, target: '.' }
+
+    assert_equal('alpn="h3,h2"', Record::HTTPS.new(base.merge(value: 'alpn=h3,h2')).value)
+    assert_equal(
+      'no-default-alpn="" alpn="h2"',
+      Record::HTTPS.new(base.merge(value: 'no-default-alpn alpn="h2"')).value,
+    )
+    assert_equal('alpn="h3,h2" port="443"', Record::HTTPS.new(base.merge(value: 'alpn="h3,h2"   port=0443')).value)
+    assert_equal(
+      'ipv4hint="192.0.2.1" ipv6hint="2001:db8::1"',
+      Record::HTTPS.new(base.merge(value: 'ipv4hint=192.0.2.1 ipv6hint=2001:0DB8::1')).value,
+    )
+    assert_equal(
+      Record::HTTPS.new(base.merge(value: 'alpn=h2')),
+      Record::HTTPS.new(base.merge(value: 'alpn="h2"')),
+    )
+  end
+
   def test_validates_cname
     assert_predicate(Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com'), :valid?)
     assert_predicate(Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com'), :valid?)

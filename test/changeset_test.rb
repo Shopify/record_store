@@ -394,7 +394,7 @@ class ChangesetTest < Minitest::Test
       provider: Provider::Cloudflare,
       zone: 'example.com',
     )
-    assert_equal('alpn="h3,h2" ech=AEX+DQ==', addition_cs.additions.first.record.value)
+    assert_equal('alpn="h3,h2" ech="AEX+DQ=="', addition_cs.additions.first.record.value)
 
     desired_different_case = Record::HTTPS.new(
       fqdn: 'svc.example.com.',
