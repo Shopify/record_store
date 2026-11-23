@@ -362,4 +362,53 @@ class ChangesetTest < Minitest::Test
     assert_equal('ns1.dnsimple.com.', changes[5].first.record.nsdname)
     assert_equal('ns2.dnsimple.com.', changes[6].first.record.nsdname)
   end
+
+  def test_https_changeset_normalizes_target_case_and_preserves_value_case
+    current = Record::HTTPS.new(
+      fqdn: 'SVC.example.com.',
+      ttl: 3600,
+      priority: 1,
+      target: 'Target.Example.NET.',
+      value: 'alpn="h3,h2" ech=AEX+DQ==',
+      record_id: '1',
+    )
+    desired_same = Record::HTTPS.new(
+      fqdn: 'svc.example.com.',
+      ttl: 3600,
+      priority: 1,
+      target: 'target.example.net.',
+      value: 'alpn="h3,h2" ech=AEX+DQ==',
+    )
+
+    unchanged_cs = Changeset.new(
+      current_records: [current],
+      desired_records: [desired_same],
+      provider: Provider::Cloudflare,
+      zone: 'example.com',
+    )
+    assert_predicate(unchanged_cs, :empty?)
+
+    addition_cs = Changeset.new(
+      current_records: [],
+      desired_records: [desired_same],
+      provider: Provider::Cloudflare,
+      zone: 'example.com',
+    )
+    assert_equal('alpn="h3,h2" ech=AEX+DQ==', addition_cs.additions.first.record.value)
+
+    desired_different_case = Record::HTTPS.new(
+      fqdn: 'svc.example.com.',
+      ttl: 3600,
+      priority: 1,
+      target: 'target.example.net.',
+      value: 'alpn="h3,h2" ech=aex+dq==',
+    )
+    diff_cs = Changeset.new(
+      current_records: [current],
+      desired_records: [desired_different_case],
+      provider: Provider::Cloudflare,
+      zone: 'example.com',
+    )
+    assert_equal(1, diff_cs.updates.length)
+  end
 end

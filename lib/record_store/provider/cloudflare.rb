@@ -10,7 +10,7 @@ module RecordStore
 
     class << self
       def record_types
-        super | Set.new(%w(PTR))
+        super | Set.new(%w(PTR HTTPS))
       end
 
       def supports_alias?
@@ -129,6 +129,8 @@ module RecordStore
           api_body[:data] = record.rdata
         when Record::SRV
           api_body[:data] = record.rdata
+        when Record::HTTPS
+          api_body[:data] = record.rdata
         when Record::ALIAS
           api_body[:type] = 'CNAME'
           api_body[:content] = record.rdata_txt
@@ -184,6 +186,13 @@ module RecordStore
             weight: weight.to_i,
             port: port.to_i,
             target: Record.ensure_ends_with_dot(host),
+          )
+        when 'HTTPS'
+          data = api_response['data']
+          record.merge!(
+            priority: data['priority'],
+            target: data['target'],
+            value: data['value'],
           )
         when 'NS'
           record.merge!(nsdname: api_response['content'])

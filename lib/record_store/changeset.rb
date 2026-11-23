@@ -121,6 +121,7 @@ module RecordStore
           r.fqdn = r.fqdn.downcase
           r.rdata.each do |key, value|
             next if key == :txtdata
+            next if r.is_a?(Record::HTTPS) && key == :value
 
             r.send("#{key}=", value.downcase) if value.is_a?(String)
           end

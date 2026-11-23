@@ -677,6 +677,30 @@ class ZoneTest < Minitest::Test
     end
   end
 
+  def test_zone_validates_support_for_https_records
+    valid_zone = Zone.new(
+      name: 'example.com',
+      config: { providers: ['Cloudflare'], supports_alias: true },
+      records: [
+        { type: 'ALIAS', fqdn: 'example.com.', ttl: 60, alias: 'target.example.net.' },
+        { type: 'HTTPS', fqdn: 'example.com.', ttl: 60, priority: 1, target: '.', value: 'alpn="h3,h2"' },
+      ],
+    )
+    assert_predicate(valid_zone, :valid?)
+
+    ['DNSimple', 'DynECT', 'GoogleCloudDNS', 'NS1', 'OracleCloudDNS'].each do |provider|
+      invalid_zone = Zone.new(
+        name: 'example.com',
+        config: { providers: [provider] },
+        records: [
+          { type: 'HTTPS', fqdn: 'example.com.', ttl: 60, priority: 1, target: '.', value: 'alpn="h3,h2"' },
+        ],
+      )
+      refute_predicate(invalid_zone, :valid?)
+      assert_match(/HTTPS is not a supported/, invalid_zone.errors[:records].first)
+    end
+  end
+
   def test_zone_validates_no_duplicate_keys
     zone = Zone.find('dup-keys.com')
     assert(!zone.valid?)

@@ -40,6 +40,13 @@ class RecordTest < Minitest::Test
       fptype: Record::SSHFP::FingerprintTypes::SHA_256,
       fingerprint: '4e0ebbeac8d2e4e73af888b20e2243e5a2a08bad6476c832c985e54b21eff4a3',
     ),
+    https: Record::HTTPS.new(
+      fqdn: 'svc.dns-test.shopify.io.',
+      ttl: 60,
+      priority: 1,
+      target: '.',
+      value: 'alpn="h3,h2"',
+    ),
   }
 
   def test_type_is_the_class_name_without_its_namespace
@@ -283,6 +290,158 @@ class RecordTest < Minitest::Test
     )
   end
 
+  def test_validates_https
+    base = { fqdn: 'svc.example.com.', ttl: 60 }
+
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn="h3,h2"')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn="h3,h2" ipv4hint=192.0.2.1')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'no-default-alpn alpn="h2"')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ech=AEX+DQBBfAAg==')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(
+        base.merge(priority: 1, target: '.', value: 'mandatory=alpn alpn="h3,h2" port=443 ipv6hint=2001:db8::1'),
+      ),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'no-default-alpn="" alpn="h2"')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'mandatory=key1 alpn="h2"')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn="h2\\\\,"')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key667=foo\"bar')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key667=hello\002world')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 0, target: 'svc.example.net.', value: '')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 0, target: 'svc.example.net')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 0, target: '.')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 16, target: 'svc.example.net.', value: 'alpn="h3"')),
+      :valid?,
+    )
+
+    refute_predicate(Record::HTTPS.new(base.merge(priority: -1, target: '.', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 65536, target: '.', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: nil, target: '.', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 'abc', target: '.', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1.5, target: '.', value: '')), :valid?)
+    refute_predicate(
+      Record::HTTPS.new(base.merge(priority: 0, target: 'svc.example.net.', value: 'alpn="h3"')),
+      :valid?,
+    )
+    refute_predicate(
+      Record::HTTPS.new(base.merge(priority: '0', target: 'svc.example.net.', value: 'alpn="h3"')),
+      :valid?,
+    )
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: 'not a domain', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn="unterminated')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ALPN="h3"')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key123=abc key123=def')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2,,h3')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2,')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=\044h2')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2\044')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2\092x')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: "alpn=#{'a' * 256}")), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2 key1=\002h3')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key65536=foo')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key01=foo')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: "#{'a' * 64}=foo")), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key667=hello\999qoo')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key667=hello\12')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: "key667=\"a\nb\"")), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'port')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'port=65536')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ipv4hint=not-an-ip')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ipv4hint=192.0.2.1/24')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ipv6hint=192.0.2.1')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ipv6hint=2001:db8::1/64')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ipv6hint=[2001:db8::1]')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ipv6hint=fe80::1%eth0')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'no-default-alpn')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key2')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key2=abc alpn="h2"')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key0=\000\001')), :valid?)
+    refute_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'no-default-alpn=abc alpn="h2"')),
+      :valid?,
+    )
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'mandatory=key123')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'mandatory=mandatory')), :valid?)
+    refute_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'mandatory=key123,key123 key123=abc')),
+      :valid?,
+    )
+
+    coerced = Record::HTTPS.new(base.merge(priority: '1', target: '.', value: 'alpn="h3"'))
+    assert_predicate(coerced, :valid?)
+    assert_equal(1, coerced.priority)
+  end
+
+  def test_build_https_from_yaml_definition
+    yaml_snippet = <<-YAML
+      type: HTTPS
+      fqdn: svc.example.com.
+      ttl: 60
+      priority: 1
+      target: "."
+      value: 'alpn="h3,h2"'
+    YAML
+
+    record = Record.build_from_yaml_definition(YAML.load(yaml_snippet).symbolize_keys)
+
+    assert_kind_of(Record::HTTPS, record)
+    assert_equal('svc.example.com.', record.fqdn)
+    assert_equal(1, record.priority)
+    assert_equal('.', record.target)
+    assert_equal('alpn="h3,h2"', record.value)
+    assert_predicate(record, :valid?)
+  end
+
+  def test_https_normalizes_target_trailing_dot
+    record = Record::HTTPS.new(fqdn: 'svc.example.com.', ttl: 60, priority: 0, target: 'target.example.net')
+    assert_equal('target.example.net.', record.target)
+    assert_equal('0 target.example.net.', record.rdata_txt)
+
+    root_record = Record::HTTPS.new(fqdn: 'svc.example.com.', ttl: 60, priority: 1, target: '.', value: 'alpn="h3"')
+    assert_equal('.', root_record.target)
+  end
+
   def test_validates_cname
     assert_predicate(Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example2.com'), :valid?)
     assert_predicate(Record::CNAME.new(fqdn: 'example.com', ttl: 3600, cname: 'example-2.com'), :valid?)
@@ -337,6 +496,7 @@ class RecordTest < Minitest::Test
       RECORD_FIXTURES[:sshfp].rdata_txt,
     )
     assert_equal('a.root-servers.net.', RECORD_FIXTURES[:ptr].rdata_txt)
+    assert_equal('1 . alpn="h3,h2"', RECORD_FIXTURES[:https].rdata_txt)
   end
 
   def test_consistent_print_formatting
@@ -367,6 +527,10 @@ class RecordTest < Minitest::Test
       '[SRVRecord] _service._tcp.srv.dns-test.shopify.io. 60 IN SRV 10 47 80 ' \
         'target-srv.dns-test.shopify.io.',
       RECORD_FIXTURES[:srv].to_s,
+    )
+    assert_equal(
+      '[HTTPSRecord] svc.dns-test.shopify.io. 60 IN HTTPS 1 . alpn="h3,h2"',
+      RECORD_FIXTURES[:https].to_s,
     )
     assert_equal('[TXTRecord] txt.dns-test.shopify.io. 60 IN TXT "Hello, world!"', RECORD_FIXTURES[:txt].to_s)
     assert_equal('[SPFRecord] dns-test.shopify.io. 3600 IN SPF "v=spf1 -all"', RECORD_FIXTURES[:spf].to_s)
