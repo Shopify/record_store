@@ -188,12 +188,20 @@ module RecordStore
             target: Record.ensure_ends_with_dot(host),
           )
         when 'HTTPS'
-          data = api_response['data']
-          record.merge!(
-            priority: data['priority'],
-            target: data['target'],
-            value: data['value'],
-          )
+          if (data = api_response['data'])
+            record.merge!(
+              priority: data['priority'],
+              target: data['target'],
+              value: data['value'],
+            )
+          else
+            priority, target, value = api_response['content'].to_s.split(' ', 3)
+            record.merge!(
+              priority: priority,
+              target: target,
+              value: value,
+            )
+          end
         when 'NS'
           record.merge!(nsdname: api_response['content'])
         end

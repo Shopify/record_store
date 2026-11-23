@@ -320,10 +320,6 @@ class RecordTest < Minitest::Test
       :valid?,
     )
     assert_predicate(
-      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'mandatory=key1 alpn="h2"')),
-      :valid?,
-    )
-    assert_predicate(
       Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn="h2\\\\,"')),
       :valid?,
     )
@@ -333,6 +329,14 @@ class RecordTest < Minitest::Test
     )
     assert_predicate(
       Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key667=hello\002world')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key667=hello\ ')),
+      :valid?,
+    )
+    assert_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'dohpath=/dns-query{?dns} ohttp')),
       :valid?,
     )
     assert_predicate(
@@ -366,9 +370,17 @@ class RecordTest < Minitest::Test
       :valid?,
     )
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: 'not a domain', value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: "#{'a' * 64}.example.net.", value: '')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: "#{'a.' * 126}com.", value: '')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '', value: '')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn="unterminated')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2;comment')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=(h2)')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: "alpn=h2\nport=443")), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'aplpn=h2')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'foo=bar')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 443)), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ALPN="h3"')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key123=abc key123=def')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn')), :valid?)
@@ -379,6 +391,14 @@ class RecordTest < Minitest::Test
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2\092x')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: "alpn=#{'a' * 256}")), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'alpn=h2 key1=\002h3')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key3=notaport')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key4=garbage')), :valid?)
+    refute_predicate(
+      Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'mandatory=key1 alpn="h2"')),
+      :valid?,
+    )
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ech')), :valid?)
+    refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'ech=""')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key65536=foo')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: 'key01=foo')), :valid?)
     refute_predicate(Record::HTTPS.new(base.merge(priority: 1, target: '.', value: "#{'a' * 64}=foo")), :valid?)

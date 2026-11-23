@@ -129,6 +129,23 @@ class CloudflareTest < Minitest::Test
     assert_equal(3600, record.ttl)
   end
 
+  def test_build_https_from_api_content_fallback
+    api_record = {
+      "id" => "123472",
+      "type" => "HTTPS",
+      "name" => "svc.record-store-dns-tests.shopitest.com",
+      "content" => '1 . alpn="h3,h2"',
+      "ttl" => 3600
+    }
+
+    record = @cloudflare.send(:build_from_api, api_record)
+
+    assert_kind_of(Record::HTTPS, record)
+    assert_equal(1, record.priority)
+    assert_equal('.', record.target)
+    assert_equal('alpn="h3,h2"', record.value)
+  end
+
   def test_build_ns_from_api
     api_record = {
       "id" => "123461",

@@ -2,34 +2,40 @@ module RecordStore
   class Record::HTTPS < Record
     attr_accessor :priority, :target, :value
 
-    # RFC 9460 §2.1 & Appendix A presentation form: whitespace-separated lowercase `key` or `key=value` tokens,
-    # where escapes are either a 3-digit decimal octet (000-255) or an escaped non-digit character.
+    # RFC 9460 §2.1 & Appendix A presentation form: horizontal-whitespace-separated lowercase `key` or `key=value`
+    # tokens, where escapes are either a 3-digit decimal octet (000-255) or an escaped non-digit character.
     ESCAPE_REGEX = /\\(?:[01]\d\d|2[0-4]\d|25[0-5]|[^0-9\r\n])/
     QUOTED_VALUE_REGEX = /"(?:#{ESCAPE_REGEX}|[^"\\\r\n])*"/
-    UNQUOTED_VALUE_REGEX = /(?:#{ESCAPE_REGEX}|[^\s"\\])+/
+    UNQUOTED_VALUE_REGEX = /(?:#{ESCAPE_REGEX}|[^\s"\\;()])+/
     SVC_PARAM_REGEX = /([a-z0-9-]+)(?:=(#{QUOTED_VALUE_REGEX}|#{UNQUOTED_VALUE_REGEX}))?/
-    SVC_PARAMS_REGEX = /\A#{SVC_PARAM_REGEX}(?:\s+#{SVC_PARAM_REGEX})*\z/
+    SVC_PARAMS_REGEX = /\A#{SVC_PARAM_REGEX}(?:[ \t]+#{SVC_PARAM_REGEX})*\z/
+    ALPN_ID_REGEX = /(?:\\[\\,]|[^\\,])+/n
+    ALPN_REGEX = /\A#{ALPN_ID_REGEX}(?:,#{ALPN_ID_REGEX})*\z/n
 
-    REGISTERED_KEYS = {
-      'mandatory' => 0,
-      'alpn' => 1,
-      'no-default-alpn' => 2,
-      'port' => 3,
-      'ipv4hint' => 4,
-      'ech' => 5,
-      'ipv6hint' => 6,
+    REGISTERED_KEY_IDS = {
+      0 => 'mandatory',
+      1 => 'alpn',
+      2 => 'no-default-alpn',
+      3 => 'port',
+      4 => 'ipv4hint',
+      5 => 'ech',
+      6 => 'ipv6hint',
+      7 => 'dohpath',
+      8 => 'ohttp',
+      9 => 'tls-supported-groups',
     }.freeze
-    VALUE_REQUIRED_KEYS = %w(alpn port ipv4hint ipv6hint ech mandatory).freeze
+    REGISTERED_KEY_NAMES = REGISTERED_KEY_IDS.values.to_set.freeze
 
     validates :priority, presence: true, numericality: {
       only_integer: true,
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: 65535,
     }
-    validates :target, presence: true, format: {
+    validates :target, presence: true, length: { maximum: 254 }, format: {
       with: Regexp.union(/\A\.\z/, Record::CNAME_REGEX),
       message: 'must be "." or a fully qualified domain name',
     }
+    validate :validate_target_label_length
     validate :validate_value
 
     def initialize(record)
@@ -37,7 +43,7 @@ module RecordStore
 
       @priority = normalize_priority(record.fetch(:priority))
       @target = normalize_target(record.fetch(:target))
-      @value = record[:value].to_s.strip
+      @value = normalize_value(record[:value])
     end
 
     def rdata
@@ -71,6 +77,24 @@ module RecordStore
       Record.ensure_ends_with_dot(raw_target)
     end
 
+    def normalize_value(raw_value)
+      str = raw_value.to_s.sub(/\A[ \t]+/, '')
+      while str.end_with?(' ', "\t")
+        preceding_backslashes = str[0...-1][/\\*\z/].length
+        break if preceding_backslashes.odd?
+
+        str = str[0...-1]
+      end
+      str
+    end
+
+    def validate_target_label_length
+      return unless target.is_a?(String)
+      return if target.split('.').all? { |label| label.length <= 63 }
+
+      errors.add(:target, 'label should be at most 63 characters')
+    end
+
     def validate_value
       if alias_mode?
         errors.add(:value, 'must be empty in AliasMode (priority 0)') unless value.empty?
@@ -93,56 +117,58 @@ module RecordStore
     def parse_svc_params
       params = {}
       value.scan(SVC_PARAM_REGEX) do |key, raw_val|
-        key_id = canonical_key(key)
-        if key_id.nil?
-          errors.add(:value, "contains invalid SvcParam key: #{key}")
+        error = key_error(key)
+        if error
+          errors.add(:value, error)
           return nil
         end
-        if params.key?(key_id)
+        if params.key?(key)
           errors.add(:value, "contains duplicate SvcParam key: #{key}")
           return nil
         end
-        params[key_id] = [key, raw_val]
+        params[key] = raw_val
       end
       params
     end
 
-    def canonical_key(key)
-      return if key.length > 63
+    def key_error(key)
+      return if REGISTERED_KEY_NAMES.include?(key)
 
-      if key.match?(/\Akey\d+\z/)
-        return if key.match?(/\Akey0\d/)
-
+      if key.match?(/\Akey(?:0|[1-9]\d*)\z/)
         num = key.delete_prefix('key').to_i
-        return if num > 65535
+        return "contains invalid SvcParam key: #{key}" if num > 65534
 
-        num
-      else
-        REGISTERED_KEYS.fetch(key, key)
+        registered = REGISTERED_KEY_IDS[num]
+        return "use #{registered} instead of #{key}" if registered
+
+        return
       end
+
+      "contains unknown SvcParam key: #{key}"
     end
 
     def validate_svc_params(params)
-      params.each do |key_id, (key, raw_val)|
+      params.each do |key, raw_val|
         unquoted = raw_val ? unquote_param(raw_val) : nil
 
-        if key_id == REGISTERED_KEYS['no-default-alpn']
+        case key
+        when 'no-default-alpn'
           errors.add(:value, 'no-default-alpn must not have a value') unless unquoted.nil? || unquoted.empty?
-          errors.add(:value, 'no-default-alpn requires alpn') unless params.key?(REGISTERED_KEYS['alpn'])
-        elsif VALUE_REQUIRED_KEYS.include?(key) && (unquoted.nil? || unquoted.empty?)
-          errors.add(:value, "#{key} requires a non-empty value")
-        elsif key == 'alpn'
+          errors.add(:value, 'no-default-alpn requires alpn') unless params.key?('alpn')
+        when 'ohttp'
+          errors.add(:value, 'ohttp must not have a value') unless unquoted.nil? || unquoted.empty?
+        when 'alpn'
           validate_alpn_param(unquoted)
-        elsif key == 'port'
+        when 'port'
           validate_port_param(unquoted)
-        elsif key == 'ipv4hint'
+        when 'ipv4hint'
           validate_ip_hints(unquoted, :ipv4?, 'ipv4hint')
-        elsif key == 'ipv6hint'
+        when 'ipv6hint'
           validate_ip_hints(unquoted, :ipv6?, 'ipv6hint')
-        elsif key == 'mandatory'
+        when 'ech', 'dohpath', 'tls-supported-groups'
+          errors.add(:value, "#{key} requires a non-empty value") if unquoted.nil? || unquoted.empty?
+        when 'mandatory'
           validate_mandatory_param(unquoted, params)
-        elsif key_id == REGISTERED_KEYS['mandatory']
-          validate_mandatory_wire_param(unquoted, params)
         end
       end
     end
@@ -159,42 +185,26 @@ module RecordStore
     end
 
     def validate_alpn_param(alpn)
-      stage1 = decode_char_string(alpn)
-      ids = [''.b]
-      i = 0
-      while i < stage1.bytesize
-        byte = stage1.getbyte(i)
-        if byte == 0x5C # '\\'
-          next_byte = stage1.getbyte(i + 1)
-          unless next_byte == 0x2C || next_byte == 0x5C
-            errors.add(:value, 'alpn contains an invalid escape')
-            return
-          end
-          ids.last << next_byte
-          i += 2
-        elsif byte == 0x2C # ','
-          ids << ''.b
-          i += 1
-        else
-          ids.last << byte
-          i += 1
+      if alpn && !alpn.empty?
+        stage1 = decode_char_string(alpn)
+        if stage1.match?(ALPN_REGEX) &&
+            stage1.scan(ALPN_ID_REGEX).all? { |id| id.gsub(/\\[\\,]/n, 'x').bytesize <= 255 }
+          return
         end
       end
-
-      return if ids.all? { |id| !id.empty? && id.bytesize <= 255 }
 
       errors.add(:value, 'alpn entries must be 1 to 255 octets')
     end
 
     def validate_port_param(port)
-      return if port.match?(/\A\d+\z/) && port.to_i <= 65535
+      return if port&.match?(/\A\d+\z/) && port.to_i <= 65535
 
       errors.add(:value, 'port must be an integer between 0 and 65535')
     end
 
     def validate_ip_hints(list, predicate, key)
-      ips = list.split(',', -1)
-      valid = ips.all? do |ip|
+      ips = list.nil? || list.empty? ? [] : list.split(',', -1)
+      valid = !ips.empty? && ips.all? do |ip|
         ip.match?(/\A[0-9a-fA-F.:]+\z/) && IPAddr.new(ip).public_send(predicate)
       rescue IPAddr::InvalidAddressError
         false
@@ -203,35 +213,15 @@ module RecordStore
     end
 
     def validate_mandatory_param(list, params)
-      keys = list.split(',', -1)
-      if keys.any?(&:empty?)
+      keys = list.nil? || list.empty? ? [] : list.split(',', -1)
+      if keys.empty? || keys.any?(&:empty?) || keys.uniq.length != keys.length
         errors.add(:value, 'mandatory must list unique non-empty keys')
-        return
-      end
-
-      key_ids = keys.map { |k| canonical_key(k) }
-      if key_ids.any?(&:nil?)
+      elsif keys.any? { |k| key_error(k) }
         errors.add(:value, 'mandatory contains an invalid key')
-      elsif key_ids.uniq.length != key_ids.length
-        errors.add(:value, 'mandatory must list unique non-empty keys')
-      elsif key_ids.include?(REGISTERED_KEYS['mandatory'])
+      elsif keys.include?('mandatory')
         errors.add(:value, 'mandatory must not include itself')
-      elsif key_ids.any? { |id| !params.key?(id) }
+      elsif keys.any? { |k| !params.key?(k) }
         errors.add(:value, 'mandatory references a key that is not present')
-      end
-    end
-
-    def validate_mandatory_wire_param(raw, params)
-      wire = raw ? decode_char_string(raw) : ''.b
-      if wire.empty? || wire.bytesize.odd?
-        errors.add(:value, 'mandatory wire value must be a non-empty list of 16-bit key ids')
-        return
-      end
-
-      key_ids = wire.unpack('n*')
-      if key_ids != key_ids.sort || key_ids.uniq.length != key_ids.length ||
-          key_ids.include?(REGISTERED_KEYS['mandatory']) || key_ids.any? { |id| !params.key?(id) }
-        errors.add(:value, 'mandatory references missing, unsorted, duplicate, or self key ids')
       end
     end
   end
